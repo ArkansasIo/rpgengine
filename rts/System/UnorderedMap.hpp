@@ -75,5 +75,17 @@ namespace spring {
 	};
 };
 
-#endif
+namespace ArcLight {
+	template<typename K, typename V, typename H = spring::synced_hash<K>, typename C = emilib::HashMapEqualTo<K>>
+	using unordered_map = spring::unordered_map<K, V, H, C>;
 
+	template<typename K, typename V, typename H = std::hash<K>, typename C = emilib::HashMapEqualTo<K>>
+	using unsynced_map = spring::unsynced_map<K, V, H, C>;
+
+	template<typename K, typename V>
+	using unordered_bimap = spring::unordered_bimap<K, V>;
+
+	template<typename C> void clear_unordered_map(C& cont) { spring::clear_unordered_map(cont); }
+}
+
+#endif

@@ -59,4 +59,9 @@ namespace ArcLight {
 	};
 }
 
+namespace spring {
+	template<typename T>
+	using synced_hash = ArcLight::synced_hash<T>;
+}
+
 #endif //_ArcLight_HASH_H_

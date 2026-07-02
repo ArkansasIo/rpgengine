@@ -48,6 +48,14 @@ namespace spring {
 	template<typename C> void clear_unordered_set(C& cont) { cont = C(); }
 };
 
+namespace ArcLight {
+	template<typename K, typename H = spring::synced_hash<K>, typename C = emilib::HashSetEqualTo<K>>
+	using unordered_set = spring::unordered_set<K, H, C>;
+
+	template<typename K, typename H = std::hash<K>, typename C = emilib::HashSetEqualTo<K>>
+	using unsynced_set = spring::unsynced_set<K, H, C>;
+
+	template<typename C> void clear_unordered_set(C& cont) { spring::clear_unordered_set(cont); }
+}
 
 #endif
-
