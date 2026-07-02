@@ -1,4 +1,4 @@
-/* OGame Beyond - Platform Abstraction Layer
+/* ArkLight Beyond - Platform Abstraction Layer
  * Developer: Stephen
  * Cross-platform support for PC, PS5, Xbox Series X|S, Nintendo Switch.
  * Provides unified APIs for graphics, input, audio, networking, and storage

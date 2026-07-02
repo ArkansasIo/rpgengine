@@ -1,4 +1,4 @@
-/* OGame Beyond - Battle System
+/* ArkLight Beyond - Battle System
  * Developer: Stephen
  * Real-time combat, fleet battles, and damage resolution.
  */

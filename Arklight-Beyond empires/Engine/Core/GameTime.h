@@ -1,4 +1,4 @@
-/* OGame Beyond - Game Time
+/* ArkLight Beyond - Game Time
  * Developer: Stephen
  * Time management with pause, speed control, and date tracking.
  */

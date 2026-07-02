@@ -1,4 +1,4 @@
-/* OGame Beyond - Vulkan Renderer
+/* ArkLight Beyond - Vulkan Renderer
  * Developer: Stephen
  * Low-level Vulkan API wrapper with high-level rendering pipeline.
  * Supports deferred rendering, PBR, GI, ray tracing, and post-processing.

@@ -1,4 +1,4 @@
-/* OGame Beyond - World Manager
+/* ArkLight Beyond - World Manager
  * Developer: Stephen
  * Top-level container for all entities, systems, and tags.
  */

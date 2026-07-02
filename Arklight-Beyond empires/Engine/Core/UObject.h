@@ -1,4 +1,4 @@
-/* OGame Beyond - UObject (Engine Root)
+/* ArkLight Beyond - UObject (Engine Root)
  * Developer: Stephen
  * Base class for all engine objects with reflection, serialization, and GC support.
  */

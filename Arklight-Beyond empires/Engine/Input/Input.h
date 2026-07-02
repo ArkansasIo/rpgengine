@@ -1,4 +1,4 @@
-/* OGame Beyond - Input System
+/* ArkLight Beyond - Input System
  * Developer: Stephen
  * Keyboard, mouse, gamepad input with action mapping.
  */

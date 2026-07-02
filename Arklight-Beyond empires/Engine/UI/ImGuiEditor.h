@@ -1,4 +1,4 @@
-/* OGame Beyond - Dear ImGui Editor
+/* ArkLight Beyond - Dear ImGui Editor
  * Developer: Stephen
  * Full editor interface with panels, inspectors, and tools.
  */

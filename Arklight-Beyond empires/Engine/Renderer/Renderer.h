@@ -1,4 +1,4 @@
-/* OGame Beyond - Renderer
+/* ArkLight Beyond - Renderer
  * Developer: Stephen
  * Modern deferred/hybrid renderer with PBR, GI, and post-processing.
  */

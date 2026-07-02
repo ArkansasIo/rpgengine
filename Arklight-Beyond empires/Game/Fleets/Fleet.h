@@ -1,4 +1,4 @@
-/* OGame Beyond - Fleet System
+/* ArkLight Beyond - Fleet System
  * Developer: Stephen
  * Fleet management, orders, and movement.
  */

@@ -1,4 +1,4 @@
-/* OGame Beyond - Entity Component System
+/* ArkLight Beyond - Entity Component System
  * Developer: Stephen
  * Core ECS with zero-overhead entity management.
  */

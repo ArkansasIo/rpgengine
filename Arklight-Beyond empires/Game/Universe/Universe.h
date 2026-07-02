@@ -1,4 +1,4 @@
-/* OGame Beyond - Universe
+/* ArkLight Beyond - Universe
  * Developer: Stephen
  * Top-level container for galaxies, players, and global state.
  */

@@ -1,4 +1,4 @@
-/* OGame Beyond - OpenAL Soft Audio Engine
+/* ArkLight Beyond - OpenAL Soft Audio Engine
  * Developer: Stephen
  * 3D spatial audio, reverb, occlusion, music system, and voice chat.
  */

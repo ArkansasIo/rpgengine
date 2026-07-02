@@ -1,4 +1,4 @@
-/* OGame Beyond - Resources
+/* ArkLight Beyond - Resources
  * Developer: Stephen
  * All resource types and economic management.
  */

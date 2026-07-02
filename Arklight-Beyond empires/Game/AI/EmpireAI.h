@@ -1,4 +1,4 @@
-/* OGame Beyond - AI Empire System
+/* ArkLight Beyond - AI Empire System
  * Developer: Stephen
  * AI-driven empire management with economy, military, and diplomacy.
  */

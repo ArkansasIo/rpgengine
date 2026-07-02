@@ -1,4 +1,4 @@
-/* OGame Beyond - ENet Networking
+/* ArkLight Beyond - ENet Networking
  * Developer: Stephen
  * Reliable UDP networking for MMO and RTS multiplayer.
  */

@@ -1,4 +1,4 @@
-/* OGame Beyond - Jolt Physics Integration
+/* ArkLight Beyond - Jolt Physics Integration
  * Developer: Stephen
  * High-performance physics with rigid bodies, collision, constraints.
  * Supports space physics, gravity fields, and destruction.

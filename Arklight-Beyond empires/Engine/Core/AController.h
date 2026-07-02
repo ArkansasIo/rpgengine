@@ -1,4 +1,4 @@
-/* OGame Beyond - AController
+/* ArkLight Beyond - AController
  * Developer: Stephen
  * Base controller class for AI and player control.
  */

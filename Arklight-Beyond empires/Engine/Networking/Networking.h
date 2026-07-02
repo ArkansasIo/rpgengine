@@ -1,4 +1,4 @@
-/* OGame Beyond - Networking
+/* ArkLight Beyond - Networking
  * Developer: Stephen
  * Client-server networking with replication and MMO support.
  */

@@ -1,4 +1,4 @@
-/* OGame Beyond - APawn
+/* ArkLight Beyond - APawn
  * Developer: Stephen
  * Base class for controllable entities (ships, stations, etc).
  */

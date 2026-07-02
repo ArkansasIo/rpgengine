@@ -1,4 +1,4 @@
-/* OGame Beyond - Ships
+/* ArkLight Beyond - Ships
  * Developer: Stephen
  * Ship classes, components, and damage model.
  */

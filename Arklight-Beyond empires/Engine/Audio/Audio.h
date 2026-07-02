@@ -1,4 +1,4 @@
-/* OGame Beyond - Audio Engine
+/* ArkLight Beyond - Audio Engine
  * Developer: Stephen
  * 3D spatial audio, music system, and sound effects.
  */

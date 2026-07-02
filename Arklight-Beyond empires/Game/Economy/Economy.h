@@ -1,4 +1,4 @@
-/* OGame Beyond - Economy System
+/* ArkLight Beyond - Economy System
  * Developer: Stephen
  * Empire-wide economic management, trade routes, and market.
  */

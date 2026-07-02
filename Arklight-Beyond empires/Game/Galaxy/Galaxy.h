@@ -1,4 +1,4 @@
-/* OGame Beyond - Galaxy
+/* ArkLight Beyond - Galaxy
  * Developer: Stephen
  * Galaxy generation, star systems, and spatial management.
  */

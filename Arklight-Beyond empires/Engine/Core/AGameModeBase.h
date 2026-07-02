@@ -1,4 +1,4 @@
-/* OGame Beyond - AGameModeBase
+/* ArkLight Beyond - AGameModeBase
  * Developer: Stephen
  * Game rules, mode configuration, and player management.
  */

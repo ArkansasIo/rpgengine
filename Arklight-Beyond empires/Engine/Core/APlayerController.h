@@ -1,4 +1,4 @@
-/* OGame Beyond - APlayerController
+/* ArkLight Beyond - APlayerController
  * Developer: Stephen
  * Player-specific controller with input, HUD, and camera management.
  */

@@ -1,4 +1,4 @@
-/* OGame Beyond - Platform I/O
+/* ArkLight Beyond - Platform I/O
  * Developer: Stephen
  * File system abstraction, async I/O, and platform-specific storage.
  */

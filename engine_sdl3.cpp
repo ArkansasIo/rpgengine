@@ -1,4 +1,4 @@
-/* OGame Beyond - SDL3 Graphical Launcher
+/* ArkLight Beyond - SDL3 Graphical Launcher
  * Developer: Stephen
  * SDL3 + OpenGL 3.3 renderer with full engine integration.
  * Supports PC, PS5, Xbox, and Switch via platform abstraction.
@@ -196,14 +196,14 @@ void DrawHUD(const UIState& ui){
 
 int main(int argc, char* argv[]){
     if(SDL_Init(SDL_INIT_VIDEO|SDL_INIT_GAMEPAD)<0){fprintf(stderr,"SDL3 init: %s\n",SDL_GetError());return 1;}
-    printf("OGame Beyond | SDL3 | OpenGL 3.3 | Developer: Stephen\n");
+    printf("ArkLight Beyond | SDL3 | OpenGL 3.3 | Developer: Stephen\n");
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION,3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION,3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,SDL_GL_CONTEXT_PROFILE_CORE);
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER,1);
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,24);
     int sw=1280,sh=720;
-    SDL_Window* win=SDL_CreateWindow("OGame Beyond - Stephen",sw,sh,SDL_WINDOW_OPENGL|SDL_WINDOW_RESIZABLE);
+    SDL_Window* win=SDL_CreateWindow("ArkLight Beyond - Stephen",sw,sh,SDL_WINDOW_OPENGL|SDL_WINDOW_RESIZABLE);
     if(!win){fprintf(stderr,"Window: %s\n",SDL_GetError());SDL_Quit();return 1;}
     SDL_GLContext gl=SDL_GL_CreateContext(win);
     if(!gl){fprintf(stderr,"GL context: %s\n",SDL_GetError());SDL_DestroyWindow(win);SDL_Quit();return 1;}

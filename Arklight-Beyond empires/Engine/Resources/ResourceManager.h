@@ -1,4 +1,4 @@
-/* OGame Beyond - Resource Manager
+/* ArkLight Beyond - Resource Manager
  * Developer: Stephen
  * Asset loading, caching, and lifecycle management.
  */

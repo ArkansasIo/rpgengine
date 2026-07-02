@@ -1,4 +1,4 @@
-/* OGame Beyond - Asset Pipeline
+/* ArkLight Beyond - Asset Pipeline
  * Developer: Stephen
  * Asset importing, validation, LOD generation, and dependency tracking.
  */

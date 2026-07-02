@@ -1,4 +1,4 @@
-/* OGame Beyond - Colony System
+/* ArkLight Beyond - Colony System
  * Developer: Stephen
  * Planet colonization, management, and development.
  */

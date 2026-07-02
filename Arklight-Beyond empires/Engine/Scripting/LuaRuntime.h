@@ -1,4 +1,4 @@
-/* OGame Beyond - Lua Runtime
+/* ArkLight Beyond - Lua Runtime
  * Developer: Stephen
  * Lua scripting integration with engine API exposure.
  */

@@ -1,4 +1,4 @@
-/* OGame Beyond - Core Types
+/* ArkLight Beyond - Core Types
  * Developer: Stephen
  * Fundamental math and utility types.
  */

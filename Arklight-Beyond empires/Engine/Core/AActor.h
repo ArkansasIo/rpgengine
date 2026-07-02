@@ -1,4 +1,4 @@
-/* OGame Beyond - AActor
+/* ArkLight Beyond - AActor
  * Developer: Stephen
  * Base class for all placeable game objects with components and tick.
  */

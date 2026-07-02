@@ -1,4 +1,4 @@
-/* OGame Beyond - Buildings
+/* ArkLight Beyond - Buildings
  * Developer: Stephen
  * Building definitions, construction, and production.
  */

@@ -1,4 +1,4 @@
-/* OGame Beyond - Assimp Model Loader
+/* ArkLight Beyond - Assimp Model Loader
  * Developer: Stephen
  * Multi-format 3D model import via Assimp.
  */

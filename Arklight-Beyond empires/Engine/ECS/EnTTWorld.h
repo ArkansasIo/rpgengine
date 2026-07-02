@@ -1,4 +1,4 @@
-/* OGame Beyond - EnTT ECS Integration
+/* ArkLight Beyond - EnTT ECS Integration
  * Developer: Stephen
  * EnTT-based ECS with archetype storage for high performance.
  * Provides low-level EnTT access and high-level game object wrappers.

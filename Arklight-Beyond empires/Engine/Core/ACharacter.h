@@ -1,4 +1,4 @@
-/* OGame Beyond - ACharacter
+/* ArkLight Beyond - ACharacter
  * Developer: Stephen
  * Character class with movement, health, and animation support.
  */

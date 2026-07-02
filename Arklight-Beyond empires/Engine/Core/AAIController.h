@@ -1,4 +1,4 @@
-/* OGame Beyond - AAIController
+/* ArkLight Beyond - AAIController
  * Developer: Stephen
  * AI controller with behavior tree and utility AI support.
  */

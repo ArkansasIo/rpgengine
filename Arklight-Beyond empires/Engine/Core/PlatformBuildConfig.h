@@ -1,4 +1,4 @@
-/* OGame Beyond - Platform Build Configuration
+/* ArkLight Beyond - Platform Build Configuration
  * Developer: Stephen
  * Per-platform build settings, SDK paths, and feature flags.
  */

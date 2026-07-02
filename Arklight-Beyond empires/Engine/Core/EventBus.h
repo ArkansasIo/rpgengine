@@ -1,4 +1,4 @@
-/* OGame Beyond - Event Bus
+/* ArkLight Beyond - Event Bus
  * Developer: Stephen
  * Global event system for decoupled communication between systems.
  */

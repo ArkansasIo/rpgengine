@@ -1,4 +1,4 @@
-/* OGame Beyond - Save/Load System
+/* ArkLight Beyond - Save/Load System
  * Developer: Stephen
  * Game state serialization with compression and versioning.
  */

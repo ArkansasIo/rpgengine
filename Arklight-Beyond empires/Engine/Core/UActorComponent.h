@@ -1,4 +1,4 @@
-/* OGame Beyond - UActorComponent
+/* ArkLight Beyond - UActorComponent
  * Developer: Stephen
  * Base class for all components attached to actors.
  */

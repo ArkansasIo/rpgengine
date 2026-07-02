@@ -1,4 +1,4 @@
-/* OGame Beyond - FreeType Font Rendering
+/* ArkLight Beyond - FreeType Font Rendering
  * Developer: Stephen
  * Font loading, glyph rendering, and text layout.
  */

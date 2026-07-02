@@ -1,4 +1,4 @@
-/* OGame Beyond - Script Modules
+/* ArkLight Beyond - Script Modules
  * Developer: Stephen
  * Game script lifecycle modules for Lua integration.
  */

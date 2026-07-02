@@ -1,4 +1,4 @@
-/* OGame Beyond - Diplomacy
+/* ArkLight Beyond - Diplomacy
  * Developer: Stephen
  * Empire relations, treaties, and war/peace mechanics.
  */

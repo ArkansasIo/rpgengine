@@ -1,4 +1,4 @@
-/* OGame Beyond - Master Engine Header
+/* ArkLight Beyond - Master Engine Header
  * Developer: Stephen
  * Single include for the entire OGameBeyond engine.
  */

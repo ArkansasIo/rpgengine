@@ -1,4 +1,4 @@
-/* OGame Beyond - Research Tree
+/* ArkLight Beyond - Research Tree
  * Developer: Stephen
  * Technology tree, research projects, and prerequisites.
  */
