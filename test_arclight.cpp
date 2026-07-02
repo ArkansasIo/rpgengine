@@ -413,5 +413,7 @@ int main(){
     printf("\n[AI]\n");test_bt();
     printf("\n[World]\n");test_rts_world();
     printf("\n=== All 12 tests passed! ===\n");
+    printf("\nPress any key to exit...\n");
+    system("pause");
     return 0;
 }
