@@ -64,15 +64,6 @@
 #include "Game/Settings/DisplaySettings.h"
 #include "Game/Settings/UISettings.h"
 
-// ======================== Stellaris-Style In-Game UI ========================
-#include "Game/UI/Stellaris/StellarisUI.h"
-
-// ======================== UE5-Style Editor UI ========================
-#include "Game/UI/Editor/UE5EditorUI.h"
-
-// ======================== Blueprint System ========================
-#include "Game/Blueprint/BlueprintSystem.h"
-
 namespace arclight {
 
 /**
@@ -98,15 +89,6 @@ public:
 	// Menu & UI
 	MenuSystem menuSystem;
 
-	// Stellaris-Style In-Game UI
-	StellarisUI stellarisUI;
-
-	// UE5-Style Editor UI
-	UE5EditorUI editorUI;
-
-	// Blueprint System
-	BlueprintSystem blueprintSystem;
-
 	// Settings
 	GameSettings gameSettings;
 	KeyBindingSystem keyBindings;
@@ -118,8 +100,6 @@ public:
 		physicsSystem.SetGravity(float3(0.0f, -9.81f, 0.0f));
 		destructionSystem.SetParams(DestructionParams());
 		menuSystem.Init();
-		stellarisUI.Init();
-		editorUI.Init();
 		keyBindings.SetDefaultBindings();
 		displaySettings.Init();
 		gameSettings.Init();
@@ -131,8 +111,6 @@ public:
 		rtsWorld.UpdateResources(dt);
 		saveLoadSystem.Update(dt);
 		menuSystem.Update(dt);
-		stellarisUI.Update(dt);
-		editorUI.Update(dt);
 	}
 
 	void Shutdown() {

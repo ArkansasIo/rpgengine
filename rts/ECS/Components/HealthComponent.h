@@ -109,7 +109,7 @@ struct HealthComponent : public IComponent {
 		return damage;
 	}
 
-	void Heal(float amount, EntityID /*healer*/ = INVALID_ENTITY) {
+	void Heal(float amount, EntityID healer = INVALID_ENTITY) {
 		if (isDead || amount <= 0.0f) return;
 		float actual = std::min(amount, maxHealth - currentHealth);
 		currentHealth += actual;

@@ -122,8 +122,6 @@ add_subdirectory(World)
 add_subdirectory(Game/Systems)
 add_subdirectory(Game/Menus)
 add_subdirectory(Game/Settings)
-add_subdirectory(Game/UI)
-add_subdirectory(Game/Blueprint)
 
 #add_subdirectory(System) # this is already added in ../
 

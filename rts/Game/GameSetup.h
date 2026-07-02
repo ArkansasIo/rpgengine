@@ -85,8 +85,8 @@ public:
 	static bool ScriptLoaded();
 
 	// these act on the global GameSetup instance
-	static const spring::unordered_map<std::string, std::string>& GetMapOptions();
-	static const spring::unordered_map<std::string, std::string>& GetModOptions();
+	static const ArcLight::unordered_map<std::string, std::string>& GetMapOptions();
+	static const ArcLight::unordered_map<std::string, std::string>& GetModOptions();
 	static const std::vector<PlayerBase>& GetPlayerStartingData();
 	static const std::vector<TeamBase>& GetTeamStartingData();
 	static const std::vector<AllyTeam>& GetAllyStartingData();
@@ -118,8 +118,8 @@ public:
 		return (it->second);
 	}
 
-	const spring::unordered_map<std::string, std::string>& GetMapOptionsCont() const { return mapOptions; }
-	const spring::unordered_map<std::string, std::string>& GetModOptionsCont() const { return modOptions; }
+	const ArcLight::unordered_map<std::string, std::string>& GetMapOptionsCont() const { return mapOptions; }
+	const ArcLight::unordered_map<std::string, std::string>& GetModOptionsCont() const { return modOptions; }
 	const std::vector<PlayerBase>& GetPlayerStartingDataCont() const { return playerStartingData; }
 	const std::vector<TeamBase>& GetTeamStartingDataCont() const { return teamStartingData; }
 	const std::vector<AllyTeam>& GetAllyStartingDataCont() const { return allyStartingData; }
@@ -140,11 +140,11 @@ private:
 	 * @pre numPlayers initialized
 	 * @post players loaded, numDemoPlayers initialized
 	 */
-	void LoadPlayers(const TdfParser& file, spring::unordered_set<std::string>& nameList);
+	void LoadPlayers(const TdfParser& file, ArcLight::unordered_set<std::string>& nameList);
 	/**
 	 * @brief Load LUA and Skirmish AIs.
 	 */
-	void LoadSkirmishAIs(const TdfParser& file, spring::unordered_set<std::string>& nameList);
+	void LoadSkirmishAIs(const TdfParser& file, ArcLight::unordered_set<std::string>& nameList);
 	/**
 	 * @brief Load teams and remove gaps in the team numbering.
 	 * @pre numTeams, hostDemo initialized
@@ -216,9 +216,9 @@ public:
 	std::string demoName;
 
 private:
-	spring::unordered_map<int, int> playerRemap;
-	spring::unordered_map<int, int> teamRemap;
-	spring::unordered_map<int, int> allyteamRemap;
+	ArcLight::unordered_map<int, int> playerRemap;
+	ArcLight::unordered_map<int, int> teamRemap;
+	ArcLight::unordered_map<int, int> allyteamRemap;
 
 	std::vector<PlayerBase> playerStartingData;
 	std::vector<TeamBase> teamStartingData;
@@ -226,10 +226,10 @@ private:
 	std::vector<SkirmishAIData> skirmishAIStartingData;
 	std::vector<std::string> mutatorsList;
 
-	spring::unordered_map<std::string, int> restrictedUnits;
+	ArcLight::unordered_map<std::string, int> restrictedUnits;
 
-	spring::unordered_map<std::string, std::string> mapOptions;
-	spring::unordered_map<std::string, std::string> modOptions;
+	ArcLight::unordered_map<std::string, std::string> mapOptions;
+	ArcLight::unordered_map<std::string, std::string> modOptions;
 };
 
 extern CGameSetup* gameSetup;

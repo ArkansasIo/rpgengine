@@ -137,7 +137,7 @@ public:
 		// Grouping
 		for (int i = 0; i <= 9; i++) {
 			bindings[static_cast<InputAction>(static_cast<int>(InputAction::GroupSelect1) + i)] = { '0' + i, 0 };
-			bindings[static_cast<InputAction>(static_cast<int>(InputAction::GroupAssign1) + i)] = { 0x11, '0' + i }; // Ctrl+number
+			bindings[static_cast<InputAction>(static_cast<int>(InputAction::GroupAssign1) + i)] = { 0x11, '0' + i };
 		}
 
 		// UI

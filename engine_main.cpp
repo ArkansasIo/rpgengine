@@ -263,9 +263,6 @@ void DemoEditorUI() {
     printf("  World outliner: ready\n");
     printf("  Content browser: ready\n");
     printf("  Toolbar: %zu buttons\n", editor.toolbar.buttons.size());
-    editor.commandPalette.RegisterCommand({"compile","Compile Blueprint","Blueprints","Ctrl+Shift+B",true,[]{}});
-    editor.commandPalette.RegisterCommand({"save","Save All","File","Ctrl+Shift+S",true,[]{}});
-    printf("  Command palette: %zu commands\n", editor.commandPalette.commands.size());
     printf("  [PASS]\n\n");
 }
 

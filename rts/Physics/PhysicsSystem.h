@@ -1,4 +1,4 @@
-﻿/* This file is part of the ArcLight Engine
+/* This file is part of the ArcLight Engine
  * Developer: Stephen
  *
  * UE5-inspired Physics System with rigid body dynamics,

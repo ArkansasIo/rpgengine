@@ -97,14 +97,8 @@ private:
 
 	std::string GetCurrentTimestamp() {
 		time_t now = time(nullptr);
-		struct tm tm;
-#ifdef _WIN32
-		localtime_s(&tm, &now);
-#else
-		tm = *localtime(&now);
-#endif
 		char buf[64];
-		strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S", &tm);
+		strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S", localtime(&now));
 		return buf;
 	}
 };

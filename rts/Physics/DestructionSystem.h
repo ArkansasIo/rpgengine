@@ -57,11 +57,11 @@ struct DestructionEvent {
 	float radius = 0.0f;
 };
 
-using DestructionCallback = std::function<void(const FractureChunk&)>;
+using DestructionCallback = std::function<void(const std::vector<FractureChunk>&)>;
 
 class DestructionSystem {
 public:
-	void SetParams(const DestructionParams& p) { params = p; }
+	void SetParams(const DestructionParams& params) { this->params = params; }
 
 	/**
 	 * Fracture an object at a point, returning the resulting chunks.
@@ -104,8 +104,8 @@ public:
 
 		for (auto& chunk : chunks) {
 			chunk.lifeTime = params.debrisLifeTime;
-			if (onChunkCreated) onChunkCreated(chunk);
 		}
+		if (onChunkCreated) onChunkCreated(chunks);
 
 		return chunks;
 	}
@@ -220,7 +220,7 @@ private:
 	}
 
 	std::vector<FractureChunk> GenerateRadialFracture(
-		const float3& center, const float3& size, int count, const float3& /*direction*/
+		const float3& center, const float3& size, int count, const float3& direction
 	) {
 		std::vector<FractureChunk> chunks;
 		for (int i = 0; i < count; i++) {

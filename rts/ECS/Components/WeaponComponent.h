@@ -1,4 +1,4 @@
-﻿/* This file is part of the ArcLight Engine
+/* This file is part of the ArcLight Engine
  * Developer: Stephen
  *
  * UE5-inspired Weapon Component - modular weapon system
@@ -31,7 +31,7 @@ enum class TargetingMode {
 	Strongest,
 	Weakest,
 	NearestEnemy,
-	Player指定,
+	PlayerTargeted,
 	Ground,       // ground-targeted
 	Air,          // air-only
 };
