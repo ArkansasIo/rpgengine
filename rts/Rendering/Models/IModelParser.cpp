@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "IModelParser.h"
 #include "3DOParser.h"
@@ -188,14 +188,14 @@ std::string CModelLoader::FindModelPath(std::string name) const
 		for (const auto& format: formats) {
 			const std::string& formatExt = format.first;
 
-			if (CFileHandler::FileExists(name + "." + formatExt, SPRING_VFS_ZIP)) {
+			if (CFileHandler::FileExists(name + "." + formatExt, ARCLIGHT_VFS_ZIP)) {
 				name.append("." + formatExt);
 				break;
 			}
 		}
 	}
 
-	if (CFileHandler::FileExists(name, SPRING_VFS_ZIP))
+	if (CFileHandler::FileExists(name, ARCLIGHT_VFS_ZIP))
 		return name;
 
 	if (name.find(vfsPath) != std::string::npos)
@@ -233,7 +233,7 @@ void CModelLoader::LogErrors()
 
 	// block any preload threads from modifying <errors>
 	// doing the empty-check outside lock should be fine
-	std::lock_guard<spring::mutex> lock(mutex);
+	std::lock_guard<ArcLight::mutex> lock(mutex);
 
 	for (const auto& pair: errors) {
 		char buf[1024];
@@ -259,7 +259,7 @@ S3DModel* CModelLoader::LoadModel(std::string name, bool preload)
 	StringToLowerInPlace(name);
 
 	{
-		std::lock_guard<spring::mutex> lock(mutex);
+		std::lock_guard<ArcLight::mutex> lock(mutex);
 
 		// search in cache first
 		for (const auto& ref: refs) {
@@ -313,7 +313,7 @@ S3DModel* CModelLoader::CreateModel(
 			UploadRenderData(&model);
 	}
 	{
-		std::lock_guard<spring::mutex> lock(mutex);
+		std::lock_guard<ArcLight::mutex> lock(mutex);
 
 		// discard loaded model and return dummy if at limit
 		if (numModels >= MAX_MODEL_OBJECTS) {
@@ -360,7 +360,7 @@ S3DModel CModelLoader::ParseModel(const std::string& name, const std::string& pa
 		model = std::move(parser->Load(path));
 	} catch (const content_error& ex) {
 		{
-			std::lock_guard<spring::mutex> lock(mutex);
+			std::lock_guard<ArcLight::mutex> lock(mutex);
 			errors.emplace_back(name, ex.what());
 		}
 

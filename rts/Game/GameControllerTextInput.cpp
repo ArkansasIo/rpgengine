@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <cassert>
 #include <SDL_keyboard.h>
@@ -64,7 +64,7 @@ void GameControllerTextInput::Draw() {
 		const float caretWidth  = fontSize * font->GetCharacterWidth(c) * globalRendering->pixelX;
 
 		const float caretScrPos = inputTextPosX + caretRelPos;
-		const float caretIllum = 0.5f * (1.0f + fastmath::sin(spring_now().toMilliSecsf() * 0.015f));
+		const float caretIllum = 0.5f * (1.0f + fastmath::sin(ArcLight_now().toMilliSecsf() * 0.015f));
 
 		GL::RenderDataBufferC* buffer = GL::GetRenderBufferC();
 		Shader::IProgramObject* shader = buffer->GetShader();

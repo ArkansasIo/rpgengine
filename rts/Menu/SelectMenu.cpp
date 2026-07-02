@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "SelectMenu.h"
 
@@ -42,8 +42,8 @@ using agui::Button;
 using agui::HorizontalLayout;
 
 CONFIG(std::string, address).defaultValue("").description("Last Ip/hostname used as direct connect in the menu.");
-CONFIG(std::string, LastSelectedSetting).defaultValue("").description("Stores the previously selected setting, when editing settings within the Spring main menu.");
-CONFIG(std::string, MenuArchive).defaultValue("Spring Bitmaps").description("Archive name for the default Menu.");
+CONFIG(std::string, LastSelectedSetting).defaultValue("").description("Stores the previously selected setting, when editing settings within the ArcLight main menu.");
+CONFIG(std::string, MenuArchive).defaultValue("ArcLight Bitmaps").description("Archive name for the default Menu.");
 
 class ConnectWindow : public agui::Window {
 public:
@@ -149,7 +149,7 @@ SelectMenu::SelectMenu(std::shared_ptr<ClientSetup> setup)
 		menu->SetPos(0.1, 0.5);
 		menu->SetSize(0.4, 0.4);
 		menu->SetBorder(true);
-		/*agui::TextElement* title = */new agui::TextElement("Spring " + SpringVersion::GetFull(), menu); // will be deleted in menu
+		/*agui::TextElement* title = */new agui::TextElement("ArcLight " + ArcLightVersion::GetFull(), menu); // will be deleted in menu
 		Button* testGame = new Button("Test Game", menu);
 		testGame->Clicked.connect(std::bind(&SelectMenu::Single, this));
 
@@ -180,7 +180,7 @@ SelectMenu::~SelectMenu()
 
 bool SelectMenu::Draw()
 {
-	spring_msecs(10).sleep(true);
+	ArcLight_msecs(10).sleep(true);
 	ClearScreen();
 	agui::gui->Draw();
 

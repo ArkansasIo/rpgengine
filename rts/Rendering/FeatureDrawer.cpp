@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "FeatureDrawer.h"
 
@@ -101,7 +101,7 @@ void CFeatureDrawer::KillStatic(bool reload) {
 	if (reload)
 		return;
 
-	spring::SafeDestruct(featureDrawer);
+	ArcLight::SafeDestruct(featureDrawer);
 }
 
 void CFeatureDrawer::Init()
@@ -202,7 +202,7 @@ void CFeatureDrawer::RenderFeatureDestroyed(const CFeature* feature)
 	CFeature* f = const_cast<CFeature*>(feature);
 
 	if (f->def->drawType == DRAWTYPE_MODEL)
-		spring::VectorErase(unsortedFeatures, f);
+		ArcLight::VectorErase(unsortedFeatures, f);
 
 	if (f->model != nullptr && f->drawQuad >= 0)
 		modelRenderers[f->drawQuad].GetRenderer(MDL_TYPE(f)).DelObject(f);

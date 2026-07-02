@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "CpuID.h"
 #include "System/MainDefines.h"
@@ -15,7 +15,7 @@
 #include <cassert>
 
 
-namespace springproc {
+namespace ArcLightproc {
 	enum {
 		REG_EAX = 0,
 		REG_EBX = 1,
@@ -239,12 +239,12 @@ namespace springproc {
 
 		for (int processor = 0; processor < numProcessors; processor++) {
 			Threading::SetAffinity(1u << processor, true);
-			spring::this_thread::yield();
+			ArcLight::this_thread::yield();
 			processorApicIds[processor] = getApicIdIntel();
 		}
 
-		spring::unordered_set<uint32_t> cores;
-		spring::unordered_set<uint32_t> packages;
+		ArcLight::unordered_set<uint32_t> cores;
+		ArcLight::unordered_set<uint32_t> packages;
 
 		// determine the total number of cores
 		for (int processor = 0; processor < numProcessors; processor++) {
@@ -298,7 +298,7 @@ namespace springproc {
 		totalNumCores = numProcessors;
 		totalNumPackages = 1;
 
-		// affinity mask is a uint64_t, but spring uses uint32_t
+		// affinity mask is a uint64_t, but ArcLight uses uint32_t
 		assert(numProcessors <= (maxProcessors >> 1));
 
 		static_assert(sizeof(affinityMaskOfCores   ) == (maxProcessors * sizeof(affinityMaskOfCores   [0])), "");

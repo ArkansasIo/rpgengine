@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "ConfigHandler.h"
 #include "ConfigLocater.h"
@@ -62,9 +62,9 @@ private:
 	std::vector<ReadOnlyConfigSource*> sources;
 
 	// observer related
-	spring::unsynced_map<std::string, std::vector<NamedConfigNotifyCallback>> configsToCallbacks;
-	spring::unsynced_map<void*, std::vector<std::string>> observersToConfigs;
-	spring::mutex observerMutex;
+	ArcLight::unsynced_map<std::string, std::vector<NamedConfigNotifyCallback>> configsToCallbacks;
+	ArcLight::unsynced_map<void*, std::vector<std::string>> observersToConfigs;
+	ArcLight::mutex observerMutex;
 	StringMap changedValues;
 	bool writingEnabled;
 };
@@ -266,7 +266,7 @@ std::string ConfigHandlerImpl::GetString(const std::string& key) const
  *
  * We do not want conflicts when multiple instances are running
  * at the same time (which would cause data loss).
- * This would happen if e.g. unitsync and spring would access
+ * This would happen if e.g. unitsync and ArcLight would access
  * the config file at the same time, if we would not lock.
  */
 void ConfigHandlerImpl::SetString(const std::string& key, const std::string& value, bool useOverlay)
@@ -308,13 +308,13 @@ void ConfigHandlerImpl::SetString(const std::string& key, const std::string& val
 		}
 	}
 
-	std::lock_guard<spring::mutex> lck(observerMutex);
+	std::lock_guard<ArcLight::mutex> lck(observerMutex);
 	changedValues[key] = value;
 }
 
 void ConfigHandlerImpl::Update()
 {
-	std::lock_guard<spring::mutex> lck(observerMutex);
+	std::lock_guard<ArcLight::mutex> lck(observerMutex);
 
 	for (StringMap::const_iterator ut = changedValues.begin(); ut != changedValues.end(); ++ut) {
 		const std::string& key = ut->first;
@@ -346,7 +346,7 @@ const StringMap ConfigHandlerImpl::GetData() const {
 
 
 void ConfigHandlerImpl::AddObserver(ConfigNotifyCallback callback, void* observer, const std::vector<std::string>& configs) {
-	std::lock_guard<spring::mutex> lck(observerMutex);
+	std::lock_guard<ArcLight::mutex> lck(observerMutex);
 
 	for (const std::string& config: configs) {
 		configsToCallbacks[config].emplace_back(callback, observer);
@@ -355,10 +355,10 @@ void ConfigHandlerImpl::AddObserver(ConfigNotifyCallback callback, void* observe
 }
 
 void ConfigHandlerImpl::RemoveObserver(void* observer) {
-	std::lock_guard<spring::mutex> lck(observerMutex);
+	std::lock_guard<ArcLight::mutex> lck(observerMutex);
 
 	for (const std::string& config: observersToConfigs[observer]) {
-		spring::VectorEraseIf(configsToCallbacks[config], [&](NamedConfigNotifyCallback& ncnc) {
+		ArcLight::VectorEraseIf(configsToCallbacks[config], [&](NamedConfigNotifyCallback& ncnc) {
 			return (ncnc.observer == observer);
 		});
 
@@ -397,7 +397,7 @@ void ConfigHandler::Instantiate(const std::string configSource, const bool safem
 
 void ConfigHandler::Deallocate()
 {
-	spring::SafeDelete(configHandler);
+	ArcLight::SafeDelete(configHandler);
 }
 
 bool ConfigHandler::Get(const std::string& key) const

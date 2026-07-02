@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _CATEGORY_HANDLER_H
 #define _CATEGORY_HANDLER_H
@@ -10,7 +10,7 @@
 #include "System/Misc/NonCopyable.h"
 #include "System/creg/creg_cond.h"
 
-class CCategoryHandler : public spring::noncopyable
+class CCategoryHandler : public ArcLight::noncopyable
 {
 	CR_DECLARE_STRUCT(CCategoryHandler)
 
@@ -49,7 +49,7 @@ public:
 
 private:
 	// iterated in GetCategoryNames; reserved size must be constant
-	spring::unordered_map<std::string, unsigned int> categories;
+	ArcLight::unordered_map<std::string, unsigned int> categories;
 
 	unsigned int firstUnused = 0;
 };

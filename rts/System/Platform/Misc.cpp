@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #if defined(__linux__)
 	#include <arpa/inet.h>
@@ -93,7 +93,7 @@ static HMODULE GetCurrentModule()
 
 /**
  * The user might want to define the user dir manually,
- * to locate spring related data in a non-default location.
+ * to locate ArcLight related data in a non-default location.
  * @link http://en.wikipedia.org/wiki/Environment_variable#Synopsis
  */
 static std::string GetUserDirFromEnvVar()
@@ -545,7 +545,7 @@ namespace Platform
 		return isWoW64Proc;
 	}
 	#else
-	// simply assume Spring is never run in emulation-mode on other OS'es
+	// simply assume ArcLight is never run in emulation-mode on other OS'es
 	bool Is32BitEmulation() { return false; }
 	#endif
 

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef AVI_GENERATOR_H
 #define AVI_GENERATOR_H
@@ -16,7 +16,7 @@
 #include <vector>
 
 
-class CAVIGenerator : spring::noncopyable {
+class CAVIGenerator : ArcLight::noncopyable {
 public:
 
 	CAVIGenerator(const std::string& fileName, int videoSizeX, int videoSizeY, DWORD videoFPS);
@@ -57,9 +57,9 @@ private:
 
 	volatile bool quitAVIgen;
 
-	spring::thread* AVIThread;
-	spring::mutex AVIMutex;
-	spring::condition_variable_any AVICondition;
+	ArcLight::thread* AVIThread;
+	ArcLight::mutex AVIMutex;
+	ArcLight::condition_variable_any AVICondition;
 
 	std::deque< unsigned char* > freeImageBuffers;
 	std::deque< unsigned char* > imageBuffers;

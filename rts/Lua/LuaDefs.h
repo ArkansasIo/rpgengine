@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef LUA_DEFS_H
 #define LUA_DEFS_H
@@ -40,7 +40,7 @@ struct DataElement {
 };
 
 
-typedef spring::unordered_map<std::string, DataElement> ParamMap;
+typedef ArcLight::unordered_map<std::string, DataElement> ParamMap;
 
 
 namespace {
@@ -87,7 +87,7 @@ namespace {
 
 #define DECL_LOAD_HANDLER(HandlerType, handlerInst)         \
 	bool HandlerType::LoadHandler() {                       \
-		std::lock_guard<spring::mutex> lk(m_singleton);     \
+		std::lock_guard<ArcLight::mutex> lk(m_singleton);     \
                                                             \
 		if (handlerInst != nullptr)                         \
 			return (handlerInst->IsValid());                \
@@ -102,7 +102,7 @@ namespace {
 
 #define DECL_LOAD_SPLIT_HANDLER(HandlerType, handlerInst)             \
 	bool HandlerType::LoadHandler(bool onlySynced) {                  \
-		std::lock_guard<spring::mutex> lk(m_singleton);               \
+		std::lock_guard<ArcLight::mutex> lk(m_singleton);               \
                                                                       \
 		if (handlerInst != nullptr)                                   \
 			return (handlerInst->IsValid());                          \
@@ -117,7 +117,7 @@ namespace {
 
 #define DECL_FREE_HANDLER(HandlerType, handlerInst)      \
 	bool HandlerType::FreeHandler() {                    \
-		std::lock_guard<spring::mutex> lk(m_singleton);  \
+		std::lock_guard<ArcLight::mutex> lk(m_singleton);  \
                                                          \
 		if (handlerInst == nullptr)                      \
 			return false;                                \

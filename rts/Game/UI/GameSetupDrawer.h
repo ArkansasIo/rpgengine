@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef GAME_SETUP_DRAWER
 #define GAME_SETUP_DRAWER
@@ -23,8 +23,8 @@ private:
 
 	static GameSetupDrawer* instance;
 
-	spring_time readyCountdown;
-	spring_time lastTick;
+	ArcLight_time readyCountdown;
+	ArcLight_time lastTick;
 };
 
 

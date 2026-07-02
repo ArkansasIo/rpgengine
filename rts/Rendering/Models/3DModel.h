@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _3DMODEL_H
 #define _3DMODEL_H
@@ -175,7 +175,7 @@ public:
 		if (hasBakedMat)
 			m *= bakedMatrix;
 
-		// default Spring rotation-order [YPR=Y,X,Z]
+		// default ArcLight rotation-order [YPR=Y,X,Z]
 		m.RotateEulerYXZ(-r);
 		m.Scale(s);
 		return m;

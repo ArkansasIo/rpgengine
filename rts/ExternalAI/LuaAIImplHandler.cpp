@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "LuaAIImplHandler.h"
 
@@ -26,7 +26,7 @@ CLuaAIImplHandler::InfoItemVector CLuaAIImplHandler::LoadInfoItems()
 {
 	InfoItemVector luaAIInfos;
 
-	LuaParser luaParser("LuaAI.lua", SPRING_VFS_MOD_BASE, SPRING_VFS_MOD_BASE);
+	LuaParser luaParser("LuaAI.lua", ARCLIGHT_VFS_MOD_BASE, ARCLIGHT_VFS_MOD_BASE);
 
 	// It is not an error if the mod does not come with Lua AIs.
 	if (!luaParser.Execute())

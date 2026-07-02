@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "System/Platform/Win/win32.h"
 
@@ -184,11 +184,11 @@ void CPathEstimator::InitEstimator(const std::string& peFileName, const std::str
 
 
 		// note: only really needed if numExtraThreads > 0
-		spring::barrier pathBarrier(numExtraThreads + 1);
+		ArcLight::barrier pathBarrier(numExtraThreads + 1);
 
 		for (unsigned int i = 1; i <= numExtraThreads; i++) {
 			pathFinders[i] = pfMemPool.alloc<CPathFinder>(true);
-			threads[i] = std::move(spring::thread(&CPathEstimator::CalcOffsetsAndPathCosts, this, i, &pathBarrier));
+			threads[i] = std::move(ArcLight::thread(&CPathEstimator::CalcOffsetsAndPathCosts, this, i, &pathBarrier));
 		}
 
 		// Use the current thread as thread zero
@@ -231,7 +231,7 @@ void CPathEstimator::InitBlocks()
 
 
 __FORCE_ALIGN_STACK__
-void CPathEstimator::CalcOffsetsAndPathCosts(unsigned int threadNum, spring::barrier* pathBarrier)
+void CPathEstimator::CalcOffsetsAndPathCosts(unsigned int threadNum, ArcLight::barrier* pathBarrier)
 {
 	// reset FPU state for synced computations
 	streflop::streflop_init<streflop::Simple>();

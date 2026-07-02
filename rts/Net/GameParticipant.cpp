@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "GameParticipant.h"
 
@@ -36,7 +36,7 @@ void GameParticipant::Kill(const std::string& reason, const bool flush)
 		// make sure the Flush() performed by Close() has effect (forced flushes are undesirable)
 		// it will cause a slight lag in the game server during kick, but not a big deal
 		if (flush)
-			spring_sleep(spring_msecs(1000));
+			ArcLight_sleep(ArcLight_msecs(1000));
 
 		clientLink->Close(flush);
 		clientLink.reset();

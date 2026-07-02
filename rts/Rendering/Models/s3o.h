@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef s3o_H
 #define s3o_H
@@ -67,7 +67,7 @@ struct Vertex{
 
 /// Header structure for .s3o files
 struct S3OHeader{
-	char magic[12];    ///< "Spring unit\0"
+	char magic[12];    ///< "ArcLight unit\0"
 	int version;       ///< 0 for this version
 	float radius;      ///< radius of collision sphere
 	float height;      ///< height of whole object

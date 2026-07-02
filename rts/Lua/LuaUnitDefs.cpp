@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <string>
 #include <vector>
@@ -288,7 +288,7 @@ static int SafeIconType(lua_State* L, const void* data)
 
 static int CustomParamsTable(lua_State* L, const void* data)
 {
-	const spring::unordered_map<std::string, std::string>& params = *((const spring::unordered_map<std::string, std::string>*)data);
+	const ArcLight::unordered_map<std::string, std::string>& params = *((const ArcLight::unordered_map<std::string, std::string>*)data);
 	lua_newtable(L);
 
 	for (const auto& param: params) {
@@ -302,8 +302,8 @@ static int CustomParamsTable(lua_State* L, const void* data)
 
 static int BuildOptions(lua_State* L, const void* data)
 {
-	const spring::unordered_map<int, std::string>& buildOptions = *((const spring::unordered_map<int, std::string>*)data);
-	const spring::unordered_map<std::string, int>& unitDefIDsMap = unitDefHandler->GetUnitDefIDs();
+	const ArcLight::unordered_map<int, std::string>& buildOptions = *((const ArcLight::unordered_map<int, std::string>*)data);
+	const ArcLight::unordered_map<std::string, int>& unitDefIDsMap = unitDefHandler->GetUnitDefIDs();
 
 	lua_newtable(L);
 	int count = 0;
@@ -552,7 +552,7 @@ static int ReturnNil(lua_State* L, const void* data) {
 
 static bool InitParamMap()
 {
-	spring::clear_unordered_map(paramMap);
+	ArcLight::clear_unordered_map(paramMap);
 
 	paramMap["next"]  = DataElement(READONLY_TYPE);
 	paramMap["pairs"] = DataElement(READONLY_TYPE);
@@ -583,7 +583,7 @@ ADD_BOOL("canAttackWater",  canAttackWater); // CUSTOM
 	ADD_FLOAT("totalEnergyOut", ud.energyMake);
 
 	ADD_FUNCTION("modCategories",      ud.categoryString,  CategorySetFromString);
-	ADD_FUNCTION("springCategories",   ud.category,        CategorySetFromBits);
+	ADD_FUNCTION("ArcLightCategories",   ud.category,        CategorySetFromBits);
 	ADD_FUNCTION("noChaseCategories",  ud.noChaseCategory, CategorySetFromBits);
 
 	ADD_FUNCTION("customParams",       ud.customParams,       CustomParamsTable);

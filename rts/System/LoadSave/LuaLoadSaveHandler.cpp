@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <string>
 #include <sstream>
@@ -29,7 +29,7 @@
 
 // Prefix for all files in the save file.
 // May be used to prevent clashes with other code. (AI, Lua)
-#define PREFIX "Spring/"
+#define PREFIX "ArcLight/"
 
 // Names of files in save file for various components of engine.
 // They all have a version number as suffix. When breaking compatibility
@@ -77,7 +77,7 @@ void CLuaLoadSaveHandler::SaveGame(const std::string& file)
 		SaveHeightmap();
 
 		// Close zip file.
-		if (Z_OK != zipClose(savefile, "Spring save file, visit https://springrts.com/ for details.")) {
+		if (Z_OK != zipClose(savefile, "ArcLight save file, visit https://ArcLightrts.com/ for details.")) {
 			LOG_L(L_ERROR, "Unable to close save file \"%s\"", filename.c_str());
 		}
 		return; // Success

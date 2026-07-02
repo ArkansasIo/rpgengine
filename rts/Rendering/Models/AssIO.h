@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef ASS_IO_H
 #define ASS_IO_H
@@ -7,7 +7,7 @@
 #include "lib/assimp/include/assimp/IOSystem.hpp"
 class CFileHandler;
 
-// Custom implementation of Assimp IOStream to support Spring's VFS
+// Custom implementation of Assimp IOStream to support ArcLight's VFS
 // Required because Assimp models often need to load textures from other files
 
 class AssVFSStream : public Assimp::IOStream
@@ -30,7 +30,7 @@ public:
 };
 
 
-// Spring VFS Filesystem Wrapper for Assimp
+// ArcLight VFS Filesystem Wrapper for Assimp
 
 class AssVFSSystem : public Assimp::IOSystem
 {

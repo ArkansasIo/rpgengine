@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef CR_SET_TYPE_IMPL_H
 #define CR_SET_TYPE_IMPL_H
@@ -62,16 +62,16 @@ namespace creg
 	};
 	// Hash set
 	template<typename T>
-	struct DeduceType<spring::unordered_set<T> > {
+	struct DeduceType<ArcLight::unordered_set<T> > {
 		static std::unique_ptr<IType> Get() {
-			return std::unique_ptr<IType>(new SetType<spring::unordered_set<T> >());
+			return std::unique_ptr<IType>(new SetType<ArcLight::unordered_set<T> >());
 		}
 	};
 	// Unsynced Hash set
 	template<typename T>
-	struct DeduceType<spring::unsynced_set<T> > {
+	struct DeduceType<ArcLight::unsynced_set<T> > {
 		static std::unique_ptr<IType> Get() {
-			return std::unique_ptr<IType>(new SetType<spring::unsynced_set<T> >());
+			return std::unique_ptr<IType>(new SetType<ArcLight::unsynced_set<T> >());
 		}
 	};
 }

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "CFontTexture.h"
 #include "FontLogSection.h"
@@ -86,10 +86,10 @@ struct FontFace {
 	std::shared_ptr<SP_Byte> memory;
 };
 
-static spring::unsynced_set<CFontTexture*> allFonts;
-static spring::unsynced_map<std::string, std::weak_ptr<FontFace>> fontFaceCache;
-static spring::unsynced_map<std::string, std::weak_ptr<SP_Byte>> fontMemCache;
-static spring::recursive_mutex fontCacheMutex;
+static ArcLight::unsynced_set<CFontTexture*> allFonts;
+static ArcLight::unsynced_map<std::string, std::weak_ptr<FontFace>> fontFaceCache;
+static ArcLight::unsynced_map<std::string, std::weak_ptr<SP_Byte>> fontMemCache;
+static ArcLight::recursive_mutex fontCacheMutex;
 
 
 
@@ -203,7 +203,7 @@ static inline uint32_t GetKerningHash(char32_t lchar, char32_t rchar)
 
 static std::shared_ptr<FontFace> GetFontFace(const std::string& fontfile, const int size)
 {
-	std::lock_guard<spring::recursive_mutex> lk(fontCacheMutex);
+	std::lock_guard<ArcLight::recursive_mutex> lk(fontCacheMutex);
 
 	//TODO add support to load fonts by name (needs fontconfig)
 
@@ -390,7 +390,7 @@ CFontTexture::~CFontTexture()
 
 void CFontTexture::Update() {
 	// called from Game::UpdateUnsynced
-	std::lock_guard<spring::recursive_mutex> lk(fontCacheMutex);
+	std::lock_guard<ArcLight::recursive_mutex> lk(fontCacheMutex);
 	for (auto& font: allFonts) {
 		font->UpdateGlyphAtlasTexture();
 	}
@@ -477,12 +477,12 @@ float CFontTexture::GetKerning(const GlyphInfo& lgl, const GlyphInfo& rgl)
 
 void CFontTexture::LoadBlock(char32_t start, char32_t end)
 {
-	std::lock_guard<spring::recursive_mutex> lk(fontCacheMutex);
+	std::lock_guard<ArcLight::recursive_mutex> lk(fontCacheMutex);
 
 	// load glyphs from different fonts (using fontconfig)
 	std::shared_ptr<FontFace> f = shFace;
 
-	spring::unsynced_set<std::shared_ptr<FontFace>> alreadyCheckedFonts;
+	ArcLight::unsynced_set<std::shared_ptr<FontFace>> alreadyCheckedFonts;
 
 	// generate list of wanted glyphs
 	std::vector<char32_t> map(end - start, 0);
@@ -799,7 +799,7 @@ void CFontTexture::Load()
 void CFontTexture::UpdateGlyphAtlasTexture()
 {
 #ifndef HEADLESS
-	std::lock_guard<spring::recursive_mutex> lk(fontCacheMutex);
+	std::lock_guard<ArcLight::recursive_mutex> lk(fontCacheMutex);
 
 	if (curTextureUpdate == lastTextureUpdate)
 		return;

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _LOAD_SCREEN_H
 #define _LOAD_SCREEN_H
@@ -52,13 +52,13 @@ private:
 	std::string mapFileName;
 	std::string modFileName;
 
-	spring::recursive_mutex mutex;
-	spring::thread netHeartbeatThread;
+	ArcLight::recursive_mutex mutex;
+	ArcLight::thread netHeartbeatThread;
 	COffscreenGLThread gameLoadThread;
 
 	bool mtLoading;
 
-	spring_time lastDrawTime;
+	ArcLight_time lastDrawTime;
 };
 
 

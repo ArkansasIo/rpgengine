@@ -1,8 +1,8 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <SDL_keycode.h>
 
-#include "SpringController.h"
+#include "ArcLightController.h"
 #include "Game/Camera.h"
 #include "Game/CameraHandler.h"
 #include "Map/Ground.h"
@@ -15,29 +15,29 @@
 #include "System/Input/KeyInput.h"
 
 
-CONFIG(bool,  CamSpringEnabled).defaultValue(true).headlessValue(false);
-CONFIG(int,   CamSpringScrollSpeed).defaultValue(10);
-CONFIG(float, CamSpringFOV).defaultValue(45.0f);
-CONFIG(bool,  CamSpringLockCardinalDirections).defaultValue(true).description("Whether cardinal directions should be `locked` for a short time when rotating.");
-CONFIG(bool,  CamSpringZoomInToMousePos).defaultValue(true);
-CONFIG(bool,  CamSpringZoomOutFromMousePos).defaultValue(false);
-CONFIG(bool,  CamSpringEdgeRotate).defaultValue(false).description("Rotate camera when cursor touches screen borders.");
+CONFIG(bool,  CamArcLightEnabled).defaultValue(true).headlessValue(false);
+CONFIG(int,   CamArcLightScrollSpeed).defaultValue(10);
+CONFIG(float, CamArcLightFOV).defaultValue(45.0f);
+CONFIG(bool,  CamArcLightLockCardinalDirections).defaultValue(true).description("Whether cardinal directions should be `locked` for a short time when rotating.");
+CONFIG(bool,  CamArcLightZoomInToMousePos).defaultValue(true);
+CONFIG(bool,  CamArcLightZoomOutFromMousePos).defaultValue(false);
+CONFIG(bool,  CamArcLightEdgeRotate).defaultValue(false).description("Rotate camera when cursor touches screen borders.");
 
 
-CSpringController::CSpringController()
+CArcLightController::CArcLightController()
 	: rot(2.677f, 0.0f, 0.0f)
 	, curDist(float3(mapDims.mapx * 0.5f, 0.0f, mapDims.mapy * 0.55f).Length2D() * 1.5f * SQUARE_SIZE)
 	, maxDist(std::max(mapDims.mapx, mapDims.mapy) * SQUARE_SIZE * 1.333f)
 	, oldDist(0.0f)
 	, zoomBack(false)
-	, cursorZoomIn(configHandler->GetBool("CamSpringZoomInToMousePos"))
-	, cursorZoomOut(configHandler->GetBool("CamSpringZoomOutFromMousePos"))
+	, cursorZoomIn(configHandler->GetBool("CamArcLightZoomInToMousePos"))
+	, cursorZoomOut(configHandler->GetBool("CamArcLightZoomOutFromMousePos"))
 {
-	enabled = configHandler->GetBool("CamSpringEnabled");
+	enabled = configHandler->GetBool("CamArcLightEnabled");
 }
 
 
-void CSpringController::KeyMove(float3 move)
+void CArcLightController::KeyMove(float3 move)
 {
 	move *= math::sqrt(move.z);
 
@@ -55,7 +55,7 @@ void CSpringController::KeyMove(float3 move)
 }
 
 
-void CSpringController::MouseMove(float3 move)
+void CArcLightController::MouseMove(float3 move)
 {
 	move *= 0.005f;
 	move *= (1 + KeyInput::GetKeyModState(KMOD_SHIFT) * 3);
@@ -66,9 +66,9 @@ void CSpringController::MouseMove(float3 move)
 }
 
 
-void CSpringController::ScreenEdgeMove(float3 move)
+void CArcLightController::ScreenEdgeMove(float3 move)
 {
-	const bool doRotate = configHandler->GetBool("CamSpringEdgeRotate");
+	const bool doRotate = configHandler->GetBool("CamArcLightEdgeRotate");
 	const bool belowMax = (mouse->lasty < globalRendering->viewSizeY /  3);
 	const bool aboveMin = (mouse->lasty > globalRendering->viewSizeY / 10);
 
@@ -83,7 +83,7 @@ void CSpringController::ScreenEdgeMove(float3 move)
 }
 
 
-void CSpringController::MouseWheelMove(float move)
+void CArcLightController::MouseWheelMove(float move)
 {
 	const float shiftSpeed = (KeyInput::GetKeyModState(KMOD_SHIFT) ? 2.0f : 1.0f);
 	const float scaledMove = 1.0f + (move * shiftSpeed * 0.007f);
@@ -118,7 +118,7 @@ void CSpringController::MouseWheelMove(float move)
 }
 
 
-float CSpringController::ZoomIn(const float3& curCamPos, const float2& zoomParams)
+float CArcLightController::ZoomIn(const float3& curCamPos, const float2& zoomParams)
 {
 	if (KeyInput::GetKeyModState(KMOD_ALT) && zoomBack) {
 		// instazoom in to standard view
@@ -155,7 +155,7 @@ float CSpringController::ZoomIn(const float3& curCamPos, const float2& zoomParam
 	return 0.25f;
 }
 
-float CSpringController::ZoomOut(const float3& curCamPos, const float2& zoomParams)
+float CArcLightController::ZoomOut(const float3& curCamPos, const float2& zoomParams)
 {
 	if (KeyInput::GetKeyModState(KMOD_ALT)) {
 		// instazoom out to maximum height
@@ -195,7 +195,7 @@ float CSpringController::ZoomOut(const float3& curCamPos, const float2& zoomPara
 
 
 
-void CSpringController::Update()
+void CArcLightController::Update()
 {
 	pos.ClampInMap();
 
@@ -208,8 +208,8 @@ void CSpringController::Update()
 	curDist = Clamp(curDist, 20.0f, maxDist);
 	pixelSize = (camera->GetTanHalfFov() * 2.0f) / globalRendering->viewSizeY * curDist * 2.0f;
 
-	scrollSpeed = configHandler->GetInt("CamSpringScrollSpeed") * 0.1f;
-	fov = configHandler->GetFloat("CamSpringFOV");
+	scrollSpeed = configHandler->GetInt("CamArcLightScrollSpeed") * 0.1f;
+	fov = configHandler->GetFloat("CamArcLightFOV");
 }
 
 
@@ -229,14 +229,14 @@ static float GetRotationWithCardinalLock(float rot)
 }
 
 
-float CSpringController::MoveAzimuth(float move)
+float CArcLightController::MoveAzimuth(float move)
 {
 	const float minRot = std::floor(rot.y / math::HALFPI) * math::HALFPI;
 	const float maxRot = std::ceil(rot.y / math::HALFPI) * math::HALFPI;
 
 	rot.y -= move;
 
-	if (configHandler->GetBool("CamSpringLockCardinalDirections"))
+	if (configHandler->GetBool("CamArcLightLockCardinalDirections"))
 		return GetRotationWithCardinalLock(rot.y);
 	if (KeyInput::GetKeyModState(KMOD_CTRL))
 		rot.y = Clamp(rot.y, minRot + 0.02f, maxRot - 0.02f);
@@ -245,15 +245,15 @@ float CSpringController::MoveAzimuth(float move)
 }
 
 
-float CSpringController::GetAzimuth() const
+float CArcLightController::GetAzimuth() const
 {
-	if (configHandler->GetBool("CamSpringLockCardinalDirections"))
+	if (configHandler->GetBool("CamArcLightLockCardinalDirections"))
 		return GetRotationWithCardinalLock(rot.y);
 	return rot.y;
 }
 
 
-float3 CSpringController::GetPos() const
+float3 CArcLightController::GetPos() const
 {
 	const float3 cvec = dir * curDist;
 	const float3 cpos = pos - cvec;
@@ -261,10 +261,10 @@ float3 CSpringController::GetPos() const
 }
 
 
-void CSpringController::SwitchTo(const int oldCam, const bool showText)
+void CArcLightController::SwitchTo(const int oldCam, const bool showText)
 {
 	if (showText)
-		LOG("Switching to Spring style camera");
+		LOG("Switching to ArcLight style camera");
 
 	if (oldCam == CCameraHandler::CAMERA_MODE_OVERVIEW)
 		return;
@@ -273,7 +273,7 @@ void CSpringController::SwitchTo(const int oldCam, const bool showText)
 }
 
 
-void CSpringController::GetState(StateMap& sm) const
+void CArcLightController::GetState(StateMap& sm) const
 {
 	CCameraController::GetState(sm);
 	sm["dist"] = curDist;
@@ -283,7 +283,7 @@ void CSpringController::GetState(StateMap& sm) const
 }
 
 
-bool CSpringController::SetState(const StateMap& sm)
+bool CArcLightController::SetState(const StateMap& sm)
 {
 	CCameraController::SetState(sm);
 	SetStateFloat(sm, "dist", curDist);

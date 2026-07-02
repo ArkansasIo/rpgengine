@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef INTERCEPT_HANDLER_H
 #define INTERCEPT_HANDLER_H
@@ -12,7 +12,7 @@ class CWeaponProjectile;
 class CProjectile;
 class float3;
 
-class CInterceptHandler : public CObject, spring::noncopyable
+class CInterceptHandler : public CObject, ArcLight::noncopyable
 {
 	CR_DECLARE_DERIVED(CInterceptHandler)
 

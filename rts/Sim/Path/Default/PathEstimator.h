@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef PATHESTIMATOR_H
 #define PATHESTIMATOR_H
@@ -110,7 +110,7 @@ private:
 	void InitEstimator(const std::string& peFileName, const std::string& mapFileName);
 	void InitBlocks();
 
-	void CalcOffsetsAndPathCosts(unsigned int threadNum, spring::barrier* pathBarrier);
+	void CalcOffsetsAndPathCosts(unsigned int threadNum, ArcLight::barrier* pathBarrier);
 	void CalculateBlockOffsets(unsigned int, unsigned int);
 	void EstimatePathCosts(unsigned int, unsigned int);
 
@@ -146,7 +146,7 @@ private:
 	CPathCache* pathCache[2]; // [0] = !synced, [1] = synced
 
 	std::vector<IPathFinder*> pathFinders; // InitEstimator helpers
-	std::vector<spring::thread> threads;
+	std::vector<ArcLight::thread> threads;
 
 	std::vector<float> maxSpeedMods;
 	std::vector<float> vertexCosts;

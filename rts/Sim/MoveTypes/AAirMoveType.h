@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef A_AIR_MOVE_TYPE_H_
 #define A_AIR_MOVE_TYPE_H_

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef SOUNDBUFFER_H
 #define SOUNDBUFFER_H
@@ -19,7 +19,7 @@
  * All buffers are generated on demand and released when a game ends,
  * and can be shared among multiple SoundItem instances.
  */
-class SoundBuffer : spring::noncopyable
+class SoundBuffer : ArcLight::noncopyable
 {
 public:
 	/// Construct an "empty" buffer
@@ -75,7 +75,7 @@ private:
 	ALuint channels = 0;
 	ALfloat length = 0.0f;
 
-	typedef spring::unsynced_map<std::string, size_t> bufferMapT;
+	typedef ArcLight::unsynced_map<std::string, size_t> bufferMapT;
 	typedef std::vector<SoundBuffer> bufferVecT;
 
 	static bufferMapT bufferMap; // filename, index into ::buffers

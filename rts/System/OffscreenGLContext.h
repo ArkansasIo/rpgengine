@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _OFFSCREENGLCONTEXT_H
 #define _OFFSCREENGLCONTEXT_H
@@ -34,7 +34,7 @@ public:
 private:
 	void WrapFunc(std::function<void()> f);
 
-	spring::thread thread;
+	ArcLight::thread thread;
 };
 
 

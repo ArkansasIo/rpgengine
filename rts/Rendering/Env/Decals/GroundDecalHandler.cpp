@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <algorithm>
 #include <cctype>
@@ -143,7 +143,7 @@ void CGroundDecalHandler::GenDecalBuffers()
 
 
 void CGroundDecalHandler::LoadScarTextures() {
-	LuaParser resourcesParser("gamedata/resources.lua", SPRING_VFS_MOD_BASE, SPRING_VFS_ZIP);
+	LuaParser resourcesParser("gamedata/resources.lua", ARCLIGHT_VFS_MOD_BASE, ARCLIGHT_VFS_ZIP);
 
 	if (!resourcesParser.Execute())
 		LOG_L(L_ERROR, "Failed to load resources: %s", resourcesParser.GetErrorLog().c_str());
@@ -158,7 +158,7 @@ void CGroundDecalHandler::LoadScarTextures() {
 	std::array<std::string, NUM_SCAR_DECALS * NUM_SCAR_DECALS> scarTexNames;
 
 	for (int i = 0, j = i + 1, n = NUM_SCAR_DECALS * NUM_SCAR_DECALS; i < n; i++, j++) {
-		if (CFileHandler::FileExists(scarTexNames[i] = "bitmaps/" + scarsTable.GetString(j, "scars/scar" + IntToString(j) + ".bmp"), SPRING_VFS_ZIP))
+		if (CFileHandler::FileExists(scarTexNames[i] = "bitmaps/" + scarsTable.GetString(j, "scars/scar" + IntToString(j) + ".bmp"), ARCLIGHT_VFS_ZIP))
 			continue;
 
 		scarTexNames[i].clear();
@@ -564,7 +564,7 @@ void CGroundDecalHandler::AddScars()
 
 		for (int y = y1; y <= y2; ++y) {
 			for (int x = x1; x <= x2; ++x) {
-				spring::VectorInsertUnique(scarField[y * scarFieldX + x], s.id);
+				ArcLight::VectorInsertUnique(scarField[y * scarFieldX + x], s.id);
 			}
 		}
 
@@ -791,7 +791,7 @@ int CGroundDecalHandler::GetScarID() const {
 	if (freeScarIDs.empty())
 		return -1;
 
-	return (spring::VectorBackPop(freeScarIDs));
+	return (ArcLight::VectorBackPop(freeScarIDs));
 }
 
 int CGroundDecalHandler::ScarOverlapSize(const Scar& s1, const Scar& s2)
@@ -858,13 +858,13 @@ void CGroundDecalHandler::RemoveScar(Scar& scar)
 
 	for (int y = y1;y <= y2; ++y) {
 		for (int x = x1; x <= x2; ++x) {
-			spring::VectorErase(scarField[y * scarFieldX + x], scar.id);
+			ArcLight::VectorErase(scarField[y * scarFieldX + x], scar.id);
 		}
 	}
 
 	// recycle the id
-	spring::VectorInsertUnique(freeScarIDs, scar.id);
-	spring::VectorErase(usedScarIDs, scar.id);
+	ArcLight::VectorInsertUnique(freeScarIDs, scar.id);
+	ArcLight::VectorErase(usedScarIDs, scar.id);
 
 	scar = Scar();
 }

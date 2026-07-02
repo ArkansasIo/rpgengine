@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _UDP_CONNECTION_H
 #define _UDP_CONNECTION_H
@@ -68,7 +68,7 @@ public:
 
 
 /*
- * How Spring protocol-header looks like (size in bytes):
+ * How ArcLight protocol-header looks like (size in bytes):
  * - 4 (int): number of the packet (continuous index)
  * - 4 (int): last in order (tell the client we received all packages with
  *   packetNumber less or equal)
@@ -156,15 +156,15 @@ private:
 	void UpdateResendRequests();
 
 private:
-	spring_time lastChunkCreatedTime;
-	spring_time lastPacketSendTime;
-	spring_time lastPacketRecvTime;
+	ArcLight_time lastChunkCreatedTime;
+	ArcLight_time lastPacketSendTime;
+	ArcLight_time lastPacketRecvTime;
 
-	spring_time lastUnackResentTime;
-	spring_time lastNakTime;
+	ArcLight_time lastUnackResentTime;
+	ArcLight_time lastNakTime;
 	#ifdef ENABLE_DEBUG_STATS
-	spring_time lastDebugMessageTime;
-	spring_time lastFramePacketRecvTime;
+	ArcLight_time lastDebugMessageTime;
+	ArcLight_time lastFramePacketRecvTime;
 	#endif
 
 
@@ -187,7 +187,7 @@ private:
 	std::deque< std::shared_ptr<const RawPacket> > outgoingData;
 	/// packets we have received but not yet read
 	std::vector< std::pair<int, RawPacket> > waitingPackets;
-	spring::unordered_set<int> incomingChunkNums;
+	ArcLight::unordered_set<int> incomingChunkNums;
 
 
 	/// Newly created and not yet sent
@@ -197,7 +197,7 @@ private:
 
 	/// Packets the other side missed
 	std::vector< std::pair<std::int32_t, ChunkPtr> > resendRequested;
-	spring::unordered_set<std::int32_t> erasedResendChunks;
+	ArcLight::unordered_set<std::int32_t> erasedResendChunks;
 
 	/// complete packets we received but did not yet consume
 	std::deque< std::shared_ptr<const RawPacket> > msgQueue;
@@ -212,7 +212,7 @@ private:
 
 #if	NETWORK_TEST
 	/// Delayed packets, for testing purposes
-	std::map< spring_time, std::vector<std::uint8_t> > delayed;
+	std::map< ArcLight_time, std::vector<std::uint8_t> > delayed;
 	int lossCounter;
 #endif
 

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "FileSystemInitializer.h"
 #include "DataDirLocater.h"
@@ -80,11 +80,11 @@ bool FileSystemInitializer::Initialize()
 		// even if we end up here, do not clean up configHandler yet
 		// since it can already have early observers registered that
 		// do not remove themselves until exit
-		ErrorMessageBox(ex.what(), "Spring: caught std::exception", MBF_OK | MBF_EXCL);
+		ErrorMessageBox(ex.what(), "ArcLight: caught std::exception", MBF_OK | MBF_EXCL);
 	} catch (...) {
 		initFailure = true;
 
-		ErrorMessageBox("", "Spring: caught generic exception", MBF_OK | MBF_EXCL);
+		ErrorMessageBox("", "ArcLight: caught generic exception", MBF_OK | MBF_EXCL);
 	}
 
 	// in case of an exception, ErrorMessageBox takes care of this
@@ -96,7 +96,7 @@ bool FileSystemInitializer::Initialize()
 void FileSystemInitializer::Cleanup(bool deallocConfigHandler)
 {
 	if (initSuccess) {
-		spring::SafeDelete(archiveScanner);
+		ArcLight::SafeDelete(archiveScanner);
 		CVFSHandler::FreeGlobalInstance();
 
 		initSuccess = false;

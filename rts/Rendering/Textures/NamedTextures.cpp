@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 // must be included before streflop! else we get streflop/cmath resolve conflicts in its hash implementation files
 #include <vector>
@@ -17,13 +17,13 @@
 
 namespace CNamedTextures {
 	// maps names to texInfoVec indices
-	static spring::unordered_map<std::string, size_t> texInfoMap;
+	static ArcLight::unordered_map<std::string, size_t> texInfoMap;
 
 	static std::vector<CNamedTextures::TexInfo> texInfoVec;
 	static std::vector<size_t> freeIndices;
 	static std::vector<std::string> waitingTextures;
 
-	static spring::recursive_mutex mutex;
+	static ArcLight::recursive_mutex mutex;
 
 	/******************************************************************************/
 
@@ -44,7 +44,7 @@ namespace CNamedTextures {
 	{
 		decltype(texInfoMap) tempMap;
 
-		const std::lock_guard<spring::recursive_mutex> lck(mutex);
+		const std::lock_guard<ArcLight::recursive_mutex> lck(mutex);
 
 		for (const auto& item: texInfoMap) {
 			const size_t texIdx = item.second;
@@ -99,7 +99,7 @@ namespace CNamedTextures {
 
 	static void GenInsertTex(const std::string& texName, const TexInfo& texInfo, bool genTex, bool bindTex, bool loadTex, bool persistTex)
 	{
-		const std::lock_guard<spring::recursive_mutex> lck(mutex);
+		const std::lock_guard<ArcLight::recursive_mutex> lck(mutex);
 
 		if (!genTex) {
 			InsertTex(texName, texInfo, loadTex);
@@ -111,7 +111,7 @@ namespace CNamedTextures {
 
 	static bool EraseTex(const std::string& texName)
 	{
-		const std::lock_guard<spring::recursive_mutex> lck(mutex);
+		const std::lock_guard<ArcLight::recursive_mutex> lck(mutex);
 
 		const auto it = texInfoMap.find(texName);
 
@@ -298,7 +298,7 @@ namespace CNamedTextures {
 		if (waitingTextures.empty())
 			return;
 
-		const std::lock_guard<spring::recursive_mutex> lck(mutex);
+		const std::lock_guard<ArcLight::recursive_mutex> lck(mutex);
 
 		glAttribStatePtr->PushTextureBit();
 

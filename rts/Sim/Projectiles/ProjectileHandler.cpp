@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <algorithm>
 
@@ -401,7 +401,7 @@ void CProjectileHandler::AddProjectile(CProjectile* p)
 
 		#if 0
 		// popping from the back means ID's are reused more often
-		projMap[p->id = spring::VectorBackPop(freeIDs)] = p;
+		projMap[p->id = ArcLight::VectorBackPop(freeIDs)] = p;
 		#else
 		{
 			// randomly shuffled, randomly indexed

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef STRING_CONVERTIBLE_OPTIONAL_VALUE_H
 #define STRING_CONVERTIBLE_OPTIONAL_VALUE_H
@@ -10,7 +10,7 @@
 /**
  * @brief Untyped base class for TypedStringConvertibleOptionalValue.
  */
-class StringConvertibleOptionalValue : public spring::noncopyable
+class StringConvertibleOptionalValue : public ArcLight::noncopyable
 {
 public:
 	StringConvertibleOptionalValue() : isSet(false) {}

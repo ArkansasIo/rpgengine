@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef ONCE_H
 #define ONCE_H
@@ -18,7 +18,7 @@
 #include <cstring>
 #include <cstddef>
 
-namespace spring
+namespace ArcLight
 {
 	struct once_flag;
 	namespace once
@@ -39,11 +39,11 @@ namespace spring
 			long count;
 	};
 
-#define SPRING_ONCE_INIT once_flag()
+#define ARCLIGHT_ONCE_INIT once_flag()
 
 
-#define SPRING_THREAD_INVOKE_RET_VOID std::bind
-#define SPRING_THREAD_INVOKE_RET_VOID_CALL ()
+#define ARCLIGHT_THREAD_INVOKE_RET_VOID std::bind
+#define ARCLIGHT_THREAD_INVOKE_RET_VOID_CALL ()
 
 	namespace once
 	{

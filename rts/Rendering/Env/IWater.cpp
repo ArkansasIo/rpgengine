@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "IWater.h"
 #include "ISky.h"
@@ -103,7 +103,7 @@ IWater* IWater::GetWater(IWater* curRenderer, int nxtRendererMode)
 				try {
 					nxtRenderer = new CDynWater();
 				} catch (const content_error& ex) {
-					spring::SafeDelete(nxtRenderer);
+					ArcLight::SafeDelete(nxtRenderer);
 					LOG_L(L_ERROR, "[%s] loading Dynamic Water failed, error: %s", __func__, ex.what());
 				}
 			} break;
@@ -112,7 +112,7 @@ IWater* IWater::GetWater(IWater* curRenderer, int nxtRendererMode)
 				try {
 					nxtRenderer = new CBumpWater();
 				} catch (const content_error& ex) {
-					spring::SafeDelete(nxtRenderer);
+					ArcLight::SafeDelete(nxtRenderer);
 					LOG_L(L_ERROR, "[%s] loading Bumpmapped Water failed, error: %s", __func__, ex.what());
 				}
 			} break;
@@ -121,7 +121,7 @@ IWater* IWater::GetWater(IWater* curRenderer, int nxtRendererMode)
 				try {
 					nxtRenderer = new CAdvWater(true);
 				} catch (const content_error& ex) {
-					spring::SafeDelete(nxtRenderer);
+					ArcLight::SafeDelete(nxtRenderer);
 					LOG_L(L_ERROR, "[%s] loading Refractive Water failed, error: %s", __func__, ex.what());
 				}
 			} break;
@@ -130,7 +130,7 @@ IWater* IWater::GetWater(IWater* curRenderer, int nxtRendererMode)
 				try {
 					nxtRenderer = new CAdvWater(false);
 				} catch (const content_error& ex) {
-					spring::SafeDelete(nxtRenderer);
+					ArcLight::SafeDelete(nxtRenderer);
 					LOG_L(L_ERROR, "[%s] loading Reflective Water failed, error: %s", __func__, ex.what());
 				}
 			} break;

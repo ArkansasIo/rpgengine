@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <string>
 
@@ -62,14 +62,14 @@ void ParseCmdLine(int argc, char* argv[], std::string& scriptName)
 	#define LOG_SECTION_CURRENT LOG_SECTION_DEFAULT
 
 #ifndef _WIN32
-	if (!FLAGS_nocolor && (getenv("SPRING_NOCOLOR") == nullptr)) {
+	if (!FLAGS_nocolor && (getenv("ARCLIGHT_NOCOLOR") == nullptr)) {
 		// don't colorize, if our output is piped to a diff tool or file
 		if (isatty(fileno(stdout)))
 			log_console_colorizedOutput(true);
 	}
 #endif
 	if (FLAGS_sync_version) {
-		LOG("%s", (SpringVersion::GetSync()).c_str());
+		LOG("%s", (ArcLightVersion::GetSync()).c_str());
 		exit(0);
 	}
 
@@ -112,10 +112,10 @@ int main(int argc, char* argv[])
 {
 	Threading::SetMainThread();
 	try {
-		spring_clock::PushTickRate();
+		ArcLight_clock::PushTickRate();
 		// initialize start time (can safely be done before SDL_Init
 		// since we are not using SDL_GetTicks as our clock anymore)
-		spring_time::setstarttime(spring_time::gettime(true));
+		ArcLight_time::setstarttime(ArcLight_time::gettime(true));
 
 		CLogOutput::LogSystemInfo();
 
@@ -124,7 +124,7 @@ int main(int argc, char* argv[])
 		std::string binaryName = argv[0];
 
 		gflags::SetUsageMessage("Usage: " + binaryName + " [options] path_to_script.txt");
-		gflags::SetVersionString(SpringVersion::GetFull());
+		gflags::SetVersionString(ArcLightVersion::GetFull());
 		gflags::ParseCommandLineFlags(&argc, &argv, true);
 		ParseCmdLine(argc, argv, scriptName);
 
@@ -163,7 +163,7 @@ int main(int argc, char* argv[])
 		CGlobalUnsyncedRNG rng;
 
 		const uint32_t sleepTime = FLAGS_sleeptime;
-		const uint32_t randSeed = time(nullptr) % ((spring_gettime().toNanoSecsi() + 1) * 9007);
+		const uint32_t randSeed = time(nullptr) % ((ArcLight_gettime().toNanoSecsi() + 1) * 9007);
 
 		rng.Seed(randSeed);
 		dsGameData->SetRandomSeed(rng.NextInt());
@@ -220,7 +220,7 @@ int main(int argc, char* argv[])
 				if (server.HasFinished())
 					break;
 
-				spring_sleep(spring_secs(sleepTime));
+				ArcLight_sleep(ArcLight_secs(sleepTime));
 			}
 
 			while (!server.HasFinished()) {
@@ -238,7 +238,7 @@ int main(int argc, char* argv[])
 					LOG("GameID: %02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x", gameID[0], gameID[1], gameID[2], gameID[3], gameID[4], gameID[5], gameID[6], gameID[7], gameID[8], gameID[9], gameID[10], gameID[11], gameID[12], gameID[13], gameID[14], gameID[15]);
 				}
 
-				spring_secs(sleepTime).sleep(true);
+				ArcLight_secs(sleepTime).sleep(true);
 			}
 		}
 
@@ -246,10 +246,10 @@ int main(int argc, char* argv[])
 		FileSystemInitializer::Cleanup();
 		DataDirLocater::FreeInstance();
 
-		spring_clock::PopTickRate();
+		ArcLight_clock::PopTickRate();
 		LOG("exited");
 	}
-	CATCH_SPRING_ERRORS
+	CATCH_ArcLight_ERRORS
 
 	return 0;
 }

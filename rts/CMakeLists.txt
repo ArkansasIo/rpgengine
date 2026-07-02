@@ -119,6 +119,9 @@ add_subdirectory(Particle)
 add_subdirectory(Physics)
 add_subdirectory(AI/BehaviorTree)
 add_subdirectory(World)
+add_subdirectory(Game/Systems)
+add_subdirectory(Game/Menus)
+add_subdirectory(Game/Settings)
 
 #add_subdirectory(System) # this is already added in ../
 

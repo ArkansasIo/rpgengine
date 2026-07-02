@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 
 #include "ZipArchive.h"
@@ -19,7 +19,7 @@ IArchive* CZipArchiveFactory::DoCreateArchive(const std::string& filePath) const
 
 CZipArchive::CZipArchive(const std::string& archiveName): CBufferedArchive(archiveName)
 {
-	std::lock_guard<spring::mutex> lck(archiveLock);
+	std::lock_guard<ArcLight::mutex> lck(archiveLock);
 
 	if ((zip = unzOpen(archiveName.c_str())) == nullptr) {
 		LOG_L(L_ERROR, "[%s] error opening \"%s\"", __func__, archiveName.c_str());
@@ -63,7 +63,7 @@ CZipArchive::CZipArchive(const std::string& archiveName): CBufferedArchive(archi
 
 CZipArchive::~CZipArchive()
 {
-	std::lock_guard<spring::mutex> lck(archiveLock);
+	std::lock_guard<ArcLight::mutex> lck(archiveLock);
 
 	if (zip != nullptr) {
 		unzClose(zip);

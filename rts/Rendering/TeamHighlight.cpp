@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "TeamHighlight.h"
 
@@ -19,7 +19,7 @@
 
 bool CTeamHighlight::highlight = false;
 
-static spring::unsynced_map<int, int> oldColors;
+static ArcLight::unsynced_map<int, int> oldColors;
 
 void CTeamHighlight::Enable(unsigned currentTime)
 {

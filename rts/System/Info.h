@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 // The structs in this file relate to *Info.lua files.
 // They are used for AIs (-> AIInfo.lua) for example.
@@ -80,14 +80,14 @@ const char* info_convertTypeToString(InfoValueType infoValueType);
 void info_parseInfo(
 		std::vector<InfoItem>& options,
 		const std::string& fileName,
-		const std::string& fileModes = SPRING_VFS_RAW,
-		const std::string& accessModes = SPRING_VFS_RAW,
+		const std::string& fileModes = ARCLIGHT_VFS_RAW,
+		const std::string& accessModes = ARCLIGHT_VFS_RAW,
 		std::set<std::string>* infoSet = NULL);
 
 std::vector<InfoItem> info_parseInfo(
 		const std::string& fileName,
-		const std::string& fileModes = SPRING_VFS_RAW,
-		const std::string& accessModes = SPRING_VFS_RAW,
+		const std::string& fileModes = ARCLIGHT_VFS_RAW,
+		const std::string& accessModes = ARCLIGHT_VFS_RAW,
 		std::set<std::string>* infoSet = NULL);
 
 #endif // _INFO_H

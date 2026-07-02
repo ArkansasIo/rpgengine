@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _CAMERA_HANDLER_H
 #define _CAMERA_HANDLER_H
@@ -22,7 +22,7 @@ public:
 	enum {
 		CAMERA_MODE_FIRSTPERSON = 0,
 		CAMERA_MODE_OVERHEAD    = 1,
-		CAMERA_MODE_SPRING      = 2,
+		CAMERA_MODE_ArcLight      = 2,
 		CAMERA_MODE_ROTOVERHEAD = 3,
 		CAMERA_MODE_FREE        = 4,
 		CAMERA_MODE_OVERVIEW    = 5,
@@ -128,8 +128,8 @@ private:
 	std::array<CCameraController*, CAMERA_MODE_LAST> camControllers;
 	std::vector<unsigned int> controllerStack;
 
-	spring::unordered_map<std::string, ViewData> viewDataMap;
-	spring::unordered_map<std::string, unsigned int> nameModeMap;
+	ArcLight::unordered_map<std::string, ViewData> viewDataMap;
+	ArcLight::unordered_map<std::string, unsigned int> nameModeMap;
 };
 
 extern CCameraHandler* camHandler;

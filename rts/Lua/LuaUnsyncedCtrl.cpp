@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "LuaUnsyncedCtrl.h"
 
@@ -492,7 +492,7 @@ int LuaUnsyncedCtrl::SendMessageToAllyTeam(lua_State* L)
 
 int LuaUnsyncedCtrl::LoadSoundDef(lua_State* L)
 {
-	LuaParser soundDefsParser(luaL_checksstring(L, 1), SPRING_VFS_ZIP_FIRST, SPRING_VFS_ZIP_FIRST);
+	LuaParser soundDefsParser(luaL_checksstring(L, 1), ARCLIGHT_VFS_ZIP_FIRST, ARCLIGHT_VFS_ZIP_FIRST);
 
 	const bool retval = sound->LoadSoundDefs(&soundDefsParser);
 	const bool synced = CLuaHandle::GetHandleSynced(L);
@@ -1805,8 +1805,8 @@ int LuaUnsyncedCtrl::ExtractModArchiveFile(lua_State* L)
 {
 	const string path = luaL_checkstring(L, 1);
 
-	CFileHandler vfsFile(path, SPRING_VFS_ZIP);
-	CFileHandler rawFile(path, SPRING_VFS_RAW);
+	CFileHandler vfsFile(path, ARCLIGHT_VFS_ZIP);
+	CFileHandler rawFile(path, ARCLIGHT_VFS_RAW);
 
 	if (!vfsFile.FileExists()) {
 		luaL_error(L, "file \"%s\" not found in mod archive", path.c_str());
@@ -2143,7 +2143,7 @@ int LuaUnsyncedCtrl::CreateDir(lua_State* L)
 {
 	const std::string& dir = luaL_checkstring(L, 1);
 
-	// keep directories within the Spring directory
+	// keep directories within the ArcLight directory
 	if (dir[0] == '/' || dir[0] == '\\' || dir[0] == '~')
 		luaL_error(L, "[%s][1] invalid access: %s", __func__, dir.c_str());
 	if (dir[0] == ' ' || dir[0] == '\t')
@@ -2162,8 +2162,8 @@ int LuaUnsyncedCtrl::CreateDir(lua_State* L)
 
 /******************************************************************************/
 
-static int ReloadOrRestart(const std::string& springArgs, const std::string& scriptText, bool newProcess) {
-	const std::string springFullName = Platform::GetProcessExecutableFile();
+static int ReloadOrRestart(const std::string& ArcLightArgs, const std::string& scriptText, bool newProcess) {
+	const std::string ArcLightFullName = Platform::GetProcessExecutableFile();
 	const std::string scriptFullName = dataDirLocater.GetWriteDirPath() + "script.txt";
 
 	if (!newProcess) {
@@ -2171,19 +2171,19 @@ static int ReloadOrRestart(const std::string& springArgs, const std::string& scr
 		gameSetup->reloadScript = scriptText;
 		gu->globalReload = true;
 
-		LOG("[%s] Spring \"%s\" should be reloading", __func__, springFullName.c_str());
+		LOG("[%s] ArcLight \"%s\" should be reloading", __func__, ArcLightFullName.c_str());
 		return 0;
 	}
 
 	std::array<std::string, 32> processArgs;
 
-	processArgs[0] = springFullName;
+	processArgs[0] = ArcLightFullName;
 	processArgs[1] = " ";
 
 	#if 0
-	// arguments to Spring binary given by Lua code, if any
-	if (!springArgs.empty())
-		processArgs[1] = springArgs;
+	// arguments to ArcLight binary given by Lua code, if any
+	if (!ArcLightArgs.empty())
+		processArgs[1] = ArcLightArgs;
 	#endif
 
 	if (!scriptText.empty()) {
@@ -2201,9 +2201,9 @@ static int ReloadOrRestart(const std::string& springArgs, const std::string& scr
 	ISound::Shutdown(false);
 	#endif
 	// close local socket to avoid "bind: Address already in use"
-	spring::SafeDelete(gameServer);
+	ArcLight::SafeDelete(gameServer);
 
-	LOG("[%s] Spring \"%s\" should be restarting", __func__, springFullName.c_str());
+	LOG("[%s] ArcLight \"%s\" should be restarting", __func__, ArcLightFullName.c_str());
 	Platform::ExecuteProcess(processArgs, newProcess);
 
 	// only reached on execvp failure
@@ -2279,7 +2279,7 @@ int LuaUnsyncedCtrl::SetUnitDefIcon(lua_State* L)
 		unitDrawer->UpdateUnitDefMiniMapIcons(ud->decoyDef);
 	}
 
-	// spring::unordered_map<int, std::vector<int> >
+	// ArcLight::unordered_map<int, std::vector<int> >
 	const auto& decoyMap = unitDefHandler->GetDecoyDefIDs();
 	const auto decoyMapIt = decoyMap.find((ud->decoyDef != nullptr)? ud->decoyDef->id: ud->id);
 
@@ -2982,7 +2982,7 @@ int LuaUnsyncedCtrl::SetLogSectionFilterLevel(lua_State* L) {
 	const int loglevel = LuaUtils::ParseLogLevel(L, 2);
 
 	if (loglevel < 0)
-		return luaL_error(L, "Incorrect arguments to Spring.SetLogSectionFilterLevel(logsection, loglevel)");
+		return luaL_error(L, "Incorrect arguments to ArcLight.SetLogSectionFilterLevel(logsection, loglevel)");
 
 	log_frontend_register_runtime_section(loglevel, luaL_checkstring(L, 1));
 	return 0;

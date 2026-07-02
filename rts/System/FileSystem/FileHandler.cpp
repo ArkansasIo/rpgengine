@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 
 #include "FileHandler.h"
@@ -113,11 +113,11 @@ void CFileHandler::Open(const string& fileName, const string& modes)
 		if ((section != CVFSHandler::Section::Error) && TryReadFromVFS(fileName, section))
 			break;
 
-		if ((c == SPRING_VFS_RAW[0]) && TryReadFromRawFS(fileName))
+		if ((c == ARCLIGHT_VFS_RAW[0]) && TryReadFromRawFS(fileName))
 			break;
 
 #endif
-		if ((c == SPRING_VFS_PWD[0]) && TryReadFromPWD(fileName))
+		if ((c == ARCLIGHT_VFS_PWD[0]) && TryReadFromPWD(fileName))
 			break;
 	}
 }
@@ -144,10 +144,10 @@ bool CFileHandler::FileExists(const std::string& filePath, const std::string& mo
 		if ((section != CVFSHandler::Section::Error) && vfsHandler->FileExists(filePath, section) == 1)
 			return true;
 
-		if ((c == SPRING_VFS_RAW[0]) && FileSystem::FileExists(dataDirsAccess.LocateFile(filePath)))
+		if ((c == ARCLIGHT_VFS_RAW[0]) && FileSystem::FileExists(dataDirsAccess.LocateFile(filePath)))
 			return true;
 #endif
-		if (c == SPRING_VFS_PWD[0]) {
+		if (c == ARCLIGHT_VFS_PWD[0]) {
 #ifndef TOOLS
 			if (!FileSystem::IsAbsolutePath(filePath)) {
 				const std::string fullpath(Platform::GetOrigCWD() + filePath);
@@ -277,10 +277,10 @@ std::string CFileHandler::GetFileAbsolutePath(const std::string& filePath, const
 		if ((section != CVFSHandler::Section::Error) && vfsHandler->FileExists(filePath, section) == 1)
 			return vfsHandler->GetFileAbsolutePath(filePath, section);
 
-		if ((c == SPRING_VFS_RAW[0]) && FileSystem::FileExists(dataDirsAccess.LocateFile(filePath)))
+		if ((c == ARCLIGHT_VFS_RAW[0]) && FileSystem::FileExists(dataDirsAccess.LocateFile(filePath)))
 			return dataDirsAccess.LocateFile(filePath);
 #endif
-		if (c == SPRING_VFS_PWD[0]) {
+		if (c == ARCLIGHT_VFS_PWD[0]) {
 #ifndef TOOLS
 			if (!FileSystem::IsAbsolutePath(filePath)) {
 				const std::string fullpath(Platform::GetOrigCWD() + filePath);
@@ -316,7 +316,7 @@ std::string CFileHandler::GetArchiveContainingFile(const std::string& filePath, 
 std::vector<string> CFileHandler::FindFiles(const string& path, const string& pattern)
 {
 #ifndef TOOLS
-	return DirList(path, pattern, SPRING_VFS_ALL);
+	return DirList(path, pattern, ARCLIGHT_VFS_ALL);
 #else
 	return {};
 #endif
@@ -341,7 +341,7 @@ std::vector<string> CFileHandler::DirList(
 		if (section != CVFSHandler::Section::Error)
 			InsertVFSFiles(fileSet, path, pat, section);
 
-		if (c == SPRING_VFS_RAW[0])
+		if (c == ARCLIGHT_VFS_RAW[0])
 			InsertRawFiles(fileSet, path, pat);
 	}
 
@@ -386,13 +386,13 @@ bool CFileHandler::InsertVFSFiles(
 	if (path.find_last_of("\\/") != (path.size() - 1))
 		prefix += '/';
 
-	const spring::regex regexpattern{FileSystem::ConvertGlobToRegex(pattern), spring::regex::icase};
+	const ArcLight::regex regexpattern{FileSystem::ConvertGlobToRegex(pattern), ArcLight::regex::icase};
 	const std::vector<string>& found = vfsHandler->GetFilesInDir(path, (CVFSHandler::Section) section);
 
 	fileSet.reserve(fileSet.size() + found.size());
 
 	for (const std::string& f: found) {
-		if (!spring::regex_match(f, regexpattern))
+		if (!ArcLight::regex_match(f, regexpattern))
 			continue;
 
 		fileSet.emplace_back(std::move(prefix + f));
@@ -420,7 +420,7 @@ std::vector<string> CFileHandler::SubDirs(
 		if (section != CVFSHandler::Section::Error)
 			InsertVFSDirs(dirSet, path, pat, section);
 
-		if (c == SPRING_VFS_RAW[0])
+		if (c == ARCLIGHT_VFS_RAW[0])
 			InsertRawDirs(dirSet, path, pat);
 	}
 
@@ -438,14 +438,14 @@ bool CFileHandler::InsertRawDirs(
 	const string& pattern
 ) {
 #ifndef TOOLS
-	const spring::regex regexpattern{FileSystem::ConvertGlobToRegex(pattern), spring::regex::icase};
+	const ArcLight::regex regexpattern{FileSystem::ConvertGlobToRegex(pattern), ArcLight::regex::icase};
 
 	std::vector<string> found = std::move(dataDirsAccess.FindFiles(path, pattern, FileQueryFlags::ONLY_DIRS));
 
 	dirSet.reserve(dirSet.size() + found.size());
 
 	for (std::string& dir: found) {
-		if (!spring::regex_match(dir, regexpattern))
+		if (!ArcLight::regex_match(dir, regexpattern))
 			continue;
 
 		dirSet.emplace_back(std::move(dir));
@@ -469,13 +469,13 @@ bool CFileHandler::InsertVFSDirs(
 	if (path.find_last_of("\\/") != (path.size() - 1))
 		prefix += '/';
 
-	const spring::regex regexpattern{FileSystem::ConvertGlobToRegex(pattern), spring::regex::icase};
+	const ArcLight::regex regexpattern{FileSystem::ConvertGlobToRegex(pattern), ArcLight::regex::icase};
 	const std::vector<string>& found = vfsHandler->GetDirsInDir(path, (CVFSHandler::Section) section);
 
 	dirSet.reserve(dirSet.size() + found.size());
 
 	for (const std::string& f: found) {
-		if (!spring::regex_match(f, regexpattern))
+		if (!ArcLight::regex_match(f, regexpattern))
 			continue;
 
 		dirSet.emplace_back(std::move(prefix + f));

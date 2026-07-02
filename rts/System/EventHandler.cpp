@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "System/EventHandler.h"
 
@@ -564,12 +564,12 @@ void CEventHandler::CollectGarbage(bool forced)
 	ITERATE_EVENTCLIENTLIST(CollectGarbage, forced);
 }
 
-void CEventHandler::DbgTimingInfo(DbgTimingInfoType type, const spring_time start, const spring_time end)
+void CEventHandler::DbgTimingInfo(DbgTimingInfoType type, const ArcLight_time start, const ArcLight_time end)
 {
 	ITERATE_EVENTCLIENTLIST(DbgTimingInfo, type, start, end);
 }
 
-void CEventHandler::Pong(uint8_t pingTag, const spring_time pktSendTime, const spring_time pktRecvTime)
+void CEventHandler::Pong(uint8_t pingTag, const ArcLight_time pktSendTime, const ArcLight_time pktRecvTime)
 {
 	ITERATE_EVENTCLIENTLIST(Pong, pingTag, pktSendTime, pktRecvTime);
 }

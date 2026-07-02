@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <iostream>
 #include <stdexcept>
@@ -173,9 +173,9 @@ void CExplosionGeneratorHandler::Init()
 
 void CExplosionGeneratorHandler::Kill()
 {
-	spring::SafeDestruct(exploParser);
-	spring::SafeDestruct(aliasParser);
-	spring::SafeDestruct(explTblRoot);
+	ArcLight::SafeDestruct(exploParser);
+	ArcLight::SafeDestruct(aliasParser);
+	ArcLight::SafeDestruct(explTblRoot);
 
 	std::memset(exploParserMem, 0, sizeof(exploParserMem));
 	std::memset(aliasParserMem, 0, sizeof(aliasParserMem));
@@ -196,12 +196,12 @@ void CExplosionGeneratorHandler::ParseExplosionTables()
 	static_assert(sizeof(LuaParser) <= sizeof(exploParserMem), "");
 	static_assert(sizeof(LuaTable ) <= sizeof(explTblRootMem), "");
 
-	spring::SafeDestruct(exploParser);
-	spring::SafeDestruct(aliasParser);
-	spring::SafeDestruct(explTblRoot);
+	ArcLight::SafeDestruct(exploParser);
+	ArcLight::SafeDestruct(aliasParser);
+	ArcLight::SafeDestruct(explTblRoot);
 
-	exploParser = new (exploParserMem) LuaParser("gamedata/explosions.lua", SPRING_VFS_MOD_BASE, SPRING_VFS_ZIP);
-	aliasParser = new (aliasParserMem) LuaParser("gamedata/explosion_alias.lua", SPRING_VFS_MOD_BASE, SPRING_VFS_ZIP);
+	exploParser = new (exploParserMem) LuaParser("gamedata/explosions.lua", ARCLIGHT_VFS_MOD_BASE, ARCLIGHT_VFS_ZIP);
+	aliasParser = new (aliasParserMem) LuaParser("gamedata/explosion_alias.lua", ARCLIGHT_VFS_MOD_BASE, ARCLIGHT_VFS_ZIP);
 	explTblRoot = nullptr;
 
 	if (!aliasParser->Execute()) {
@@ -661,7 +661,7 @@ void CCustomExplosionGenerator::ExecuteExplosionCode(const char* code, float dam
 				break;
 			}
 			case OP_DISCRETE: {
-				val = (*(float*) code) * math::floor(spring::SafeDivide(val, (*(float*) code)));
+				val = (*(float*) code) * math::floor(ArcLight::SafeDivide(val, (*(float*) code)));
 				code += 4;
 				break;
 			}
@@ -864,7 +864,7 @@ bool CCustomExplosionGenerator::Load(CExplosionGeneratorHandler* handler, const 
 
 		// NOTE:
 		//   *every* CEG table contains a spawn called "filename"
-		//   see springcontent/gamedata/explosions.lua::LoadTDFs
+		//   see ArcLightcontent/gamedata/explosions.lua::LoadTDFs
 		if (!spawnTable.IsValid())
 			continue;
 		if (spawnName == "groundflash" || spawnName == "filename")
@@ -881,7 +881,7 @@ bool CCustomExplosionGenerator::Load(CExplosionGeneratorHandler* handler, const 
 		psi.count = std::max(0, spawnTable.GetInt("count", 1));
 
 		std::string code;
-		spring::unordered_map<string, string> props;
+		ArcLight::unordered_map<string, string> props;
 
 		spawnTable.SubTable("properties").GetMap(props);
 
@@ -985,7 +985,7 @@ bool CCustomExplosionGenerator::OutputProjectileClassInfo()
 	LOG_DISABLE();
 		// we need to load basecontent for class aliases
 		FileSystemInitializer::Initialize();
-		vfsHandler->AddArchiveWithDeps(archiveScanner->ArchiveFromName(CArchiveScanner::GetSpringBaseContentName()), false);
+		vfsHandler->AddArchiveWithDeps(archiveScanner->ArchiveFromName(CArchiveScanner::GetArcLightBaseContentName()), false);
 	LOG_ENABLE();
 
 	const vector<creg::Class*>& classes = creg::System::GetClasses();

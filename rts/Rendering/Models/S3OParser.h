@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef S3O_PARSER_H
 #define S3O_PARSER_H
@@ -86,7 +86,7 @@ private:
 
 private:
 	std::vector<SS3OPiece> piecePool;
-	spring::mutex poolMutex;
+	ArcLight::mutex poolMutex;
 
 	unsigned int numPoolPieces = 0;
 };

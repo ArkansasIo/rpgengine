@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <cstdio>
 
@@ -50,40 +50,40 @@ EXPORT(int) aiInterfaceCallback_Engine_AIInterface_ABIVersion_getWarningPart(int
 }
 
 EXPORT(const char*) aiInterfaceCallback_Engine_Version_getMajor(int UNUSED_interfaceId) {
-	return SpringVersion::GetMajor().c_str();
+	return ArcLightVersion::GetMajor().c_str();
 }
 EXPORT(const char*) aiInterfaceCallback_Engine_Version_getMinor(int UNUSED_interfaceId) {
-	return SpringVersion::GetMinor().c_str();
+	return ArcLightVersion::GetMinor().c_str();
 }
 EXPORT(const char*) aiInterfaceCallback_Engine_Version_getPatchset(int UNUSED_interfaceId) {
-	return SpringVersion::GetPatchSet().c_str();
+	return ArcLightVersion::GetPatchSet().c_str();
 }
 EXPORT(const char*) aiInterfaceCallback_Engine_Version_getCommits(int UNUSED_interfaceId) {
-	return SpringVersion::GetCommits().c_str();
+	return ArcLightVersion::GetCommits().c_str();
 }
 EXPORT(const char*) aiInterfaceCallback_Engine_Version_getHash(int UNUSED_interfaceId) {
-	return SpringVersion::GetHash().c_str();
+	return ArcLightVersion::GetHash().c_str();
 }
 EXPORT(const char*) aiInterfaceCallback_Engine_Version_getBranch(int UNUSED_interfaceId) {
-	return SpringVersion::GetBranch().c_str();
+	return ArcLightVersion::GetBranch().c_str();
 }
 EXPORT(const char*) aiInterfaceCallback_Engine_Version_getAdditional(int UNUSED_interfaceId) {
-	return SpringVersion::GetAdditional().c_str();
+	return ArcLightVersion::GetAdditional().c_str();
 }
 EXPORT(const char*) aiInterfaceCallback_Engine_Version_getBuildTime(int UNUSED_interfaceId) {
 	return "";
 }
 EXPORT(bool) aiInterfaceCallback_Engine_Version_isRelease(int UNUSED_interfaceId) {
-	return SpringVersion::IsRelease();
+	return ArcLightVersion::IsRelease();
 }
 EXPORT(const char*) aiInterfaceCallback_Engine_Version_getNormal(int UNUSED_interfaceId) {
-	return SpringVersion::Get().c_str();
+	return ArcLightVersion::Get().c_str();
 }
 EXPORT(const char*) aiInterfaceCallback_Engine_Version_getSync(int UNUSED_interfaceId) {
-	return SpringVersion::GetSync().c_str();
+	return ArcLightVersion::GetSync().c_str();
 }
 EXPORT(const char*) aiInterfaceCallback_Engine_Version_getFull(int UNUSED_interfaceId) {
-	return SpringVersion::GetFull().c_str();
+	return ArcLightVersion::GetFull().c_str();
 }
 
 

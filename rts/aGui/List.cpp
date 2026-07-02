@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "List.h"
 
@@ -24,7 +24,7 @@ List::List(GuiElement* parent) :
 		GuiElement(parent),
 		cancelPlace(-1),
 		tooltip("No tooltip defined"),
-		clickedTime(spring_now()),
+		clickedTime(ArcLight_now()),
 		place(0),
 		activeMousePress(false),
 		activeScrollbar(false),
@@ -157,11 +157,11 @@ bool List::MouseUpdate(int x, int y)
 	{
 		if (b.MouseOver(mx, my))
 		{
-			if (nCurIndex == place && (clickedTime + spring_msecs(250)) > spring_now())
+			if (nCurIndex == place && (clickedTime + ArcLight_msecs(250)) > ArcLight_now())
 			{
 				FinishSelection.emit();
 			}
-			clickedTime = spring_now();
+			clickedTime = ArcLight_now();
 			place = nCurIndex;
 			return true;
 		}

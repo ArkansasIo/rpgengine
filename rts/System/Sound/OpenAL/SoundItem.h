@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef SOUNDITEM_H
 #define SOUNDITEM_H
@@ -24,7 +24,7 @@ class SoundItem
 
 public:
 	SoundItem() = default;
-	SoundItem(size_t itemID, size_t bufferID, const spring::unordered_map<std::string, std::string>& items);
+	SoundItem(size_t itemID, size_t bufferID, const ArcLight::unordered_map<std::string, std::string>& items);
 	SoundItem(SoundItem&& s) { *this = std::move(s); }
 
 	SoundItem& operator = (SoundItem&& s) {

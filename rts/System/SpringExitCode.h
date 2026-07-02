@@ -1,9 +1,9 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
-#ifndef SPRING_EXIT_CODE_H
-#define SPRING_EXIT_CODE_H
+#ifndef ArcLight_EXIT_CODE_H
+#define ArcLight_EXIT_CODE_H
 
-namespace spring {
+namespace ArcLight {
 	enum {
 		EXIT_CODE_CRASHED = -1003, // ErrorHandler::ExitProcess
 		EXIT_CODE_NOINIT  = -1002, // SpringApp::Run

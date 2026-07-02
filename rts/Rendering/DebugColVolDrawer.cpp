@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "DebugColVolDrawer.h"
 
@@ -358,8 +358,8 @@ public:
 	}
 
 private:
-	spring::unordered_set<int>    unitIDs;
-	spring::unordered_set<int> featureIDs;
+	ArcLight::unordered_set<int>    unitIDs;
+	ArcLight::unordered_set<int> featureIDs;
 
 	Shader::IProgramObject* ipo = nullptr;
 };

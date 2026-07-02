@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _FACTORY_AI_H_
 #define _FACTORY_AI_H_
@@ -35,7 +35,7 @@ public:
 
 	CCommandQueue newUnitCommands;
 
-	spring::unordered_map<int, int> buildOptions;
+	ArcLight::unordered_map<int, int> buildOptions;
 
 private:
 	void UpdateIconName(int id, const int& numQueued);

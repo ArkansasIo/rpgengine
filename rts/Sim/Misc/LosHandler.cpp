@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "LosHandler.h"
 
@@ -102,7 +102,7 @@ void ILosType::Init(const int mipLevel_, LosType type_)
 void ILosType::Kill()
 {
 	// iterated in UpdateHeightMapSynced
-	spring::clear_unordered_map(instanceHashes);
+	ArcLight::clear_unordered_map(instanceHashes);
 
 	// reuse inner vectors when reloading
 	// losMaps.clear();
@@ -674,7 +674,7 @@ void CLosHandler::KillStatic(bool reload)
 	if (reload)
 		return;
 
-	spring::SafeDestruct(losHandler);
+	ArcLight::SafeDestruct(losHandler);
 	memset(losHandlerMem, 0, sizeof(losHandlerMem));
 }
 

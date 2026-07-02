@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _VIRTUAL_ARCHIVE_H
 #define _VIRTUAL_ARCHIVE_H
@@ -97,7 +97,7 @@ public:
 	void FileInfoSize(unsigned int fid, int& size) const;
 
 	const std::string& GetFileName() const { return fileName; }
-	const spring::unordered_map<std::string, unsigned int>& GetNameIndex() const { return lcNameIndex; }
+	const ArcLight::unordered_map<std::string, unsigned int>& GetNameIndex() const { return lcNameIndex; }
 
 	void WriteToFile();
 
@@ -106,7 +106,7 @@ private:
 
 	std::string fileName;
 	std::vector<CVirtualFile> files;
-	spring::unordered_map<std::string, unsigned int> lcNameIndex;
+	ArcLight::unordered_map<std::string, unsigned int> lcNameIndex;
 };
 
 #endif // _VIRTUAL_ARCHIVE_H

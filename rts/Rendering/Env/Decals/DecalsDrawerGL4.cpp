@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "DecalsDrawerGL4.h"
 #include "Game/Camera.h"
@@ -100,7 +100,7 @@ struct STex {
 };
 
 typedef float4 SAtlasTex;
-static spring::unordered_map<std::string, SAtlasTex> atlasTexs;
+static ArcLight::unordered_map<std::string, SAtlasTex> atlasTexs;
 
 
 static std::string GetExtraTextureName(const std::string& s)
@@ -363,11 +363,11 @@ static STex LoadTexture(const std::string& name)
 		fileName += ".bmp";
 
 	std::string fullName = fileName;
-	if (!CFileHandler::FileExists(fullName, SPRING_VFS_ALL))
+	if (!CFileHandler::FileExists(fullName, ARCLIGHT_VFS_ALL))
 		fullName = std::string("bitmaps/") + fileName;
-	if (!CFileHandler::FileExists(fullName, SPRING_VFS_ALL))
+	if (!CFileHandler::FileExists(fullName, ARCLIGHT_VFS_ALL))
 		fullName = std::string("bitmaps/tracks/") + fileName;
-	if (!CFileHandler::FileExists(fullName, SPRING_VFS_ALL))
+	if (!CFileHandler::FileExists(fullName, ARCLIGHT_VFS_ALL))
 		fullName = std::string("unittextures/") + fileName;
 
 	CBitmap bm;
@@ -399,7 +399,7 @@ static STex LoadTexture(const std::string& name)
 }
 
 
-static inline void GetBuildingDecals(spring::unordered_map<std::string, STex>& textures)
+static inline void GetBuildingDecals(ArcLight::unordered_map<std::string, STex>& textures)
 {
 	for (const UnitDef& unitDef: unitDefHandler->GetUnitDefsVec()) {
 		const SolidObjectDecalDef& decalDef = unitDef.decalDef;
@@ -419,9 +419,9 @@ static inline void GetBuildingDecals(spring::unordered_map<std::string, STex>& t
 }
 
 
-static inline void GetGroundScars(spring::unordered_map<std::string, STex>& textures)
+static inline void GetGroundScars(ArcLight::unordered_map<std::string, STex>& textures)
 {
-	LuaParser resourcesParser("gamedata/resources.lua", SPRING_VFS_MOD_BASE, SPRING_VFS_ZIP);
+	LuaParser resourcesParser("gamedata/resources.lua", ARCLIGHT_VFS_MOD_BASE, ARCLIGHT_VFS_ZIP);
 	if (!resourcesParser.Execute()) {
 		LOG_L(L_ERROR, "Failed to load resources: %s", resourcesParser.GetErrorLog().c_str());
 	}
@@ -443,7 +443,7 @@ static inline void GetGroundScars(spring::unordered_map<std::string, STex>& text
 }
 
 
-static inline void GetFallbacks(spring::unordered_map<std::string, STex>& textures)
+static inline void GetFallbacks(ArcLight::unordered_map<std::string, STex>& textures)
 {
 	auto CREATE_SINGLE_COLOR = [](SColor c) -> STex {
 		CBitmap bm;
@@ -459,7 +459,7 @@ static inline void GetFallbacks(spring::unordered_map<std::string, STex>& textur
 
 void CDecalsDrawerGL4::GenerateAtlasTexture()
 {
-	spring::unordered_map<std::string, STex> textures;
+	ArcLight::unordered_map<std::string, STex> textures;
 
 	GetBuildingDecals(textures);
 	GetGroundScars(textures);
@@ -496,7 +496,7 @@ void CDecalsDrawerGL4::GenerateAtlasTexture()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, 4.0f);
-	glSpringTexStorage2D(GL_TEXTURE_2D, atlas.GetMaxMipMaps(), GL_RGBA8, atlas.GetAtlasSize().x, atlas.GetAtlasSize().y);
+	glArcLightTexStorage2D(GL_TEXTURE_2D, atlas.GetMaxMipMaps(), GL_RGBA8, atlas.GetAtlasSize().x, atlas.GetAtlasSize().y);
 
 	FBO fb;
 	if (!fb.IsValid()) {
@@ -803,7 +803,7 @@ void CDecalsDrawerGL4::Draw()
 		decalShader->SetUniformMatrix4x4("viewProjMatrix", false, viewProjMat.m);
 		decalShader->SetUniformMatrix4x4("viewProjMatrixInv", false, viewProjMatInv.m);
 
-	glSpringBindTextures(0, textures.size(), &textures[0]);
+	glArcLightBindTextures(0, textures.size(), &textures[0]);
 
 	if (shadowHandler.ShadowsLoaded()) {
 		decalShader->SetUniformMatrix4x4("shadowMatrix", false, shadowHandler.GetShadowViewMatrixRaw());
@@ -1034,7 +1034,7 @@ bool CDecalsDrawerGL4::AddDecalToGroup(SDecalGroup& g, const Decal& d, const int
 	if (!Overlap(g, d))
 		return false;
 
-	auto it = spring::find(g.ids, 0);
+	auto it = ArcLight::find(g.ids, 0);
 	*it = decalIdx;
 	UpdateBoundingBox(g);
 	return true;
@@ -1203,7 +1203,7 @@ std::vector<int> CDecalsDrawerGL4::UpdateOverlap_PreCheck()
 	// we are in a test already, check if one of the tested decals changed, if so we need to restart the test
 	if ((overlapStage == 1) && !waitingDecalsForOverlapTest.empty()) {
 		for (auto& p: waitingOverlapGlQueries) {
-			auto it = spring::find(waitingDecalsForOverlapTest, p.first);
+			auto it = ArcLight::find(waitingDecalsForOverlapTest, p.first);
 			if (it == waitingDecalsForOverlapTest.end())
 				continue;
 
@@ -1495,7 +1495,7 @@ void CDecalsDrawerGL4::FreeDecal(int idx)
 
 	Decal& d = decals[idx];
 	if ((d.owner == nullptr) && (d.type == Decal::BUILDING)) {
-		auto it = spring::find(alphaDecayingDecals, idx);
+		auto it = ArcLight::find(alphaDecayingDecals, idx);
 		assert(it != alphaDecayingDecals.end());
 		alphaDecayingDecals.erase(it);
 	}

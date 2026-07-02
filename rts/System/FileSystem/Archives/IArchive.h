@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _ARCHIVE_BASE_H
 #define _ARCHIVE_BASE_H
@@ -115,10 +115,10 @@ public:
 
 
 protected:
-	// Spring expects the contents of archives to be case-independent
+	// ArcLight expects the contents of archives to be case-independent
 	// this map (which must be populated by subclass archives) is kept
 	// to allow converting back from lowercase to original case
-	spring::unordered_map<std::string, unsigned int> lcNameIndex;
+	ArcLight::unordered_map<std::string, unsigned int> lcNameIndex;
 
 protected:
 	/// "ExampleArchive.sdd"

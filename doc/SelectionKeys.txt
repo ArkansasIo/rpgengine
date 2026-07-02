@@ -1,4 +1,4 @@
-In the following, "+" and "_" are taken as literal plus and underscore characters, respectively. "|" means "or", and "[...]" means that ... is optional.
+upIn the following, "+" and "_" are taken as literal plus and underscore characters, respectively. "|" means "or", and "[...]" means that ... is optional.
 
 selectkeys.txt has the format
 

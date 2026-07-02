@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "System/Input/InputHandler.h"
 
@@ -100,7 +100,7 @@
 CONFIG(unsigned, SetCoreAffinity).defaultValue(0).safemodeValue(1).description("Defines a bitmask indicating which CPU cores the main-thread should use.");
 CONFIG(unsigned, TextureMemPoolSize).defaultValue(128 * (1 + (__archBits__ == 64))).minimumValue(1);
 CONFIG(bool, UseLuaMemPools).defaultValue(__archBits__ == 64).description("Whether Lua VM memory allocations are made from pools.");
-CONFIG(bool, UseHighResTimer).defaultValue(false).description("On Windows, sets whether Spring will use low- or high-resolution timer functions for tasks like graphical interpolation between game frames.");
+CONFIG(bool, UseHighResTimer).defaultValue(false).description("On Windows, sets whether ArcLight will use low- or high-resolution timer functions for tasks like graphical interpolation between game frames.");
 CONFIG(bool, UseFontConfigLib).defaultValue(false).description("Whether the system fontconfig library (if present and enabled at compile-time) should be used for handling fonts.");
 
 CONFIG(std::string, name).defaultValue(UnnamedPlayerName).description("Sets your name in the game. Since this is overridden by lobbies with your lobby username when playing, it usually only comes up when viewing replays or starting the engine directly for testing purposes.");
@@ -130,16 +130,16 @@ DEFINE_bool     (safemode,                                 false, "Turns off man
 DEFINE_string   (config,                                   "",    "Exclusive configuration file");
 DEFINE_bool     (isolation,                                false, "Limit the data-dir (games & maps) scanner to one directory");
 DEFINE_string_EX(isolation_dir,      "isolation-dir",      "",    "Specify the isolation-mode data-dir (see --isolation)");
-DEFINE_string_EX(write_dir,          "write-dir",          "",    "Specify where Spring writes to.");
+DEFINE_string_EX(write_dir,          "write-dir",          "",    "Specify where ArcLight writes to.");
 DEFINE_string   (game,                                     "",    "Specify the game that will be instantly loaded");
 DEFINE_string   (map,                                      "",    "Specify the map that will be instantly loaded");
-DEFINE_string   (menu,                                     "",    "Specify a lua menu archive to be used by spring");
+DEFINE_string   (menu,                                     "",    "Specify a lua menu archive to be used by ArcLight");
 DEFINE_string   (name,                                     "",    "Set your player name");
 DEFINE_bool     (oldmenu,                                  false, "Start the old menu");
 
 
 
-int spring::exitCode = spring::EXIT_CODE_SUCCESS;
+int ArcLight::exitCode = ArcLight::EXIT_CODE_SUCCESS;
 
 static unsigned int reloadCount = 0;
 static unsigned int killedCount = 0;
@@ -149,8 +149,8 @@ static unsigned int killedCount = 0;
 // initialize basic systems for command line help / output
 static void ConsolePrintInitialize(const std::string& configSource, bool safemode)
 {
-	spring_clock::PushTickRate(false);
-	spring_time::setstarttime(spring_time::gettime(true));
+	ArcLight_clock::PushTickRate(false);
+	ArcLight_time::setstarttime(ArcLight_time::gettime(true));
 
 	LOG_DISABLE();
 	FileSystemInitializer::PreInitializeConfigHandler(configSource, "", safemode);
@@ -172,27 +172,27 @@ SpringApp::SpringApp(int argc, char** argv)
 	//   {--,/}help overrides all other flags and causes exit(),
 	//   even in the unusual event it is not given as first arg
 	gflags::SetUsageMessage("Usage: " + std::string(argv[0]) + " [options] [path_to_script.txt or demo.sdfz]");
-	gflags::SetVersionString(SpringVersion::GetFull());
+	gflags::SetVersionString(ArcLightVersion::GetFull());
 	gflags::ParseCommandLineFlags(&argc, &argv, true);
 
 	// also initializes configHandler and logOutput
 	ParseCmdLine(argc, argv);
 
-	spring_clock::PushTickRate(configHandler->GetBool("UseHighResTimer"));
-	// set the Spring "epoch" to be whatever value the first
+	ArcLight_clock::PushTickRate(configHandler->GetBool("UseHighResTimer"));
+	// set the ArcLight "epoch" to be whatever value the first
 	// call to gettime() returns, should not be 0 (can safely
 	// be done before SDL_Init, we are not using SDL_GetTicks
 	// as our clock anymore)
-	spring_time::setstarttime(spring_time::gettime(true));
+	ArcLight_time::setstarttime(ArcLight_time::gettime(true));
 
 	// gu does not exist yet, pre-seed for ShowSplashScreen
 	guRNG.Seed(CGlobalUnsyncedRNG::rng_val_type(&argc));
 	// ditto for unsynced Lua states (which do not use guRNG)
-	spring_lua_unsynced_srand(nullptr);
+	ArcLight_lua_unsynced_srand(nullptr);
 
 	CLogOutput::LogSectionInfo();
 	CLogOutput::LogConfigInfo();
-	CLogOutput::LogSystemInfo(); // needs spring_clock
+	CLogOutput::LogSystemInfo(); // needs ArcLight_clock
 }
 
 /**
@@ -200,7 +200,7 @@ SpringApp::SpringApp(int argc, char** argv)
  */
 SpringApp::~SpringApp()
 {
-	spring_clock::PopTickRate();
+	ArcLight_clock::PopTickRate();
 }
 
 
@@ -229,7 +229,7 @@ bool SpringApp::Init()
 	Watchdog::RegisterThread(WDT_MAIN, true);
 
 	// Create Window
-	if (!InitWindow(("Spring " + SpringVersion::GetSync()).c_str())) {
+	if (!InitWindow(("ArcLight " + ArcLightVersion::GetSync()).c_str())) {
 		SDL_Quit();
 		return false;
 	}
@@ -255,7 +255,7 @@ bool SpringApp::Init()
 		return false;
 
 	// Multithreading & Affinity
-	Threading::SetThreadName("spring-main"); // set default threadname for pstree
+	Threading::SetThreadName("ArcLight-main"); // set default threadname for pstree
 	Threading::SetThreadScheduler();
 
 	CInfoConsole::InitStatic();
@@ -331,13 +331,13 @@ bool SpringApp::InitFileSystem()
 	const std::string ssd = std::move(FileSystem::EnsurePathSepAtEnd(configHandler->GetString("SplashScreenDir")));
 
 	std::vector<std::string> splashScreenFiles(dataDirsAccess.FindFiles(FileSystem::IsAbsolutePath(ssd)? ssd: cwd + ssd, "*.{png,jpg}", 0));
-	spring::thread fsInitThread(FileSystemInitializer::InitializeThr, &ret);
+	ArcLight::thread fsInitThread(FileSystemInitializer::InitializeThr, &ret);
 
 	#ifndef HEADLESS
 	if (!splashScreenFiles.empty()) {
-		ShowSplashScreen(splashScreenFiles[ guRNG.NextInt(splashScreenFiles.size()) ], SpringVersion::GetFull(), [&]() { return (FileSystemInitializer::Initialized()); });
+		ShowSplashScreen(splashScreenFiles[ guRNG.NextInt(splashScreenFiles.size()) ], ArcLightVersion::GetFull(), [&]() { return (FileSystemInitializer::Initialized()); });
 	} else {
-		ShowSplashScreen("", SpringVersion::GetFull(), [&]() { return (FileSystemInitializer::Initialized()); });
+		ShowSplashScreen("", ArcLightVersion::GetFull(), [&]() { return (FileSystemInitializer::Initialized()); });
 	}
 
 	// skip hangs while waiting for the popup to die and kill us
@@ -410,7 +410,7 @@ void SpringApp::ParseCmdLine(int argc, char* argv[])
 		inputFile = argv[1];
 
 #ifndef _WIN32
-	if (!FLAGS_nocolor && (getenv("SPRING_NOCOLOR") == nullptr)) {
+	if (!FLAGS_nocolor && (getenv("ARCLIGHT_NOCOLOR") == nullptr)) {
 		// don't colorize, if our output is piped to a diff tool or file
 		if (isatty(fileno(stdout)))
 			log_console_colorizedOutput(true);
@@ -419,13 +419,13 @@ void SpringApp::ParseCmdLine(int argc, char* argv[])
 
 	if (FLAGS_gen_fontconfig) {
 		CFontTexture::GenFontConfig();
-		exit(spring::EXIT_CODE_SUCCESS);
+		exit(ArcLight::EXIT_CODE_SUCCESS);
 	}
 
 	if (FLAGS_sync_version) {
-		// Note, the missing "Spring " is intentionally to make it compatible with `spring-dedicated --sync-version`
-		std::cout << SpringVersion::GetSync() << std::endl;
-		exit(spring::EXIT_CODE_SUCCESS);
+		// Note, the missing "ArcLight " is intentionally to make it compatible with `ArcLight-dedicated --sync-version`
+		std::cout << ArcLightVersion::GetSync() << std::endl;
+		exit(ArcLight::EXIT_CODE_SUCCESS);
 	}
 
 	if (FLAGS_isolation)
@@ -444,34 +444,34 @@ void SpringApp::ParseCmdLine(int argc, char* argv[])
 	// Interface Documentations in JSON-Format
 	if (FLAGS_list_config_vars) {
 		ConfigVariable::OutputMetaDataMap();
-		exit(spring::EXIT_CODE_SUCCESS);
+		exit(ArcLight::EXIT_CODE_SUCCESS);
 	}
 	if (FLAGS_list_def_tags) {
 		DefType::OutputTagMap();
-		exit(spring::EXIT_CODE_SUCCESS);
+		exit(ArcLight::EXIT_CODE_SUCCESS);
 	}
 	if (FLAGS_list_ceg_classes)
-		exit(CCustomExplosionGenerator::OutputProjectileClassInfo() ? spring::EXIT_CODE_SUCCESS : spring::EXIT_CODE_FAILURE);
+		exit(CCustomExplosionGenerator::OutputProjectileClassInfo() ? ArcLight::EXIT_CODE_SUCCESS : ArcLight::EXIT_CODE_FAILURE);
 
 	// Runtime Tests
 	if (FLAGS_test_creg) {
 #ifdef USING_CREG
-		exit(creg::RuntimeTest() ? spring::EXIT_CODE_SUCCESS : spring::EXIT_CODE_FAILURE);
+		exit(creg::RuntimeTest() ? ArcLight::EXIT_CODE_SUCCESS : ArcLight::EXIT_CODE_FAILURE);
 #else
-		exit(spring::EXIT_CODE_SUCCESS);
+		exit(ArcLight::EXIT_CODE_SUCCESS);
 #endif
 	}
 
-	// mutually exclusive options that cause spring to quit immediately
+	// mutually exclusive options that cause ArcLight to quit immediately
 	if (FLAGS_list_ai_interfaces) {
 		ConsolePrintInitialize(FLAGS_config, FLAGS_safemode);
 		AILibraryManager::OutputAIInterfacesInfo();
-		exit(spring::EXIT_CODE_SUCCESS);
+		exit(ArcLight::EXIT_CODE_SUCCESS);
 	}
 	else if (FLAGS_list_skirmish_ais) {
 		ConsolePrintInitialize(FLAGS_config, FLAGS_safemode);
 		AILibraryManager::OutputSkirmishAIInfo();
-		exit(spring::EXIT_CODE_SUCCESS);
+		exit(ArcLight::EXIT_CODE_SUCCESS);
 	}
 
 	CTextureAtlas::SetDebug(FLAGS_textureatlas);
@@ -539,7 +539,7 @@ void SpringApp::StartScript(const std::string& script)
 {
 	// startscript
 	LOG("[%s] Loading StartScript from: %s", __func__, script.c_str());
-	CFileHandler fh(script, SPRING_VFS_PWD_ALL);
+	CFileHandler fh(script, ARCLIGHT_VFS_PWD_ALL);
 	if (!fh.FileExists())
 		throw content_error("Setup-script does not exist in given location: " + script);
 
@@ -550,12 +550,12 @@ void SpringApp::StartScript(const std::string& script)
 	activeController = RunScript(buf);
 }
 
-void SpringApp::LoadSpringMenu()
+void SpringApp::LoadArcLightMenu()
 {
 	const std::string  vfsScript = "defaultstartscript.txt";
 	const std::string& cfgScript = configHandler->GetString("DefaultStartScript");
 
-	const std::string& startScript = (cfgScript.empty() && CFileHandler::FileExists(vfsScript, SPRING_VFS_PWD_ALL))? vfsScript: cfgScript;
+	const std::string& startScript = (cfgScript.empty() && CFileHandler::FileExists(vfsScript, ARCLIGHT_VFS_PWD_ALL))? vfsScript: cfgScript;
 
 	// bypass default menu if we have a valid LuaMenu handler
 	if (CLuaMenuController::ActivateInstance(""))
@@ -609,14 +609,14 @@ void SpringApp::Startup()
 			return;
 		}
 
-		LoadSpringMenu();
+		LoadArcLightMenu();
 		return;
 	}
 
 	// process given argument
-	if (inputFile.find("spring://") == 0) {
-		// url (syntax: spring://username:password@host:port)
-		if (!ParseSpringUri(inputFile, clientSetup->myPlayerName, clientSetup->myPasswd, clientSetup->hostIP, clientSetup->hostPort))
+	if (inputFile.find("ArcLight://") == 0) {
+		// url (syntax: ArcLight://username:password@host:port)
+		if (!ParseArcLightUri(inputFile, clientSetup->myPlayerName, clientSetup->myPasswd, clientSetup->hostIP, clientSetup->hostPort))
 			throw content_error("invalid url specified: " + inputFile);
 
 		clientSetup->isHost = false;
@@ -653,7 +653,7 @@ void SpringApp::Reload(const std::string script)
 	if (clientNet != nullptr)
 		clientNet->ResetDemoRecorder();
 
-	// Lua shutdown functions need to access 'game' but spring::SafeDelete sets it to NULL.
+	// Lua shutdown functions need to access 'game' but ArcLight::SafeDelete sets it to NULL.
 	// ~CGame also calls this, which does not matter because Lua handlers are gone by then
 	if (game != nullptr)
 		game->KillLua(false);
@@ -666,12 +666,12 @@ void SpringApp::Reload(const std::string script)
 	LOG("[SpringApp::%s][4]", __func__);
 
 	// PreGame allocates clientNet, so we need to delete our old connection
-	spring::SafeDelete(game);
-	spring::SafeDelete(pregame);
+	ArcLight::SafeDelete(game);
+	ArcLight::SafeDelete(pregame);
 
-	spring::SafeDelete(clientNet);
+	ArcLight::SafeDelete(clientNet);
 	// no-op if we are not the server
-	spring::SafeDelete(gameServer);
+	ArcLight::SafeDelete(gameServer);
 
 	LOG("[SpringApp::%s][5]", __func__);
 
@@ -745,7 +745,7 @@ void SpringApp::Reload(const std::string script)
 
 	if (script.empty()) {
 		// if no script, drop back to menu
-		LoadSpringMenu();
+		LoadArcLightMenu();
 	} else {
 		activeController = RunScript(script);
 	}
@@ -798,7 +798,7 @@ int SpringApp::Run()
 	// ErrorMsgBox sets threadError if called from any non-main thread
 	try {
 		if ((gu->globalQuit = !Init() || gu->globalQuit))
-			spring::exitCode = spring::EXIT_CODE_NOINIT;
+			ArcLight::exitCode = ArcLight::EXIT_CODE_NOINIT;
 
 		while (!gu->globalQuit) {
 			Watchdog::ClearTimer(WDT_MAIN);
@@ -814,7 +814,7 @@ int SpringApp::Run()
 				gu->globalQuit = (!Update() || gu->globalQuit);
 			}
 		}
-	} CATCH_SPRING_ERRORS
+	} CATCH_ArcLight_ERRORS
 
 	// no exception from main, check if some other thread interrupted our regular loop
 	// in case one did, ErrorMessageBox will call ::Kill and forcibly exit the process
@@ -830,7 +830,7 @@ int SpringApp::Run()
 
 	try {
 		Kill(true);
-	} CATCH_SPRING_ERRORS
+	} CATCH_ArcLight_ERRORS
 
 	// no exception from main, but a thread might have thrown *during* ::Kill
 	// do not attempt to call Kill a second time, just show the error message
@@ -840,7 +840,7 @@ int SpringApp::Run()
 	// cleanup signal handlers, etc
 	CrashHandler::Remove();
 
-	return spring::exitCode;
+	return ArcLight::exitCode;
 }
 
 
@@ -896,22 +896,22 @@ void SpringApp::Kill(bool fromRun)
 	// see ::Reload
 	ISound::Shutdown(false);
 
-	spring::SafeDelete(game);
-	spring::SafeDelete(pregame);
-	spring::SafeDelete(luaMenuController);
+	ArcLight::SafeDelete(game);
+	ArcLight::SafeDelete(pregame);
+	ArcLight::SafeDelete(luaMenuController);
 
 	LuaMemPool::KillStatic();
 
 	LOG("[SpringApp::%s][3]", __func__);
-	spring::SafeDelete(clientNet);
-	spring::SafeDelete(gameServer);
+	ArcLight::SafeDelete(clientNet);
+	ArcLight::SafeDelete(gameServer);
 
 	LOG("[SpringApp::%s][4] font=%p", __func__, font);
 	#ifndef HEADLESS
-	spring::SafeDelete(agui::gui);
+	ArcLight::SafeDelete(agui::gui);
 	#endif
-	spring::SafeDelete(font);
-	spring::SafeDelete(smallFont);
+	ArcLight::SafeDelete(font);
+	ArcLight::SafeDelete(smallFont);
 
 	LOG("[SpringApp::%s][5]", __func__);
 	CNamedTextures::Kill(true);

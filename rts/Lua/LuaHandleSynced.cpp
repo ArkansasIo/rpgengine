@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "LuaHandleSynced.h"
 
@@ -127,11 +127,11 @@ bool CUnsyncedLuaHandle::Init(const std::string& code, const std::string& file)
 		if (!AddEntriesToTable(L, "FeatureDefs",   LuaFeatureDefs::PushEntries        )) KILL
 		if (!AddEntriesToTable(L, "Script",          LuaInterCall::PushEntriesUnsynced)) KILL
 		if (!AddEntriesToTable(L, "Script",             LuaScream::PushEntries        )) KILL
-		if (!AddEntriesToTable(L, "Spring",         LuaSyncedRead::PushEntries        )) KILL
-		if (!AddEntriesToTable(L, "Spring",       LuaUnsyncedCtrl::PushEntries        )) KILL
-		if (!AddEntriesToTable(L, "Spring",       LuaUnsyncedRead::PushEntries        )) KILL
-		if (!AddEntriesToTable(L, "Spring",          LuaUICommand::PushEntries        )) KILL
-		if (!AddEntriesToTable(L, "Spring",             LuaRender::PushEntries        )) KILL
+		if (!AddEntriesToTable(L, "ArcLight",         LuaSyncedRead::PushEntries        )) KILL
+		if (!AddEntriesToTable(L, "ArcLight",       LuaUnsyncedCtrl::PushEntries        )) KILL
+		if (!AddEntriesToTable(L, "ArcLight",       LuaUnsyncedRead::PushEntries        )) KILL
+		if (!AddEntriesToTable(L, "ArcLight",          LuaUICommand::PushEntries        )) KILL
+		if (!AddEntriesToTable(L, "ArcLight",             LuaRender::PushEntries        )) KILL
 		if (!AddEntriesToTable(L, "gl",                 LuaOpenGL::PushEntries        )) KILL
 		if (!AddEntriesToTable(L, "GL",                LuaConstGL::PushEntries        )) KILL
 		if (!AddEntriesToTable(L, "Engine",        LuaConstEngine::PushEntries        )) KILL
@@ -370,14 +370,14 @@ bool CSyncedLuaHandle::Init(const std::string& code, const std::string& file)
 	watchAllowTargetDefs.resize(weaponDefHandler->NumWeaponDefs(), false);
 
 	// load the standard libraries
-	SPRING_LUA_OPEN_LIB(L, luaopen_base);
-	SPRING_LUA_OPEN_LIB(L, luaopen_math);
-	SPRING_LUA_OPEN_LIB(L, luaopen_table);
-	SPRING_LUA_OPEN_LIB(L, luaopen_string);
-	//SPRING_LUA_OPEN_LIB(L, luaopen_io);
-	//SPRING_LUA_OPEN_LIB(L, luaopen_os);
-	//SPRING_LUA_OPEN_LIB(L, luaopen_package);
-	//SPRING_LUA_OPEN_LIB(L, luaopen_debug);
+	ArcLight_LUA_OPEN_LIB(L, luaopen_base);
+	ArcLight_LUA_OPEN_LIB(L, luaopen_math);
+	ArcLight_LUA_OPEN_LIB(L, luaopen_table);
+	ArcLight_LUA_OPEN_LIB(L, luaopen_string);
+	//ArcLight_LUA_OPEN_LIB(L, luaopen_io);
+	//ArcLight_LUA_OPEN_LIB(L, luaopen_os);
+	//ArcLight_LUA_OPEN_LIB(L, luaopen_package);
+	//ArcLight_LUA_OPEN_LIB(L, luaopen_debug);
 
 	lua_getglobal(L, "next");
 	origNextRef = luaL_ref(L, LUA_REGISTRYINDEX);
@@ -444,10 +444,10 @@ bool CSyncedLuaHandle::Init(const std::string& code, const std::string& file)
 		if (!AddEntriesToTable(L, "WeaponDefs",     LuaWeaponDefs::PushEntries      )) KILL
 		if (!AddEntriesToTable(L, "FeatureDefs",   LuaFeatureDefs::PushEntries      )) KILL
 		if (!AddEntriesToTable(L, "Script",          LuaInterCall::PushEntriesSynced)) KILL
-		if (!AddEntriesToTable(L, "Spring",       LuaUnsyncedCtrl::PushEntries      )) KILL
-		if (!AddEntriesToTable(L, "Spring",         LuaSyncedCtrl::PushEntries      )) KILL
-		if (!AddEntriesToTable(L, "Spring",         LuaSyncedRead::PushEntries      )) KILL
-		if (!AddEntriesToTable(L, "Spring",          LuaUICommand::PushEntries      )) KILL
+		if (!AddEntriesToTable(L, "ArcLight",       LuaUnsyncedCtrl::PushEntries      )) KILL
+		if (!AddEntriesToTable(L, "ArcLight",         LuaSyncedCtrl::PushEntries      )) KILL
+		if (!AddEntriesToTable(L, "ArcLight",         LuaSyncedRead::PushEntries      )) KILL
+		if (!AddEntriesToTable(L, "ArcLight",          LuaUICommand::PushEntries      )) KILL
 		if (!AddEntriesToTable(L, "Engine",        LuaConstEngine::PushEntries      )) KILL
 		if (!AddEntriesToTable(L, "Game",            LuaConstGame::PushEntries      )) KILL
 		if (!AddEntriesToTable(L, "CMD",              LuaConstCMD::PushEntries      )) KILL
@@ -1369,7 +1369,7 @@ bool CSyncedLuaHandle::AllowWeaponInterceptTarget(
 int CSyncedLuaHandle::SyncedRandom(lua_State* L)
 {
 	#if 0
-	spring_lua_synced_rand(L);
+	ArcLight_lua_synced_rand(L);
 	return 1;
 	#endif
 
@@ -1766,7 +1766,7 @@ string CSplitLuaHandle::LoadFile(const std::string& filename, const std::string&
 {
 	string vfsModes(modes);
 	if (CSyncedLuaHandle::devMode)
-		vfsModes = SPRING_VFS_RAW + vfsModes;
+		vfsModes = ARCLIGHT_VFS_RAW + vfsModes;
 
 	CFileHandler f(filename, vfsModes);
 	string code;

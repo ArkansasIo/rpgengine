@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 /**
  * @brief EXT_framebuffer_object implementation
@@ -16,7 +16,7 @@
 CONFIG(bool, AtiSwapRBFix).defaultValue(false);
 
 std::vector<FBO*> FBO::activeFBOs;
-spring::unordered_map<GLuint, FBO::TexData> FBO::fboTexData;
+ArcLight::unordered_map<GLuint, FBO::TexData> FBO::fboTexData;
 
 GLint FBO::maxAttachments = 0;
 GLsizei FBO::maxSamples = -1;
@@ -254,7 +254,7 @@ void FBO::Kill()
 		fboId = 0;
 	}
 
-	spring::VectorErase(activeFBOs, this);
+	ArcLight::VectorErase(activeFBOs, this);
 
 	if (!activeFBOs.empty())
 		return;
@@ -400,7 +400,7 @@ void FBO::Detach(const GLenum attachment)
 	glGetFramebufferAttachmentParameteriv(GL_FRAMEBUFFER, attachment, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME, (GLint*) &attID);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, attachment, GL_RENDERBUFFER, 0);
 
-	spring::VectorEraseIf(rboIDs, [&](GLuint& rboID) {
+	ArcLight::VectorEraseIf(rboIDs, [&](GLuint& rboID) {
 		if (rboID != attID) return false;
 		glDeleteRenderbuffers(1, &rboID); return true;
 	});

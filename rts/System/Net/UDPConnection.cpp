@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "UDPConnection.h"
 
@@ -65,14 +65,14 @@ inline void EMULATE_PACKET_CORRUPTION(std::uint8_t& crc) {}
 #if NETWORK_TEST && PACKET_MAX_LATENCY > 0 && PACKET_MAX_LATENCY >= PACKET_MIN_LATENCY
 #define EMULATE_LATENCY(cond) \
 	for (auto di = delayed.begin(); di != delayed.end(); ) { \
-		spring_time curtime = spring_gettime(); \
-		if (curtime > di->first && (curtime - di->first) > spring_msecs(0)) { \
+		ArcLight_time curtime = ArcLight_gettime(); \
+		if (curtime > di->first && (curtime - di->first) > ArcLight_msecs(0)) { \
 			mySocket->send_to(buffer(di->second), addr, flags, err); \
 			di = delayed.erase(di); \
 		} else { ++di; } \
 	} \
 	if (cond) \
-		delayed[spring_gettime() + spring_msecs(PACKET_MIN_LATENCY + (PACKET_MAX_LATENCY - PACKET_MIN_LATENCY) * RANDOM_NUMBER())] = data; \
+		delayed[ArcLight_gettime() + ArcLight_msecs(PACKET_MIN_LATENCY + (PACKET_MAX_LATENCY - PACKET_MIN_LATENCY) * RANDOM_NUMBER())] = data; \
 	if (false)
 #else
 #define EMULATE_LATENCY(cond) if(cond)
@@ -265,15 +265,15 @@ void UDPConnection::Init()
 	// make sure protocoldef is initialized
 	CBaseNetProtocol::Get();
 
-	lastNakTime = spring_gettime();
-	lastUnackResentTime = spring_gettime();
-	lastPacketSendTime = spring_gettime();
-	lastPacketRecvTime = spring_gettime();
-	lastChunkCreatedTime = spring_gettime();
+	lastNakTime = ArcLight_gettime();
+	lastUnackResentTime = ArcLight_gettime();
+	lastPacketSendTime = ArcLight_gettime();
+	lastPacketRecvTime = ArcLight_gettime();
+	lastChunkCreatedTime = ArcLight_gettime();
 
 	#ifdef ENABLE_DEBUG_STATS
-	lastDebugMessageTime = spring_gettime();
-	lastFramePacketRecvTime = spring_gettime();
+	lastDebugMessageTime = ArcLight_gettime();
+	lastFramePacketRecvTime = ArcLight_gettime();
 	#endif
 
 	lastInOrder = -1;
@@ -405,8 +405,8 @@ void UDPConnection::DeleteBufferPacketAt(unsigned index)
 
 void UDPConnection::Update()
 {
-	spring_time curTime = spring_gettime();
-	outgoing.UpdateTime(spring_tomsecs(curTime));
+	ArcLight_time curTime = ArcLight_gettime();
+	outgoing.UpdateTime(ArcLight_tomsecs(curTime));
 
 	#ifdef ENABLE_DEBUG_STATS
 	{
@@ -465,7 +465,7 @@ void UDPConnection::Update()
 				ProcessRawPacket(data);
 
 			// not likely, but make sure we do not get stuck here
-			if ((spring_gettime() - curTime) > spring_msecs(10)) {
+			if ((ArcLight_gettime() - curTime) > ArcLight_msecs(10)) {
 				break;
 			}
 		}
@@ -528,7 +528,7 @@ void UDPConnection::ProcessRawPacket(Packet& incoming)
 		LOG_L(L_INFO, "\t[%s] checksum=(%u : %u) mtu=%u", __func__, incoming.GetChecksum(), incoming.checksum, mtu);
 	#endif
 
-	lastPacketRecvTime = spring_gettime();
+	lastPacketRecvTime = ArcLight_gettime();
 	dataRecv += incoming.GetSize();
 	recvOverhead += Packet::headerSize;
 	recvPackets += 1;
@@ -652,7 +652,7 @@ void UDPConnection::ProcessRawPacket(Packet& incoming)
 				// TODO: would be easy to feed this data into a Q3A-style lagometer
 				//
 				if (msgPacket->data[0] == NETMSG_NEWFRAME || msgPacket->data[0] == NETMSG_KEYFRAME) {
-					const spring_time dt = spring_gettime() - lastFramePacketRecvTime;
+					const ArcLight_time dt = ArcLight_gettime() - lastFramePacketRecvTime;
 
 					sumDeltaFramePacketRecvTime += dt.toMilliSecsf();
 					minDeltaFramePacketRecvTime = std::min(dt.toMilliSecsf(), minDeltaFramePacketRecvTime);
@@ -660,7 +660,7 @@ void UDPConnection::ProcessRawPacket(Packet& incoming)
 
 					numReceivedFramePackets += 1;
 					numEnqueuedFramePackets += 1;
-					lastFramePacketRecvTime = spring_gettime();
+					lastFramePacketRecvTime = ArcLight_gettime();
 
 					if (logMessages) {
 						LOG_L(L_INFO,
@@ -698,12 +698,12 @@ void UDPConnection::Flush(const bool forced)
 	if (muted)
 		return;
 
-	const spring_time curTime = spring_gettime();
+	const ArcLight_time curTime = ArcLight_gettime();
 
 	// do not create chunks more than chunksPerSec times per second
-	const bool waitMore = (lastChunkCreatedTime >= (curTime - spring_msecs(1000 / chunksPerSec)));
+	const bool waitMore = (lastChunkCreatedTime >= (curTime - ArcLight_msecs(1000 / chunksPerSec)));
 	// if the packet is tiny, reduce the send frequency further
-	const int requiredLength = ((200 >> netLossFactor) - spring_tomsecs(curTime - lastChunkCreatedTime)) / 10;
+	const int requiredLength = ((200 >> netLossFactor) - ArcLight_tomsecs(curTime - lastChunkCreatedTime)) / 10;
 
 	int outgoingLength = 0;
 
@@ -780,7 +780,7 @@ bool UDPConnection::CheckTimeout(int seconds, bool initial) const {
 		timeout = globalConfig.reconnectTimeout;
 	}
 
-	return (timeout > 0 && (spring_gettime() - lastPacketRecvTime) > spring_secs(timeout));
+	return (timeout > 0 && (ArcLight_gettime() - lastPacketRecvTime) > ArcLight_secs(timeout));
 }
 
 bool UDPConnection::NeedsReconnect() {
@@ -812,17 +812,17 @@ std::string UDPConnection::Statistics() const
 	};
 
 	std::string msg = "[UDPConnection::Statistics]\n";
-	msg += spring::format(fmts[0], dataSent, sentPackets, spring::SafeDivide(dataSent * 1.0f, sentPackets * 1.0f));
-	msg += spring::format(fmts[1], dataRecv, recvPackets, spring::SafeDivide(dataRecv * 1.0f, recvPackets * 1.0f));
-	msg += spring::format(fmts[2], spring::SafeDivide(sentOverhead * 1.0f, dataSent * 1.0f), spring::SafeDivide(recvOverhead * 1.0f, dataRecv * 1.0f));
-	msg += spring::format(fmts[3], droppedChunks, resentChunks);
-	msg += spring::format(fmts[4], lastInOrder + 1);
+	msg += ArcLight::format(fmts[0], dataSent, sentPackets, ArcLight::SafeDivide(dataSent * 1.0f, sentPackets * 1.0f));
+	msg += ArcLight::format(fmts[1], dataRecv, recvPackets, ArcLight::SafeDivide(dataRecv * 1.0f, recvPackets * 1.0f));
+	msg += ArcLight::format(fmts[2], ArcLight::SafeDivide(sentOverhead * 1.0f, dataSent * 1.0f), ArcLight::SafeDivide(recvOverhead * 1.0f, dataRecv * 1.0f));
+	msg += ArcLight::format(fmts[3], droppedChunks, resentChunks);
+	msg += ArcLight::format(fmts[4], lastInOrder + 1);
 	return msg;
 }
 
 std::string UDPConnection::GetFullAddress() const
 {
-	return spring::format("[%s]:%u", addr.address().to_string().c_str(), addr.port());
+	return ArcLight::format("[%s]:%u", addr.address().to_string().c_str(), addr.port());
 }
 
 void UDPConnection::SetMTU(unsigned mtu2)
@@ -840,14 +840,14 @@ void UDPConnection::CreateChunk(const unsigned char* data, const unsigned length
 	buf->chunkSize = length;
 	std::copy(data, data + length, std::back_inserter(buf->data));
 	newChunks.push_back(buf);
-	lastChunkCreatedTime = spring_gettime();
+	lastChunkCreatedTime = ArcLight_gettime();
 }
 
 void UDPConnection::SendIfNecessary(bool flushed)
 {
-	const spring_time curTime = spring_gettime();
-	const spring_time difTime = curTime - lastPacketSendTime;
-	const spring_time unackTime = spring_msecs(400 >> netLossFactor);
+	const ArcLight_time curTime = ArcLight_gettime();
+	const ArcLight_time difTime = curTime - lastPacketSendTime;
+	const ArcLight_time unackTime = ArcLight_msecs(400 >> netLossFactor);
 
 	int nak = 0;
 	int rev = 0;
@@ -1051,7 +1051,7 @@ void UDPConnection::SendPacket(Packet& pkt)
 	pkt.Serialize(sendBuffer);
 
 	outgoing.DataSent(sendBuffer.size());
-	lastPacketSendTime = spring_gettime();
+	lastPacketSendTime = ArcLight_gettime();
 
 	ip::udp::socket::message_flags flags = 0;
 	asio::error_code err;

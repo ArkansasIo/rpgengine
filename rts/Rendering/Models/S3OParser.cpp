@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <cctype>
 #include <stdexcept>
@@ -77,7 +77,7 @@ S3DModel CS3OParser::Load(const std::string& name)
 
 SS3OPiece* CS3OParser::AllocPiece()
 {
-	std::lock_guard<spring::mutex> lock(poolMutex);
+	std::lock_guard<ArcLight::mutex> lock(poolMutex);
 
 	// lazily reserve pool here instead of during Init
 	// this way games using only one model-type do not

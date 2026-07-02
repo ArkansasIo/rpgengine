@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef SELECTED_UNITS_H
 #define SELECTED_UNITS_H
@@ -76,7 +76,7 @@ public:
 	bool selectionChanged = false;
 	bool possibleCommandsChanged = true;
 
-	spring::unordered_set<int> selectedUnits;
+	ArcLight::unordered_set<int> selectedUnits;
 	std::vector< std::vector<int> > netSelected;
 
 private:

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef WAIT_COMMANDS_AI_H
 #define WAIT_COMMANDS_AI_H
@@ -26,7 +26,7 @@ class CWaitCommandsAI {
 	CR_DECLARE_SUB(GatherWait)
 
 	public:
-		typedef spring::unordered_set<int> CUnitSet;
+		typedef ArcLight::unordered_set<int> CUnitSet;
 
 		CWaitCommandsAI();
 		~CWaitCommandsAI();
@@ -58,7 +58,7 @@ class CWaitCommandsAI {
 
 	private:
 		typedef int KeyType;
-		typedef spring::unordered_map<KeyType, Wait*> WaitMap;
+		typedef ArcLight::unordered_map<KeyType, Wait*> WaitMap;
 		WaitMap waitMap;
 		WaitMap unackedMap;
 
@@ -76,7 +76,7 @@ class CWaitCommandsAI {
 				virtual void AddUnitPosition(const float3& pos) {}
 				virtual const std::string& GetStateText() const { return noText; }
 			public:
-				spring_time GetDeadTime() const { return deadTime; }
+				ArcLight_time GetDeadTime() const { return deadTime; }
 				float GetCode() const { return code; }
 				KeyType GetKey() const { return key; }
 			public:
@@ -96,7 +96,7 @@ class CWaitCommandsAI {
 				float code;
 				KeyType key;
 				bool valid;
-				spring_time deadTime;
+				ArcLight_time deadTime;
 			protected:
 				static KeyType GetNewKey();
 			private:

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "LuaConstEngine.h"
 #include "LuaHandle.h"
@@ -8,10 +8,10 @@
 
 bool LuaConstEngine::PushEntries(lua_State* L)
 {
-	LuaPushNamedString(L, "version"        ,                                    SpringVersion::GetSync()          );
-	LuaPushNamedString(L, "versionFull"    , (!CLuaHandle::GetHandleSynced(L))? SpringVersion::GetFull()      : "");
-	LuaPushNamedString(L, "versionPatchSet", (!CLuaHandle::GetHandleSynced(L))? SpringVersion::GetPatchSet()  : "");
-	LuaPushNamedString(L, "buildFlags"     , (!CLuaHandle::GetHandleSynced(L))? SpringVersion::GetAdditional(): "");
+	LuaPushNamedString(L, "version"        ,                                    ArcLightVersion::GetSync()          );
+	LuaPushNamedString(L, "versionFull"    , (!CLuaHandle::GetHandleSynced(L))? ArcLightVersion::GetFull()      : "");
+	LuaPushNamedString(L, "versionPatchSet", (!CLuaHandle::GetHandleSynced(L))? ArcLightVersion::GetPatchSet()  : "");
+	LuaPushNamedString(L, "buildFlags"     , (!CLuaHandle::GetHandleSynced(L))? ArcLightVersion::GetAdditional(): "");
 
 	#if 0
 	LuaPushNamedNumber(L, "nativeWordSize", (!CLuaHandle::GetHandleSynced(L))? Platform::NativeWordSize() * 8: 0); // engine

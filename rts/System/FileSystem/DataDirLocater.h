@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef DATA_DIR_LOCATER_H
 #define DATA_DIR_LOCATER_H
@@ -34,7 +34,7 @@ public:
 	DataDirLocater();
 
 	/**
-	 * @brief locate spring data directories
+	 * @brief locate ArcLight data directories
 	 *
 	 * Attempts to locate a writable data dir, and then tries to
 	 * chdir to it.
@@ -66,7 +66,7 @@ public:
 	 * Returns whether isolation-mode is enabled.
 	 * In isolation-mode, we will only use a single data-dir.
 	 * This defaults to false, but can be set to true by setting the env var
-	 * SPRING_ISOLATED.
+	 * ARCLIGHT_ISOLATED.
 	 * @see #GetIsolationModeDir
 	 */
 	bool IsIsolationMode() const { return isolationMode; }
@@ -74,8 +74,8 @@ public:
 	/**
 	 * Determines whether we are in portable mode.
 	 * It defines portable mode as:
-	 * The spring binary (spring binary), the unitsync
-	 * and springsettings.cfg are in the same directory.
+	 * The ArcLight binary (ArcLight binary), the unitsync
+	 * and ArcLightsettings.cfg are in the same directory.
 	 */
 	static bool IsPortableMode();
 
@@ -89,7 +89,7 @@ public:
 	/**
 	 * Returns the isolation-mode directory, or "", if the default one is used.
 	 * The default one is CWD or CWD/.., in case of a versioned data-dir.
-	 * If the env var SPRING_ISOLATED is set to a valid directory,
+	 * If the env var ARCLIGHT_ISOLATED is set to a valid directory,
 	 * it replaced the above mentioned default.
 	 * This is only relevant if isolation-mode is active.
 	 * @see #IsIsolationMode

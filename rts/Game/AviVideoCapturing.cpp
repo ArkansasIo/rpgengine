@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #if       defined AVI_CAPTURING
 #include "AviVideoCapturing.h"
@@ -25,7 +25,7 @@ void AviVideoCapturing::StopCapturing()
 	capturing = false;
 	allowRecord = false;
 
-	spring::SafeDelete(aviGenerator);
+	ArcLight::SafeDelete(aviGenerator);
 }
 
 
@@ -42,7 +42,7 @@ void AviVideoCapturing::StartCapturing()
 	size_t vi;
 
 	for (vi = 0; vi < MAX_NUM_VIDEOS; ++vi) {
-		if (!CFileHandler::FileExists(fileName = std::string("video") + IntToString(vi) + ".avi", SPRING_VFS_RAW))
+		if (!CFileHandler::FileExists(fileName = std::string("video") + IntToString(vi) + ".avi", ARCLIGHT_VFS_RAW))
 			break;
 	}
 
@@ -68,7 +68,7 @@ void AviVideoCapturing::StartCapturing()
 		allowRecord = false;
 
 		LOG_L(L_ERROR, "%s", aviGenerator->GetLastErrorMessage().c_str());
-		spring::SafeDelete(aviGenerator);
+		ArcLight::SafeDelete(aviGenerator);
 	} else {
 		LOG("Recording avi to %s size %i x %i", fileName.c_str(), videoSizeX, videoSizeY);
 	}

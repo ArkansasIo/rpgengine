@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 #include <cstdio>
 #include <cstdarg>
 #include <cassert>
@@ -317,7 +317,7 @@ const char* log_filter_section_getSectionCString(const char* section_cstr_tmp)
 {
 	// cache for log_frontend_register_runtime_section; services LuaUnsyced
 	static std::array<char[1024], MAX_LOG_SECTIONS> cache;
-	static spring::unordered_map<std::string, size_t> index;
+	static ArcLight::unordered_map<std::string, size_t> index;
 
 	// see if str is already mapped to a cache-index
 	const auto str = std::string(section_cstr_tmp);

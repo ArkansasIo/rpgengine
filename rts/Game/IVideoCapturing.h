@@ -1,11 +1,11 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _VIDEO_CAPTURING_H
 #define _VIDEO_CAPTURING_H
 
 #include "System/Misc/NonCopyable.h"
 
-class IVideoCapturing : public spring::noncopyable {
+class IVideoCapturing : public ArcLight::noncopyable {
 
 protected:
 	IVideoCapturing() {}

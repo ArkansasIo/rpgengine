@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "UnitDrawer.h"
 #include "UnitDrawerState.hpp"
@@ -245,7 +245,7 @@ void CUnitDrawer::KillStatic(bool reload) {
 	if (reload)
 		return;
 
-	spring::SafeDestruct(unitDrawer);
+	ArcLight::SafeDestruct(unitDrawer);
 }
 
 void CUnitDrawer::Init() {
@@ -1785,7 +1785,7 @@ void CUnitDrawer::UpdateUnitMiniMapIcon(const CUnit* unit, bool forced, bool kil
 
 	if (!killed) {
 		if ((oldIcon != newIcon) || forced) {
-			spring::VectorErase(unitsByIcon[oldIcon], unit);
+			ArcLight::VectorErase(unitsByIcon[oldIcon], unit);
 			unitsByIcon[newIcon].push_back(unit);
 		}
 
@@ -1793,7 +1793,7 @@ void CUnitDrawer::UpdateUnitMiniMapIcon(const CUnit* unit, bool forced, bool kil
 		return;
 	}
 
-	spring::VectorErase(unitsByIcon[oldIcon], unit);
+	ArcLight::VectorErase(unitsByIcon[oldIcon], unit);
 }
 
 
@@ -1851,7 +1851,7 @@ void CUnitDrawer::RenderUnitDestroyed(const CUnit* unit) {
 			gso->IncRef();
 		}
 
-		spring::VectorErase(liveGhostBuildings[allyTeam][MDL_TYPE(u)], u);
+		ArcLight::VectorErase(liveGhostBuildings[allyTeam][MDL_TYPE(u)], u);
 	}
 
 	if (u->model != nullptr) {
@@ -1860,7 +1860,7 @@ void CUnitDrawer::RenderUnitDestroyed(const CUnit* unit) {
 		opaqueModelRenderers[MDL_TYPE(u)].DelObject(u);
 	}
 
-	spring::VectorErase(unsortedUnits, u);
+	ArcLight::VectorErase(unsortedUnits, u);
 
 	UpdateUnitMiniMapIcon(unit, false, true);
 	LuaObjectDrawer::SetObjectLOD(u, LUAOBJ_UNIT, 0);
@@ -1889,7 +1889,7 @@ void CUnitDrawer::UnitEnteredLos(const CUnit* unit, int allyTeam) {
 	CUnit* u = const_cast<CUnit*>(unit); //cleanup
 
 	if (gameSetup->ghostedBuildings && unit->unitDef->IsBuildingUnit())
-		spring::VectorErase(liveGhostBuildings[allyTeam][MDL_TYPE(unit)], u);
+		ArcLight::VectorErase(liveGhostBuildings[allyTeam][MDL_TYPE(unit)], u);
 
 	if (allyTeam != gu->myAllyTeam)
 		return;
@@ -1901,7 +1901,7 @@ void CUnitDrawer::UnitLeftLos(const CUnit* unit, int allyTeam) {
 	CUnit* u = const_cast<CUnit*>(unit); //cleanup
 
 	if (gameSetup->ghostedBuildings && unit->unitDef->IsBuildingUnit())
-		spring::VectorInsertUnique(liveGhostBuildings[allyTeam][MDL_TYPE(unit)], u, true);
+		ArcLight::VectorInsertUnique(liveGhostBuildings[allyTeam][MDL_TYPE(unit)], u, true);
 
 	if (allyTeam != gu->myAllyTeam)
 		return;
@@ -1975,7 +1975,7 @@ void CUnitDrawer::UpdateTempDrawUnits(std::vector<TempDrawUnit>& tempDrawUnits)
 {
 	for (unsigned int n = 0; n < tempDrawUnits.size(); /*no-op*/) {
 		if (tempDrawUnits[n].timeout <= gs->frameNum) {
-			// do not use spring::VectorErase; we already know the index
+			// do not use ArcLight::VectorErase; we already know the index
 			tempDrawUnits[n] = tempDrawUnits.back();
 			tempDrawUnits.pop_back();
 			continue;
@@ -1992,7 +1992,7 @@ void CUnitDrawer::UpdateTempDrawUnits(std::vector<TempDrawUnit>& tempDrawUnits)
 
 static bool LoadBuildPic(const std::string& filename, CBitmap& bitmap)
 {
-	if (CFileHandler::FileExists(filename, SPRING_VFS_RAW_FIRST)) {
+	if (CFileHandler::FileExists(filename, ARCLIGHT_VFS_RAW_FIRST)) {
 		bitmap.Load(filename);
 		return true;
 	}

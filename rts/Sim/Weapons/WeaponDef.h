@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _WEAPON_DEF_H
 #define _WEAPON_DEF_H
@@ -218,7 +218,7 @@ public:
 
 	float cameraShake;
 
-	spring::unordered_map<std::string, std::string> customParams;
+	ArcLight::unordered_map<std::string, std::string> customParams;
 
 	struct Visuals {
 		float3 color;

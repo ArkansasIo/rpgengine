@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 
 #include <cctype>
@@ -177,8 +177,8 @@ std::vector<TexFile> C3DOTextureHandler::LoadTexFiles()
 
 	CSimpleParser parser(teamTexFile);
 
-	spring::unordered_set<std::string> teamTexes;
-	spring::unordered_set<string> usedNames;
+	ArcLight::unordered_set<std::string> teamTexes;
+	ArcLight::unordered_set<string> usedNames;
 
 	while (!parser.Eof()) {
 		teamTexes.insert(StringToLower(parser.GetCleanLine()));

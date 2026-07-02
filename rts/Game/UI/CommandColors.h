@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _COMMAND_COLORS_H
 #define _COMMAND_COLORS_H
@@ -191,8 +191,8 @@ private:
 	unsigned int mouseBoxBlendSrc;
 	unsigned int mouseBoxBlendDst;
 
-	spring::unordered_map<std::string, int> colorNames;
-	spring::unordered_map<int, DrawData> customCmds;
+	ArcLight::unordered_map<std::string, int> colorNames;
+	ArcLight::unordered_map<int, DrawData> customCmds;
 };
 
 

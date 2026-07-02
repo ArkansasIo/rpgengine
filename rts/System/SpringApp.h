@@ -1,7 +1,7 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
-#ifndef SPRING_APP
-#define SPRING_APP
+#ifndef ArcLight_APP
+#define ArcLight_APP
 
 #include <string>
 #include <memory>
@@ -16,9 +16,9 @@ namespace Threading {
 };
 
 /**
- * @brief Spring App
+ * @brief ArcLight App
  *
- * Main Spring application class launched by main()
+ * Main ArcLight application class launched by main()
  */
 class SpringApp
 {
@@ -48,7 +48,7 @@ private:
 	void Startup();                                 //!< Parses startup data (script etc.) and starts SelectMenu or PreGame
 	void StartScript(const std::string& script);    //!< Starts game from specified script.txt
 	void Reload(const std::string script);          //!< Returns from game back to menu, or directly starts a new game
-	void LoadSpringMenu();                          //!< Load menu (old or luaified depending on start parameters)
+	void LoadArcLightMenu();                          //!< Load menu (old or luaified depending on start parameters)
 
 	CGameController* RunScript(const std::string& buf);
 	CGameController* LoadSaveFile(const std::string& saveName); //!< Starts game from a specified save

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "ISound.h"
 
@@ -26,7 +26,7 @@ CONFIG(bool, Sound).defaultValue(true).description("Enables (OpenAL) or disables
 CONFIG(bool, UseEFX     ).defaultValue( true).safemodeValue(false);
 CONFIG(bool, UseSDLAudio).defaultValue( true).safemodeValue(false).headlessValue(0).description("If enabled, OpenAL-soft only renders audio into a SDL buffer and playback is done by the SDL audio layer, i.e. SDL handles the hardware");
 
-// defined here so spring-headless contains them, too (default & headless should contain the same set of configtags!)
+// defined here so ArcLight-headless contains them, too (default & headless should contain the same set of configtags!)
 CONFIG(int, MaxSounds).defaultValue(128).headlessValue(1).minimumValue(1).description("Maximum sounds played in parallel.");
 CONFIG(int, PitchAdjust).defaultValue(0).description("Adjusts sound pitch proportional to [if set to 1, the square root of] game speed. Set to 2 for linear scaling.");
 
@@ -83,7 +83,7 @@ void ISound::Initialize(bool reload, bool forceNullSound)
 					break;
 				}
 
-				spring_sleep(spring_msecs(100));
+				ArcLight_sleep(ArcLight_msecs(100));
 			}
 		}
 	} else
@@ -109,13 +109,13 @@ void ISound::Shutdown(bool reload)
 		singleton->Kill();
 
 	if (!reload)
-		spring::SafeDelete(singleton);
+		ArcLight::SafeDelete(singleton);
 
-	spring::SafeDestruct(Channels::BGMusic);
-	spring::SafeDestruct(Channels::General);
-	spring::SafeDestruct(Channels::Battle);
-	spring::SafeDestruct(Channels::UnitReply);
-	spring::SafeDestruct(Channels::UserInterface);
+	ArcLight::SafeDestruct(Channels::BGMusic);
+	ArcLight::SafeDestruct(Channels::General);
+	ArcLight::SafeDestruct(Channels::Battle);
+	ArcLight::SafeDestruct(Channels::UnitReply);
+	ArcLight::SafeDestruct(Channels::UserInterface);
 
 	std::memset(audioChannelMem[0], 0, sizeof(audioChannelMem[0]));
 	std::memset(audioChannelMem[1], 0, sizeof(audioChannelMem[1]));

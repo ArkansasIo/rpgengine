@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "GameSetup.h"
 #include "Map/MapParser.h"
@@ -134,13 +134,13 @@ bool CGameSetup::ScriptLoaded() {
 }
 
 
-const spring::unordered_map<std::string, std::string>& CGameSetup::GetMapOptions()
+const ArcLight::unordered_map<std::string, std::string>& CGameSetup::GetMapOptions()
 {
 	// will always be empty if !ScriptLoaded
 	return (gameSetup->GetMapOptionsCont());
 }
 
-const spring::unordered_map<std::string, std::string>& CGameSetup::GetModOptions()
+const ArcLight::unordered_map<std::string, std::string>& CGameSetup::GetModOptions()
 {
 	return (gameSetup->GetModOptionsCont());
 }
@@ -211,8 +211,8 @@ void CGameSetup::ResetState()
 
 	restrictedUnits.clear(); // never iterated
 
-	spring::clear_unordered_map(mapOptions);
-	spring::clear_unordered_map(modOptions);
+	ArcLight::clear_unordered_map(mapOptions);
+	ArcLight::clear_unordered_map(modOptions);
 }
 
 
@@ -292,7 +292,7 @@ void CGameSetup::LoadMutators(const TdfParser& file, std::vector<std::string>& m
 	}
 }
 
-void CGameSetup::LoadPlayers(const TdfParser& file, spring::unordered_set<std::string>& nameList)
+void CGameSetup::LoadPlayers(const TdfParser& file, ArcLight::unordered_set<std::string>& nameList)
 {
 	assert(numDemoPlayers == 0);
 
@@ -312,9 +312,9 @@ void CGameSetup::LoadPlayers(const TdfParser& file, spring::unordered_set<std::s
 
 		// do checks for sanity
 		if (playerBase.name.empty())
-			throw content_error(spring::format("GameSetup: No name given for Player %i", a));
+			throw content_error(ArcLight::format("GameSetup: No name given for Player %i", a));
 		if (nameList.find(playerBase.name) != nameList.end())
-			throw content_error(spring::format("GameSetup: Player %i has name %s which is already taken", a, playerBase.name.c_str()));
+			throw content_error(ArcLight::format("GameSetup: Player %i has name %s which is already taken", a, playerBase.name.c_str()));
 
 		numDemoPlayers += playerBase.isFromDemo;
 
@@ -334,7 +334,7 @@ void CGameSetup::LoadPlayers(const TdfParser& file, spring::unordered_set<std::s
 	LOG_L(L_WARNING, _STPF_ " players in GameSetup script (NumPlayers says %i)", playerStartingData.size(), playerCount);
 }
 
-void CGameSetup::LoadSkirmishAIs(const TdfParser& file, spring::unordered_set<std::string>& nameList)
+void CGameSetup::LoadSkirmishAIs(const TdfParser& file, ArcLight::unordered_set<std::string>& nameList)
 {
 	// i = AI index in game (no gaps), a = AI index in script
 	for (int a = 0; a < MAX_PLAYERS; ++a) {
@@ -495,7 +495,7 @@ void CGameSetup::RemapTeams()
 			playerStartingData[a].team = 0;
 		} else {
 			if (teamRemap.find(playerStartingData[a].team) == teamRemap.end())
-				throw content_error(spring::format("GameSetup: Player %i belong to wrong team: %i", a, playerStartingData[a].team));
+				throw content_error(ArcLight::format("GameSetup: Player %i belong to wrong team: %i", a, playerStartingData[a].team));
 
 			playerStartingData[a].team = teamRemap[playerStartingData[a].team];
 		}
@@ -613,7 +613,7 @@ bool CGameSetup::Init(const std::string& buf)
 	startPosType = std::min(startPosType, StartPos_Last);
 
 	// Read subsections
-	spring::unordered_set<std::string> playersNameList;
+	ArcLight::unordered_set<std::string> playersNameList;
 
 	LoadPlayers(file, playersNameList);
 	LoadSkirmishAIs(file, playersNameList);

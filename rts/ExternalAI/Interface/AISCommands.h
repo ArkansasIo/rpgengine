@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef AI_S_COMMANDS_H
 #define	AI_S_COMMANDS_H
@@ -19,7 +19,7 @@ extern "C" {
 
 /**
  * Commands are used for all activities that change game state,
- * in spring terms: synced events
+ * in ArcLight terms: synced events
  * Activities that leave the game state as it is (-> unsynced events)
  * are handled through function pointers in SSkirmishAICallback.h.
  *

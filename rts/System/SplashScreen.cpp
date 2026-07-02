@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <SDL.h>
 
@@ -162,7 +162,7 @@ static const char* FMT_STRS[5] = {
 	"[Initializing Virtual File System]",
 	"* archives scanned: %u",
 	"* scantime elapsed: %.1fms",
-	"Spring %s",
+	"ArcLight %s",
 	"This program is distributed under the GNU General Public License, see doc/LICENSE for more information.",
 };
 
@@ -170,7 +170,7 @@ static const char* FMT_STRS[5] = {
 
 void ShowSplashScreen(
 	const std::string& splashScreenFile,
-	const std::string& springVersionStr,
+	const std::string& ArcLightVersionStr,
 	const std::function<bool()>& testDoneFunc
 ) {
 	CBitmap bmp;
@@ -208,7 +208,7 @@ void ShowSplashScreen(
 	const float textWidth[3] = {
 		font->GetTextWidth(FMT_STRS[0]),
 		font->GetTextWidth(FMT_STRS[4]),
-		font->GetTextWidth("Spring " + springVersionStr),
+		font->GetTextWidth("ArcLight " + ArcLightVersionStr),
 	};
 	const float normWidth[3] = {
 		textWidth[0] * globalRendering->pixelX * font->GetSize() * TEXT_COORS.z,
@@ -231,7 +231,7 @@ void ShowSplashScreen(
 
 	glActiveTexture(GL_TEXTURE0);
 
-	for (spring_time t0 = spring_now(), t1 = t0; !testDoneFunc(); t1 = spring_now()) {
+	for (ArcLight_time t0 = ArcLight_now(), t1 = t0; !testDoneFunc(); t1 = ArcLight_now()) {
 		glAttribStatePtr->Clear(GL_COLOR_BUFFER_BIT);
 		glBindTexture(GL_TEXTURE_2D, splashTex);
 
@@ -246,10 +246,10 @@ void ShowSplashScreen(
 		font->glFormat(TEXT_COORS.x - (normWidth[0] * 0.475f), TEXT_COORS.y - (TEXT_COORS.w * TEXT_COORS.z * 1.0f), TEXT_COORS.z, fontFlags, FMT_STRS[1], CArchiveScanner::GetNumScannedArchives());
 		font->glFormat(TEXT_COORS.x - (normWidth[0] * 0.475f), TEXT_COORS.y - (TEXT_COORS.w * TEXT_COORS.z * 2.0f), TEXT_COORS.z, fontFlags, FMT_STRS[2], (t1 - t0).toMilliSecsf());
 
-		// always render Spring's license notice (even on a white background)
+		// always render ArcLight's license notice (even on a white background)
 		font->SetOutlineColor(0.0f, 0.0f, 0.0f, 0.65f);
 		font->SetTextColor(TEXT_COLOR.x, TEXT_COLOR.y, TEXT_COLOR.z, TEXT_COLOR.w);
-		font->glFormat(TEXT_COORS.x - (normWidth[2] * 0.5f), TEXT_COORS.y * 0.5f - (TEXT_COORS.w * TEXT_COORS.z * 1.0f), TEXT_COORS.z, fontFlags | FONT_OUTLINE, FMT_STRS[3], springVersionStr.c_str());
+		font->glFormat(TEXT_COORS.x - (normWidth[2] * 0.5f), TEXT_COORS.y * 0.5f - (TEXT_COORS.w * TEXT_COORS.z * 1.0f), TEXT_COORS.z, fontFlags | FONT_OUTLINE, FMT_STRS[3], ArcLightVersionStr.c_str());
 		font->glFormat(TEXT_COORS.x - (normWidth[1] * 0.5f), TEXT_COORS.y * 0.5f - (TEXT_COORS.w * TEXT_COORS.z * 2.0f), TEXT_COORS.z, fontFlags | FONT_OUTLINE, FMT_STRS[4]);
 		font->DrawBufferedGL4();
 

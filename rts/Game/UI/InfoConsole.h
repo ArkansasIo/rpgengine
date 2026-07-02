@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef INFO_CONSOLE_H
 #define INFO_CONSOLE_H
@@ -62,7 +62,7 @@ private:
 
 	struct InfoLine {
 		std::string text;
-		spring_time timeout;
+		ArcLight_time timeout;
 	};
 
 	std::array<float3, maxMsgCount> lastMsgPositions;
@@ -75,7 +75,7 @@ private:
 	std::string prvSection;
 	std::string prvMessage;
 
-	spring::recursive_mutex infoConsoleMutex;
+	ArcLight::recursive_mutex infoConsoleMutex;
 
 	size_t maxLines = 1;
 	size_t newLines = 0;

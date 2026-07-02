@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "LuaGaia.h"
 
@@ -7,7 +7,7 @@
 
 #include "Sim/Misc/GlobalSynced.h"
 #include "Sim/Misc/TeamHandler.h"
-#include "System/FileSystem/FileHandler.h" // SPRING_VFS*
+#include "System/FileSystem/FileHandler.h" // ArcLight_VFS*
 #include "System/FileSystem/VFSHandler.h"
 #include "System/StringUtil.h"
 #include "System/Threading/SpringThreading.h"
@@ -22,7 +22,7 @@ static const char* LuaGaiaUnsyncedFilename = "LuaGaia/draw.lua";
 /******************************************************************************/
 /******************************************************************************/
 
-static spring::mutex m_singleton;
+static ArcLight::mutex m_singleton;
 
 DECL_LOAD_SPLIT_HANDLER(CLuaGaia, luaGaia)
 DECL_FREE_HANDLER(CLuaGaia, luaGaia)
@@ -57,7 +57,7 @@ std::string CLuaGaia::GetSyncedFileName() const
 
 std::string CLuaGaia::GetInitFileModes() const
 {
-	return SPRING_VFS_MAP_BASE;
+	return ARCLIGHT_VFS_MAP_BASE;
 }
 
 int CLuaGaia::GetInitSelectTeam() const

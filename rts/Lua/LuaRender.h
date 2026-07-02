@@ -107,8 +107,8 @@ private:
 	static void UnmapBuffer();
 
 	/**
-	 * @brief Check if spring is currently in the intro stage.
-	 * @return true iff spring has not finished loading.
+	 * @brief Check if ArcLight is currently in the intro stage.
+	 * @return true iff ArcLight has not finished loading.
 	 */
 	static bool IsIntro();
 
@@ -154,9 +154,9 @@ private:
 	 *
 	 * This can be used to submit vertex attributes to a custom Lua shader.
 	 * Note that you have to manage your shader completely from Lua.
-	 * No uniforms are set by Spring.Draw and no screen/world context is evaluated.
+	 * No uniforms are set by ArcLight.Draw and no screen/world context is evaluated.
 	 *
-	 * Example: Spring.Draw.Vertices(3,
+	 * Example: ArcLight.Draw.Vertices(3,
 	 *                              {{0, 0, 0}, {100, 0, 0}, {100, 0, 100}},
 	 *                              {{1, 0, 0, 1}, {0, 1, 0, 1}, {0, 0, 1, 1}})
 	 *
@@ -191,7 +191,7 @@ private:
 	 *   length of one width.
 	 * - 'animationspeed' is given in texture coordinate units per second.
 	 *
-	 * Example: Spring.Draw.Lines({10, 10}, {10, 100}, {100, 100}, {width=5, color={0.5,0,0,1}, loop=true})
+	 * Example: ArcLight.Draw.Lines({10, 10}, {10, 100}, {100, 100}, {width=5, color={0.5,0,0,1}, loop=true})
 	 *
 	 * @param L Lua state.
 	 * @return Always 0.
@@ -219,7 +219,7 @@ private:
 	 * - 'relative' specifies if coords is interpreted as relative screen
 	 *   coordinates ([0,1],[0,1]). Defaults to true in intro, false in game.
 	 *
-	 * Example: Spring.Draw.Triangle({10, 10}, {10, 100}, {100, 100}, {color={0.5,0,0,1}})
+	 * Example: ArcLight.Draw.Triangle({10, 10}, {10, 100}, {100, 100}, {color={0.5,0,0,1}})
 	 *
 	 * @param L Lua state.
 	 * @return Always 0.
@@ -265,7 +265,7 @@ private:
 	 * - The border width of a bevelled rectangle is rounded down to the
 	 *   nearest integer.
 	 *
-	 * Example: Spring.Draw.Rectangle({10, 10}, {100, 100}, {radius=5, color={0.5,0,0,1}, border=1, bordercolor={0,1,0,1}})
+	 * Example: ArcLight.Draw.Rectangle({10, 10}, {100, 100}, {radius=5, color={0.5,0,0,1}, border=1, bordercolor={0,1,0,1}})
 	 *
 	 * @param L Lua state.
 	 * @return Always 0.

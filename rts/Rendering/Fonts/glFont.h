@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _GLFONT_H
 #define _GLFONT_H
@@ -153,7 +153,7 @@ private:
 
 private:
 	std::string fontPath;
-	spring::recursive_mutex bufferMutex;
+	ArcLight::recursive_mutex bufferMutex;
 
 
 	// used by {Begin,End}; each double-buffered

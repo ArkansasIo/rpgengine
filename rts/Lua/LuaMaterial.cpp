@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 
 #include "LuaMaterial.h"
@@ -522,7 +522,7 @@ void LuaMaterial::Print(const string& indent) const
 //  LuaMatUniforms
 //
 
-spring::unsynced_map<LuaMatUniforms::IUniform*, std::string> LuaMatUniforms::GetEngineUniformNamePairs()
+ArcLight::unsynced_map<LuaMatUniforms::IUniform*, std::string> LuaMatUniforms::GetEngineUniformNamePairs()
 {
 	return {
 		{&viewMatrix,    "ViewMatrix"},
@@ -545,7 +545,7 @@ spring::unsynced_map<LuaMatUniforms::IUniform*, std::string> LuaMatUniforms::Get
 	};
 }
 
-spring::unsynced_map<std::string, LuaMatUniforms::IUniform*> LuaMatUniforms::GetEngineNameUniformPairs()
+ArcLight::unsynced_map<std::string, LuaMatUniforms::IUniform*> LuaMatUniforms::GetEngineNameUniformPairs()
 {
 	return {
 		{"Camera",                  &viewMatrix},

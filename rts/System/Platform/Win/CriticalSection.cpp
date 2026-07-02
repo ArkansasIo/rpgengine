@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "CriticalSection.h"
 #include <algorithm>
@@ -48,10 +48,10 @@ win_signal::~win_signal()
 
 void win_signal::wait()
 {
-	wait_for(spring_notime);
+	wait_for(ArcLight_notime);
 }
 
-void win_signal::wait_for(spring_time t)
+void win_signal::wait_for(ArcLight_time t)
 {
 	++sleepers;
 

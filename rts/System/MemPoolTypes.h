@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef MEMPOOL_TYPES_H
 #define MEMPOOL_TYPES_H
@@ -30,7 +30,7 @@ public:
 			i = pages.size() - 1;
 		} else {
 			// must pop before ctor runs; objects can be created recursively
-			i = spring::VectorBackPop(indcs);
+			i = ArcLight::VectorBackPop(indcs);
 		}
 
 		m = pages[curr_page_index = i].data();
@@ -63,7 +63,7 @@ public:
 		assert(mapped(p));
 		void* m = p;
 
-		spring::SafeDestruct(p);
+		ArcLight::SafeDestruct(p);
 		// must free after dtor runs, since that can trigger *another* ctor call
 		// by proxy (~CUnit -> ~CObject -> DependentDied -> CommandAI::FinishCmd
 		// -> CBuilderCAI::ExecBuildCmd -> UnitLoader::LoadUnit -> CUnit e.g.)
@@ -95,7 +95,7 @@ private:
 	std::vector<size_t> indcs;
 
 	// <pointer, page index> (non-intrusive)
-	spring::unsynced_map<void*, size_t> table;
+	ArcLight::unsynced_map<void*, size_t> table;
 
 	size_t curr_page_index = 0;
 };
@@ -135,7 +135,7 @@ public:
 			num_chunks += 1;
 		}
 
-		const uint32_t idx = spring::VectorBackPop(indcs);
+		const uint32_t idx = ArcLight::VectorBackPop(indcs);
 
 		assert(size <= PAGE_SIZE());
 		memcpy(ptr = page_mem(page_index = idx), &idx, sizeof(idx));
@@ -148,7 +148,7 @@ public:
 
 		T* tmp = ptr;
 
-		spring::SafeDestruct(ptr);
+		ArcLight::SafeDestruct(ptr);
 		freeMem(tmp);
 	}
 
@@ -264,7 +264,7 @@ public:
 		assert(mapped(p));
 		void* m = p;
 
-		spring::SafeDestruct(p);
+		ArcLight::SafeDestruct(p);
 		freeMem(m);
 	}
 

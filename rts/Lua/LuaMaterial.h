@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef LUA_MATERIAL_H
 #define LUA_MATERIAL_H
@@ -272,12 +272,12 @@ private:
 	};
 
 private:
-	spring::unsynced_map<IUniform*, std::string> GetEngineUniformNamePairs();
-	spring::unsynced_map<std::string, IUniform*> GetEngineNameUniformPairs();
+	ArcLight::unsynced_map<IUniform*, std::string> GetEngineUniformNamePairs();
+	ArcLight::unsynced_map<std::string, IUniform*> GetEngineNameUniformPairs();
 
 public:
 	// per-{unit,feature} custom uniforms set via LuaObjectRendering
-	spring::unsynced_map<int, std::array<LuaMatUniform, 16>> objectUniforms[2];
+	ArcLight::unsynced_map<int, std::array<LuaMatUniform, 16>> objectUniforms[2];
 
 	UniformMat<CMatrix44f> viewMatrix;
 	UniformMat<CMatrix44f> projMatrix;

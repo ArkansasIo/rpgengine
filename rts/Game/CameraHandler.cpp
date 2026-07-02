@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <cstring> // memset
 #include <cstdlib>
@@ -15,7 +15,7 @@
 #include "Camera/RotOverheadController.h"
 #include "Camera/FreeController.h"
 #include "Camera/OverviewController.h"
-#include "Camera/SpringController.h"
+#include "Camera/ArcLightController.h"
 #include "Players/Player.h"
 #include "UI/UnitTracker.h"
 #include "Rendering/GlobalRendering.h"
@@ -39,11 +39,11 @@ static std::string strformat(const char* fmt, ...)
 CONFIG(std::string, CamModeName).defaultValue("");
 
 CONFIG(int, CamMode)
-	.defaultValue(CCameraHandler::CAMERA_MODE_SPRING)
-	.description(strformat("Defines the used camera. Options are:\n%i = FPS\n%i = Overhead\n%i = Spring\n%i = RotOverhead\n%i = Free\n%i = Overview",
+	.defaultValue(CCameraHandler::CAMERA_MODE_ArcLight)
+	.description(strformat("Defines the used camera. Options are:\n%i = FPS\n%i = Overhead\n%i = ArcLight\n%i = RotOverhead\n%i = Free\n%i = Overview",
 		(int)CCameraHandler::CAMERA_MODE_FIRSTPERSON,
 		(int)CCameraHandler::CAMERA_MODE_OVERHEAD,
-		(int)CCameraHandler::CAMERA_MODE_SPRING,
+		(int)CCameraHandler::CAMERA_MODE_ArcLight,
 		(int)CCameraHandler::CAMERA_MODE_ROTOVERHEAD,
 		(int)CCameraHandler::CAMERA_MODE_FREE,
 		(int)CCameraHandler::CAMERA_MODE_OVERVIEW
@@ -89,7 +89,7 @@ void CCameraHandler::InitStatic() {
 }
 
 void CCameraHandler::KillStatic() {
-	spring::SafeDestruct(camHandler);
+	ArcLight::SafeDestruct(camHandler);
 	std::memset(camHandlerMem, 0, sizeof(camHandlerMem));
 }
 
@@ -108,7 +108,7 @@ CCameraHandler::CCameraHandler() {
 CCameraHandler::~CCameraHandler() {
 	// regular controllers should already have been killed
 	assert(camControllers[0] == nullptr);
-	spring::SafeDestruct(camControllers[CAMERA_MODE_DUMMY]);
+	ArcLight::SafeDestruct(camControllers[CAMERA_MODE_DUMMY]);
 	std::memset(camControllerMem[CAMERA_MODE_DUMMY], 0, sizeof(camControllerMem[CAMERA_MODE_DUMMY]));
 }
 
@@ -125,7 +125,7 @@ void CCameraHandler::Init()
 	{
 		RegisterAction("viewfps");
 		RegisterAction("viewta");
-		RegisterAction("viewspring");
+		RegisterAction("viewArcLight");
 		RegisterAction("viewrot");
 		RegisterAction("viewfree");
 		RegisterAction("viewov");
@@ -169,7 +169,7 @@ void CCameraHandler::InitControllers()
 {
 	static_assert(sizeof(        CFPSController) <= sizeof(camControllerMem[CAMERA_MODE_FIRSTPERSON]), "");
 	static_assert(sizeof(   COverheadController) <= sizeof(camControllerMem[CAMERA_MODE_OVERHEAD   ]), "");
-	static_assert(sizeof(     CSpringController) <= sizeof(camControllerMem[CAMERA_MODE_SPRING     ]), "");
+	static_assert(sizeof(     CArcLightController) <= sizeof(camControllerMem[CAMERA_MODE_ArcLight     ]), "");
 	static_assert(sizeof(CRotOverheadController) <= sizeof(camControllerMem[CAMERA_MODE_ROTOVERHEAD]), "");
 	static_assert(sizeof(       CFreeController) <= sizeof(camControllerMem[CAMERA_MODE_FREE       ]), "");
 	static_assert(sizeof(   COverviewController) <= sizeof(camControllerMem[CAMERA_MODE_OVERVIEW   ]), "");
@@ -177,7 +177,7 @@ void CCameraHandler::InitControllers()
 	// FPS camera must always be the first one in the list
 	camControllers[CAMERA_MODE_FIRSTPERSON] = new (camControllerMem[CAMERA_MODE_FIRSTPERSON])         CFPSController();
 	camControllers[CAMERA_MODE_OVERHEAD   ] = new (camControllerMem[CAMERA_MODE_OVERHEAD   ])    COverheadController();
-	camControllers[CAMERA_MODE_SPRING     ] = new (camControllerMem[CAMERA_MODE_SPRING     ])      CSpringController();
+	camControllers[CAMERA_MODE_ArcLight     ] = new (camControllerMem[CAMERA_MODE_ArcLight     ])      CArcLightController();
 	camControllers[CAMERA_MODE_ROTOVERHEAD] = new (camControllerMem[CAMERA_MODE_ROTOVERHEAD]) CRotOverheadController();
 	camControllers[CAMERA_MODE_FREE       ] = new (camControllerMem[CAMERA_MODE_FREE       ])        CFreeController();
 	camControllers[CAMERA_MODE_OVERVIEW   ] = new (camControllerMem[CAMERA_MODE_OVERVIEW   ])    COverviewController();
@@ -191,7 +191,7 @@ void CCameraHandler::KillControllers()
 	SetCameraMode(CAMERA_MODE_DUMMY);
 
 	for (unsigned int i = 0; i < CAMERA_MODE_DUMMY; i++) {
-		spring::SafeDestruct(camControllers[i]);
+		ArcLight::SafeDestruct(camControllers[i]);
 		std::memset(camControllerMem[i], 0, sizeof(camControllerMem[i]));
 	}
 
@@ -478,8 +478,8 @@ void CCameraHandler::PushAction(const Action& action)
 		case hashString("viewta"): {
 			SetCameraMode(CAMERA_MODE_OVERHEAD);
 		} break;
-		case hashString("viewspring"): {
-			SetCameraMode(CAMERA_MODE_SPRING);
+		case hashString("viewArcLight"): {
+			SetCameraMode(CAMERA_MODE_ArcLight);
 		} break;
 		case hashString("viewrot"): {
 			SetCameraMode(CAMERA_MODE_ROTOVERHEAD);

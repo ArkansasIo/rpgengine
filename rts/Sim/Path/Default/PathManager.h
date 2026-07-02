@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef PATHMANAGER_H
 #define PATHMANAGER_H
@@ -153,7 +153,7 @@ public:
 	const PathFlowMap* GetPathFlowMap() const { return pathFlowMap; }
 	const PathHeatMap* GetPathHeatMap() const { return pathHeatMap; }
 
-	const spring::unordered_map<unsigned int, MultiPath>& GetPathMap() const { return pathMap; }
+	const ArcLight::unordered_map<unsigned int, MultiPath>& GetPathMap() const { return pathMap; }
 
 private:
 	IPath::SearchResult ArrangePath(
@@ -194,7 +194,7 @@ private:
 	PathFlowMap* pathFlowMap;
 	PathHeatMap* pathHeatMap;
 
-	spring::unordered_map<unsigned int, MultiPath> pathMap;
+	ArcLight::unordered_map<unsigned int, MultiPath> pathMap;
 
 	unsigned int nextPathID;
 };

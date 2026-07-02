@@ -1,9 +1,9 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 /**
 	\mainpage
-	This is the documentation of the Spring RTS Engine.
-	https://springrts.com/
+	This is the documentation of the ArcLight RTS Engine.
+	https://ArcLightrts.com/
 */
 
 #include "System/ExportDefines.h"

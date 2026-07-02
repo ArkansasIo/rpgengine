@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _LOCAL_CONNECTION_H
 #define _LOCAL_CONNECTION_H
@@ -14,7 +14,7 @@ namespace netcode {
  * @brief Class for local connection between server / client
  * Directly connects the respective input-buffers, to increase performance.
  * The server and the client have to run in one instance (same process)
- * of spring for this to work.
+ * of ArcLight for this to work.
  * Otherwise, a normal UDP connection had to be used.
  * IMPORTANT: You must not have more than two instances of this.
  */
@@ -56,7 +56,7 @@ private:
 	static constexpr unsigned int MAX_INSTANCES = 2;
 
 	static std::deque< std::shared_ptr<const RawPacket> > pktQueues[MAX_INSTANCES];
-	static spring::mutex mutexes[MAX_INSTANCES];
+	static ArcLight::mutex mutexes[MAX_INSTANCES];
 	static CLocalConnection* instancePtrs[MAX_INSTANCES];
 
 	unsigned int RemoteInstanceIdx() const { return ((instanceIdx + 1) % MAX_INSTANCES); }

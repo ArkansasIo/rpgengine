@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "Sound.h"
 
@@ -45,7 +45,7 @@
 #include "System/float3.h"
 
 
-spring::recursive_mutex soundMutex;
+ArcLight::recursive_mutex soundMutex;
 
 
 CSound::CSound()
@@ -61,7 +61,7 @@ CSound::~CSound()
 
 void CSound::Init()
 {
-	std::lock_guard<spring::recursive_mutex> lck(soundMutex);
+	std::lock_guard<ArcLight::recursive_mutex> lck(soundMutex);
 
 	{
 		curDevice = nullptr;
@@ -155,7 +155,7 @@ void CSound::Cleanup() {
 bool CSound::HasSoundItem(const std::string& name) const
 {
 	// soundMap can be concurrently touched by GetSoundId if preloading
-	std::lock_guard<spring::recursive_mutex> lck(soundMutex);
+	std::lock_guard<ArcLight::recursive_mutex> lck(soundMutex);
 
 	if (soundMap.find(name) != soundMap.end())
 		return true;
@@ -168,7 +168,7 @@ bool CSound::PreloadSoundItem(const std::string& name)
 	#if 0
 	ThreadPool::Enqueue([name]() { sound->GetSoundId(name); });
 	#else
-	std::lock_guard<spring::recursive_mutex> lck(soundMutex);
+	std::lock_guard<ArcLight::recursive_mutex> lck(soundMutex);
 	return ((preloadSet.insert(name)).second);
 	#endif
 }
@@ -185,7 +185,7 @@ size_t CSound::GetDefSoundId(const std::string& name)
 
 size_t CSound::GetSoundId(const std::string& name)
 {
-	std::lock_guard<spring::recursive_mutex> lck(soundMutex);
+	std::lock_guard<ArcLight::recursive_mutex> lck(soundMutex);
 
 	// do not preload-loop forever, erase even if the sound fails to load
 	// note: this breaks the name reference, has to be done when returning
@@ -226,7 +226,7 @@ SoundItem* CSound::GetSoundItem(size_t id) {
 
 CSoundSource* CSound::GetNextBestSource(bool lock)
 {
-	std::unique_lock<spring::recursive_mutex> lck(soundMutex, std::defer_lock);
+	std::unique_lock<ArcLight::recursive_mutex> lck(soundMutex, std::defer_lock);
 	if (lock)
 		lck.lock();
 
@@ -261,7 +261,7 @@ CSoundSource* CSound::GetNextBestSource(bool lock)
 
 void CSound::PitchAdjust(const float newPitch)
 {
-	std::lock_guard<spring::recursive_mutex> lck(soundMutex);
+	std::lock_guard<ArcLight::recursive_mutex> lck(soundMutex);
 
 	switch (pitchAdjustMode) {
 		case  1: { CSoundSource::SetPitch(std::sqrt(newPitch)); } break;
@@ -272,7 +272,7 @@ void CSound::PitchAdjust(const float newPitch)
 
 void CSound::ConfigNotify(const std::string& key, const std::string& value)
 {
-	std::lock_guard<spring::recursive_mutex> lck(soundMutex);
+	std::lock_guard<ArcLight::recursive_mutex> lck(soundMutex);
 
 	switch (hashString(key.c_str())) {
 		case hashString("snd_volmaster"): {
@@ -335,7 +335,7 @@ void CSound::ConfigNotify(const std::string& key, const std::string& value)
 
 bool CSound::Mute()
 {
-	std::lock_guard<spring::recursive_mutex> lck(soundMutex);
+	std::lock_guard<ArcLight::recursive_mutex> lck(soundMutex);
 
 	if ((mute = !mute))
 		alListenerf(AL_GAIN, 0.0f);
@@ -357,7 +357,7 @@ void CSound::DeviceChanged(uint32_t sdlDeviceIndex)
 
 void CSound::Iconified(bool state)
 {
-	std::lock_guard<spring::recursive_mutex> lck(soundMutex);
+	std::lock_guard<ArcLight::recursive_mutex> lck(soundMutex);
 
 	if (appIsIconified != state && !mute) {
 		if (!state)
@@ -605,7 +605,7 @@ void CSound::InitThread(int cfgMaxSounds)
 	assert(cfgMaxSounds > 0);
 
 	{
-		std::lock_guard<spring::recursive_mutex> lck(soundMutex);
+		std::lock_guard<ArcLight::recursive_mutex> lck(soundMutex);
 		// if empty, open default device
 		std::string configDeviceName;
 
@@ -709,7 +709,7 @@ void CSound::UpdateThread(int cfgMaxSounds)
 
 	while (!soundThreadQuit) {
 		// update at roughly 30Hz
-		spring::this_thread::sleep_for(std::chrono::milliseconds(1000 / GAME_SPEED));
+		ArcLight::this_thread::sleep_for(std::chrono::milliseconds(1000 / GAME_SPEED));
 
 		Watchdog::ClearTimer(WDT_AUDIO);
 		Update();
@@ -740,7 +740,7 @@ void CSound::UpdateThread(int cfgMaxSounds)
 
 void CSound::Update()
 {
-	std::lock_guard<spring::recursive_mutex> lck(soundMutex);
+	std::lock_guard<ArcLight::recursive_mutex> lck(soundMutex);
 
 	// limit consumption-rate to prevent source starvation
 	// lock is held, size can not be changed except by loop
@@ -759,7 +759,7 @@ void CSound::Update()
 size_t CSound::MakeItemFromDef(const SoundItemNameMap& itemDef)
 {
 	// only callers are LoadSoundDefs{Impl} and GetSoundId which both grab this
-	// std::lock_guard<spring::recursive_mutex> lck(soundMutex);
+	// std::lock_guard<ArcLight::recursive_mutex> lck(soundMutex);
 
 	const auto defIt = itemDef.find("file");
 
@@ -822,7 +822,7 @@ void CSound::UpdateListenerReal()
 
 void CSound::PrintDebugInfo()
 {
-	std::lock_guard<spring::recursive_mutex> lck(soundMutex);
+	std::lock_guard<ArcLight::recursive_mutex> lck(soundMutex);
 
 	LOG_L(L_DEBUG, "OpenAL Sound System:");
 	LOG_L(L_DEBUG, "# SoundSources: %i", (int)soundSources.size());
@@ -837,7 +837,7 @@ void CSound::PrintDebugInfo()
 bool CSound::LoadSoundDefsImpl(LuaParser* defsParser)
 {
 	// can be called from LuaUnsyncedCtrl too
-	std::lock_guard<spring::recursive_mutex> lck(soundMutex);
+	std::lock_guard<ArcLight::recursive_mutex> lck(soundMutex);
 
 	defsParser->Execute();
 
@@ -931,7 +931,7 @@ size_t CSound::LoadSoundBuffer(const std::string& path)
 	loadBuffer.reserve(1024 * 1024);
 
 	file.GetBuffer() = std::move(loadBuffer);
-	file.Open(path, SPRING_VFS_RAW_FIRST);
+	file.Open(path, ARCLIGHT_VFS_RAW_FIRST);
 
 	// steal back
 	loadBuffer = std::move(file.GetBuffer());

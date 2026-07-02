@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <algorithm>
 #include <array>
@@ -75,12 +75,12 @@ const std::array<KnownInfoTag, 12> knownTags = {
 	KnownInfoTag{"modtype",     "0=hidden, 1=primary, (2=unused), 3=map, 4=base, 5=menu",          true},
 	KnownInfoTag{"depend",      "a table with all archives that needs to be loaded for this one", false},
 	KnownInfoTag{"replace",     "a table with archives that got replaced with this one",          false},
-	KnownInfoTag{"onlyLocal",   "if true spring will not listen for incoming connections",        false}
+	KnownInfoTag{"onlyLocal",   "if true ArcLight will not listen for incoming connections",        false}
 };
 
-const spring::unordered_map<std::string, bool> baseContentArchives = {
+const ArcLight::unordered_map<std::string, bool> baseContentArchives = {
 	{      "bitmaps.sdz", true},
-	{"springcontent.sdz", true},
+	{"ArcLightcontent.sdz", true},
 	{    "maphelper.sdz", true},
 	{      "cursors.sdz", true},
 };
@@ -92,7 +92,7 @@ const spring::unordered_map<std::string, bool> baseContentArchives = {
 // Lobbies get the unit list from unitsync. Unitsync gets it by executing
 // gamedata/defs.lua, which loads units, features, weapons, movetypes and
 // armors (that is why armor.txt is in the list).
-const spring::unordered_map<std::string, int> metaFileClasses = {
+const ArcLight::unordered_map<std::string, int> metaFileClasses = {
 	{      "mapinfo.lua", 1},   // basic archive info
 	{      "modinfo.lua", 1},   // basic archive info
 	{   "modoptions.lua", 2},   // used by lobbies
@@ -100,10 +100,10 @@ const spring::unordered_map<std::string, int> metaFileClasses = {
 	{    "validmaps.lua", 2},   // used by lobbies
 	{        "luaai.lua", 2},   // used by lobbies
 	{        "armor.txt", 2},   // used by lobbies (disabled units list)
-	{ "springignore.txt", 2},   // used by lobbies (disabled units list)
+	{ "ArcLightignore.txt", 2},   // used by lobbies (disabled units list)
 };
 
-const spring::unordered_map<std::string, int> metaDirClasses = {
+const ArcLight::unordered_map<std::string, int> metaDirClasses = {
 	{"sidepics/", 2},   // used by lobbies
 	{"gamedata/", 2},   // used by lobbies
 	{   "units/", 2},   // used by lobbies (disabled units list)
@@ -174,7 +174,7 @@ CArchiveScanner::ArchiveData::ArchiveData(const LuaTable& archiveTable, bool fro
 	// NOTE when changing this, this function is used both by the code that
 	// reads ArchiveCache.lua and the code that reads modinfo.lua from the mod.
 	// so make sure it doesn't keep adding stuff to the name everytime
-	// Spring/unitsync is loaded.
+	// ArcLight/unitsync is loaded.
 	//
 	const std::string& name = GetNameVersioned();
 	const std::string& version = GetVersion();
@@ -376,7 +376,7 @@ bool CArchiveScanner::ArchiveData::GetInfoValueBool(const std::string& key) cons
 
 
 
-static spring::recursive_mutex scannerMutex;
+static ArcLight::recursive_mutex scannerMutex;
 static std::atomic<uint32_t> numScannedArchives{0};
 
 
@@ -559,7 +559,7 @@ void CArchiveScanner::ScanDir(const std::string& curPath, std::deque<std::string
 
 static void AddDependency(std::vector<std::string>& deps, const std::string& dependency)
 {
-	spring::VectorInsertUnique(deps, dependency, true);
+	ArcLight::VectorInsertUnique(deps, dependency, true);
 }
 
 bool CArchiveScanner::CheckCompression(const IArchive* ar, const std::string& fullName, std::string& error)
@@ -746,7 +746,7 @@ void CArchiveScanner::ScanArchive(const std::string& fullName, bool doChecksum)
 		// game or base-type (cursors, bitmaps, ...) archive
 		// babysitting like this is really no longer required
 		if (ad.IsGame() || ad.IsMenu())
-			AddDependency(ad.GetDependencies(), GetSpringBaseContentName());
+			AddDependency(ad.GetDependencies(), GetArcLightBaseContentName());
 
 		LOG_S(LOG_SECTION_ARCHIVESCANNER, "Found new game: %s", ad.GetNameVersioned().c_str());
 	} else {
@@ -878,7 +878,7 @@ bool CArchiveScanner::ScanArchiveLua(IArchive* ar, const std::string& fileName, 
 	}
 
 	// NB: skips LuaConstGame::PushEntries(L) since that would invoke ScanArchive again
-	LuaParser p(std::string((char*)(buf.data()), buf.size()), SPRING_VFS_ZIP);
+	LuaParser p(std::string((char*)(buf.data()), buf.size()), ARCLIGHT_VFS_ZIP);
 
 	if (!p.Execute()) {
 		err = "Error in " + fileName + ": " + p.GetErrorLog();
@@ -906,7 +906,7 @@ IFileFilter* CArchiveScanner::CreateIgnoreFilter(IArchive* ar)
 	std::vector<std::uint8_t> buf;
 
 	// this automatically splits lines
-	if (ar->GetFile("springignore.txt", buf) && !buf.empty())
+	if (ar->GetFile("ArcLightignore.txt", buf) && !buf.empty())
 		ignore->AddRule(std::string((char*)(&buf[0]), buf.size()));
 
 	return ignore;
@@ -984,7 +984,7 @@ void CArchiveScanner::ReadCacheData(const std::string& filename)
 		return;
 	}
 
-	LuaParser p(filename, SPRING_VFS_RAW, SPRING_VFS_BASE);
+	LuaParser p(filename, ARCLIGHT_VFS_RAW, ARCLIGHT_VFS_BASE);
 	if (!p.Execute()) {
 		LOG_L(L_ERROR, "[AS::%s] failed to parse ArchiveCache: %s", __func__, p.GetErrorLog().c_str());
 		return;
@@ -1014,7 +1014,7 @@ void CArchiveScanner::ReadCacheData(const std::string& filename)
 		ai.path     	   = curArchiveTbl.GetString("path", "");
 		ai.archiveDataPath = curArchiveTbl.GetString("archiveDataPath", "");
 
-		// do not use LuaTable.GetInt() for 32-bit integers: the Spring lua
+		// do not use LuaTable.GetInt() for 32-bit integers: the ArcLight lua
 		// library uses 32-bit floats to represent numbers, which can only
 		// represent 2^24 consecutive integers
 		ai.modified = strtoul(curArchiveTbl.GetString("modified", "0").c_str(), nullptr, 10);
@@ -1037,7 +1037,7 @@ void CArchiveScanner::ReadCacheData(const std::string& filename)
 		if (ai.archiveData.IsMap()) {
 			AddDependency(ai.archiveData.GetDependencies(), GetMapHelperContentName());
 		} else if (ai.archiveData.IsGame()) {
-			AddDependency(ai.archiveData.GetDependencies(), GetSpringBaseContentName());
+			AddDependency(ai.archiveData.GetDependencies(), GetArcLightBaseContentName());
 		}
 	}
 
@@ -1150,7 +1150,7 @@ void CArchiveScanner::WriteCacheData(const std::string& filename)
 			if (archData.IsMap()) {
 				FilterDep(deps, GetMapHelperContentName());
 			} else if (archData.IsGame()) {
-				FilterDep(deps, GetSpringBaseContentName());
+				FilterDep(deps, GetArcLightBaseContentName());
 			}
 
 			if (!deps.empty()) {

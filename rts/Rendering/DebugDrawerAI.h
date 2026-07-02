@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef DEBUG_DRAWER_AI_HDR
 #define DEBUG_DRAWER_AI_HDR
@@ -82,7 +82,7 @@ private:
 			float lineLabelHeight;
 		};
 
-		spring::unordered_map<int, GraphLine> lines;
+		ArcLight::unordered_map<int, GraphLine> lines;
 
 		float3 pos;
 		float3 size;
@@ -149,7 +149,7 @@ private:
 			float labelHeight;
 		};
 
-		spring::unordered_map<int, Texture> textures;
+		ArcLight::unordered_map<int, Texture> textures;
 		int curTexHandle;
 	};
 

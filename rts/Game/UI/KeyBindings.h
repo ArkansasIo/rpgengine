@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef KEYBINDINGS_H
 #define KEYBINDINGS_H
@@ -17,7 +17,7 @@ class CKeyBindings : public CommandReceiver
 {
 	public:
 		typedef std::vector<Action> ActionList;
-		typedef spring::unsynced_set<std::string> HotkeyList;
+		typedef ArcLight::unsynced_set<std::string> HotkeyList;
 
 	public:
 		void Init();
@@ -62,14 +62,14 @@ class CKeyBindings : public CommandReceiver
 			}
 		};
 
-		typedef spring::unsynced_map<CKeySet, ActionList, KeySetHash> KeyMap; // keyset to action
-		typedef spring::unsynced_map<std::string, HotkeyList> ActionMap; // action to keyset
+		typedef ArcLight::unsynced_map<CKeySet, ActionList, KeySetHash> KeyMap; // keyset to action
+		typedef ArcLight::unsynced_map<std::string, HotkeyList> ActionMap; // action to keyset
 
 		KeyMap bindings;
 		ActionMap hotkeys;
 
 		// commands that use both Up and Down key presses
-		spring::unsynced_set<std::string> statefulCommands;
+		ArcLight::unsynced_set<std::string> statefulCommands;
 
 	private:
 		int fakeMetaKey = -1;

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef	_GROUP_HANDLER_H
 #define	_GROUP_HANDLER_H
@@ -80,7 +80,7 @@ private:
 	std::vector<int> freeGroups;
 	std::vector<int> changedGroups;
 
-	spring::unsynced_map<int, int> unitGroups;
+	ArcLight::unsynced_map<int, int> unitGroups;
 
 	int team = 0;
 	// lowest ID not in use, always >= FIRST_SPECIAL_GROUP

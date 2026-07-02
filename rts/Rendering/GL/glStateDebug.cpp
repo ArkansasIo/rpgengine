@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #if defined(DEBUG_GLSTATE)
 
@@ -13,8 +13,8 @@
 #include "System/UnorderedMap.hpp"
 #include "System/UnorderedSet.hpp"
 
-static spring::unordered_map<std::string, std::string> lastSet;
-static spring::unordered_set<std::string> errorsSet;
+static ArcLight::unordered_map<std::string, std::string> lastSet;
+static ArcLight::unordered_set<std::string> errorsSet;
 
 template<typename T, typename F>
 static void VERIFYGL(F func, GLenum pname, T defaultValue, std::string pstr, std::string area) {

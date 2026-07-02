@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _WIN32
 	#include <unistd.h>
@@ -61,16 +61,16 @@ static void LoadCfgs(std::vector<std::string>& locations, const std::string& def
 
 static void LoadCfgsInFolder(std::vector<std::string>& locations, const std::string& path, const bool hidden = false)
 {
-	// all platforms: springsettings.cfg
-	const std::string defCfg = path + "springsettings.cfg";
-	const std::string verCfg = path + "springsettings-" + SpringVersion::Get() + ".cfg";
+	// all platforms: ArcLightsettings.cfg
+	const std::string defCfg = path + "ArcLightsettings.cfg";
+	const std::string verCfg = path + "ArcLightsettings-" + ArcLightVersion::Get() + ".cfg";
 	LoadCfgs(locations, defCfg, verCfg);
 
 #ifndef _WIN32
-	// unix only: (.)springrc (lower priority than springsettings.cfg!)
-	const std::string base = (hidden) ? ".springrc" : "springrc";
+	// unix only: (.)ArcLightrc (lower priority than ArcLightsettings.cfg!)
+	const std::string base = (hidden) ? ".ArcLightrc" : "ArcLightrc";
 	const std::string unixDefCfg = path + base;
-	const std::string unixVerCfg = unixDefCfg + "-" + SpringVersion::Get();
+	const std::string unixVerCfg = unixDefCfg + "-" + ArcLightVersion::Get();
 	LoadCfgs(locations, unixDefCfg, unixVerCfg);
 #endif
 }

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 
 #include "Factory.h"
@@ -204,7 +204,7 @@ void CFactory::UpdateBuild(CUnit* buildee) {
 
 	// rotate unit nanoframe with platform
 	buildee->Move(buildeePos, false);
-	buildee->SetHeading((-buildPieceHeading + buildFaceHeading) & (SPRING_CIRCLE_DIVS - 1), false, false);
+	buildee->SetHeading((-buildPieceHeading + buildFaceHeading) & (ARCLIGHT_CIRCLE_DIVS - 1), false, false);
 
 	const CCommandQueue& queue = commandAI->commandQue;
 

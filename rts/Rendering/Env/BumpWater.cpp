@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 /**
  * @brief extended bump-mapping water shader
@@ -70,27 +70,27 @@ LOG_REGISTER_SECTION_GLOBAL(LOG_SECTION_BUMP_WATER)
 
 static void GLSLDefineConst4f(string& str, const string& name, const float x, const float y, const float z, const float w)
 {
-	str += spring::format(string("#define ") + name + " vec4(%.12f,%.12f,%.12f,%.12f)\n", x, y, z, w);
+	str += ArcLight::format(string("#define ") + name + " vec4(%.12f,%.12f,%.12f,%.12f)\n", x, y, z, w);
 }
 
 static void GLSLDefineConstf4(string& str, const string& name, const float3& v, float alpha)
 {
-	str += spring::format(string("#define ") + name + " vec4(%.12f,%.12f,%.12f,%.12f)\n", v.x, v.y, v.z, alpha);
+	str += ArcLight::format(string("#define ") + name + " vec4(%.12f,%.12f,%.12f,%.12f)\n", v.x, v.y, v.z, alpha);
 }
 
 static void GLSLDefineConstf3(string& str, const string& name, const float3& v)
 {
-	str += spring::format(string("#define ") + name + " vec3(%.12f,%.12f,%.12f)\n", v.x, v.y, v.z);
+	str += ArcLight::format(string("#define ") + name + " vec3(%.12f,%.12f,%.12f)\n", v.x, v.y, v.z);
 }
 
 static void GLSLDefineConstf2(string& str, const string& name, float x, float y)
 {
-	str += spring::format(string("#define ") + name + " vec2(%.12f,%.12f)\n", x, y);
+	str += ArcLight::format(string("#define ") + name + " vec2(%.12f,%.12f)\n", x, y);
 }
 
 static void GLSLDefineConstf1(string& str, const string& name, float x)
 {
-	str += spring::format(string("#define ") + name + " %.12f\n", x);
+	str += ArcLight::format(string("#define ") + name + " %.12f\n", x);
 }
 
 

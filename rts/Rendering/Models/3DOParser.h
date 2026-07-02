@@ -1,7 +1,7 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
-#ifndef SPRING_3DOPARSER_H
-#define SPRING_3DOPARSER_H
+#ifndef ArcLight_3DOPARSER_H
+#define ArcLight_3DOPARSER_H
 
 #include <vector>
 #include <string>
@@ -122,7 +122,7 @@ public:
 		int num,
 		int excludePrim,
 		const std::vector<unsigned char>& fileBuf,
-		const spring::unordered_set<std::string>& teamTextures
+		const ArcLight::unordered_set<std::string>& teamTextures
 	);
 
 	bool IsBasePlate(const S3DOPrimitive* face) const;
@@ -130,7 +130,7 @@ public:
 	C3DOTextureHandler::UnitTexture* GetTexture(
 		const TA3DO::_Primitive* p,
 		const std::vector<unsigned char>& fileBuf,
-		const spring::unordered_set<std::string>& teamTextures
+		const ArcLight::unordered_set<std::string>& teamTextures
 	) const;
 
 public:
@@ -157,12 +157,12 @@ public:
 	S3DOPiece* LoadPiece(S3DModel* model, S3DOPiece* parent, const std::vector<uint8_t>& buf, int pos);
 
 private:
-	spring::unordered_set<std::string> teamTextures;
+	ArcLight::unordered_set<std::string> teamTextures;
 	std::vector<S3DOPiece> piecePool;
-	spring::mutex poolMutex;
+	ArcLight::mutex poolMutex;
 
 	unsigned int numPoolPieces = 0;
 };
 
-#endif // SPRING_3DOPARSER_H
+#endif // ArcLight_3DOPARSER_H
 

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _CAMERA_CONTROLLER_H
 #define _CAMERA_CONTROLLER_H
@@ -47,7 +47,7 @@ public:
 			const auto iter = find(s);
 
 			if (iter == cend()) {
-				// Spring.SetCameraState might be handed a table larger than we can hold
+				// ArcLight.SetCameraState might be handed a table larger than we can hold
 				if (numPairs == pairsMap.size())
 					return dummyPair.second;
 

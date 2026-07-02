@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "ExplosionListener.h"
 #include "System/ContainerUtil.h"
@@ -14,12 +14,12 @@ IExplosionListener::~IExplosionListener()
 
 void CExplosionCreator::AddExplosionListener(IExplosionListener* listener)
 {
-	spring::VectorInsertUnique(explosionListeners, listener, true);
+	ArcLight::VectorInsertUnique(explosionListeners, listener, true);
 }
 
 void CExplosionCreator::RemoveExplosionListener(IExplosionListener* listener)
 {
-	spring::VectorErase(explosionListeners, listener);
+	ArcLight::VectorErase(explosionListeners, listener);
 }
 
 void CExplosionCreator::FireExplosionEvent(const CExplosionParams& event)

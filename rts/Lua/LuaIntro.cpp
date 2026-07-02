@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "LuaIntro.h"
 
@@ -37,7 +37,7 @@ CLuaIntro* luaIntro = nullptr;
 /******************************************************************************/
 /******************************************************************************/
 
-static spring::mutex m_singleton;
+static ArcLight::mutex m_singleton;
 
 DECL_LOAD_HANDLER(CLuaIntro, luaIntro)
 DECL_FREE_HANDLER(CLuaIntro, luaIntro)
@@ -96,11 +96,11 @@ CLuaIntro::CLuaIntro()
 
 	AddBasicCalls(L); // into Global
 
-	// load the spring libraries
+	// load the ArcLight libraries
 	if (
-	    !AddEntriesToTable(L, "Spring",    LoadUnsyncedCtrlFunctions)           ||
-	    !AddEntriesToTable(L, "Spring",    LoadUnsyncedReadFunctions)           ||
-	    !AddEntriesToTable(L, "Spring",    LoadSyncedReadFunctions  )           ||
+	    !AddEntriesToTable(L, "ArcLight",    LoadUnsyncedCtrlFunctions)           ||
+	    !AddEntriesToTable(L, "ArcLight",    LoadUnsyncedReadFunctions)           ||
+	    !AddEntriesToTable(L, "ArcLight",    LoadSyncedReadFunctions  )           ||
 
 	    !AddEntriesToTable(L, "VFS",       LuaVFS::PushUnsynced)                ||
 	    !AddEntriesToTable(L, "VFS",       LuaZipFileReader::PushUnsynced)      ||
@@ -108,7 +108,7 @@ CLuaIntro::CLuaIntro()
 	    !AddEntriesToTable(L, "VFS",         LuaArchive::PushEntries)           ||
 	    !AddEntriesToTable(L, "Script",      LuaScream::PushEntries)            ||
 	    // !AddEntriesToTable(L, "Script",      LuaInterCall::PushEntriesUnsynced) ||
-	    !AddEntriesToTable(L, "Spring",      LuaRender::PushEntries)            ||
+	    !AddEntriesToTable(L, "ArcLight",      LuaRender::PushEntries)            ||
 	    !AddEntriesToTable(L, "gl",          LuaOpenGL::PushEntries)            ||
 	    !AddEntriesToTable(L, "GL",          LuaConstGL::PushEntries)           ||
 	    !AddEntriesToTable(L, "Engine",      LuaConstEngine::PushEntries)       ||
@@ -145,7 +145,7 @@ CLuaIntro::~CLuaIntro()
 
 bool CLuaIntro::RemoveSomeOpenGLFunctions(lua_State* L)
 {
-	// remove some spring opengl functions that don't work preloading
+	// remove some ArcLight opengl functions that don't work preloading
 	lua_getglobal(L, "gl"); {
 		#define PUSHNIL(x) lua_pushliteral(L, #x); lua_pushnil(L); lua_rawset(L, -3)
 		PUSHNIL(DrawMiniMap);
@@ -300,7 +300,7 @@ bool CLuaIntro::LoadSyncedReadFunctions(lua_State* L)
 
 string CLuaIntro::LoadFile(const string& filename) const
 {
-	CFileHandler f(filename, SPRING_VFS_RAW_FIRST);
+	CFileHandler f(filename, ARCLIGHT_VFS_RAW_FIRST);
 
 	string code;
 	if (!f.LoadStringData(code))

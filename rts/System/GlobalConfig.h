@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _GLOBAL_CONFIG_H
 #define _GLOBAL_CONFIG_H
@@ -95,7 +95,7 @@ public:
 	/**
 	 * @brief luaWritableConfigFile
 	 *
-	 * Allows Lua to write to springsettings/springrc file
+	 * Allows Lua to write to ArcLightsettings/ArcLightrc file
 	 */
 	bool luaWritableConfigFile = false;
 

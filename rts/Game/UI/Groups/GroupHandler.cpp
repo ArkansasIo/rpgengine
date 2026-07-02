@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <SDL_keycode.h>
 
@@ -158,7 +158,7 @@ CGroup* CGroupHandler::CreateNewGroup()
 		return &groups[groups.size() - 1];
 	}
 
-	return &groups[ spring::VectorBackPop(freeGroups) ];
+	return &groups[ ArcLight::VectorBackPop(freeGroups) ];
 }
 
 void CGroupHandler::RemoveGroup(CGroup* group)
@@ -177,5 +177,5 @@ void CGroupHandler::RemoveGroup(CGroup* group)
 
 void CGroupHandler::PushGroupChange(int id)
 {
-	spring::VectorInsertUnique(changedGroups, id, true);
+	ArcLight::VectorInsertUnique(changedGroups, id, true);
 }

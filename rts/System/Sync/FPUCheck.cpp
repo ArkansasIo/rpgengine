@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifdef USE_VALGRIND
 	#include <valgrind/valgrind.h>
@@ -31,18 +31,18 @@ void good_fpu_init() { LOG_L(L_WARNING, "[%s] streflop is disabled", __func__); 
 For reference, the layout of the MXCSR register:
             FZ:RC:RC:PM:UM:OM:ZM:DM:IM: Rsvd:PE:UE:OE:ZE:DE:IE
             15 14 13 12 11 10  9  8  7|   6   5  4  3  2  1  0
-Spring1:     0  0  0  1  1  1  0  1  0|   0   0  0  0  0  0  0 = 0x1D00 = 7424
-Spring2:     0  0  0  1  1  1  1  1  1|   0   0  0  0  0  0  0 = 0x1F80 = 8064
-Spring3:     0  0  0  1  1  0  0  1  0|   0   0  0  0  0  0  0 = 0x1900 = 6400  (signan)
+ArcLight1:     0  0  0  1  1  1  0  1  0|   0   0  0  0  0  0  0 = 0x1D00 = 7424
+ArcLight2:     0  0  0  1  1  1  1  1  1|   0   0  0  0  0  0  0 = 0x1F80 = 8064
+ArcLight3:     0  0  0  1  1  0  0  1  0|   0   0  0  0  0  0  0 = 0x1900 = 6400  (signan)
 Default:     0  0  0  1  1  1  1  1  1|   0   0  0  0  0  0  0 = 0x1F80 = 8064
 MaskRsvd:    1  1  1  1  1  1  1  1  1|   0   0  0  0  0  0  0 = 0xFF80
 
 And the layout of the 387 FPU control word register:
            Rsvd:Rsvd:Rsvd:X:RC:RC:PC:PC: Rsvd:Rsvd:PM:UM:OM:ZM:DM:IM
             15   14   13 12 11 10  9  8|   7    6   5  4  3  2  1  0
-Spring1:     0    0    0  0  0  0  0  0|   0    0   1  1  1  0  1  0 = 0x003A = 58
-Spring2:     0    0    0  0  0  0  0  0|   0    0   1  1  1  1  1  1 = 0x003F = 63
-Spring3:     0    0    0  0  0  0  0  0|   0    0   1  1  0  0  1  0 = 0x0032 = 50   (signan)
+ArcLight1:     0    0    0  0  0  0  0  0|   0    0   1  1  1  0  1  0 = 0x003A = 58
+ArcLight2:     0    0    0  0  0  0  0  0|   0    0   1  1  1  1  1  1 = 0x003F = 63
+ArcLight3:     0    0    0  0  0  0  0  0|   0    0   1  1  0  0  1  0 = 0x0032 = 50   (signan)
 Default:     0    0    0  0  0  0  1  1|   0    0   1  1  1  1  1  1 = 0x033F = 831
 MaskRsvd:    0    0    0  1  1  1  1  1|   0    0   1  1  1  1  1  1 = 0x1F3F
 
@@ -65,8 +65,8 @@ MaskRsvd:    0    0    0  1  1  1  1  1|   0    0   1  1  1  1  1  1 = 0x1F3F
 		X    - Infinity control (unused on 387 and higher)
 		PC   - Precision Control
 
-		Spring1  - Control word used by spring in code in CGame::SimFrame().
-		Spring2  - Control word used by spring in code everywhere else.
+		ArcLight1  - Control word used by ArcLight in code in CGame::SimFrame().
+		ArcLight2  - Control word used by ArcLight in code everywhere else.
 		Default  - Default control word according to Intel.
 		MaskRsvd - Masks out the reserved bits.
 
@@ -131,7 +131,7 @@ void good_fpu_control_registers(const char* text)
 
 void good_fpu_init()
 {
-	const unsigned int sseBits = springproc::GetProcSSEBits();
+	const unsigned int sseBits = ArcLightproc::GetProcSSEBits();
 	const unsigned int sseFlag = (sseBits >> 5) & 1;
 
 #ifdef STREFLOP_H
@@ -176,7 +176,7 @@ void good_fpu_init()
 }
 #endif
 
-namespace springproc {
+namespace ArcLightproc {
 	unsigned int GetProcMaxStandardLevel()
 	{
 		unsigned int rEAX = 0x00000000;

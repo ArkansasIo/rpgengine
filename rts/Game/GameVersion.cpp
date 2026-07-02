@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 // IMPORTANT NOTE: external systems sed -i this file, so DO NOT CHANGE without
 // major thought in advance, and deliberation with bibim and tvo/Tobi!
@@ -16,12 +16,12 @@
  * Take special care when moving this file.
  * The build-bot refers to this file to append the exact SCM version.
  */
-namespace SpringVersion
+namespace ArcLightVersion
 {
 
 const std::string& GetMajor()
 {
-	static const std::string major = SPRING_VERSION_ENGINE_MAJOR;
+	static const std::string major = ArcLight_VERSION_ENGINE_MAJOR;
 	return major;
 }
 
@@ -33,31 +33,31 @@ const std::string& GetMinor()
 
 const std::string& GetPatchSet()
 {
-	static const std::string patchSet = SPRING_VERSION_ENGINE_PATCH_SET;
+	static const std::string patchSet = ArcLight_VERSION_ENGINE_PATCH_SET;
 	return patchSet;
 }
 
 const std::string& GetCommits()
 {
-	static const std::string patchSet = SPRING_VERSION_ENGINE_COMMITS;
+	static const std::string patchSet = ArcLight_VERSION_ENGINE_COMMITS;
 	return patchSet;
 }
 
 const std::string& GetHash()
 {
-	static const std::string patchSet = SPRING_VERSION_ENGINE_HASH;
+	static const std::string patchSet = ArcLight_VERSION_ENGINE_HASH;
 	return patchSet;
 }
 
 const std::string& GetBranch()
 {
-	static const std::string patchSet = SPRING_VERSION_ENGINE_BRANCH;
+	static const std::string patchSet = ArcLight_VERSION_ENGINE_BRANCH;
 	return patchSet;
 }
 
 inline const std::string CreateAdditionalVersion()
 {
-	std::string additional = SPRING_VERSION_ENGINE_ADDITIONAL;
+	std::string additional = ArcLight_VERSION_ENGINE_ADDITIONAL;
 	additional += additional.empty() ? "" : " ";
 
 	additional += ""
@@ -172,7 +172,7 @@ const std::string& GetBuildEnvironment()
 
 bool IsRelease()
 {
-	static const bool release = SPRING_VERSION_ENGINE_RELEASE;
+	static const bool release = ArcLight_VERSION_ENGINE_RELEASE;
 	return release;
 }
 
@@ -189,14 +189,14 @@ const std::string& GetSync()
 {
 	static const std::string sync = IsRelease()
 			? GetMajor()
-			: SPRING_VERSION_ENGINE;
+			: ArcLight_VERSION_ENGINE;
 
 	return sync;
 }
 
 const std::string& GetFull()
 {
-	static const std::string full = SPRING_VERSION_ENGINE
+	static const std::string full = ArcLight_VERSION_ENGINE
 			+ (GetAdditional().empty() ? "" : (" (" + GetAdditional() + ")"));
 
 	return full;

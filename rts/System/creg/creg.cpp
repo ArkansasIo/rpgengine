@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 /*
  * creg - Code compoment registration system
@@ -22,7 +22,7 @@ using namespace creg;
 // -------------------------------------------------------------------
 
 //FIXME - Allow synced order traversal
-static spring::unsynced_map<const Class*, std::vector<Class*>>& derivedClasses()
+static ArcLight::unsynced_map<const Class*, std::vector<Class*>>& derivedClasses()
 {
 	// note: we cannot save this in `class Class`, cause those are created with
 	//   global statics, and those have an arbitrary init order. And when a Class
@@ -31,13 +31,13 @@ static spring::unsynced_map<const Class*, std::vector<Class*>>& derivedClasses()
 	//   So we cannot access other's Class' members that early in the loading
 	//   stage, that's solved with these local static vars, which get created
 	//   on access.
-	static spring::unsynced_map<const Class*, std::vector<Class*>> m;
+	static ArcLight::unsynced_map<const Class*, std::vector<Class*>> m;
 	return m;
 }
 
-static spring::unsynced_map<std::string, Class*>& mapNameToClass()
+static ArcLight::unsynced_map<std::string, Class*>& mapNameToClass()
 {
-	static spring::unsynced_map<std::string, Class*> m;
+	static ArcLight::unsynced_map<std::string, Class*> m;
 	return m;
 }
 

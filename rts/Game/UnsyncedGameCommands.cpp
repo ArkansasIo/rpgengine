@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 #include "UnsyncedGameCommands.h"
 
 #include "UnsyncedActionExecutor.h"
@@ -755,7 +755,7 @@ public:
 			std::string aiShortName;
 			std::string aiVersion;
 			std::string aiName;
-			spring::unordered_map<std::string, std::string> aiOptions;
+			ArcLight::unordered_map<std::string, std::string> aiOptions;
 
 			const int teamToControlId = atoi(args[0].c_str());
 			const CTeam* teamToControl = teamHandler.IsActiveTeam(teamToControlId) ?
@@ -802,7 +802,7 @@ public:
 				badArgs = true;
 			}
 			if (!badArgs) {
-				const spring::unordered_set<std::string>& luaAIImplShortNames = skirmishAIHandler.GetLuaAIImplShortNames();
+				const ArcLight::unordered_set<std::string>& luaAIImplShortNames = skirmishAIHandler.GetLuaAIImplShortNames();
 				if (luaAIImplShortNames.find(aiShortName) != luaAIImplShortNames.end()) {
 					LOG_L(L_WARNING, "Team to control: it is currently not supported to initialize Lua AIs mid-game");
 					badArgs = true;
@@ -1377,7 +1377,7 @@ public:
 
 	bool Execute(const UnsyncedAction& action) const final override {
 		// tag=0 if no args
-		clientNet->Send(CBaseNetProtocol::Get().SendPing(gu->myPlayerNum, StringToInt(action.GetArgs()), spring_tomsecs(spring_now())));
+		clientNet->Send(CBaseNetProtocol::Get().SendPing(gu->myPlayerNum, StringToInt(action.GetArgs()), ArcLight_tomsecs(ArcLight_now())));
 		return true;
 	}
 };
@@ -2884,10 +2884,10 @@ public:
 	bool Execute(const UnsyncedAction& action) const final override {
 		const std::string& args = action.GetArgs();
 
-		const spring_time t0 = spring_now();
-		const spring_time t1 = t0 + spring_time((args.empty())? 20.0f * 1000.0f: strtof(args.c_str(), nullptr) * 1000.0f);
+		const ArcLight_time t0 = ArcLight_now();
+		const ArcLight_time t1 = t0 + ArcLight_time((args.empty())? 20.0f * 1000.0f: strtof(args.c_str(), nullptr) * 1000.0f);
 
-		for (spring_time t = t0; t < t1; t = spring_now()) {
+		for (ArcLight_time t = t0; t < t1; t = ArcLight_now()) {
 			// prevent compiler from removing this
 			SCOPED_TIMER("HangAction::Execute");
 		}
@@ -3501,7 +3501,7 @@ void UnsyncedGameCommands::DestroyInstance(bool reload) {
 	if (reload)
 		return;
 
-	spring::SafeDestruct(singleton);
+	ArcLight::SafeDestruct(singleton);
 	std::memset(ugcSingletonMem, 0, sizeof(ugcSingletonMem));
 }
 

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef PATHCACHE_H
 #define PATHCACHE_H
@@ -76,7 +76,7 @@ private:
 	CacheItem dummyCacheItem;
 
 	std::deque<CacheQueItem> cacheQue;
-	spring::unordered_map<std::uint64_t, CacheItem> cachedPaths; // ints are sync-safe keys
+	ArcLight::unordered_map<std::uint64_t, CacheItem> cachedPaths; // ints are sync-safe keys
 
 	std::uint32_t numBlocksX;
 	std::uint32_t numBlocksZ;

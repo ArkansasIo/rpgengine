@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef I_GAME_COMMANDS_H
 #define I_GAME_COMMANDS_H
@@ -57,7 +57,7 @@ public:
 	}
 
 
-	const spring::unsynced_map<std::string, TActionExecutor*>& GetActionExecutors() const { return actionExecutors; }
+	const ArcLight::unsynced_map<std::string, TActionExecutor*>& GetActionExecutors() const { return actionExecutors; }
 	const std::vector< std::pair<std::string, TActionExecutor*> >& GetSortedActionExecutors() {
 		using P = typename decltype(sortedExecutors)::value_type;
 
@@ -101,7 +101,7 @@ protected:
 
 protected:
 	// currently registered lower-case commands with their respective action-executors
-	spring::unsynced_map<std::string, TActionExecutor*> actionExecutors;
+	ArcLight::unsynced_map<std::string, TActionExecutor*> actionExecutors;
 	std::vector< std::pair<std::string, TActionExecutor*> > sortedExecutors;
 
 	std::array<uint8_t, 17400> actionExecutorMem;

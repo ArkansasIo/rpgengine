@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef IATLAS_ALLOC_H
 #define IATLAS_ALLOC_H
@@ -83,7 +83,7 @@ protected:
 		void* data;
 	};
 
-	spring::unordered_map<std::string, SAtlasEntry> entries;
+	ArcLight::unordered_map<std::string, SAtlasEntry> entries;
 
 	int2 atlasSize;
 	int2 maxsize = {2048, 2048};

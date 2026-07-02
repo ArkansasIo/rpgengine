@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef GROUP_H
 #define GROUP_H
@@ -56,7 +56,7 @@ public:
 	int id = -1;
 	int ghIndex = -1;
 
-	spring::unordered_set<int> units;
+	ArcLight::unordered_set<int> units;
 };
 
 #endif // GROUP_H

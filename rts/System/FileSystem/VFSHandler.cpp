@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 
 #include "VFSHandler.h"
@@ -31,7 +31,7 @@ LOG_REGISTER_SECTION_GLOBAL(LOG_SECTION_VFS)
 // GetFileData can be called on a thread other than main (e.g. sound) via
 // FileHandler::Open, while {Add,Remove}Archive are reached from multiple
 // places including LuaVFS
-static spring::recursive_mutex vfsMutex;
+static ArcLight::recursive_mutex vfsMutex;
 
 
 static CVFSHandler* vfs = nullptr;
@@ -49,7 +49,7 @@ void CVFSHandler::FreeInstance(CVFSHandler* handler)
 		return;
 	}
 
-	spring::SafeDelete(vfs);
+	ArcLight::SafeDelete(vfs);
 }
 
 void CVFSHandler::SetGlobalInstance(CVFSHandler* handler)
@@ -79,10 +79,10 @@ CVFSHandler* CVFSHandler::GetGlobalInstance() {
 CVFSHandler::Section CVFSHandler::GetModeSection(char mode)
 {
 	switch (mode) {
-		case SPRING_VFS_MOD[0]:  return Section::Mod;
-		case SPRING_VFS_MAP[0]:  return Section::Map;
-		case SPRING_VFS_BASE[0]: return Section::Base;
-		case SPRING_VFS_MENU[0]: return Section::Menu;
+		case ARCLIGHT_VFS_MOD[0]:  return Section::Mod;
+		case ARCLIGHT_VFS_MAP[0]:  return Section::Map;
+		case ARCLIGHT_VFS_BASE[0]: return Section::Base;
+		case ARCLIGHT_VFS_MENU[0]: return Section::Menu;
 		default:                 return Section::Error;
 	}
 }
@@ -153,7 +153,7 @@ bool CVFSHandler::AddArchive(const std::string& archiveName, bool overwrite)
 	LOG_L(L_INFO, "[%s::%s<this=%p>(arName=\"%s\", overwrite=%s)] section=%d cached=%d", vfsName, __func__, this, archiveName.c_str(), overwrite ? "true" : "false", rawSection, ar != nullptr);
 
 	if (dynamic_cast<CDirArchive*>(ar) != nullptr)
-		spring::SafeDelete(ar);
+		ArcLight::SafeDelete(ar);
 
 	if (ar == nullptr) {
 		archives[tmpSection].erase(archivePath);
@@ -329,7 +329,7 @@ void CVFSHandler::ReserveArchives()
 	}
 
 	// preload universal dependencies
-	AddArchive(CArchiveScanner::GetSpringBaseContentName(), false);
+	AddArchive(CArchiveScanner::GetArcLightBaseContentName(), false);
 }
 
 

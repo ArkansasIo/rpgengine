@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "UriParser.h"
 #include "StringUtil.h"
@@ -14,13 +14,13 @@ static void SplitString(const std::string& text, const char* sepChar, std::strin
 	all = text;
 }
 
-bool ParseSpringUri(const std::string& uri, std::string& username, std::string& password, std::string& host, int& port)
+bool ParseArcLightUri(const std::string& uri, std::string& username, std::string& password, std::string& host, int& port)
 {
 	// see http://cpp-netlib.org/0.10.1/in_depth/uri.html (2014)
-	if (uri.find("spring://") == std::string::npos)
+	if (uri.find("ArcLight://") == std::string::npos)
 		return false; // wrong scheme
 
-	const std::string full = uri.substr(std::string("spring://").length());
+	const std::string full = uri.substr(std::string("ArcLight://").length());
 	std::string authority, query, user_info, server, portStr;
 	bool error = false;
 	SplitString(full,      "/", authority, query, authority);

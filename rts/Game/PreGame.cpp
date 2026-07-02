@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <cfloat>
 
@@ -65,7 +65,7 @@ CPreGame* pregame = nullptr;
 CPreGame::CPreGame(std::shared_ptr<ClientSetup> setup)
 	: clientSetup(setup)
 	, saveFileHandler(nullptr)
-	, connectTimer(spring_gettime())
+	, connectTimer(ArcLight_gettime())
 	, wantDemo(true)
 {
 	assert(clientNet == nullptr);
@@ -81,7 +81,7 @@ CPreGame::CPreGame(std::shared_ptr<ClientSetup> setup)
 		LOG("[%s] using client IP %s and port %i", __func__, clientSetup->hostIP.c_str(), clientSetup->hostPort);
 		// don't allow luasocket to connect to the host
 		luaSocketRestrictions->addRule(CLuaSocketRestrictions::UDP_CONNECT, clientSetup->hostIP, clientSetup->hostPort, false);
-		clientNet->InitClient(clientSetup, SpringVersion::GetSync(), Platform::GetPlatformStr());
+		clientNet->InitClient(clientSetup, ArcLightVersion::GetSync(), Platform::GetPlatformStr());
 	} else {
 		LOG("[%s] using server IP %s and port %i", __func__, clientSetup->hostIP.c_str(), clientSetup->hostPort);
 		clientNet->InitLocalClient();
@@ -128,11 +128,11 @@ void CPreGame::LoadSaveFile(const std::string& save)
 
 	if (CLuaMenuController::ActivateInstance("[PreGame] incompatible save-file")) {
 		assert(pregame == this);
-		spring::SafeDelete(pregame);
+		ArcLight::SafeDelete(pregame);
 		return;
 	}
 
-	spring::exitCode = spring::EXIT_CODE_BADSAVE;
+	ArcLight::exitCode = ArcLight::EXIT_CODE_BADSAVE;
 	gu->globalQuit = true;
 }
 
@@ -148,7 +148,7 @@ int CPreGame::KeyPressed(int k, bool isRepeat)
 
 	if (CLuaMenuController::ActivateInstance("[PreGame] User Aborted Loading")) {
 		assert(pregame == this);
-		spring::SafeDelete(pregame);
+		ArcLight::SafeDelete(pregame);
 		return 0;
 	}
 
@@ -160,14 +160,14 @@ int CPreGame::KeyPressed(int k, bool isRepeat)
 
 bool CPreGame::Draw()
 {
-	spring_msecs(10).sleep(true);
+	ArcLight_msecs(10).sleep(true);
 	ClearScreen();
 
 	if (!clientNet->Connected()) {
 		if (clientSetup->isHost)
 			font->glFormat(0.5f, 0.48f, 2.0f, FONT_CENTER | FONT_SCALE | FONT_NORM | FONT_BUFFERED, "Waiting for server to start");
 		else
-			font->glFormat(0.5f, 0.48f, 2.0f, FONT_CENTER | FONT_SCALE | FONT_NORM | FONT_BUFFERED, "Connecting to server (%ds)", (spring_gettime() - connectTimer).toSecsi());
+			font->glFormat(0.5f, 0.48f, 2.0f, FONT_CENTER | FONT_SCALE | FONT_NORM | FONT_BUFFERED, "Connecting to server (%ds)", (ArcLight_gettime() - connectTimer).toSecsi());
 	} else {
 		font->glPrint(0.5f, 0.48f, 2.0f, FONT_CENTER | FONT_SCALE | FONT_NORM | FONT_BUFFERED, "Waiting for server response");
 	}
@@ -177,7 +177,7 @@ bool CPreGame::Draw()
 
 	font->glFormat(0.5f, 0.25f, 0.8f, FONT_CENTER | FONT_SCALE | FONT_NORM | FONT_BUFFERED, "Press SHIFT + ESC to quit");
 	// credits
-	font->glFormat(0.5f, 0.06f, 1.0f, FONT_CENTER | FONT_SCALE | FONT_NORM | FONT_BUFFERED, "Spring %s", SpringVersion::GetFull().c_str());
+	font->glFormat(0.5f, 0.06f, 1.0f, FONT_CENTER | FONT_SCALE | FONT_NORM | FONT_BUFFERED, "ArcLight %s", ArcLightVersion::GetFull().c_str());
 	font->glPrint(0.5f, 0.02f, 0.6f, FONT_CENTER | FONT_SCALE | FONT_NORM | FONT_BUFFERED, "This program is distributed under the GNU General Public License, see doc/LICENSE for more info");
 	font->DrawBufferedGL4();
 
@@ -275,7 +275,7 @@ void CPreGame::StartServer(const std::string& setupscript)
 	startGameData->SetSetupText(startGameSetup->setupText);
 	gameServer = new CGameServer(clientSetup, startGameData, startGameSetup);
 
-	gameServer->AddLocalClient(clientSetup->myPlayerName, SpringVersion::GetSync(), Platform::GetPlatformStr());
+	gameServer->AddLocalClient(clientSetup->myPlayerName, ArcLightVersion::GetSync(), Platform::GetPlatformStr());
 	good_fpu_control_registers("after CGameServer creation");
 }
 
@@ -289,13 +289,13 @@ void CPreGame::UpdateClientNet()
 	if (clientNet->CheckTimeout(0, true)) {
 		if (CLuaMenuController::ActivateInstance("[PreGame] Server Connection Timeout")) {
 			assert(pregame == this);
-			spring::SafeDelete(pregame);
+			ArcLight::SafeDelete(pregame);
 			return;
 		}
 
 		LOG_L(L_ERROR, "[PreGame::%s] server connection timeout", __func__);
 
-		spring::exitCode = spring::EXIT_CODE_TIMEOUT;
+		ArcLight::exitCode = ArcLight::EXIT_CODE_TIMEOUT;
 		gu->globalQuit = true;
 		return;
 	}
@@ -322,7 +322,7 @@ void CPreGame::UpdateClientNet()
 					// (re)activate LuaMenu if user failed to connect
 					if (CLuaMenuController::ActivateInstance(message)) {
 						assert(pregame == this);
-						spring::SafeDelete(pregame);
+						ArcLight::SafeDelete(pregame);
 						return;
 					}
 
@@ -402,7 +402,7 @@ void CPreGame::UpdateClientNet()
 				CLoadScreen::CreateDeleteInstance(std::move(gameSetup->MapFileName()), std::move(modFileName), saveFileHandler);
 
 				assert(pregame == this);
-				spring::SafeDelete(pregame);
+				ArcLight::SafeDelete(pregame);
 				return;
 			} break;
 
@@ -461,7 +461,7 @@ void CPreGame::StartServerForDemo(const std::string& demoName)
 	good_fpu_control_registers("before CGameServer creation");
 
 	gameServer = new CGameServer(clientSetup, gameData, demoGameSetup);
-	gameServer->AddLocalClient(clientSetup->myPlayerName, SpringVersion::GetSync(), Platform::GetPlatformStr());
+	gameServer->AddLocalClient(clientSetup->myPlayerName, ArcLightVersion::GetSync(), Platform::GetPlatformStr());
 
 	good_fpu_control_registers("after CGameServer creation");
 	LOG("[PreGame::%s] started GameServer", __func__);

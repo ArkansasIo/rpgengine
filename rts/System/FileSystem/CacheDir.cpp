@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "CacheDir.h"
 
@@ -11,7 +11,7 @@
 const std::string CacheDir::tagFile_name          = "CACHEDIR.TAG";
 const std::string CacheDir::tagFile_content       = "Signature: 8a477f597d28d172789f06886806bc55";
 const size_t      CacheDir::tagFile_content_size  = 43;
-const std::string CacheDir::defaultAdditionalText = "# This file is a cache directory tag created by Spring.\n"
+const std::string CacheDir::defaultAdditionalText = "# This file is a cache directory tag created by ArcLight.\n"
                                                     "# For information about cache directory tags, see:\n"
                                                     "# http://www.brynosaurus.com/cachedir/";
 

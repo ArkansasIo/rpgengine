@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 /* exports the #defines from CobDefines.h to Lua */
 
@@ -117,7 +117,7 @@ bool LuaConstCOB::PushEntries(lua_State* L)
 
 bool LuaConstSFX::PushEntries(lua_State* L)
 {
-	// Piece Flags for Spring.UnitScript.Explode
+	// Piece Flags for ArcLight.UnitScript.Explode
 	LuaPushNamedNumber(L, "SHATTER", PF_Shatter);
 	LuaPushNamedNumber(L, "EXPLODE", PF_Explode);
 	LuaPushNamedNumber(L, "EXPLODE_ON_HIT", PF_Explode);
@@ -129,7 +129,7 @@ bool LuaConstSFX::PushEntries(lua_State* L)
 	LuaPushNamedNumber(L, "NO_HEATCLOUD", PF_NoHeatCloud);
 	LuaPushNamedNumber(L, "RECURSIVE", PF_Recursive);
 
-	// For Spring.UnitScript.EmitSfx
+	// For ArcLight.UnitScript.EmitSfx
 	LuaPushNamedNumber(L, "VTOL",            SFX_VTOL);
 	LuaPushNamedNumber(L, "WAKE",            SFX_WAKE);
 	LuaPushNamedNumber(L, "REVERSE_WAKE",    SFX_REVERSE_WAKE);

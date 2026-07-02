@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "glFont.h"
 #include "FontLogSection.h"
@@ -26,14 +26,14 @@
 #define QUAD_BUFFER_SIZE (4 * ELEM_BUFFER_SIZE)
 #define TRI_BUFFER_SIZE  (6 * ELEM_BUFFER_SIZE)
 
-CONFIG(std::string,      FontFile).defaultValue("fonts/FreeSansBold.otf").description("Sets the font of Spring engine text.");
-CONFIG(std::string, SmallFontFile).defaultValue("fonts/FreeSansBold.otf").description("Sets the font of Spring engine small text.");
+CONFIG(std::string,      FontFile).defaultValue("fonts/FreeSansBold.otf").description("Sets the font of ArcLight engine text.");
+CONFIG(std::string, SmallFontFile).defaultValue("fonts/FreeSansBold.otf").description("Sets the font of ArcLight engine small text.");
 
 CONFIG(int,      FontSize).defaultValue(23).description("Sets the font size (in pixels) of the MainMenu and more.");
 CONFIG(int, SmallFontSize).defaultValue(14).description("Sets the font size (in pixels) of the engine GUIs and more.");
-CONFIG(int,      FontOutlineWidth).defaultValue(3).description("Sets the width of the black outline around Spring engine text, such as the title screen version number, clock, and basic UI. Does not affect LuaUI elements.");
+CONFIG(int,      FontOutlineWidth).defaultValue(3).description("Sets the width of the black outline around ArcLight engine text, such as the title screen version number, clock, and basic UI. Does not affect LuaUI elements.");
 CONFIG(int, SmallFontOutlineWidth).defaultValue(2).description("see FontOutlineWidth");
-CONFIG(float,      FontOutlineWeight).defaultValue(25.0f).description("Sets the opacity of Spring engine text, such as the title screen version number, clock, and basic UI. Does not affect LuaUI elements.");
+CONFIG(float,      FontOutlineWeight).defaultValue(25.0f).description("Sets the opacity of ArcLight engine text, such as the title screen version number, clock, and basic UI. Does not affect LuaUI elements.");
 CONFIG(float, SmallFontOutlineWeight).defaultValue(10.0f).description("see FontOutlineWeight");
 
 
@@ -43,7 +43,7 @@ bool CglFont::threadSafety = false;
 CglFont* font = nullptr;
 CglFont* smallFont = nullptr;
 
-static spring::unsynced_set<CglFont*> loadedFonts;
+static ArcLight::unsynced_set<CglFont*> loadedFonts;
 
 static constexpr float4        white(1.00f, 1.00f, 1.00f, 0.95f);
 static constexpr float4  darkOutline(0.05f, 0.05f, 0.05f, 0.95f);
@@ -58,8 +58,8 @@ static const float darkLuminosity = 0.05f +
 
 bool CglFont::LoadConfigFonts()
 {
-	spring::SafeDelete(font);
-	spring::SafeDelete(smallFont);
+	ArcLight::SafeDelete(font);
+	ArcLight::SafeDelete(smallFont);
 
 	font = CglFont::LoadFont("", false);
 	smallFont = CglFont::LoadFont("", true);
@@ -79,8 +79,8 @@ bool CglFont::LoadCustomFonts(const std::string& smallFontFile, const std::strin
 	CglFont* newSmallFont = CglFont::LoadFont(smallFontFile, true);
 
 	if (newLargeFont != nullptr && newSmallFont != nullptr) {
-		spring::SafeDelete(font);
-		spring::SafeDelete(smallFont);
+		ArcLight::SafeDelete(font);
+		ArcLight::SafeDelete(smallFont);
 
 		font = newLargeFont;
 		smallFont = newSmallFont;

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef UNIT_DRAWER_H
 #define UNIT_DRAWER_H
@@ -320,7 +320,7 @@ private:
 	std::vector<std::array<std::vector<CUnit*>, MODELTYPE_OTHER>> liveGhostBuildings;
 
 	/// units that are only rendered as icons this frame
-	spring::unsynced_map<icon::CIconData*, std::vector<const CUnit*> > unitsByIcon;
+	ArcLight::unsynced_map<icon::CIconData*, std::vector<const CUnit*> > unitsByIcon;
 	std::vector<icon::CIconData*> unitIcons;
 
 	std::vector<UnitDefImage> unitDefImages;

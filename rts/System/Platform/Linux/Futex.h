@@ -1,7 +1,7 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
-#ifndef SPRINGFUTEX_H
-#define SPRINGFUTEX_H
+#ifndef ArcLightFUTEX_H
+#define ArcLightFUTEX_H
 
 #include <cinttypes>
 #include <atomic>
@@ -9,7 +9,7 @@
 
 
 
-class spring_futex
+class ArcLight_futex
 {
 private:
 	typedef std::uint32_t native_type;
@@ -17,11 +17,11 @@ private:
 public:
 	typedef native_type* native_handle_type;
 
-	spring_futex() noexcept;
-	~spring_futex();
+	ArcLight_futex() noexcept;
+	~ArcLight_futex();
 
-	spring_futex(const spring_futex&) = delete;
-	spring_futex& operator=(const spring_futex&) = delete;
+	ArcLight_futex(const ArcLight_futex&) = delete;
+	ArcLight_futex& operator=(const ArcLight_futex&) = delete;
 
 	void lock();
 	bool try_lock() noexcept;
@@ -70,7 +70,7 @@ public:
 	linux_signal& operator=(const linux_signal&) = delete;
 
 	void wait();
-	void wait_for(spring_time t);
+	void wait_for(ArcLight_time t);
 	void notify_all(const int min_sleepers = 1);
 
 protected:
@@ -79,4 +79,4 @@ protected:
 	std::uint32_t mtx;
 };
 
-#endif // SPRINGFUTEX_H
+#endif // ArcLightFUTEX_H

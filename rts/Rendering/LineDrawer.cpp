@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "LineDrawer.h"
 
@@ -42,7 +42,7 @@ void CLineDrawer::SetupLineStipple()
 void CLineDrawer::Restart()
 {
 	const int idx = width * 2 + useColorRestarts;
-	Line& line = spring::VectorEmplaceBack(lineStipple? stippleLines[idx]: regularLines[idx]);
+	Line& line = ArcLight::VectorEmplaceBack(lineStipple? stippleLines[idx]: regularLines[idx]);
 
 	if (useColorRestarts)
 		return;

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "LuaSyncedRead.h"
 
@@ -1793,7 +1793,7 @@ static inline void InsertSearchUnitDefs(const UnitDef* ud, bool allied)
 
 	gtuObjectIDs.push_back(ud->id);
 
-	// spring::unordered_map<int, std::vector<int> >
+	// ArcLight::unordered_map<int, std::vector<int> >
 	const auto& decoyMap = unitDefHandler->GetDecoyDefIDs();
 	const auto decoyMapIt = decoyMap.find(ud->id);
 

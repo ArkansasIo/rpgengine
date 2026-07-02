@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef LANGUAGEBLOCKSDEFS_H_INCLUDED
 #define LANGUAGEBLOCKSDEFS_H_INCLUDED
@@ -11,7 +11,7 @@
 #ifndef HEADLESS
 // Predefined blocks
 // It contains only the most widly used blocks (Latin and Cyrilic)
-static const spring::unordered_map<std::string, std::tuple<char32_t, char32_t>> blocks {
+static const ArcLight::unordered_map<std::string, std::tuple<char32_t, char32_t>> blocks {
 	{"NULL",        std::make_tuple(0x0000, 0x0001)},
 	{"ASCII",       std::make_tuple(0x0020, 0x007F)},
 	{"Latin-1",     std::make_tuple(0x00A1, 0x0100)},

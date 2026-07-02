@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef PROFILE_DRAWER
 #define PROFILE_DRAWER
@@ -19,7 +19,7 @@ public:
 	virtual void DrawScreen() override;
 	virtual bool MousePress(int x, int y, int button) override;
 	virtual bool IsAbove(int x, int y) override;
-	virtual void DbgTimingInfo(DbgTimingInfoType type, const spring_time start, const spring_time end) override;
+	virtual void DbgTimingInfo(DbgTimingInfoType type, const ArcLight_time start, const ArcLight_time end) override;
 
 private:
 	ProfileDrawer();

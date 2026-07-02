@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 
 #include <cstdio>
@@ -27,15 +27,15 @@
 
 static bool IsSafePath(const std::string& path)
 {
-	// keep searches within the Spring directory
+	// keep searches within the ArcLight directory
 	if ((path[0] == '/') || (path[0] == '\\') ||
 	    ((path.size() >= 2) && (path[1] == ':'))) {
 		return false;
 	}
 	if ((path.find("..") != std::string::npos) ||
-		(path.find("springsettings.cfg") != std::string::npos) || //don't allow to change config file
-		(path.find(".springrc") != std::string::npos) ||
-		(path.find("springrc") != std::string::npos)
+		(path.find("ArcLightsettings.cfg") != std::string::npos) || //don't allow to change config file
+		(path.find(".ArcLightrc") != std::string::npos) ||
+		(path.find("ArcLightrc") != std::string::npos)
 	) {
 		return false;
 	}
@@ -49,7 +49,7 @@ static bool IsSafePath(const std::string& path)
 
 bool LuaIO::IsSimplePath(const std::string& path)
 {
-	// keep searches within the Spring directory
+	// keep searches within the ArcLight directory
 	if ((path[0] == '/') || (path[0] == '\\') || ((path.size() >= 2) && (path[1] == ':')))
 		return false;
 

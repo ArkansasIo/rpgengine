@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef PLAYER_BASE_H
 #define PLAYER_BASE_H
@@ -17,7 +17,7 @@ class PlayerBase : public TeamController
 	CR_DECLARE_DERIVED(PlayerBase)
 
 public:
-	typedef spring::unordered_map<std::string, std::string> customOpts;
+	typedef ArcLight::unordered_map<std::string, std::string> customOpts;
 
 	PlayerBase();
 	virtual ~PlayerBase() {}

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef PLATFORM_MISC_H
 #define PLATFORM_MISC_H
@@ -11,7 +11,7 @@ namespace Platform
 {
 	/**
 	 * Returns the path to the original PWD/CWD dir from where the user started the execution.
-	 * For security reasons we change the CWD to Spring's write-dir (most of the time it's the home-dir), so we need to cache the PWD/CWD.
+	 * For security reasons we change the CWD to ArcLight's write-dir (most of the time it's the home-dir), so we need to cache the PWD/CWD.
 	 * @return path to the CWD, with trailing path separator
 	 */
 	const std::string& GetOrigCWD();
@@ -35,13 +35,13 @@ namespace Platform
 	 * including the file name.
 	 * examples:
 	 * examples when calling from the engine:
-	 * - "/usr/games/bin/spring"
-	 * - "/home/user/spring/spring"
-	 * - "C:\Program Files\Spring\spring.exe"
+	 * - "/usr/games/bin/ArcLight"
+	 * - "/home/user/ArcLight/ArcLight"
+	 * - "C:\Program Files\ArcLight\ArcLight.exe"
 	 * examples when calling from the synchronization library:
-	 * - "/usr/games/bin/springlobby"
-	 * - "/home/user/springlobby/springlobby"
-	 * - "C:\Program Files\SpringLobby\springlobby.exe"
+	 * - "/usr/games/bin/ArcLightlobby"
+	 * - "/home/user/ArcLightlobby/ArcLightlobby"
+	 * - "C:\Program Files\ArcLightLobby\ArcLightlobby.exe"
 	 * @return path to the main binary of the running process file or ""
 	 */
 	std::string GetProcessExecutableFile();
@@ -58,14 +58,14 @@ namespace Platform
 	 * Returns the path to the module/shared library, including the file name.
 	 * If moduleName is "", the path to the current library is returned.
 	 * examples when calling from the engine:
-	 * - "/usr/games/bin/spring"
-	 * - "/home/user/spring/spring"
-	 * - "C:\Program Files\Spring\spring.exe"
+	 * - "/usr/games/bin/ArcLight"
+	 * - "/home/user/ArcLight/ArcLight"
+	 * - "C:\Program Files\ArcLight\ArcLight.exe"
 	 * examples when calling from the synchronization library:
 	 * - "/usr/lib/libunitsync.so"
-	 * - "/home/user/spring/libunitsync.so"
-	 * - "C:\Program Files\Spring\unitsync.dll"
-	 * @param  moduleName eg. "spring" or "unitsync", "" for current
+	 * - "/home/user/ArcLight/libunitsync.so"
+	 * - "C:\Program Files\ArcLight\unitsync.dll"
+	 * @param  moduleName eg. "ArcLight" or "unitsync", "" for current
 	 * @return path to the current module file or ""
 	 */
 	std::string GetModuleFile(std::string moduleName = "");
@@ -74,7 +74,7 @@ namespace Platform
 	 * Returns the path to a module/shared library, excluding the file name.
 	 * If moduleName is "", the path to the current library is returned.
 	 * @see GetModuleFile()
-	 * @param  moduleName eg. "spring" or "unitsync", "" for current
+	 * @param  moduleName eg. "ArcLight" or "unitsync", "" for current
 	 * @return path to the current module dir (with trailing path separator) or ""
 	 */
 	std::string GetModulePath(const std::string& moduleName = "");
@@ -101,7 +101,7 @@ namespace Platform
 	/**
 	 * Executes a native binary, file and args have to be not escaped!
 	 * http://linux.die.net/man/3/execvp
-	 * @param  args[0  ] path to an executable, eg. "/usr/bin/games/spring"
+	 * @param  args[0  ] path to an executable, eg. "/usr/bin/games/ArcLight"
 	 * @param  args[1:n] arguments to the executable, eg. {"-f", "/tmp/test.txt"}
 	 * @return error message, or "" on success
 	 */

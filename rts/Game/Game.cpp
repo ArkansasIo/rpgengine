@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "Rendering/GL/myGL.h"
 
@@ -136,7 +136,7 @@ CONFIG(bool, ShowFPS).defaultValue(false).description("Displays current framerat
 CONFIG(bool, ShowClock).defaultValue(true).headlessValue(false).description("Displays a clock on the top-right corner of the screen showing the elapsed time of the current game.");
 CONFIG(bool, ShowSpeed).defaultValue(false).description("Displays current game speed.");
 CONFIG(int, ShowPlayerInfo).defaultValue(1).headlessValue(0);
-CONFIG(float, GuiOpacity).defaultValue(0.8f).minimumValue(0.0f).maximumValue(1.0f).description("Sets the opacity of the built-in Spring UI. Generally has no effect on LuaUI widgets. Can be set in-game using shift+, to decrease and shift+. to increase.");
+CONFIG(float, GuiOpacity).defaultValue(0.8f).minimumValue(0.0f).maximumValue(1.0f).description("Sets the opacity of the built-in ArcLight UI. Generally has no effect on LuaUI widgets. Can be set in-game using shift+, to decrease and shift+. to increase.");
 CONFIG(std::string, InputTextGeo).defaultValue("");
 
 
@@ -214,16 +214,16 @@ CR_REG_METADATA(CGame, (
 
 
 CGame::CGame(const std::string& mapFileName, const std::string& modFileName, ILoadSaveHandler* saveFile)
-	: frameStartTime(spring_gettime())
-	, lastSimFrameTime(spring_gettime())
-	, lastDrawFrameTime(spring_gettime())
-	, lastFrameTime(spring_gettime())
-	, lastReadNetTime(spring_gettime())
-	, lastNetPacketProcessTime(spring_gettime())
-	, lastReceivedNetPacketTime(spring_gettime())
-	, lastSimFrameNetPacketTime(spring_gettime())
-	, lastUnsyncedUpdateTime(spring_gettime())
-	, skipLastDrawTime(spring_gettime())
+	: frameStartTime(ArcLight_gettime())
+	, lastSimFrameTime(ArcLight_gettime())
+	, lastDrawFrameTime(ArcLight_gettime())
+	, lastFrameTime(ArcLight_gettime())
+	, lastReadNetTime(ArcLight_gettime())
+	, lastNetPacketProcessTime(ArcLight_gettime())
+	, lastReceivedNetPacketTime(ArcLight_gettime())
+	, lastSimFrameNetPacketTime(ArcLight_gettime())
+	, lastUnsyncedUpdateTime(ArcLight_gettime())
+	, skipLastDrawTime(ArcLight_gettime())
 
 	, saveFileHandler(saveFile)
 {
@@ -291,7 +291,7 @@ CGame::~CGame()
 	KillSimulation();
 
 	LOG("[Game::%s][2]", __func__);
-	spring::SafeDelete(saveFileHandler); // ILoadSaveHandler, depends on vfsHandler via ~IArchive
+	ArcLight::SafeDelete(saveFileHandler); // ILoadSaveHandler, depends on vfsHandler via ~IArchive
 
 	LOG("[Game::%s][3]", __func__);
 	CCategoryHandler::RemoveInstance();
@@ -307,7 +307,7 @@ void CGame::AddTimedJobs()
 		JobDispatcher::Job j;
 
 		j.f = [this]() -> bool {
-			const float simFrameDeltaTime = (spring_gettime() - lastSimFrameNetPacketTime).toMilliSecsf();
+			const float simFrameDeltaTime = (ArcLight_gettime() - lastSimFrameNetPacketTime).toMilliSecsf();
 			const float gcForcedDeltaTime = (5.0f * 1000.0f) / (GAME_SPEED * gs->speedFactor);
 
 			// SimFrame handles gc when not paused, this all other cases
@@ -357,8 +357,8 @@ void CGame::Load(const std::string& mapFileName)
 	auto& globalQuit = gu->globalQuit;
 	bool  forcedQuit = false;
 
-	LuaParser baseDefsParser("gamedata/defs.lua", SPRING_VFS_MOD_BASE, SPRING_VFS_ZIP, {true}, {false});
-	LuaParser nullDefsParser("return {UnitDefs = {}, FeatureDefs = {}, WeaponDefs = {}, ArmorDefs = {}, MoveDefs = {}}", SPRING_VFS_ZIP, 0, {true}, {true});
+	LuaParser baseDefsParser("gamedata/defs.lua", ARCLIGHT_VFS_MOD_BASE, ARCLIGHT_VFS_ZIP, {true}, {false});
+	LuaParser nullDefsParser("return {UnitDefs = {}, FeatureDefs = {}, WeaponDefs = {}, ArmorDefs = {}, MoveDefs = {}}", ARCLIGHT_VFS_ZIP, 0, {true}, {true});
 
 	LuaParser* defsParser = &baseDefsParser;
 
@@ -448,7 +448,7 @@ void CGame::Load(const std::string& mapFileName)
 	AddTimedJobs();
 
 	if (forcedQuit)
-		spring::exitCode = spring::EXIT_CODE_NOLOAD;
+		ArcLight::exitCode = ArcLight::EXIT_CODE_NOLOAD;
 
 	loadDone = true;
 	globalQuit = globalQuit | forcedQuit;
@@ -488,7 +488,7 @@ void CGame::LoadDefs(LuaParser* defsParser)
 
 		defsParser->SetupLua(true, true);
 		// customize the defs environment; LuaParser has no access to LuaSyncedRead
-		defsParser->GetTable("Spring");
+		defsParser->GetTable("ArcLight");
 		defsParser->AddFunc("GetModOptions", LuaSyncedRead::GetModOptions);
 		defsParser->AddFunc("GetMapOptions", LuaSyncedRead::GetMapOptions);
 		defsParser->EndTable();
@@ -529,8 +529,8 @@ void CGame::LoadDefs(LuaParser* defsParser)
 		ScopedOnceTimer timer("Game::LoadDefs (Sound)");
 		loadscreen->SetLoadMessage("Loading Sound Definitions");
 
-		LuaParser soundDefsParser("gamedata/sounds.lua", SPRING_VFS_MOD_BASE, SPRING_VFS_MOD_BASE);
-		soundDefsParser.GetTable("Spring");
+		LuaParser soundDefsParser("gamedata/sounds.lua", ARCLIGHT_VFS_MOD_BASE, ARCLIGHT_VFS_MOD_BASE);
+		soundDefsParser.GetTable("ArcLight");
 		soundDefsParser.AddFunc("GetModOptions", LuaSyncedRead::GetModOptions);
 		soundDefsParser.AddFunc("GetMapOptions", LuaSyncedRead::GetMapOptions);
 		soundDefsParser.EndTable();
@@ -807,7 +807,7 @@ void CGame::LoadFinalize()
 		);
 	}
 
-	lastReadNetTime = spring_gettime();
+	lastReadNetTime = ArcLight_gettime();
 	lastSimFrameTime = lastReadNetTime;
 	lastDrawFrameTime = lastReadNetTime;
 	updateDeltaSeconds = 0.0f;
@@ -877,7 +877,7 @@ void CGame::KillRendering()
 {
 	LOG("[Game::%s][1]", __func__);
 	icon::iconHandler.Kill();
-	spring::SafeDelete(geometricObjects);
+	ArcLight::SafeDelete(geometricObjects);
 	worldDrawer.Kill();
 }
 
@@ -886,16 +886,16 @@ void CGame::KillInterface()
 	LOG("[Game::%s][1]", __func__);
 	ProfileDrawer::SetEnabled(false);
 	camHandler->Kill();
-	spring::SafeDelete(guihandler);
-	spring::SafeDelete(minimap);
-	spring::SafeDelete(resourceBar);
-	spring::SafeDelete(tooltip); // CTooltipConsole*
+	ArcLight::SafeDelete(guihandler);
+	ArcLight::SafeDelete(minimap);
+	ArcLight::SafeDelete(resourceBar);
+	ArcLight::SafeDelete(tooltip); // CTooltipConsole*
 
 	LOG("[Game::%s][2]", __func__);
 	keyBindings.Kill();
 	selectionKeys.Kill(); // CSelectionKeyHandler*
-	spring::SafeDelete(inMapDrawerModel);
-	spring::SafeDelete(inMapDrawer);
+	ArcLight::SafeDelete(inMapDrawerModel);
+	ArcLight::SafeDelete(inMapDrawer);
 }
 
 void CGame::KillSimulation()
@@ -923,7 +923,7 @@ void CGame::KillSimulation()
 	IPathManager::FreeInstance(pathManager);
 	IMapDamage::FreeMapDamage(mapDamage);
 
-	spring::SafeDelete(readMap);
+	ArcLight::SafeDelete(readMap);
 	smoothGround.Kill();
 
 	groundBlockingObjectMap.Kill();
@@ -937,7 +937,7 @@ void CGame::KillSimulation()
 	weaponDefHandler->Kill();
 	damageArrayHandler.Kill();
 	explGenHandler.Kill();
-	spring::SafeDelete((mapInfo = const_cast<CMapInfo*>(mapInfo)));
+	ArcLight::SafeDelete((mapInfo = const_cast<CMapInfo*>(mapInfo)));
 
 	LOG("[Game::%s][4]", __func__);
 	CCommandAI::KillCommandDescriptionCache();
@@ -981,7 +981,7 @@ int CGame::KeyPressed(int key, bool isRepeat)
 		playerHandler.Player(gu->myPlayerNum)->currentStats.keyPresses++;
 
 	const CKeySet ks(key, false);
-	curKeyChain.push_back(key, spring_gettime(), isRepeat);
+	curKeyChain.push_back(key, ArcLight_gettime(), isRepeat);
 
 	// Get the list of possible key actions
 	//LOG_L(L_DEBUG, "curKeyChain: %s", curKeyChain.GetString().c_str());
@@ -1085,7 +1085,7 @@ bool CGame::Update()
 
 	if (!gameOver) {
 		if (clientNet->NeedsReconnect())
-			clientNet->AttemptReconnect(SpringVersion::GetSync(), Platform::GetPlatformStr());
+			clientNet->AttemptReconnect(ArcLightVersion::GetSync(), Platform::GetPlatformStr());
 
 		if (clientNet->CheckTimeout(0, gs->PreSimFrame()))
 			GameEnd({}, true);
@@ -1096,7 +1096,7 @@ bool CGame::Update()
 	{
 		SLuaAllocError error = {};
 
-		if (spring_lua_alloc_get_error(&error)) {
+		if (ArcLight_lua_alloc_get_error(&error)) {
 			// convert the "abc\ndef\n..." buffer into 0-terminated "abc", "def", ... chunks
 			for (char *ptr = &error.msgBuf[0], *tmp = nullptr; (tmp = strstr(ptr, "\n")) != nullptr; ptr = tmp + 1) {
 				*tmp = 0;
@@ -1114,12 +1114,12 @@ bool CGame::Update()
 }
 
 
-bool CGame::UpdateUnsynced(const spring_time currentTime)
+bool CGame::UpdateUnsynced(const ArcLight_time currentTime)
 {
 	SCOPED_TIMER("Update");
 
 	// timings and frame interpolation
-	const spring_time deltaDrawFrameTime = currentTime - lastDrawFrameTime;
+	const ArcLight_time deltaDrawFrameTime = currentTime - lastDrawFrameTime;
 
 	const float modGameDeltaTimeSecs = mix(deltaDrawFrameTime.toMilliSecsf() * 0.001f, 0.01f, skipping);
 	const float unsyncedUpdateDeltaTime = (currentTime - lastUnsyncedUpdateTime).toSecsf();
@@ -1142,7 +1142,7 @@ bool CGame::UpdateUnsynced(const spring_time currentTime)
 	{
 		// update sim-FPS counter once per second
 		static int lsf = gs->frameNum;
-		static spring_time lsft = currentTime;
+		static ArcLight_time lsft = currentTime;
 
 		// toSecsf throws away too much precision
 		const float diffMilliSecs = (currentTime - lsft).toMilliSecsf();
@@ -1156,7 +1156,7 @@ bool CGame::UpdateUnsynced(const spring_time currentTime)
 
 	if (skipping) {
 		// when fast-forwarding, maintain a draw-rate of 2Hz
-		if (spring_tomsecs(currentTime - skipLastDrawTime) < 500.0f)
+		if (ArcLight_tomsecs(currentTime - skipLastDrawTime) < 500.0f)
 			return true;
 
 		skipLastDrawTime = currentTime;
@@ -1247,18 +1247,18 @@ bool CGame::UpdateUnsynced(const spring_time currentTime)
 		SCOPED_TIMER("Update::EventHandler");
 		eventHandler.Update();
 	}
-	eventHandler.DbgTimingInfo(TIMING_UNSYNCED, currentTime, spring_now());
+	eventHandler.DbgTimingInfo(TIMING_UNSYNCED, currentTime, ArcLight_now());
 	return false;
 }
 
 
 bool CGame::Draw() {
-	const spring_time currentTimePreUpdate = spring_gettime();
+	const ArcLight_time currentTimePreUpdate = ArcLight_gettime();
 
 	if (UpdateUnsynced(currentTimePreUpdate))
 		return false;
 
-	const spring_time currentTimePreDraw = spring_gettime();
+	const ArcLight_time currentTimePreDraw = ArcLight_gettime();
 
 	SCOPED_SPECIAL_TIMER("Draw");
 	globalRendering->SetGLTimeStamp(CGlobalRendering::FRAME_REF_TIME_QUERY_IDX);
@@ -1271,7 +1271,7 @@ bool CGame::Draw() {
 	}
 
 	if (!globalRendering->active) {
-		spring_sleep(spring_msecs(10));
+		ArcLight_sleep(ArcLight_msecs(10));
 
 		// return early if and only if less than 30K milliseconds have passed since last draw-frame
 		// so we force render two frames per minute when minimized to clear batches and free memory
@@ -1311,7 +1311,7 @@ bool CGame::Draw() {
 	}
 
 	//FIXME move both to UpdateUnsynced?
-	CTeamHighlight::Enable(spring_tomsecs(currentTimePreDraw));
+	CTeamHighlight::Enable(ArcLight_tomsecs(currentTimePreDraw));
 	if (unitTracker.Enabled())
 		unitTracker.SetCam();
 
@@ -1356,8 +1356,8 @@ bool CGame::Draw() {
 	SetDrawMode(Game::NotDrawing);
 	CTeamHighlight::Disable();
 
-	const spring_time currentTimePostDraw = spring_gettime();
-	const spring_time currentFrameDrawTime = currentTimePostDraw - currentTimePreDraw;
+	const ArcLight_time currentTimePostDraw = ArcLight_gettime();
+	const ArcLight_time currentFrameDrawTime = currentTimePostDraw - currentTimePreDraw;
 	gu->avgDrawFrameTime = mix(gu->avgDrawFrameTime, currentFrameDrawTime.toMilliSecsf(), 0.05f);
 
 	eventHandler.DbgTimingInfo(TIMING_VIDEO, currentTimePreDraw, currentTimePostDraw);
@@ -1457,7 +1457,7 @@ void CGame::StartPlaying()
 	playing = true;
 
 	{
-		lastReadNetTime = spring_gettime();
+		lastReadNetTime = ArcLight_gettime();
 
 		gu->startTime = gu->gameTime;
 		gu->myTeam = gu->GetMyPlayer()->team;
@@ -1483,12 +1483,12 @@ void CGame::SimFrame() {
 
 	// note: starts at -1, first actual frame is 0
 	gs->frameNum += 1;
-	lastFrameTime = spring_gettime();
+	lastFrameTime = ArcLight_gettime();
 
 	// clear allocator statistics periodically
 	// note: allocator itself should do this (so that
 	// stats are reliable when paused) but see LuaUser
-	spring_lua_alloc_update_stats((gs->frameNum % GAME_SPEED) == 0);
+	ArcLight_lua_alloc_update_stats((gs->frameNum % GAME_SPEED) == 0);
 
 	if (!skipping) {
 		// everything here is unsynced and should ideally moved to Game::Update()
@@ -1545,7 +1545,7 @@ void CGame::SimFrame() {
 		playerHandler.GameFrame(gs->frameNum);
 	}
 
-	lastSimFrameTime = spring_gettime();
+	lastSimFrameTime = ArcLight_gettime();
 	gu->avgSimFrameTime = mix(gu->avgSimFrameTime, (lastSimFrameTime - lastFrameTime).toMilliSecsf(), 0.05f);
 	gu->avgSimFrameTime = std::max(gu->avgSimFrameTime, 0.001f);
 
@@ -1558,7 +1558,7 @@ void CGame::SimFrame() {
 		const float msecSleepTime = (msecMaxSimFrameTime - msecDifSimFrameTime) * 0.5f;
 
 		if (msecSleepTime > 0.0f) {
-			spring_sleep(spring_msecs(msecSleepTime));
+			ArcLight_sleep(ArcLight_msecs(msecSleepTime));
 		}
 	}
 
@@ -1771,7 +1771,7 @@ void CGame::StartSkip(int toFrame) {
 	gs->speedFactor     = speed;
 	gs->wantedSpeedFactor = speed;
 
-	skipLastDrawTime = spring_gettime();
+	skipLastDrawTime = ArcLight_gettime();
 
 	skipping = true;
 	#endif
@@ -1850,7 +1850,7 @@ void CGame::ReloadCOB(const string& msg, int player)
 
 bool CGame::IsSimLagging(float maxLatency) const
 {
-	const float deltaTime = spring_tomsecs(spring_gettime() - lastFrameTime);
+	const float deltaTime = ArcLight_tomsecs(ArcLight_gettime() - lastFrameTime);
 	const float sfLatency = maxLatency / gs->speedFactor;
 
 	return (!gs->paused && (deltaTime > sfLatency));

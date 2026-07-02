@@ -1,15 +1,15 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "EFXPresets.h"
 #include "System/StringUtil.h"
 
-spring::unsynced_map<std::string, EAXSfxProps> eaxPresets;
+ArcLight::unsynced_map<std::string, EAXSfxProps> eaxPresets;
 
-spring::unsynced_map<ALuint, unsigned> alParamType;
-spring::unsynced_map<std::string, ALuint> nameToALParam;
-spring::unsynced_map<ALuint, std::string> alParamToName;
-spring::unsynced_map<std::string, ALuint> nameToALFilterParam;
-spring::unsynced_map<ALuint, std::string> alFilterParamToName;
+ArcLight::unsynced_map<ALuint, unsigned> alParamType;
+ArcLight::unsynced_map<std::string, ALuint> nameToALParam;
+ArcLight::unsynced_map<ALuint, std::string> alParamToName;
+ArcLight::unsynced_map<std::string, ALuint> nameToALFilterParam;
+ArcLight::unsynced_map<ALuint, std::string> alFilterParamToName;
 
 static void InitPresets()
 {

@@ -1,7 +1,7 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
-#ifndef SPRING_SHADER_HDR
-#define SPRING_SHADER_HDR
+#ifndef ArcLight_SHADER_HDR
+#define ArcLight_SHADER_HDR
 
 #include <algorithm>
 #include <string>
@@ -315,8 +315,8 @@ namespace Shader {
 		ShaderFlags shaderFlags;
 
 	public:
-		spring::unsynced_map<std::size_t, UniformState, fast_hash> uniformStates;
-		spring::unsynced_map<int, LuaMatTexture> luaTextures;
+		ArcLight::unsynced_map<std::size_t, UniformState, fast_hash> uniformStates;
+		ArcLight::unsynced_map<int, LuaMatTexture> luaTextures;
 	};
 
 

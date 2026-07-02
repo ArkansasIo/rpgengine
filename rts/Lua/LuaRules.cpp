@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "LuaRules.h"
 
@@ -13,7 +13,7 @@
 #include "Sim/Units/UnitDef.h"
 #include "Sim/Units/Scripts/CobInstance.h" // for UNPACK{X,Z}
 #include "System/Log/ILog.h"
-#include "System/FileSystem/VFSModes.h" // for SPRING_VFS_*
+#include "System/FileSystem/VFSModes.h" // for ARCLIGHT_VFS_*
 #include "System/Threading/SpringThreading.h"
 
 #include <cassert>
@@ -29,7 +29,7 @@ const int* CLuaRules::currentCobArgs = nullptr;
 /******************************************************************************/
 /******************************************************************************/
 
-static spring::mutex m_singleton;
+static ArcLight::mutex m_singleton;
 
 DECL_LOAD_SPLIT_HANDLER(CLuaRules, luaRules)
 DECL_FREE_HANDLER(CLuaRules, luaRules)
@@ -67,7 +67,7 @@ std::string CLuaRules::GetSyncedFileName() const
 
 std::string CLuaRules::GetInitFileModes() const
 {
-	return SPRING_VFS_MOD_BASE;
+	return ARCLIGHT_VFS_MOD_BASE;
 }
 
 int CLuaRules::GetInitSelectTeam() const
@@ -88,7 +88,7 @@ bool CLuaRules::AddSyncedCode(lua_State* L)
 
 bool CLuaRules::AddUnsyncedCode(lua_State* L)
 {
-	lua_getglobal(L, "Spring");
+	lua_getglobal(L, "ArcLight");
 
 	lua_pushliteral(L, "UnitRendering");
 	lua_newtable(L);
@@ -100,7 +100,7 @@ bool CLuaRules::AddUnsyncedCode(lua_State* L)
 	LuaObjectRendering<LUAOBJ_FEATURE>::PushEntries(L);
 	lua_rawset(L, -3);
 
-	lua_pop(L, 1); // Spring
+	lua_pop(L, 1); // ArcLight
 
 	return true;
 }

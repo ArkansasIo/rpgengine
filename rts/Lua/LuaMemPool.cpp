@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <algorithm> // std::min
 #include <cstdint> // std::uint8_t
@@ -29,7 +29,7 @@ static std::array<uint8_t, sizeof(LuaMemPool)> gSharedPoolMem;
 static std::vector<LuaMemPool*> gPools;
 static std::vector<size_t> gIndcs;
 static std::atomic<size_t> gCount = {0};
-static spring::mutex gMutex;
+static ArcLight::mutex gMutex;
 
 
 // Lua code tends to perform many smaller *short-lived* allocations
@@ -93,13 +93,13 @@ void LuaMemPool::InitStatic(bool enable) { gSharedPool = new (gSharedPoolMem.dat
 void LuaMemPool::KillStatic()
 {
 	for (LuaMemPool*& p: gPools) {
-		spring::SafeDelete(p);
+		ArcLight::SafeDelete(p);
 	}
 
 	gPools.clear();
 	gIndcs.clear();
 
-	spring::SafeDestruct(gSharedPool);
+	ArcLight::SafeDestruct(gSharedPool);
 }
 
 

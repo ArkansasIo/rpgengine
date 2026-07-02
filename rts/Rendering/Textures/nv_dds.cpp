@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 // This software contains source code provided by NVIDIA Corporation.
 // License: http://developer.download.nvidia.com/licenses/general_license.txt
@@ -164,7 +164,7 @@
 #include <cstring>
 #include <cassert>
 
-// spring related
+// ArcLight related
 #include "Rendering/GL/myGL.h"
 #include "nv_dds.h"
 #include "System/FileSystem/FileHandler.h"

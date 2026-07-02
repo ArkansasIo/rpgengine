@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _CAMERA_H
 #define _CAMERA_H
@@ -216,9 +216,9 @@ public:
 	void UpdateViewPort(int px, int py, int sx, int sy);
 
 private:
-	void gluPerspectiveSpring(const float aspect, const float zn, const float zf);
-	void glOrthoScaledSpring(const float sx, const float sy, const float zn, const float zf);
-	void gluLookAtSpring(const float3&, const float3&, const float3&);
+	void gluPerspectiveArcLight(const float aspect, const float zn, const float zf);
+	void glOrthoScaledArcLight(const float sx, const float sy, const float zn, const float zf);
+	void gluLookAtArcLight(const float3&, const float3&, const float3&);
 
 	void UpdateDirsFromRot(const float3& r);
 

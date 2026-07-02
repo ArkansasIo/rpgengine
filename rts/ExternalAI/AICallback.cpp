@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "ExternalAI/AICallback.h"
 
@@ -277,14 +277,14 @@ const char* CAICallback::GetTeamSide(int teamId)
 void* CAICallback::CreateSharedMemArea(char* name, int size)
 {
 	handleerror (0, "AI wants to use deprecated function \"CreateSharedMemArea\"",
-				"Spring is closing:", MBF_OK | MBF_EXCL);
+				"ArcLight is closing:", MBF_OK | MBF_EXCL);
 	return nullptr;
 }
 
 void CAICallback::ReleasedSharedMemArea(char* name)
 {
 	handleerror (0, "AI wants to use deprecated function \"ReleasedSharedMemArea\"",
-				"Spring is closing:", MBF_OK | MBF_EXCL);
+				"ArcLight is closing:", MBF_OK | MBF_EXCL);
 }
 
 int CAICallback::CreateGroup()

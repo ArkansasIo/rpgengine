@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "LocalConnection.h"
 #include "Net/Protocol/BaseNetProtocol.h"
@@ -13,7 +13,7 @@ namespace netcode {
 unsigned int CLocalConnection::numInstances = 0;
 
 std::deque< std::shared_ptr<const RawPacket> > CLocalConnection::pktQueues[CLocalConnection::MAX_INSTANCES];
-spring::mutex CLocalConnection::mutexes[CLocalConnection::MAX_INSTANCES];
+ArcLight::mutex CLocalConnection::mutexes[CLocalConnection::MAX_INSTANCES];
 CLocalConnection* CLocalConnection::instancePtrs[MAX_INSTANCES] = {nullptr, nullptr};
 
 CLocalConnection::CLocalConnection()
@@ -31,7 +31,7 @@ CLocalConnection::CLocalConnection()
 
 CLocalConnection::~CLocalConnection()
 {
-	std::lock_guard<spring::mutex> scoped_lock(mutexes[instanceIdx]);
+	std::lock_guard<ArcLight::mutex> scoped_lock(mutexes[instanceIdx]);
 
 	instancePtrs[instanceIdx] = nullptr;
 	numInstances--;
@@ -43,7 +43,7 @@ void CLocalConnection::Close(bool flush)
 	if (!flush)
 		return;
 
-	std::lock_guard<spring::mutex> scoped_lock(mutexes[instanceIdx]);
+	std::lock_guard<ArcLight::mutex> scoped_lock(mutexes[instanceIdx]);
 	pktQueues[instanceIdx].clear();
 }
 
@@ -59,7 +59,7 @@ void CLocalConnection::SendData(std::shared_ptr<const RawPacket> pkt)
 
 	{
 		// when sending from A to B we must lock B's queue
-		std::lock_guard<spring::mutex> scoped_lock(mutexes[RemoteInstanceIdx()]);
+		std::lock_guard<ArcLight::mutex> scoped_lock(mutexes[RemoteInstanceIdx()]);
 
 		// outgoing for A, incoming for B
 		if (instancePtrs[RemoteInstanceIdx()] != nullptr)
@@ -71,7 +71,7 @@ void CLocalConnection::SendData(std::shared_ptr<const RawPacket> pkt)
 
 std::shared_ptr<const RawPacket> CLocalConnection::GetData()
 {
-	std::lock_guard<spring::mutex> scoped_lock(mutexes[instanceIdx]);
+	std::lock_guard<ArcLight::mutex> scoped_lock(mutexes[instanceIdx]);
 	std::deque<std::shared_ptr<const RawPacket>>& pktQueue = pktQueues[instanceIdx];
 
 	if (pktQueue.empty())
@@ -87,7 +87,7 @@ std::shared_ptr<const RawPacket> CLocalConnection::GetData()
 
 std::shared_ptr<const RawPacket> CLocalConnection::Peek(unsigned ahead) const
 {
-	std::lock_guard<spring::mutex> scoped_lock(mutexes[instanceIdx]);
+	std::lock_guard<ArcLight::mutex> scoped_lock(mutexes[instanceIdx]);
 	std::deque<std::shared_ptr<const RawPacket>>& pktQueue = pktQueues[instanceIdx];
 
 	if (ahead >= pktQueue.size())
@@ -98,7 +98,7 @@ std::shared_ptr<const RawPacket> CLocalConnection::Peek(unsigned ahead) const
 
 void CLocalConnection::DeleteBufferPacketAt(unsigned index)
 {
-	std::lock_guard<spring::mutex> scoped_lock(mutexes[instanceIdx]);
+	std::lock_guard<ArcLight::mutex> scoped_lock(mutexes[instanceIdx]);
 	std::deque<std::shared_ptr<const RawPacket>>& pktQueue = pktQueues[instanceIdx];
 
 	if (index >= pktQueue.size())
@@ -112,21 +112,21 @@ void CLocalConnection::DeleteBufferPacketAt(unsigned index)
 std::string CLocalConnection::Statistics() const
 {
 	std::string msg = "[LocalConnection::Statistics]\n";
-	msg += spring::format("\t%u bytes sent  \n", dataSent);
-	msg += spring::format("\t%u bytes recv'd\n", dataRecv);
+	msg += ArcLight::format("\t%u bytes sent  \n", dataSent);
+	msg += ArcLight::format("\t%u bytes recv'd\n", dataRecv);
 	return msg;
 }
 
 
 bool CLocalConnection::HasIncomingData() const
 {
-	std::lock_guard<spring::mutex> scoped_lock(mutexes[instanceIdx]);
+	std::lock_guard<ArcLight::mutex> scoped_lock(mutexes[instanceIdx]);
 	return (!pktQueues[instanceIdx].empty());
 }
 
 unsigned int CLocalConnection::GetPacketQueueSize() const
 {
-	std::lock_guard<spring::mutex> scoped_lock(mutexes[instanceIdx]);
+	std::lock_guard<ArcLight::mutex> scoped_lock(mutexes[instanceIdx]);
 	return (!pktQueues[instanceIdx].size());
 }
 

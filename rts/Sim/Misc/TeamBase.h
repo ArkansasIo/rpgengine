@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef TEAM_BASE_H
 #define TEAM_BASE_H
@@ -16,7 +16,7 @@ class TeamBase
 	CR_DECLARE(TeamBase)
 
 public:
-	typedef spring::unordered_map<std::string, std::string> customOpts;
+	typedef ArcLight::unordered_map<std::string, std::string> customOpts;
 
 	TeamBase();
 	virtual ~TeamBase() {}

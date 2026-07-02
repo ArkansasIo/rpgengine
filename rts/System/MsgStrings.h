@@ -1,11 +1,11 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _SERVER_MSG_STRINGS_H_
 #define _SERVER_MSG_STRINGS_H_
 
 #include <string>
 
-// All strings used by CGameServer, in a printf / spring::format compatible way
+// All strings used by CGameServer, in a printf / ArcLight::format compatible way
 
 const std::string ServerStart = "Server started on port %d";
 const std::string PlayingDemo = "Opening demofile %s";

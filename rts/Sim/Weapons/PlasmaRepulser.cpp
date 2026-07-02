@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "PlasmaRepulser.h"
 #include "Sim/Misc/GlobalSynced.h"
@@ -209,7 +209,7 @@ bool CPlasmaRepulser::IncomingProjectile(CWeaponProjectile* p, const float3& hit
 			} break;
 		}
 
-		if (spring::VectorInsertUnique(repulsedProjectiles, p, true)) {
+		if (ArcLight::VectorInsertUnique(repulsedProjectiles, p, true)) {
 			// projectile was not repulsed before
 			AddDeathDependence(p, DEPENDENCE_REPULSED);
 
@@ -276,6 +276,6 @@ bool CPlasmaRepulser::IncomingBeam(const CWeapon* emitter, const float3& startPo
 
 void CPlasmaRepulser::DependentDied(CObject* o)
 {
-	spring::VectorErase(repulsedProjectiles, static_cast<CWeaponProjectile*>(o));
+	ArcLight::VectorErase(repulsedProjectiles, static_cast<CWeaponProjectile*>(o));
 	CWeapon::DependentDied(o);
 }

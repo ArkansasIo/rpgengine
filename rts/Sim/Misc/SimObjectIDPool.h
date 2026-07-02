@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef SIMOBJECT_IDPOOL_H
 #define SIMOBJECT_IDPOOL_H
@@ -45,9 +45,9 @@ private:
 	void RecycleIDs();
 
 private:
-	spring::unordered_map<unsigned int, unsigned int> poolIDs; // uid to idx
-	spring::unordered_map<unsigned int, unsigned int> freeIDs; // idx to uid
-	spring::unordered_map<unsigned int, unsigned int> tempIDs; // idx to uid
+	ArcLight::unordered_map<unsigned int, unsigned int> poolIDs; // uid to idx
+	ArcLight::unordered_map<unsigned int, unsigned int> freeIDs; // idx to uid
+	ArcLight::unordered_map<unsigned int, unsigned int> tempIDs; // idx to uid
 };
 
 #endif

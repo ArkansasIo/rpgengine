@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef GL_FBO_H
 #define GL_FBO_H
@@ -174,7 +174,7 @@ private:
 	};
 
 	static std::vector<FBO*> activeFBOs;
-	static spring::unordered_map<GLuint, TexData> fboTexData;
+	static ArcLight::unordered_map<GLuint, TexData> fboTexData;
 
 	static GLint maxAttachments;
 	static GLsizei maxSamples;

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "Radar.h"
 #include "InfoTextureHandler.h"
@@ -37,7 +37,7 @@ CRadarTexture::CRadarTexture()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glSpringTexStorage2D(GL_TEXTURE_2D, -1, GL_RG8, texSize.x, texSize.y);
+	glArcLightTexStorage2D(GL_TEXTURE_2D, -1, GL_RG8, texSize.x, texSize.y);
 
 	infoTexPBO.Bind();
 	infoTexPBO.New(texSize.x * texSize.y * texChannels * sizeof(uint16_t), GL_STREAM_DRAW);
@@ -120,7 +120,7 @@ CRadarTexture::CRadarTexture()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glSpringTexStorage2D(GL_TEXTURE_2D, 1, GL_RG8, texSize.x, texSize.y);
+	glArcLightTexStorage2D(GL_TEXTURE_2D, 1, GL_RG8, texSize.x, texSize.y);
 
 	glGenTextures(1, &uploadTexJammer);
 	glBindTexture(GL_TEXTURE_2D, uploadTexJammer);
@@ -128,7 +128,7 @@ CRadarTexture::CRadarTexture()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glSpringTexStorage2D(GL_TEXTURE_2D, 1, GL_RG8, texSize.x, texSize.y);
+	glArcLightTexStorage2D(GL_TEXTURE_2D, 1, GL_RG8, texSize.x, texSize.y);
 }
 
 

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _INTERFACE_INFO_TEXTURE_HANDLER_H
 #define _INTERFACE_INFO_TEXTURE_HANDLER_H

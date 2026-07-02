@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef AUDIO_CHANNEL_H
 #define AUDIO_CHANNEL_H
@@ -54,7 +54,7 @@ protected:
 	void SoundSourceFinished(CSoundSource* sndSource) override;
 
 private:
-	spring::unsynced_set<CSoundSource*> curSources;
+	ArcLight::unsynced_set<CSoundSource*> curSources;
 	std::deque<StreamQueueItem> streamQueue;
 
 	CSoundSource* curStreamSrc = nullptr;

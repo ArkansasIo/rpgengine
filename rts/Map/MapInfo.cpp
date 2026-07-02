@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 
 #include "MapInfo.h"
@@ -33,7 +33,7 @@ static void FIND_MAP_TEXTURE(std::string* filePath, const std::string& defaultDi
 {
 	if (filePath->empty())
 		return;
-	if (CFileHandler::FileExists(*filePath, SPRING_VFS_ZIP)) // no RawFS, cause it's also used for synced textures (typemap, metalmap, ...)
+	if (CFileHandler::FileExists(*filePath, ARCLIGHT_VFS_ZIP)) // no RawFS, cause it's also used for synced textures (typemap, metalmap, ...)
 		return;
 
 	*filePath = defaultDir + *filePath;
@@ -48,7 +48,7 @@ CMapInfo::CMapInfo(const std::string& mapFileName, const string& mapHumanName): 
 	if (!mapInfoParser.IsValid())
 		throw content_error("[MapInfo] info-parser for map \"" + map.name + "\" (\"" + mapFileName + "\") invalid: \"" + mapInfoParser.GetErrorLog() + "\"");
 
-	LuaParser resParser("gamedata/resources.lua", SPRING_VFS_MOD_BASE, SPRING_VFS_ZIP);
+	LuaParser resParser("gamedata/resources.lua", ARCLIGHT_VFS_MOD_BASE, ARCLIGHT_VFS_ZIP);
 	LuaTable resTable;
 
 	if (!resParser.Execute())

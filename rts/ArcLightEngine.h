@@ -1,7 +1,7 @@
 /* This file is part of the ArcLight Engine
  * Developer: Stephen
  *
- * Master include header for all UE5-inspired subsystems.
+ * Master include header for all subsystems.
  * Include this single header to access the full ArcLight feature set.
  *
  * Subsystems:
@@ -11,6 +11,9 @@
  *   - Physics:      Chaos-inspired rigid body & destruction
  *   - AI:           UE5 Behavior Tree system
  *   - World:        RTS zone control, resources, supply lines
+ *   - Systems:      Save/Load, Achievements, Quests, Factions, Trade, Crafting
+ *   - Menus:        Main menu, pause menu, screen transitions
+ *   - Settings:     Graphics, Audio, Input, Gameplay, Display, UI, Key Bindings
  */
 
 #pragma once
@@ -44,33 +47,89 @@
 // ======================== RTS World ========================
 #include "World/RTSWorld.h"
 
+// ======================== Game Systems ========================
+#include "Game/Systems/SaveLoadSystem.h"
+#include "Game/Systems/AchievementSystem.h"
+#include "Game/Systems/QuestSystem.h"
+#include "Game/Systems/FactionSystem.h"
+#include "Game/Systems/TradeSystem.h"
+#include "Game/Systems/CraftingSystem.h"
+
+// ======================== Menu System ========================
+#include "Game/Menus/MenuSystem.h"
+
+// ======================== Settings & Options ========================
+#include "Game/Settings/GameSettings.h"
+#include "Game/Settings/KeyBindings.h"
+#include "Game/Settings/DisplaySettings.h"
+#include "Game/Settings/UISettings.h"
+
 namespace arclight {
 
 /**
  * ArcLight Engine Master System
- * Integrates all UE5-inspired subsystems into a cohesive engine.
+ * Integrates all subsystems into a cohesive engine.
  */
 class ArcLightEngine {
 public:
+	// Core
 	World ecsWorld;
 	RTSWorld rtsWorld;
 	PhysicsSystem physicsSystem;
 	DestructionSystem destructionSystem;
 
+	// Game Systems
+	SaveLoadSystem saveLoadSystem;
+	AchievementSystem achievementSystem;
+	QuestSystem questSystem;
+	FactionSystem factionSystem;
+	TradeSystem tradeSystem;
+	CraftingSystem craftingSystem;
+
+	// Menu & UI
+	MenuSystem menuSystem;
+
+	// Settings
+	GameSettings gameSettings;
+	KeyBindingSystem keyBindings;
+	DisplaySettings displaySettings;
+	UISettings uiSettings;
+
 	void Init() {
 		ecsWorld.InitSystems();
 		physicsSystem.SetGravity(float3(0.0f, -9.81f, 0.0f));
 		destructionSystem.SetParams(DestructionParams());
+		menuSystem.Init();
+		keyBindings.SetDefaultBindings();
+		displaySettings.Init();
+		gameSettings.Init();
 	}
 
 	void Update(float dt) {
 		ecsWorld.UpdateSystems(dt);
 		physicsSystem.Update(dt);
 		rtsWorld.UpdateResources(dt);
+		saveLoadSystem.Update(dt);
+		menuSystem.Update(dt);
 	}
 
 	void Shutdown() {
 		ecsWorld.ShutdownSystems();
+	}
+
+	void TogglePause() {
+		if (menuSystem.GetCurrentState() == MenuState::PauseMenu)
+			menuSystem.ChangeState(MenuState::InGameMenu);
+		else
+			menuSystem.ChangeState(MenuState::PauseMenu);
+	}
+
+	void OpenSettings() {
+		menuSystem.ChangeState(MenuState::Settings);
+	}
+
+	void ReturnToMainMenu() {
+		menuSystem.ChangeState(MenuState::MainMenu);
 	}
 
 	// Convenience: spawn an RTS entity with all core components
@@ -92,7 +151,6 @@ public:
 		auto& fog = ecsWorld.GetEntityManager().AddComponent<FogOfWarComponent>(entity);
 		fog.sightRadius = 500.0f;
 
-		// Tag with team
 		ecsWorld.TagEntity(entity, "team_" + std::to_string(teamID));
 		ecsWorld.TagEntity(entity, "unit");
 
@@ -113,7 +171,6 @@ public:
 
 		auto& selection = ecsWorld.GetEntityManager().AddComponent<SelectionComponent>(entity);
 
-		// Buildings don't move
 		ecsWorld.TagEntity(entity, "team_" + std::to_string(teamID));
 		ecsWorld.TagEntity(entity, "building");
 
@@ -136,7 +193,6 @@ public:
 		movement.velocity = velocity;
 		movement.movementMode = MovementMode::Flying;
 
-		// Add to physics
 		RigidBody body;
 		body.position = position;
 		body.velocity = velocity;

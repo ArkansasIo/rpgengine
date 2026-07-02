@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef CONTAINER_UTIL_H
 #define CONTAINER_UTIL_H
@@ -7,7 +7,7 @@
 #include <cassert>
 #include <vector>
 
-namespace spring {
+namespace ArcLight {
 	template<typename T, typename TV>
 	static auto find(T& c, const TV& v) -> decltype(c.end())
 	{

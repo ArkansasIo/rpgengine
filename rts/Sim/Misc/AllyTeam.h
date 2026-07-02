@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef ALLY_TEAM_H
 #define ALLY_TEAM_H
@@ -17,7 +17,7 @@ class AllyTeam
 public:
 	AllyTeam() { customValues.reserve(8); }
 
-	typedef spring::unordered_map<std::string, std::string> customOpts;
+	typedef ArcLight::unordered_map<std::string, std::string> customOpts;
 
 	void SetValue(const std::string& key, const std::string& value);
 	const customOpts& GetAllValues() const { return customValues; }

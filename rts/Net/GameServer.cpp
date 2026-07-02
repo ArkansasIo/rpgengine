@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "System/Net/UDPListener.h"
 #include "System/Net/UDPConnection.h"
@@ -97,7 +97,7 @@ static constexpr unsigned SYNCCHECK_TIMEOUT = 300;
 static constexpr unsigned SYNCCHECK_MSG_TIMEOUT = 400;
 
 /// The time interval in msec for sending player statistics to each client
-static const spring_time playerInfoTime = spring_secs(2);
+static const ArcLight_time playerInfoTime = ArcLight_secs(2);
 
 /// every n'th frame will be a keyframe (and contain the server's framenumber)
 static constexpr unsigned serverKeyframeInterval = 16;
@@ -172,7 +172,7 @@ void CGameServer::Initialize()
 		udpListener.reset(new netcode::UDPListener(myClientSetup->hostPort, myClientSetup->hostIP));
 
 	AddAutohostInterface(StringToLower(configHandler->GetString("AutohostIP")), configHandler->GetInt("AutohostPort"));
-	Message(spring::format(ServerStart, myClientSetup->hostPort), false);
+	Message(ArcLight::format(ServerStart, myClientSetup->hostPort), false);
 
 	// start script
 	maxUserSpeed = myGameSetup->maxSpeed;
@@ -184,14 +184,14 @@ void CGameServer::Initialize()
 
 	// load demo (if there is one)
 	if (myGameSetup->hostDemo) {
-		Message(spring::format(PlayingDemo, myGameSetup->demoName.c_str()));
+		Message(ArcLight::format(PlayingDemo, myGameSetup->demoName.c_str()));
 		demoReader.reset(new CDemoReader(myGameSetup->demoName, modGameTime + 0.1f));
 	}
 
 	// initialize players, teams & ais
 	{
-		netPingTimings.fill(spring_notime);
-		mapDrawTimings.fill({spring_notime, 0});
+		netPingTimings.fill(ArcLight_notime);
+		mapDrawTimings.fill({ArcLight_notime, 0});
 		chatMutedFlags.fill({false, false});
 		aiControlFlags.fill(false);
 
@@ -207,7 +207,7 @@ void CGameServer::Initialize()
 			const size_t demoPlayers = demoReader->GetFileHeader().numPlayers;
 			players.resize(std::max(demoPlayers, playerStartData.size()));
 			if (players.size() >= MAX_PLAYERS)
-				Message(spring::format("Too many Players (%d) in the demo", players.size()));
+				Message(ArcLight::format("Too many Players (%d) in the demo", players.size()));
 		}
 
 		std::copy(playerStartData.begin(), playerStartData.end(), players.begin());
@@ -229,7 +229,7 @@ void CGameServer::Initialize()
 			const uint8_t skirmishAIId = ReserveSkirmishAIId();
 
 			if (skirmishAIId == MAX_AIS) {
-				Message(spring::format("Too many AIs (%d) specified in game-setup script", aiStartData.size()));
+				Message(ArcLight::format("Too many AIs (%d) specified in game-setup script", aiStartData.size()));
 				break;
 			}
 
@@ -258,10 +258,10 @@ void CGameServer::Initialize()
 	loopSleepTime = configHandler->GetInt("ServerSleepTime");
 	linkMinPacketSize = globalConfig.linkIncomingMaxPacketRate > 0 ? (globalConfig.linkIncomingSustainedBandwidth / globalConfig.linkIncomingMaxPacketRate) : 1;
 
-	lastNewFrameTick = spring_gettime();
-	lastBandwidthUpdate = spring_gettime();
+	lastNewFrameTick = ArcLight_gettime();
+	lastBandwidthUpdate = ArcLight_gettime();
 
-	thread = std::move(spring::thread(std::bind(&CGameServer::UpdateLoop, this)));
+	thread = std::move(ArcLight::thread(std::bind(&CGameServer::UpdateLoop, this)));
 
 	// Something in CGameServer::CGameServer borks the FPU control word
 	// maybe the threading, or something in CNet::InitServer() ??
@@ -277,7 +277,7 @@ void CGameServer::Initialize()
 
 void CGameServer::PostLoad(int newServerFrameNum)
 {
-	std::lock_guard<spring::recursive_mutex> scoped_lock(gameServerMutex);
+	std::lock_guard<ArcLight::recursive_mutex> scoped_lock(gameServerMutex);
 	serverFrameNum = newServerFrameNum;
 
 	gameHasStarted = !PreSimFrame();
@@ -308,7 +308,7 @@ void CGameServer::WriteDemoData()
 
 	// there is always at least one non-Gaia team (numTeams > 0)
 	// the Gaia team itself does not count toward the statistics
-	demoRecorder->SetTime(serverFrameNum / GAME_SPEED, spring_tomsecs(spring_gettime() - serverStartTime) / 1000);
+	demoRecorder->SetTime(serverFrameNum / GAME_SPEED, ArcLight_tomsecs(ArcLight_gettime() - serverStartTime) / 1000);
 	demoRecorder->InitializeStats(players.size(), int((myGameSetup->GetTeamStartingDataCont()).size()) - myGameSetup->useLuaGaia);
 
 	// Pass the winners to the CDemoRecorder.
@@ -356,7 +356,7 @@ void CGameServer::StripGameSetupText(GameData* gameData)
 
 void CGameServer::AddLocalClient(const std::string& myName, const std::string& myVersion, const std::string& myPlatform)
 {
-	std::lock_guard<spring::recursive_mutex> scoped_lock(gameServerMutex);
+	std::lock_guard<ArcLight::recursive_mutex> scoped_lock(gameServerMutex);
 	assert(!HasLocalClient());
 
 	localClientNumber = BindConnection(std::shared_ptr<netcode::CConnection>(new netcode::CLocalConnection()), myName, "", myVersion, myPlatform, true);
@@ -381,14 +381,14 @@ void CGameServer::AddAutohostInterface(const std::string& autohostIP, const int 
 		hostif.reset(new AutohostInterface(autohostIP, autohostPort));
 		if (hostif->IsInitialized()) {
 			hostif->SendStart();
-			Message(spring::format(ConnectAutohost, autohostPort), false);
+			Message(ArcLight::format(ConnectAutohost, autohostPort), false);
 		} else {
 			// Quit if we are instructed to communicate with an auto-host,
 			// but are unable to do so: we do not want an auto-host running
-			// a spring game that it has no control over. If we get here,
+			// a ArcLight game that it has no control over. If we get here,
 			// it suggests a configuration problem in the auto-host.
 			hostif.reset();
-			Message(spring::format(ConnectAutohostFailed, autohostIP.c_str(), autohostPort), false);
+			Message(ArcLight::format(ConnectAutohostFailed, autohostIP.c_str(), autohostPort), false);
 			quitServer = true;
 		}
 	}
@@ -403,7 +403,7 @@ void CGameServer::SkipTo(int targetFrameNum)
 	if (serverFrameNum >= targetFrameNum) { return; }
 	if (demoReader == nullptr) { return; }
 
-	CommandMessage startMsg(spring::format("skip start %d", targetFrameNum), SERVER_PLAYER);
+	CommandMessage startMsg(ArcLight::format("skip start %d", targetFrameNum), SERVER_PLAYER);
 	CommandMessage endMsg("skip end", SERVER_PLAYER);
 	Broadcast(std::shared_ptr<const netcode::RawPacket>(startMsg.Pack()));
 
@@ -427,7 +427,7 @@ void CGameServer::SkipTo(int targetFrameNum)
 	if (udpListener != nullptr)
 		udpListener->Update();
 
-	lastUpdate = spring_gettime();
+	lastUpdate = ArcLight_gettime();
 	isPaused = wasPaused;
 }
 
@@ -467,7 +467,7 @@ bool CGameServer::SendDemoData(int targetFrameNum)
 			case NETMSG_NEWFRAME:
 			case NETMSG_KEYFRAME: {
 				// we can't use CreateNewFrame() here
-				lastNewFrameTick = spring_gettime();
+				lastNewFrameTick = ArcLight_gettime();
 				serverFrameNum++;
 
 #ifdef SYNCCHECK
@@ -493,7 +493,7 @@ bool CGameServer::SendDemoData(int targetFrameNum)
 					pckt >> name;
 					AddAdditionalUser(name, "", true, (bool)spectator, (int)team, playerNum); // even though this is a demo, keep the players vector properly updated
 				} catch (const netcode::UnpackPacketException& ex) {
-					Message(spring::format("Warning: Discarding invalid new player packet in demo: %s", ex.what()));
+					Message(ArcLight::format("Warning: Discarding invalid new player packet in demo: %s", ex.what()));
 					continue;
 				}
 
@@ -515,7 +515,7 @@ bool CGameServer::SendDemoData(int targetFrameNum)
 					if (msg.GetPlayerID() == SERVER_PLAYER && action.command == "cheat")
 						InverseOrSetBool(cheating, action.extra);
 				} catch (const netcode::UnpackPacketException& ex) {
-					Message(spring::format("Warning: Discarding invalid command message packet in demo: %s", ex.what()));
+					Message(ArcLight::format("Warning: Discarding invalid command message packet in demo: %s", ex.what()));
 					continue;
 				}
 				Broadcast(rpkt);
@@ -700,7 +700,7 @@ void CGameServer::CheckSync()
 				syncWarningFrame = outstandingSyncFrame;
 
 				const std::string& playerNames = GetPlayerNames(noSyncResponsePlayers);
-				Message(spring::format(NoSyncResponse, playerNames.c_str(), outstandingSyncFrame));
+				Message(ArcLight::format(NoSyncResponse, playerNames.c_str(), outstandingSyncFrame));
 			}
 		}
 
@@ -717,7 +717,7 @@ void CGameServer::CheckSync()
 				CSyncDebugger::GetInstance()->ServerTriggerSyncErrorHandling(serverFrameNum);
 
 				if (demoReader) // pause is a synced message, thus demo spectators may not pause for real
-					Message(spring::format("%s paused the demo", players[gu->myPlayerNum].name.c_str()));
+					Message(ArcLight::format("%s paused the demo", players[gu->myPlayerNum].name.c_str()));
 				else
 					Broadcast(CBaseNetProtocol::Get().SendPause(gu->myPlayerNum, true));
 
@@ -727,7 +727,7 @@ void CGameServer::CheckSync()
 
 				#ifndef DEDICATED
 				// DS exit-codes are not used
-				spring::exitCode = spring::EXIT_CODE_DESYNC;
+				ArcLight::exitCode = ArcLight::EXIT_CODE_DESYNC;
 				#endif
 
 				// For each group, output a message with list of player names in it.
@@ -735,15 +735,15 @@ void CGameServer::CheckSync()
 				// the resync checksum request packets to multiple clients in the same group.
 				for (const auto& desyncGroup: desyncGroups) {
 					const std::string& playerNames = GetPlayerNames(desyncGroup.second);
-					Message(spring::format(SyncError, playerNames.c_str(), outstandingSyncFrame, desyncGroup.first, correctChecksum));
+					Message(ArcLight::format(SyncError, playerNames.c_str(), outstandingSyncFrame, desyncGroup.first, correctChecksum));
 				}
 
 				// send spectator desyncs as private messages to reduce spam
 				for (const auto& p: desyncSpecs) {
-					LOG_L(L_ERROR, "%s", spring::format(SyncError, players[p.first].name.c_str(), outstandingSyncFrame, p.second, correctChecksum).c_str());
-					Message(spring::format(SyncError, players[p.first].name.c_str(), outstandingSyncFrame, p.second, correctChecksum));
+					LOG_L(L_ERROR, "%s", ArcLight::format(SyncError, players[p.first].name.c_str(), outstandingSyncFrame, p.second, correctChecksum).c_str());
+					Message(ArcLight::format(SyncError, players[p.first].name.c_str(), outstandingSyncFrame, p.second, correctChecksum));
 
-					PrivateMessage(p.first, spring::format(SyncError, players[p.first].name.c_str(), outstandingSyncFrame, p.second, correctChecksum));
+					PrivateMessage(p.first, ArcLight::format(SyncError, players[p.first].name.c_str(), outstandingSyncFrame, p.second, correctChecksum));
 				}
 			}
 		}
@@ -781,10 +781,10 @@ float CGameServer::GetDemoTime() const {
 
 void CGameServer::Update()
 {
-	const float tdif = spring_tomsecs(spring_gettime() - lastUpdate) * 0.001f;
+	const float tdif = ArcLight_tomsecs(ArcLight_gettime() - lastUpdate) * 0.001f;
 
 	gameTime += tdif;
-	lastUpdate = spring_gettime();
+	lastUpdate = ArcLight_gettime();
 
 	if (!isPaused && gameHasStarted) {
 		// if we are not playing a demo, or have no local client, or the
@@ -794,8 +794,8 @@ void CGameServer::Update()
 			modGameTime += (tdif * internalSpeed);
 	}
 
-	if (lastPlayerInfo < (spring_gettime() - playerInfoTime)) {
-		lastPlayerInfo = spring_gettime();
+	if (lastPlayerInfo < (ArcLight_gettime() - playerInfoTime)) {
+		lastPlayerInfo = ArcLight_gettime();
 
 		if (!PreSimFrame()) {
 			LagProtection();
@@ -842,7 +842,7 @@ void CGameServer::Update()
 		}
 	}
 
-	const bool pregameTimeoutReached = (spring_gettime() > (serverStartTime + spring_secs(globalConfig.initialNetworkTimeout)));
+	const bool pregameTimeoutReached = (ArcLight_gettime() > (serverStartTime + ArcLight_secs(globalConfig.initialNetworkTimeout)));
 	const bool canCheckForPlayers = (pregameTimeoutReached || gameHasStarted);
 
 	if (canCheckForPlayers) {
@@ -1027,20 +1027,20 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 
 		case NETMSG_PING: {
 			if (inbuf[1] != playerNum) {
-				Message(spring::format(WrongPlayer, msgCode, playerNum, (unsigned)inbuf[1]));
+				Message(ArcLight::format(WrongPlayer, msgCode, playerNum, (unsigned)inbuf[1]));
 				break;
 			}
 
 			// limit to 50 pings per second
-			if (spring_diffmsecs(spring_now(), netPingTimings[playerNum]) >= 20) {
+			if (ArcLight_diffmsecs(ArcLight_now(), netPingTimings[playerNum]) >= 20) {
 				players[playerNum].SendData(CBaseNetProtocol::Get().SendPing(playerNum, inbuf[2], *(reinterpret_cast<const float*>(&inbuf[3]))));
-				netPingTimings[playerNum] = spring_now();
+				netPingTimings[playerNum] = ArcLight_now();
 			}
 		} break;
 
 		case NETMSG_PAUSE:
 			if (inbuf[1] != a) {
-				Message(spring::format(WrongPlayer, msgCode, a, (unsigned)inbuf[1]));
+				Message(ArcLight::format(WrongPlayer, msgCode, a, (unsigned)inbuf[1]));
 				break;
 			}
 			if (!inbuf[2])  // reset sync checker
@@ -1054,7 +1054,7 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 					if ((isPaused != !!inbuf[2]) || demoReader)
 						isPaused = !isPaused;
 					if (demoReader) // pause is a synced message, thus demo spectators may not pause for real
-						Message(spring::format("%s %s the demo", players[a].name.c_str(), (isPaused ? "paused" : "unpaused")));
+						Message(ArcLight::format("%s %s the demo", players[a].name.c_str(), (isPaused ? "paused" : "unpaused")));
 					else
 						Broadcast(CBaseNetProtocol::Get().SendPause(a, inbuf[2]));
 				}
@@ -1074,7 +1074,7 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 			break;
 
 		case NETMSG_QUIT: {
-			Message(spring::format(PlayerLeft, players[a].GetType(), players[a].name.c_str(), " normal quit"));
+			Message(ArcLight::format(PlayerLeft, players[a].GetType(), players[a].name.c_str(), " normal quit"));
 			Broadcast(CBaseNetProtocol::Get().SendPlayerLeft(a, 1));
 			players[a].Kill("[GameServer] user exited", true);
 			if (hostif != nullptr)
@@ -1088,18 +1088,18 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 				unsigned char playerNum;
 				pckt >> playerNum;
 				if (playerNum != a) {
-					Message(spring::format(WrongPlayer, msgCode, a, playerNum));
+					Message(ArcLight::format(WrongPlayer, msgCode, a, playerNum));
 					break;
 				}
 				pckt >> players[playerNum].name;
 				players[playerNum].myState = GameParticipant::INGAME;
 				Broadcast(CBaseNetProtocol::Get().SendPlayerInfo(a, 0, 0)); // reset pathing display
-				Message(spring::format(PlayerJoined, players[playerNum].GetType(), players[playerNum].name.c_str()), false);
+				Message(ArcLight::format(PlayerJoined, players[playerNum].GetType(), players[playerNum].name.c_str()), false);
 				Broadcast(CBaseNetProtocol::Get().SendPlayerName(playerNum, players[playerNum].name));
 				if (hostif != nullptr)
 					hostif->SendPlayerJoined(playerNum, players[playerNum].name);
 			} catch (const netcode::UnpackPacketException& ex) {
-				Message(spring::format("Player %d sent invalid PlayerName: %s", a, ex.what()));
+				Message(ArcLight::format("Player %d sent invalid PlayerName: %s", a, ex.what()));
 			}
 			break;
 		}
@@ -1108,7 +1108,7 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 			const unsigned char playerNum = inbuf[1];
 			const std::uint32_t playerCheckSum = *(std::uint32_t*) &inbuf[2];
 			if (playerNum != a) {
-				Message(spring::format(WrongPlayer, msgCode, a, playerNum));
+				Message(ArcLight::format(WrongPlayer, msgCode, a, playerNum));
 				break;
 			}
 			Broadcast(CBaseNetProtocol::Get().SendPathCheckSum(playerNum, playerCheckSum));
@@ -1118,7 +1118,7 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 			try {
 				ChatMessage msg(packet);
 				if (static_cast<unsigned>(msg.fromPlayer) != a) {
-					Message(spring::format(WrongPlayer, msgCode, a, (unsigned)msg.fromPlayer));
+					Message(ArcLight::format(WrongPlayer, msgCode, a, (unsigned)msg.fromPlayer));
 					break;
 				}
 				// if this player is chat-muted, drop his messages quietly
@@ -1127,7 +1127,7 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 
 				GotChatMessage(msg);
 			} catch (const netcode::UnpackPacketException& ex) {
-				Message(spring::format("Player %s sent invalid ChatMessage: %s", players[a].name.c_str(), ex.what()));
+				Message(ArcLight::format("Player %s sent invalid ChatMessage: %s", players[a].name.c_str(), ex.what()));
 			}
 			break;
 		}
@@ -1139,12 +1139,12 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 				std::string strmsg;
 				pckt >> strmsg;
 				if (playerNum != a) {
-					Message(spring::format(WrongPlayer, msgCode, a, (unsigned)playerNum));
+					Message(ArcLight::format(WrongPlayer, msgCode, a, (unsigned)playerNum));
 					break;
 				}
 				Broadcast(CBaseNetProtocol::Get().SendSystemMessage(playerNum, strmsg));
 			} catch (const netcode::UnpackPacketException& ex) {
-				Message(spring::format("Player %d sent invalid SystemMessage: %s", a, ex.what()));
+				Message(ArcLight::format("Player %d sent invalid SystemMessage: %s", a, ex.what()));
 			}
 			break;
 
@@ -1154,14 +1154,14 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 			const unsigned char rdyState = inbuf[3];
 
 			if (player != a) {
-				Message(spring::format(WrongPlayer, msgCode, a, (unsigned)inbuf[1]));
+				Message(ArcLight::format(WrongPlayer, msgCode, a, (unsigned)inbuf[1]));
 				break;
 			}
 			if (myGameSetup->startPosType == CGameSetup::StartPos_ChooseInGame) {
 				if (team >= teams.size()) {
-					Message(spring::format("Invalid teamID %d in NETMSG_STARTPOS from player %d", team, player));
+					Message(ArcLight::format("Invalid teamID %d in NETMSG_STARTPOS from player %d", team, player));
 				} else if (getSkirmishAIIds(skirmishAIs, freeSkirmishAIs, team, player).empty() && ((team != players[player].team) || (players[player].spectator))) {
-					Message(spring::format("Player %d sent spoofed NETMSG_STARTPOS with teamID %d", player, team));
+					Message(ArcLight::format("Player %d sent spoofed NETMSG_STARTPOS with teamID %d", player, team));
 				} else {
 					teams[team].SetStartPos(float3(*((float*)&inbuf[4]), *((float*)&inbuf[8]), *((float*)&inbuf[12])));
 					players[player].SetReadyToStart(rdyState != CPlayer::PLAYER_RDYSTATE_UPDATED);
@@ -1172,7 +1172,7 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 						hostif->SendPlayerReady(a, rdyState);
 				}
 			} else {
-				Message(spring::format(NoStartposChange, a));
+				Message(ArcLight::format(NoStartposChange, a));
 			}
 			break;
 		}
@@ -1183,7 +1183,7 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 				unsigned char playerNum;
 				pckt >> playerNum;
 				if (playerNum != a) {
-					Message(spring::format(WrongPlayer, msgCode, a, (unsigned)playerNum));
+					Message(ArcLight::format(WrongPlayer, msgCode, a, (unsigned)playerNum));
 					break;
 				}
 
@@ -1194,7 +1194,7 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 					Broadcast(packet); //forward data
 				}
 			} catch (const netcode::UnpackPacketException& ex) {
-				Message(spring::format("Player %s sent invalid Command: %s", players[a].name.c_str(), ex.what()));
+				Message(ArcLight::format("Player %s sent invalid Command: %s", players[a].name.c_str(), ex.what()));
 			}
 			break;
 
@@ -1204,7 +1204,7 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 				unsigned char playerNum;
 				pckt >> playerNum;
 				if (playerNum != a) {
-					Message(spring::format(WrongPlayer, msgCode, a, (unsigned)playerNum));
+					Message(ArcLight::format(WrongPlayer, msgCode, a, (unsigned)playerNum));
 					break;
 				}
 
@@ -1215,7 +1215,7 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 					Broadcast(packet); //forward data
 				}
 			} catch (const netcode::UnpackPacketException& ex) {
-				Message(spring::format("Player %s sent invalid Select: %s", players[a].name.c_str(), ex.what()));
+				Message(ArcLight::format("Player %s sent invalid Select: %s", players[a].name.c_str(), ex.what()));
 			}
 			break;
 
@@ -1225,16 +1225,16 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 				unsigned char playerNum;
 				pckt >> playerNum;
 				if (playerNum != a) {
-					Message(spring::format(WrongPlayer, msgCode , a , (unsigned) playerNum));
+					Message(ArcLight::format(WrongPlayer, msgCode , a , (unsigned) playerNum));
 					break;
 				}
 
 				if (noHelperAIs)
-					Message(spring::format(NoHelperAI, players[a].name.c_str(), a));
+					Message(ArcLight::format(NoHelperAI, players[a].name.c_str(), a));
 				else if (demoReader == nullptr)
 					Broadcast(packet); //forward data
 			} catch (const netcode::UnpackPacketException& ex) {
-				Message(spring::format("Player %s sent invalid AICommand: %s", players[a].name.c_str(), ex.what()));
+				Message(ArcLight::format("Player %s sent invalid AICommand: %s", players[a].name.c_str(), ex.what()));
 			}
 		}
 		break;
@@ -1246,16 +1246,16 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 				pckt >> playerNum;
 
 				if (playerNum != a) {
-					Message(spring::format(WrongPlayer, msgCode , a , (unsigned) playerNum));
+					Message(ArcLight::format(WrongPlayer, msgCode , a , (unsigned) playerNum));
 					break;
 				}
 
 				if (noHelperAIs)
-					Message(spring::format(NoHelperAI, players[a].name.c_str(), a));
+					Message(ArcLight::format(NoHelperAI, players[a].name.c_str(), a));
 				else if (demoReader == nullptr)
 					Broadcast(packet); //forward data
 			} catch (const netcode::UnpackPacketException& ex) {
-				Message(spring::format("Player %s sent invalid AICommands: %s", players[a].name.c_str(), ex.what()));
+				Message(ArcLight::format("Player %s sent invalid AICommands: %s", players[a].name.c_str(), ex.what()));
 			}
 		} break;
 
@@ -1265,15 +1265,15 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 				unsigned char playerNum;
 				pckt >> playerNum;
 				if (playerNum != a) {
-					Message(spring::format(WrongPlayer, msgCode , a , (unsigned) playerNum));
+					Message(ArcLight::format(WrongPlayer, msgCode , a , (unsigned) playerNum));
 					break;
 				}
 				if (noHelperAIs)
-					Message(spring::format(NoHelperAI, players[a].name.c_str(), a));
+					Message(ArcLight::format(NoHelperAI, players[a].name.c_str(), a));
 				else if (demoReader == nullptr)
 					Broadcast(packet); //forward data
 			} catch (const netcode::UnpackPacketException& ex) {
-				Message(spring::format("Player %s sent invalid AIShare: %s", players[a].name.c_str(), ex.what()));
+				Message(ArcLight::format("Player %s sent invalid AIShare: %s", players[a].name.c_str(), ex.what()));
 			}
 		} break;
 
@@ -1286,13 +1286,13 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 				pckt >> playerNum;
 
 				if (playerNum != a) {
-					Message(spring::format(WrongPlayer, msgCode, a, (unsigned)playerNum));
+					Message(ArcLight::format(WrongPlayer, msgCode, a, (unsigned)playerNum));
 					break;
 				}
 
 				Broadcast(packet);
 			} catch (const netcode::UnpackPacketException& ex) {
-				Message(spring::format("[GameServer::%s][NETMSG_LOGMSG] exception \"%s\" from player \"%s\"", ex.what(), players[a].name.c_str()));
+				Message(ArcLight::format("[GameServer::%s][NETMSG_LOGMSG] exception \"%s\" from player \"%s\"", ex.what(), players[a].name.c_str()));
 			}
 		} break;
 		case NETMSG_LUAMSG: {
@@ -1303,7 +1303,7 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 				pckt >> playerNum;
 
 				if (playerNum != a) {
-					Message(spring::format(WrongPlayer, msgCode, a, (unsigned)playerNum));
+					Message(ArcLight::format(WrongPlayer, msgCode, a, (unsigned)playerNum));
 					break;
 				}
 
@@ -1316,7 +1316,7 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 					hostif->SendLuaMsg(packet->data, packet->length);
 
 			} catch (const netcode::UnpackPacketException& ex) {
-				Message(spring::format("[GameServer::%s][NETMSG_LUAMSG] exception \"%s\" from player \"%s\"", ex.what(), players[a].name.c_str()));
+				Message(ArcLight::format("[GameServer::%s][NETMSG_LUAMSG] exception \"%s\" from player \"%s\"", ex.what(), players[a].name.c_str()));
 			}
 		} break;
 
@@ -1350,7 +1350,7 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 
 		case NETMSG_SHARE:
 			if (inbuf[1] != a) {
-				Message(spring::format(WrongPlayer, msgCode, a, (unsigned)inbuf[1]));
+				Message(ArcLight::format(WrongPlayer, msgCode, a, (unsigned)inbuf[1]));
 				break;
 			}
 			if (demoReader == nullptr)
@@ -1359,7 +1359,7 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 
 		case NETMSG_SETSHARE:
 			if (inbuf[1] != a) {
-				Message(spring::format(WrongPlayer, msgCode, a, (unsigned)inbuf[1]));
+				Message(ArcLight::format(WrongPlayer, msgCode, a, (unsigned)inbuf[1]));
 				break;
 			}
 			if (demoReader == nullptr)
@@ -1368,7 +1368,7 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 
 		case NETMSG_PLAYERSTAT:
 			if (inbuf[1] != a) {
-				Message(spring::format(WrongPlayer, msgCode, a, (unsigned)inbuf[1]));
+				Message(ArcLight::format(WrongPlayer, msgCode, a, (unsigned)inbuf[1]));
 				break;
 			}
 			players[a].lastStats = *reinterpret_cast<const PlayerStatistics*>(&inbuf[2]);
@@ -1382,7 +1382,7 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 				pckt >> playerNum;
 
 				if (playerNum != a) {
-					Message(spring::format(WrongPlayer, msgCode, a, (unsigned)playerNum));
+					Message(ArcLight::format(WrongPlayer, msgCode, a, (unsigned)playerNum));
 					break;
 				}
 				// if this player is draw-muted, drop his messages quietly
@@ -1394,9 +1394,9 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 				// each followed the previous by less than 50 milliseconds
 				// this is impossible to reach manually, but (very) easily
 				// through Lua and would allow clients to be DOS'ed
-				mapDrawTimings[a].second += (spring_diffmsecs(spring_now(), mapDrawTimings[a].first) < 50);
-				mapDrawTimings[a].second *= (spring_diffmsecs(spring_now(), mapDrawTimings[a].first) < 50);
-				mapDrawTimings[a].first   = spring_now();
+				mapDrawTimings[a].second += (ArcLight_diffmsecs(ArcLight_now(), mapDrawTimings[a].first) < 50);
+				mapDrawTimings[a].second *= (ArcLight_diffmsecs(ArcLight_now(), mapDrawTimings[a].first) < 50);
+				mapDrawTimings[a].first   = ArcLight_now();
 
 				if (mapDrawTimings[a].second > 25)
 					break;
@@ -1405,26 +1405,26 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 				if (allowSpecDraw || !players[playerNum].spectator)
 					Broadcast(packet); //forward data
 			} catch (const netcode::UnpackPacketException& ex) {
-				Message(spring::format("Player %s sent invalid MapDraw: %s", players[a].name.c_str(), ex.what()));
+				Message(ArcLight::format("Player %s sent invalid MapDraw: %s", players[a].name.c_str(), ex.what()));
 			}
 			break;
 
 		case NETMSG_DIRECT_CONTROL:
 			if (inbuf[1] != a) {
-				Message(spring::format(WrongPlayer, msgCode, a, (unsigned)inbuf[1]));
+				Message(ArcLight::format(WrongPlayer, msgCode, a, (unsigned)inbuf[1]));
 				break;
 			}
 			if (demoReader == nullptr) {
 				if (!players[inbuf[1]].spectator)
 					Broadcast(CBaseNetProtocol::Get().SendDirectControl(inbuf[1]));
 				else
-					Message(spring::format("Error: spectator %s tried direct-controlling a unit", players[inbuf[1]].name.c_str()));
+					Message(ArcLight::format("Error: spectator %s tried direct-controlling a unit", players[inbuf[1]].name.c_str()));
 			}
 			break;
 
 		case NETMSG_DC_UPDATE:
 			if (inbuf[1] != a) {
-				Message(spring::format(WrongPlayer, msgCode, a, (unsigned)inbuf[1]));
+				Message(ArcLight::format(WrongPlayer, msgCode, a, (unsigned)inbuf[1]));
 				break;
 			}
 			if (demoReader == nullptr)
@@ -1440,7 +1440,7 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 			//TODO update players[] and teams[] and send all to hostif
 			const unsigned player = (unsigned)inbuf[1];
 			if (player != a) {
-				Message(spring::format(WrongPlayer, msgCode, a, (unsigned)player));
+				Message(ArcLight::format(WrongPlayer, msgCode, a, (unsigned)player));
 				break;
 			}
 			const unsigned action = inbuf[2];
@@ -1453,11 +1453,11 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 					const unsigned giverTeam = inbuf[4];
 
 					if (toTeam >= teams.size()) {
-						Message(spring::format("Invalid teamID %d in TEAMMSG_GIVEAWAY from player %d", toTeam, player));
+						Message(ArcLight::format("Invalid teamID %d in TEAMMSG_GIVEAWAY from player %d", toTeam, player));
 						break;
 					}
 					if (giverTeam >= teams.size()) {
-						Message(spring::format("Invalid teamID %d in TEAMMSG_GIVEAWAY from player %d", giverTeam, player));
+						Message(ArcLight::format("Invalid teamID %d in TEAMMSG_GIVEAWAY from player %d", giverTeam, player));
 						break;
 					}
 
@@ -1481,7 +1481,7 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 					if (!isSinglePlayer &&
 						(isSpec || (!isGiverOwnTeam && !isGiverLeader) ||
 						(giverHasAIs && !giverIsAllied && !cheating))) {
-							Message(spring::format("%s %s sent invalid team giveaway", playerType, playerName), true);
+							Message(ArcLight::format("%s %s sent invalid team giveaway", playerType, playerName), true);
 							break;
 					}
 
@@ -1501,7 +1501,7 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 							skirmishAIs[ giverTeamPlayerAIs[0] ] = std::make_pair(false, GameSkirmishAI{});
 							freeSkirmishAIs.push_back(giverTeamPlayerAIs[0]);
 						} else {
-							Message(spring::format("%s %s can not give away stuff of team %i (still has human players left)", playerType, playerName, giverTeam), true);
+							Message(ArcLight::format("%s %s can not give away stuff of team %i (still has human players left)", playerType, playerName, giverTeam), true);
 						}
 					}
 
@@ -1524,7 +1524,7 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 					const bool isSinglePlayer = (players.size() <= 1);
 
 					if (isSpec && !isSinglePlayer) {
-						Message(spring::format("Spectator %s sent invalid team resign", players[player].name.c_str()), true);
+						Message(ArcLight::format("Spectator %s sent invalid team resign", players[player].name.c_str()), true);
 						break;
 					}
 
@@ -1538,7 +1538,7 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 					const bool isSinglePlayer = (players.size() <= 1);
 
 					if (!isNewTeamValid || (!isSinglePlayer && !cheating)) {
-						Message(spring::format(NoTeamChange, players[player].name.c_str(), player, newTeamID));
+						Message(ArcLight::format(NoTeamChange, players[player].name.c_str(), player, newTeamID));
 						break;
 					}
 
@@ -1562,7 +1562,7 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 					if (!players[player].desynced) {
 #endif
 						if (teamID >= teams.size()) {
-							Message(spring::format("Invalid teamID %d in TEAMMSG_TEAM_DIED from player %d", teamID, player));
+							Message(ArcLight::format("Invalid teamID %d in TEAMMSG_TEAM_DIED from player %d", teamID, player));
 							break;
 						}
 
@@ -1589,7 +1589,7 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 					break;
 				}
 				default: {
-					Message(spring::format(UnknownTeammsg, action, player));
+					Message(ArcLight::format(UnknownTeammsg, action, player));
 				}
 			}
 			break;
@@ -1608,11 +1608,11 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 				pckt >> playerId;
 
 				if (playerId != a) {
-					Message(spring::format(WrongPlayer, msgCode, a, (unsigned)playerId));
+					Message(ArcLight::format(WrongPlayer, msgCode, a, (unsigned)playerId));
 					break;
 				}
 				if (aiControlFlags[playerId]) {
-					Message(spring::format("[GameServer::%s][NETMSG_AI_CREATED] player %d not allowed to use /aicontrol", __func__, int(playerId)));
+					Message(ArcLight::format("[GameServer::%s][NETMSG_AI_CREATED] player %d not allowed to use /aicontrol", __func__, int(playerId)));
 					break;
 				}
 
@@ -1621,7 +1621,7 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 				pckt >> aiName;
 
 				if (aiTeamId >= teams.size()) {
-					Message(spring::format("[GameServer::%s][NETMSG_AI_CREATED] invalid teamID %d from player %d", __func__, int(aiTeamId), int(playerId)));
+					Message(ArcLight::format("[GameServer::%s][NETMSG_AI_CREATED] invalid teamID %d from player %d", __func__, int(aiTeamId), int(playerId)));
 					break;
 				}
 
@@ -1635,13 +1635,13 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 				const bool singlePlayer = (players.size() <= 1);
 
 				if (!(weAreLeader || singlePlayer || (weAreAllied && (cheating || !tai->HasLeader())))) {
-					Message(spring::format(NoAICreated, players[playerId].name.c_str(), (int)playerId, (int)aiTeamId));
+					Message(ArcLight::format(NoAICreated, players[playerId].name.c_str(), (int)playerId, (int)aiTeamId));
 					break;
 				}
 
 				// discard bogus ID from message, reserve actual slot here
 				if ((skirmishAIId = ReserveSkirmishAIId()) == MAX_AIS) {
-					Message(spring::format("[GameServer::%s][NETMSG_AI_CREATED] unable to create AI, limit reached (%d)", __func__, (int)MAX_AIS));
+					Message(ArcLight::format("[GameServer::%s][NETMSG_AI_CREATED] unable to create AI, limit reached (%d)", __func__, (int)MAX_AIS));
 					break;
 				}
 
@@ -1660,7 +1660,7 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 					tai->SetActive(true);
 				}
 			} catch (const netcode::UnpackPacketException& ex) {
-				Message(spring::format("[GameServer::%s][NETMSG_AI_CREATED] exception \"%s\" parsing message from player %s", ex.what(), players[a].name.c_str()));
+				Message(ArcLight::format("[GameServer::%s][NETMSG_AI_CREATED] exception \"%s\" parsing message from player %s", ex.what(), players[a].name.c_str()));
 			}
 			break;
 		}
@@ -1669,7 +1669,7 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 			const uint8_t skirmishAIId = inbuf[2];
 
 			if (playerId != a) {
-				Message(spring::format(WrongPlayer, msgCode, a, (unsigned)playerId));
+				Message(ArcLight::format(WrongPlayer, msgCode, a, (unsigned)playerId));
 				break;
 			}
 
@@ -1677,7 +1677,7 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 			const ESkirmishAIStatus oldState = skirmishAIs[skirmishAIId].second.status;
 
 			if (!skirmishAIs[skirmishAIId].first) {
-				Message(spring::format(NoAIChangeState, players[playerId].name.c_str(), (int)playerId, skirmishAIId, (-1), (int)newState));
+				Message(ArcLight::format(NoAIChangeState, players[playerId].name.c_str(), (int)playerId, skirmishAIId, (-1), (int)newState));
 				break;
 			}
 
@@ -1696,7 +1696,7 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 			const bool singlePlayer         = (players.size() <= 1);
 
 			if (!(weAreAIHost || weAreLeader || singlePlayer || (weAreAllied && cheating))) {
-				Message(spring::format(NoAIChangeState, players[playerId].name.c_str(), (int)playerId, skirmishAIId, (int)aiTeamId, (int)newState));
+				Message(ArcLight::format(NoAIChangeState, players[playerId].name.c_str(), (int)playerId, skirmishAIId, (int)aiTeamId, (int)newState));
 				break;
 			}
 			Broadcast(packet); // forward data
@@ -1723,12 +1723,12 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 			const unsigned char allied = inbuf[3];
 
 			if (player != a) {
-				Message(spring::format(WrongPlayer, msgCode, a, (unsigned)player));
+				Message(ArcLight::format(WrongPlayer, msgCode, a, (unsigned)player));
 				break;
 			}
 
 			if (whichAllyTeam == teams[players[a].team].teamAllyteam) {
-				Message(spring::format("Player %s tried to send spoofed alliance message", players[a].name.c_str()));
+				Message(ArcLight::format("Player %s tried to send spoofed alliance message", players[a].name.c_str()));
 			} else {
 				if (!myGameSetup->fixedAllies)
 					Broadcast(CBaseNetProtocol::Get().SendSetAllied(player, whichAllyTeam, allied));
@@ -1752,11 +1752,11 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 					}
 					else {
 						// hack!
-						Message(spring::format(CommandNotAllowed, msg.GetPlayerID(), msg.GetAction().command.c_str()));
+						Message(ArcLight::format(CommandNotAllowed, msg.GetPlayerID(), msg.GetAction().command.c_str()));
 					}
 				}
 			} catch (const netcode::UnpackPacketException& ex) {
-				Message(spring::format("Player %s sent invalid CommandMessage: %s", players[a].name.c_str(), ex.what()));
+				Message(ArcLight::format("Player %s sent invalid CommandMessage: %s", players[a].name.c_str(), ex.what()));
 			}
 			break;
 		}
@@ -1778,7 +1778,7 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 				unsigned char playerNum; pckt >> playerNum;
 
 				if (playerNum != a) {
-					Message(spring::format(WrongPlayer, msgCode, a, (unsigned)playerNum));
+					Message(ArcLight::format(WrongPlayer, msgCode, a, (unsigned)playerNum));
 					break;
 				}
 
@@ -1793,7 +1793,7 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 
 				Broadcast(CBaseNetProtocol::Get().SendGameOver(playerNum, winningAllyTeams));
 			} catch (const netcode::UnpackPacketException& ex) {
-				Message(spring::format("Player %s sent invalid GameOver: %s", players[a].name.c_str(), ex.what()));
+				Message(ArcLight::format("Player %s sent invalid GameOver: %s", players[a].name.c_str(), ex.what()));
 			}
 			break;
 		}
@@ -1822,7 +1822,7 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 		//case NETMSG_GAMEDATA:
 		//case NETMSG_RANDSEED:
 		default: {
-			Message(spring::format(UnknownNetmsg, msgCode, a));
+			Message(ArcLight::format(UnknownNetmsg, msgCode, a));
 		}
 		break;
 	}
@@ -1844,7 +1844,7 @@ void CGameServer::HandleConnectionAttempts()
 			if (packet->length < 3) {
 				std::string pkts;
 				for (int i = 0; i < packet->length; ++i) {
-					pkts += spring::format(" 0x%x", (int)packet->data[i]);
+					pkts += ArcLight::format(" 0x%x", (int)packet->data[i]);
 				}
 				throw netcode::UnpackPacketException("Packet too short (data: " + pkts + ")");
 			}
@@ -1869,7 +1869,7 @@ void CGameServer::HandleConnectionAttempts()
 			msg >> netloss;
 
 			if (netversion != NETWORK_VERSION)
-				throw netcode::UnpackPacketException(spring::format("Wrong network version: received %d, required %d", (int)netversion, (int)NETWORK_VERSION));
+				throw netcode::UnpackPacketException(ArcLight::format("Wrong network version: received %d, required %d", (int)netversion, (int)NETWORK_VERSION));
 
 			BindConnection(udpListener->AcceptConnection(), name, passwd, version, platform, false, reconnect, netloss);
 		} catch (const netcode::UnpackPacketException& ex) {
@@ -1877,7 +1877,7 @@ void CGameServer::HandleConnectionAttempts()
 			const asio::ip::address addr = endp.address();
 
 			const std::string str = addr.to_string();
-			const std::string msg = spring::format(ConnectionReject, str.c_str(), ex.what());
+			const std::string msg = ArcLight::format(ConnectionReject, str.c_str(), ex.what());
 
 			auto  pair = std::make_pair(rejectedConnections.find(str), false);
 			auto& iter = pair.first;
@@ -1911,15 +1911,15 @@ void CGameServer::ServerReadNet()
 	// handle new connections
 	HandleConnectionAttempts();
 
-	const float updateBandwidth = spring_tomsecs(spring_gettime() - lastBandwidthUpdate) / (float)playerBandwidthInterval;
+	const float updateBandwidth = ArcLight_tomsecs(ArcLight_gettime() - lastBandwidthUpdate) / (float)playerBandwidthInterval;
 	if (updateBandwidth >= 1.0f)
-		lastBandwidthUpdate = spring_gettime();
+		lastBandwidthUpdate = ArcLight_gettime();
 
 	for (GameParticipant& player: players) {
 		std::shared_ptr<netcode::CConnection>& playerLink = player.clientLink;
 		std::shared_ptr<const RawPacket> packet;
 
-		spring::unordered_map<uint8_t, GameParticipant::ClientLinkData>& aiClientLinks = player.aiClientLinks;
+		ArcLight::unordered_map<uint8_t, GameParticipant::ClientLinkData>& aiClientLinks = player.aiClientLinks;
 		std::array<uint8_t, MAX_AIS + 1> aiClientNumbers;
 
 		// if no link, player is not connected
@@ -1928,7 +1928,7 @@ void CGameServer::ServerReadNet()
 
 		if (playerLink->CheckTimeout(0, !gameHasStarted)) {
 			// this must happen BEFORE the reset!
-			Message(spring::format(PlayerLeft, player.GetType(), player.name.c_str(), " timeout"));
+			Message(ArcLight::format(PlayerLeft, player.GetType(), player.name.c_str(), " timeout"));
 			Broadcast(CBaseNetProtocol::Get().SendPlayerLeft(player.id, 0));
 
 			player.Kill("User timeout");
@@ -1957,7 +1957,7 @@ void CGameServer::ServerReadNet()
 				aiLinkIt->second.link->SendData(packet);
 			} else {
 				// unreachable, aiClientLinks always contains a loopback entry for id=MAX_AIS
-				Message(spring::format("Player %s sent invalid SkirmishAI ID %d in AICOMMAND %d", player.name.c_str(), (int)aiID, cmdID));
+				Message(ArcLight::format("Player %s sent invalid SkirmishAI ID %d in AICOMMAND %d", player.name.c_str(), (int)aiID, cmdID));
 			}
 		}
 
@@ -2030,16 +2030,16 @@ void CGameServer::ServerReadNet()
 
 			if (numPktsDropped > 0) {
 				if (aiClientNum == MAX_AIS)
-					PrivateMessage(player.id, spring::format("Warning: Waiting packet limit was reached for %s [%d packets dropped, %d sent]", player.name.c_str(), numPktsDropped, numPacketsSent));
+					PrivateMessage(player.id, ArcLight::format("Warning: Waiting packet limit was reached for %s [%d packets dropped, %d sent]", player.name.c_str(), numPktsDropped, numPacketsSent));
 				else
-					PrivateMessage(player.id, spring::format("Warning: Waiting packet limit was reached for %s AI %d [%d packets dropped, %d sent]", player.name.c_str(), (int)aiClientNum, numPktsDropped, numPacketsSent));
+					PrivateMessage(player.id, ArcLight::format("Warning: Waiting packet limit was reached for %s AI %d [%d packets dropped, %d sent]", player.name.c_str(), (int)aiClientNum, numPktsDropped, numPacketsSent));
 			}
 
 			if (!bwLimitWasReached && bwLimitIsReached) {
 				if (aiClientNum == MAX_AIS)
-					PrivateMessage(player.id, spring::format("Warning: Bandwidth limit was reached for %s [packets delayed, %d sent]", player.name.c_str(), numPacketsSent));
+					PrivateMessage(player.id, ArcLight::format("Warning: Bandwidth limit was reached for %s [packets delayed, %d sent]", player.name.c_str(), numPacketsSent));
 				else
-					PrivateMessage(player.id, spring::format("Warning: Bandwidth limit was reached for %s AI %d [packets delayed, %d sent]", player.name.c_str(), (int)aiClientNum, numPacketsSent));
+					PrivateMessage(player.id, ArcLight::format("Warning: Bandwidth limit was reached for %s AI %d [packets delayed, %d sent]", player.name.c_str(), (int)aiClientNum, numPacketsSent));
 			}
 		}
 	}
@@ -2103,7 +2103,7 @@ void CGameServer::CheckForGameStart(bool forced)
 	bool allReady = true;
 
 	for (size_t a = static_cast<size_t>(myGameSetup->numDemoPlayers); a < players.size(); a++) {
-		if (players[a].myState == GameParticipant::UNCONNECTED && serverStartTime + spring_secs(30) < spring_gettime()) {
+		if (players[a].myState == GameParticipant::UNCONNECTED && serverStartTime + ArcLight_secs(30) < ArcLight_gettime()) {
 			// autostart the game when 45 seconds have passed and everyone who managed to connect is ready
 			continue;
 		}
@@ -2117,21 +2117,21 @@ void CGameServer::CheckForGameStart(bool forced)
 	}
 
 	// msecs to wait until the game starts after all players are ready
-	const spring_time gameStartDelay = spring_secs(myGameSetup->gameStartDelay);
+	const ArcLight_time gameStartDelay = ArcLight_secs(myGameSetup->gameStartDelay);
 
 	if (allReady || forced) {
-		if (!spring_istime(readyTime)) {
-			readyTime = spring_gettime();
+		if (!ArcLight_istime(readyTime)) {
+			readyTime = ArcLight_gettime();
 
 			// we have to wait at least 1 msec during countdown, because 0 is a special case
-			Broadcast(CBaseNetProtocol::Get().SendStartPlaying(std::max(std::int64_t(1), spring_tomsecs(gameStartDelay))));
+			Broadcast(CBaseNetProtocol::Get().SendStartPlaying(std::max(std::int64_t(1), ArcLight_tomsecs(gameStartDelay))));
 
 			// make seed more random
 			if (myGameSetup->gameID.empty())
-				rng.Seed(spring_tomsecs(readyTime - serverStartTime));
+				rng.Seed(ArcLight_tomsecs(readyTime - serverStartTime));
 		}
 	}
-	if (spring_istime(readyTime) && ((spring_gettime() - readyTime) > gameStartDelay)) {
+	if (ArcLight_istime(readyTime) && ((ArcLight_gettime() - readyTime) > gameStartDelay)) {
 		StartGame(forced);
 	}
 }
@@ -2220,7 +2220,7 @@ void CGameServer::StartGame(bool forced)
 	}
 
 	frameTimeLeft = 0.0f;
-	lastNewFrameTick = spring_gettime() - spring_msecs(1);
+	lastNewFrameTick = ArcLight_gettime() - ArcLight_msecs(1);
 
 	CreateNewFrame(true, false);
 }
@@ -2542,7 +2542,7 @@ void CGameServer::CreateNewFrame(bool fromServerThread, bool fixedFrameTime)
 		return;
 	}
 
-	std::unique_lock<spring::recursive_mutex> lck(gameServerMutex, std::defer_lock);
+	std::unique_lock<ArcLight::recursive_mutex> lck(gameServerMutex, std::defer_lock);
 	if (!fromServerThread)
 		lck.lock();
 
@@ -2567,11 +2567,11 @@ void CGameServer::CreateNewFrame(bool fromServerThread, bool fixedFrameTime)
 	}
 
 	if (!fixedFrameTime) {
-		spring_time currentTick = spring_gettime();
-		spring_time timeElapsed = currentTick - lastNewFrameTick;
+		ArcLight_time currentTick = ArcLight_gettime();
+		ArcLight_time timeElapsed = currentTick - lastNewFrameTick;
 
-		if (timeElapsed > spring_msecs(200))
-			timeElapsed = spring_msecs(200);
+		if (timeElapsed > ArcLight_msecs(200))
+			timeElapsed = ArcLight_msecs(200);
 
 		frameTimeLeft += ((GAME_SPEED * 0.001f) * internalSpeed * timeElapsed.toMilliSecsf());
 		lastNewFrameTick = currentTick;
@@ -2651,7 +2651,7 @@ void CGameServer::CreateNewFrame(bool fromServerThread, bool fixedFrameTime)
 void CGameServer::UpdateSpeedControl(int speedCtrl)
 {
 	if (speedCtrl != curSpeedCtrl) {
-		Message(spring::format("Server speed control: %s", (SpeedControlToString(speedCtrl).c_str())));
+		Message(ArcLight::format("Server speed control: %s", (SpeedControlToString(speedCtrl).c_str())));
 		curSpeedCtrl = speedCtrl;
 	}
 }
@@ -2677,12 +2677,12 @@ void CGameServer::UpdateLoop()
 		Threading::SetAffinity(~0);
 
 		while (!quitServer) {
-			spring_msecs(loopSleepTime).sleep(true);
+			ArcLight_msecs(loopSleepTime).sleep(true);
 
 			if (udpListener != nullptr)
 				udpListener->Update();
 
-			std::lock_guard<spring::recursive_mutex> scoped_lock(gameServerMutex);
+			std::lock_guard<ArcLight::recursive_mutex> scoped_lock(gameServerMutex);
 			ServerReadNet();
 			Update();
 		}
@@ -2695,7 +2695,7 @@ void CGameServer::UpdateLoop()
 		// this is to make sure the Flush has any effect at all (we don't want a forced flush)
 		// when reloading, we can assume there is only a local client and skip the sleep()'s
 		if (!reloadingServer && !myGameSetup->onlyLocal)
-			spring_sleep(spring_msecs(500));
+			ArcLight_sleep(ArcLight_msecs(500));
 
 		// flush the quit messages to reduce ugly network error messages on the client side
 		for (GameParticipant& p: players) {
@@ -2705,9 +2705,9 @@ void CGameServer::UpdateLoop()
 
 		// now let clients close their connections
 		if (!reloadingServer && !myGameSetup->onlyLocal)
-			spring_sleep(spring_msecs(1500));
+			ArcLight_sleep(ArcLight_msecs(1500));
 
-	} CATCH_SPRING_ERRORS
+	} CATCH_ArcLight_ERRORS
 }
 
 
@@ -2715,11 +2715,11 @@ void CGameServer::KickPlayer(int playerNum)
 {
 	// only kick connected players
 	if (players[playerNum].clientLink == nullptr) {
-		Message(spring::format("Attempt to kick user %d who is not connected", playerNum));
+		Message(ArcLight::format("Attempt to kick user %d who is not connected", playerNum));
 		return;
 	}
 
-	Message(spring::format(PlayerLeft, players[playerNum].GetType(), players[playerNum].name.c_str(), "kicked"));
+	Message(ArcLight::format(PlayerLeft, players[playerNum].GetType(), players[playerNum].name.c_str(), "kicked"));
 	Broadcast(CBaseNetProtocol::Get().SendPlayerLeft(playerNum, 2));
 
 	players[playerNum].Kill("Kicked from the battle", true);
@@ -2744,15 +2744,15 @@ void CGameServer::MutePlayer(int playerNum, bool muteChat, bool muteDraw)
 void CGameServer::SpecPlayer(int player)
 {
 	if (players[player].clientLink == nullptr) {
-		Message(spring::format("Attempt to spec user %d who is not connected", player));
+		Message(ArcLight::format("Attempt to spec user %d who is not connected", player));
 		return;
 	}
 	if (players[player].spectator) {
-		Message(spring::format("Attempt to spec user %d who is spectating already", player));
+		Message(ArcLight::format("Attempt to spec user %d who is spectating already", player));
 		return;
 	}
 
-	Message(spring::format(PlayerResigned, players[player].name.c_str(), "forced spec"));
+	Message(ArcLight::format(PlayerResigned, players[player].name.c_str(), "forced spec"));
 	ResignPlayer(player);
 }
 
@@ -2838,9 +2838,9 @@ unsigned CGameServer::BindConnection(
 	bool reconnect,
 	int netloss
 ) {
-	Message(spring::format("%s attempt from %s", (reconnect ? "Reconnection" : "Connection"), clientName.c_str()));
-	Message(spring::format(" -> Version: %s [%s]", clientVersion.c_str(), clientPlatform.c_str()));
-	Message(spring::format(" -> Address: %s", clientLink->GetFullAddress().c_str()), false);
+	Message(ArcLight::format("%s attempt from %s", (reconnect ? "Reconnection" : "Connection"), clientName.c_str()));
+	Message(ArcLight::format(" -> Version: %s [%s]", clientVersion.c_str(), clientPlatform.c_str()));
+	Message(ArcLight::format(" -> Address: %s", clientLink->GetFullAddress().c_str()), false);
 
 	if (clientLink->CanReconnect())
 		canReconnect = true;
@@ -2936,8 +2936,8 @@ unsigned CGameServer::BindConnection(
 
 	// >> Reject Connection <<
 	if (!errMsg.empty() || newPlayerNumber >= players.size()) {
-		Message(spring::format(" -> %s", errMsg.c_str()));
-		clientLink->SendData(CBaseNetProtocol::Get().SendQuit(spring::format("Connection rejected: %s", errMsg.c_str())));
+		Message(ArcLight::format(" -> %s", errMsg.c_str()));
+		clientLink->SendData(CBaseNetProtocol::Get().SendQuit(ArcLight::format("Connection rejected: %s", errMsg.c_str())));
 		return 0;
 	}
 
@@ -2947,7 +2947,7 @@ unsigned CGameServer::BindConnection(
 
 	// there is a running link already -> terminate it
 	if (killExistingLink) {
-		Message(spring::format(PlayerLeft, newPlayer.GetType(), newPlayer.name.c_str(), " terminating existing connection"));
+		Message(ArcLight::format(PlayerLeft, newPlayer.GetType(), newPlayer.name.c_str(), " terminating existing connection"));
 		Broadcast(CBaseNetProtocol::Get().SendPlayerLeft(newPlayerNumber, 0));
 
 		// prevent sending a quit message since that might kill the new connection
@@ -2969,7 +2969,7 @@ unsigned CGameServer::BindConnection(
 		if (udpListener != nullptr)
 			udpListener->UpdateConnections();
 
-		Message(spring::format(" -> Connection reestablished (id %i)", newPlayerNumber));
+		Message(ArcLight::format(" -> Connection reestablished (id %i)", newPlayerNumber));
 		newPlayer.clientLink->SetLossFactor(netloss);
 		newPlayer.clientLink->Flush(!gameHasStarted);
 		return newPlayerNumber;
@@ -3000,7 +3000,7 @@ unsigned CGameServer::BindConnection(
 		newPlayer.SendData(p);
 
 	// new connection established
-	Message(spring::format(" -> Connection established (given id %i)", newPlayerNumber));
+	Message(ArcLight::format(" -> Connection established (given id %i)", newPlayerNumber));
 	clientLink->SetLossFactor(netloss);
 	clientLink->Flush(!gameHasStarted);
 	return newPlayerNumber;

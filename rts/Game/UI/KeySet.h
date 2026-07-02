@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef KEYSET_H
 #define KEYSET_H
@@ -118,7 +118,7 @@ class CKeyChain : public std::deque<CKeySet>
 class CTimedKeyChain : public CKeyChain
 {
 	public:
-		std::deque<spring_time> times;
+		std::deque<ArcLight_time> times;
 
 		void clear()
 		{
@@ -126,8 +126,8 @@ class CTimedKeyChain : public CKeyChain
 			times.clear();
 		}
 
-		void push_back(const int key, const spring_time t, const bool isRepeat);
-		void emplace_back(const CKeySet& ks, const spring_time t) { assert(false); }
+		void push_back(const int key, const ArcLight_time t, const bool isRepeat);
+		void emplace_back(const CKeySet& ks, const ArcLight_time t) { assert(false); }
 };
 
 

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef SKIRMISH_AI_HANDLER_H
 #define SKIRMISH_AI_HANDLER_H
@@ -79,7 +79,7 @@ public:
 	 *
 	 * Will change during runtime (Connection lost, died, killed, created, ...).
 	 */
-	const spring::unordered_map<uint8_t, const SkirmishAIData*>& GetAllSkirmishAIs() const { return skirmishAIDataMap; }
+	const ArcLight::unordered_map<uint8_t, const SkirmishAIData*>& GetAllSkirmishAIs() const { return skirmishAIDataMap; }
 
 
 	/**
@@ -166,7 +166,7 @@ public:
 	 */
 	const SkirmishAIKey* GetLocalSkirmishAILibraryKey(const size_t skirmishAIId);
 
-	const spring::unordered_set<std::string>& GetLuaAIImplShortNames() const { return luaAIShortNames; }
+	const ArcLight::unordered_set<std::string>& GetLuaAIImplShortNames() const { return luaAIShortNames; }
 
 	uint8_t GetCurrentAIID() { return currentAIId; }
 	void SetCurrentAIID(uint8_t id) { currentAIId = id; }
@@ -193,8 +193,8 @@ private:
 	/// temporarily stores reason for killing a Skirmish AI
 	std::array<int, MAX_AIS> aiKillFlags;
 
-	spring::unordered_map<uint8_t, const SkirmishAIData*> skirmishAIDataMap;
-	spring::unordered_set<std::string> luaAIShortNames;
+	ArcLight::unordered_map<uint8_t, const SkirmishAIData*> skirmishAIDataMap;
+	ArcLight::unordered_set<std::string> luaAIShortNames;
 
 	// the current local AI ID that is executing, MAX_AIS if none (e.g. LuaUI)
 	uint8_t currentAIId = MAX_AIS;

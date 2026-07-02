@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef LOGGER_H
 #define LOGGER_H
@@ -42,7 +42,7 @@ class CLogger {
 
 		static void CppFilt(char* sym, int size);
 
-		spring::recursive_mutex logmutex;
+		ArcLight::recursive_mutex logmutex;
 		const char* filename;
 		FILE* logfile;
 		std::vector<std::string> buffer;

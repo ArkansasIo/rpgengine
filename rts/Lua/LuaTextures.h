@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef LUA_TEXTURES_H
 #define LUA_TEXTURES_H
@@ -73,7 +73,7 @@ private:
 	int lastCode;
 
 	// maps names to textureVec indices
-	spring::unsynced_map<std::string, size_t> textureMap;
+	ArcLight::unsynced_map<std::string, size_t> textureMap;
 
 	std::vector<Texture> textureVec;
 	std::vector<size_t> freeIndices;

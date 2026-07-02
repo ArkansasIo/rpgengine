@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "Threading.h"
 #include "System/bitops.h"
@@ -193,14 +193,14 @@ namespace Threading {
 
 	int GetLogicalCpuCores() {
 		// auto-detect number of system threads (including hyperthreading)
-		return spring::thread::hardware_concurrency();
+		return ArcLight::thread::hardware_concurrency();
 	}
 
 	/** Function that returns the number of real cpu cores (not
 	    hyperthreading ones). These are the total cores in the system
 	    (across all existing processors, if more than one)*/
 	int GetPhysicalCpuCores() {
-		static springproc::CPUID cpuid;
+		static ArcLightproc::CPUID cpuid;
 		return cpuid.getTotalNumCores();
 	}
 
@@ -275,19 +275,19 @@ namespace Threading {
 #endif
 
 
-	spring::thread CreateNewThread(std::function<void()> taskFunc, std::shared_ptr<Threading::ThreadControls>* threadCtls)
+	ArcLight::thread CreateNewThread(std::function<void()> taskFunc, std::shared_ptr<Threading::ThreadControls>* threadCtls)
 	{
 #ifndef _WIN32
 		// only used as locking mechanism, not installed by thread
 		Threading::ThreadControls tempCtls;
 
-		std::unique_lock<spring::mutex> lock(tempCtls.mutSuspend);
-		spring::thread localthread(std::bind(Threading::ThreadStart, taskFunc, threadCtls, &tempCtls));
+		std::unique_lock<ArcLight::mutex> lock(tempCtls.mutSuspend);
+		ArcLight::thread localthread(std::bind(Threading::ThreadStart, taskFunc, threadCtls, &tempCtls));
 
 		// wait so that we know the thread is running and fully initialized before returning
 		tempCtls.condInitialized.wait(lock);
 #else
-		spring::thread localthread(taskFunc);
+		ArcLight::thread localthread(taskFunc);
 #endif
 
 		return localthread;

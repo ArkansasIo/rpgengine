@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef CR_MAP_TYPE_IMPL_H
 #define CR_MAP_TYPE_IMPL_H
@@ -88,15 +88,15 @@ namespace creg
 	};
 	// Hash map
 	template<typename TKey, typename TValue>
-	struct DeduceType<spring::unordered_map<TKey, TValue> > {
+	struct DeduceType<ArcLight::unordered_map<TKey, TValue> > {
 		static std::unique_ptr<IType> Get() {
-			return std::unique_ptr<IType>(new MapType<spring::unordered_map<TKey, TValue> >());
+			return std::unique_ptr<IType>(new MapType<ArcLight::unordered_map<TKey, TValue> >());
 		}
 	};
 	template<typename TKey, typename TValue>
-	struct DeduceType<spring::unsynced_map<TKey, TValue> > {
+	struct DeduceType<ArcLight::unsynced_map<TKey, TValue> > {
 		static std::unique_ptr<IType> Get() {
-			return std::unique_ptr<IType>(new MapType<spring::unsynced_map<TKey, TValue> >());
+			return std::unique_ptr<IType>(new MapType<ArcLight::unsynced_map<TKey, TValue> >());
 		}
 	};
 

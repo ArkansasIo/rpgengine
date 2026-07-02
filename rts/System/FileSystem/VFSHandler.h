@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _VFS_HANDLER_H
 #define _VFS_HANDLER_H
@@ -166,7 +166,7 @@ private:
 
 private:
 	std::array<std::vector<FileEntry>, Section::Count> files;
-	std::array<spring::unordered_map<std::string, IArchive*>, Section::Count> archives;
+	std::array<ArcLight::unordered_map<std::string, IArchive*>, Section::Count> archives;
 
 	const char* vfsName = "";
 

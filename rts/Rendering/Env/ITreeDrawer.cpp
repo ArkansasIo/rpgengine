@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 
 #include "ITreeDrawer.h"
@@ -122,7 +122,7 @@ void ITreeDrawer::AddTree(int treeID, int treeType, const float3& pos, float siz
 		(((int)pos.x) / (treeSquareSize)) +
 		(((int)pos.z) / (treeSquareSize) * treesX);
 
-	spring::VectorInsertUnique(treeSquares[treeSquareIdx].trees[treeType >= NUM_TREE_TYPES], ts, true);
+	ArcLight::VectorInsertUnique(treeSquares[treeSquareIdx].trees[treeType >= NUM_TREE_TYPES], ts, true);
 }
 
 void ITreeDrawer::DeleteTree(int treeID, int treeType, const float3& pos)
@@ -135,7 +135,7 @@ void ITreeDrawer::DeleteTree(int treeID, int treeType, const float3& pos)
 		(((int)pos.x / (treeSquareSize))) +
 		(((int)pos.z / (treeSquareSize) * treesX));
 
-	spring::VectorEraseIf(treeSquares[treeSquareIdx].trees[treeType >= NUM_TREE_TYPES], [treeID](const TreeStruct& ts) { return (treeID == ts.id); });
+	ArcLight::VectorEraseIf(treeSquares[treeSquareIdx].trees[treeType >= NUM_TREE_TYPES], [treeID](const TreeStruct& ts) { return (treeID == ts.id); });
 }
 
 

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 /**
  * @brief good_fpu_control_registers function
@@ -14,7 +14,7 @@
 extern void good_fpu_control_registers(const char* text);
 extern void good_fpu_init();
 
-namespace springproc {
+namespace ArcLightproc {
 	unsigned int GetProcMaxStandardLevel();
 	unsigned int GetProcMaxExtendedLevel();
 	unsigned int GetProcSSEBits();

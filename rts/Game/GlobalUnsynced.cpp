@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 /**
  * @brief Globally accessible stuff
@@ -81,7 +81,7 @@ void CGlobalUnsynced::ResetState()
 	globalQuit = false;
 	globalReload = false;
 
-	guRNG.Seed(time(nullptr) % ((spring_gettime().toNanoSecsi() + 1) * 9007));
+	guRNG.Seed(time(nullptr) % ((ArcLight_gettime().toNanoSecsi() + 1) * 9007));
 	playerHandler.ResetState();
 }
 

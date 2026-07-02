@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef OBJECT_H
 #define OBJECT_H
@@ -125,8 +125,8 @@ protected:
 	template<size_t N> void FilterListening(const TObjFilterPred& fp, std::array<int, N>& ids) const { FilterDepObjects(listening, fp, ids); }
 
 protected:
-	spring::unordered_map<int, size_t> listenersDepTbl; // maps dependence-type to index into listeners
-	spring::unordered_map<int, size_t> listeningDepTbl; // maps dependence-type to index into listening
+	ArcLight::unordered_map<int, size_t> listenersDepTbl; // maps dependence-type to index into listeners
+	ArcLight::unordered_map<int, size_t> listeningDepTbl; // maps dependence-type to index into listening
 
 	TDependenceMap listeners;
 	TDependenceMap listening;

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <cassert>
 #include <sstream>
@@ -21,9 +21,9 @@ std::vector<std::uint8_t> ClientData::GetCompressed()
 	}
 
 	clientDataStream << std::endl;
-	clientDataStream << SpringVersion::GetFull() << std::endl;
-	clientDataStream << SpringVersion::GetBuildEnvironment() << std::endl;
-	clientDataStream << SpringVersion::GetCompiler() << std::endl;
+	clientDataStream << ArcLightVersion::GetFull() << std::endl;
+	clientDataStream << ArcLightVersion::GetBuildEnvironment() << std::endl;
+	clientDataStream << ArcLightVersion::GetCompiler() << std::endl;
 	clientDataStream << Platform::GetOSVersionStr() << std::endl;
 	clientDataStream << Platform::GetWordSizeStr() << std::endl;
 

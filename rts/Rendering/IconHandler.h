@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef ICON_HANDLER_H
 #define ICON_HANDLER_H
@@ -148,7 +148,7 @@ namespace icon {
 			unsigned int defTexID = 0;
 			unsigned int numIcons = 0;
 
-			spring::unordered_map<std::string, CIcon> iconMap;
+			ArcLight::unordered_map<std::string, CIcon> iconMap;
 			std::array<CIconData, 2048> iconData;
 	};
 

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 
 #include <string>
@@ -25,12 +25,12 @@ bool SideParser::Load()
 	errorLog.clear();
 
 	LuaParser parser("gamedata/sidedata.lua",
-			SPRING_VFS_MOD_BASE, SPRING_VFS_MOD_BASE);
+			ARCLIGHT_VFS_MOD_BASE, ARCLIGHT_VFS_MOD_BASE);
 #if !defined UNITSYNC && !defined DEDICATED
 	// this should not be included with unitsync:
 	// 1. avoids linkage with LuaSyncedRead
 	// 2. ModOptions are not valid during unitsync mod parsing
-	parser.GetTable("Spring");
+	parser.GetTable("ArcLight");
 	parser.AddFunc("GetModOptions", LuaSyncedRead::GetModOptions);
 	parser.EndTable();
 #endif
@@ -39,7 +39,7 @@ bool SideParser::Load()
 		return false;
 	}
 
-	spring::unordered_set<std::string> sideSet;
+	ArcLight::unordered_set<std::string> sideSet;
 
 	const LuaTable root = parser.GetRoot();
 	for (int i = 1; /* no-op */; i++) {

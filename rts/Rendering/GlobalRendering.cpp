@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <SDL.h>
 
@@ -51,8 +51,8 @@ CONFIG(bool, Fullscreen).defaultValue(true).headlessValue(false).description("Se
 CONFIG(bool, WindowBorderless).defaultValue(false).description("When set and Fullscreen is 0, will put the game in Borderless Window mode, also known as Windowed Fullscreen. When using this, it is generally best to also set WindowPosX and WindowPosY to 0");
 CONFIG(bool, BlockCompositing).defaultValue(false).safemodeValue(true).description("Disables kwin compositing to fix tearing, possible fixes low FPS in windowed mode, too.");
 
-CONFIG(int, XResolution).defaultValue(0).headlessValue(8).minimumValue(0).description("Sets the width of the game screen. If set to 0 Spring will autodetect the current resolution of your desktop.");
-CONFIG(int, YResolution).defaultValue(0).headlessValue(8).minimumValue(0).description("Sets the height of the game screen. If set to 0 Spring will autodetect the current resolution of your desktop.");
+CONFIG(int, XResolution).defaultValue(0).headlessValue(8).minimumValue(0).description("Sets the width of the game screen. If set to 0 ArcLight will autodetect the current resolution of your desktop.");
+CONFIG(int, YResolution).defaultValue(0).headlessValue(8).minimumValue(0).description("Sets the height of the game screen. If set to 0 ArcLight will autodetect the current resolution of your desktop.");
 CONFIG(int, XResolutionWindowed).defaultValue(0).headlessValue(8).minimumValue(0).description("See XResolution, just for windowed.");
 CONFIG(int, YResolutionWindowed).defaultValue(0).headlessValue(8).minimumValue(0).description("See YResolution, just for windowed.");
 CONFIG(int, WindowPosX).defaultValue(32).description("Sets the horizontal position of the game window, if Fullscreen is 0. When WindowBorderless is set, this should usually be 0.");
@@ -152,13 +152,13 @@ CR_REG_METADATA(CGlobalRendering, (
 
 
 void CGlobalRendering::InitStatic() { globalRendering = new (globalRenderingMem) CGlobalRendering(); }
-void CGlobalRendering::KillStatic() { spring::SafeDestruct(globalRendering); }
+void CGlobalRendering::KillStatic() { ArcLight::SafeDestruct(globalRendering); }
 
 
 CGlobalRendering::CGlobalRendering()
 	: timeOffset(0.0f)
 	, lastFrameTime(0.0f)
-	, lastFrameStart(spring_notime)
+	, lastFrameStart(ArcLight_notime)
 	, weightedSpeedFactor(0.0f)
 	, drawFrame(1)
 	, FPS(1.0f)
@@ -426,7 +426,7 @@ bool CGlobalRendering::CreateWindowAndContext(const char* title, bool hidden)
 	//   requesting a core profile explicitly is needed to get versions later than
 	//   3.0/1.30 for Mesa, other drivers return their *maximum* supported context
 	//   in compat and do not make 3.0 itself available in core (though this still
-	//   suffices for most of Spring)
+	//   suffices for most of ArcLight)
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG * configHandler->GetBool("DebugGL"));
 
@@ -465,7 +465,7 @@ bool CGlobalRendering::CreateWindowAndContext(const char* title, bool hidden)
 #if !defined(HEADLESS)
 	// disable desktop compositing to fix tearing
 	// (happens at 300fps, neither fullscreen nor vsync fixes it, so disable compositing)
-	// On Windows Aero often uses vsync, and so when Spring runs windowed it will run with
+	// On Windows Aero often uses vsync, and so when ArcLight runs windowed it will run with
 	// vsync too, resulting in bad performance.
 	if (configHandler->GetBool("BlockCompositing"))
 		WindowManagerHelper::BlockCompositing(sdlWindows[0]);
@@ -597,11 +597,11 @@ void CGlobalRendering::SwapBuffers(bool allowSwapBuffers, bool clearErrors)
 	if (clearErrors || glDebugErrors)
 		glClearErrors("GR", __func__, glDebugErrors);
 
-	const spring_time preSwapTime = spring_now();
+	const ArcLight_time preSwapTime = ArcLight_now();
 
 	GL::SwapRenderBuffers();
 	SDL_GL_SwapWindow(sdlWindows[0]);
-	eventHandler.DbgTimingInfo(TIMING_SWAP, preSwapTime, spring_now());
+	eventHandler.DbgTimingInfo(TIMING_SWAP, preSwapTime, ArcLight_now());
 
 	// NB: this does not just count frames drawn by game
 	drawFrame += 1;

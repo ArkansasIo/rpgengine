@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 /**
  * @brief error messages
@@ -29,43 +29,43 @@
 #endif
 
 
-static void ExitSpringProcessAux(bool waitForExit, bool exitSuccess)
+static void ExitArcLightProcessAux(bool waitForExit, bool exitSuccess)
 {
 	// wait a bit before forcing the kill
 	if (waitForExit)
-		spring::this_thread::sleep_for(std::chrono::seconds(5));
+		ArcLight::this_thread::sleep_for(std::chrono::seconds(5));
 
 	logSinkHandler.SetSinking(false);
 
 #ifdef _MSC_VER
 	if (!exitSuccess)
-		TerminateProcess(GetCurrentProcess(), spring::EXIT_CODE_CRASHED);
+		TerminateProcess(GetCurrentProcess(), ArcLight::EXIT_CODE_CRASHED);
 #endif
 
-	exit(spring::EXIT_CODE_CRASHED);
+	exit(ArcLight::EXIT_CODE_CRASHED);
 }
 
 
 #ifdef DEDICATED
-static void ExitSpringProcess(const char* msg, const char* caption, unsigned int flags)
+static void ExitArcLightProcess(const char* msg, const char* caption, unsigned int flags)
 {
 	LOG_L(L_ERROR, "[%s] errorMsg=\"%s\" msgCaption=\"%s\"", __func__, msg, caption);
 
-	spring::SafeDelete(gameServer);
-	ExitSpringProcessAux(false, true);
+	ArcLight::SafeDelete(gameServer);
+	ExitArcLightProcessAux(false, true);
 }
 
 #else
 
-static void ExitSpringProcess(const char* msg, const char* caption, unsigned int flags)
+static void ExitArcLightProcess(const char* msg, const char* caption, unsigned int flags)
 {
 	LOG_L(L_ERROR, "[%s] errorMsg=\"%s\" msgCaption=\"%s\" mainThread=%d", __func__, msg, caption, Threading::IsMainThread());
 
 	switch (SpringApp::PostKill(Threading::Error(caption, msg, flags))) {
 		case -1: {
 			// main thread; either gets to ESPA first and cleans up our process or exit is forced by this
-			std::function<void()> forcedExitFunc = [&]() { ExitSpringProcessAux(true, false); };
-			spring::thread forcedExitThread = std::move(spring::thread(forcedExitFunc));
+			std::function<void()> forcedExitFunc = [&]() { ExitArcLightProcessAux(true, false); };
+			ArcLight::thread forcedExitThread = std::move(ArcLight::thread(forcedExitFunc));
 
 			// .join can (very rarely) throw a no-such-process exception if it runs in parallel with exit
 			assert(forcedExitThread.joinable());
@@ -77,7 +77,7 @@ static void ExitSpringProcess(const char* msg, const char* caption, unsigned int
 		case 1: {        return; } break; // thread posted successfully
 	}
 
-	ExitSpringProcessAux(false, false);
+	ExitArcLightProcessAux(false, false);
 }
 #endif
 
@@ -95,6 +95,6 @@ void ErrorMessageBox(const char* msg, const char* caption, unsigned int flags)
 	}
 	#endif
 
-	ExitSpringProcess(msg, caption, flags);
+	ExitArcLightProcess(msg, caption, flags);
 }
 

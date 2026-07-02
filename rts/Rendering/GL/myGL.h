@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _MY_GL_H
 #define _MY_GL_H
@@ -27,8 +27,8 @@
 
 
 void glSaveTexture(const GLuint textureID, const char* filename);
-void glSpringBindTextures(GLuint first, GLsizei count, const GLuint* textures);
-void glSpringTexStorage2D(const GLenum target, GLint levels, const GLint internalFormat, const GLsizei width, const GLsizei height);
+void glArcLightBindTextures(GLuint first, GLsizei count, const GLuint* textures);
+void glArcLightTexStorage2D(const GLenum target, GLint levels, const GLint internalFormat, const GLsizei width, const GLsizei height);
 void glBuildMipmaps(const GLenum target, GLint internalFormat, const GLsizei width, const GLsizei height, const GLenum format, const GLenum type, const void* data);
 
 void ClearScreen();

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "DefinitionTag.h"
 #include "System/Log/ILog.h"
@@ -172,7 +172,7 @@ static std::ostream& operator<< (std::ostream& out, const DefTagMetaData* d)
  *
  * This can be tested using, for example:
  *
- *	./spring --list-def-tags |
+ *	./ArcLight --list-def-tags |
  *		python -c 'import json, sys; json.dump(json.load(sys.stdin), sys.stdout)'
  */
 void DefType::OutputMetaDataMap() const

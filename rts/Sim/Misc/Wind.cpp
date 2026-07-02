@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 
 #include "Wind.h"
@@ -64,12 +64,12 @@ void EnvResourceHandler::LoadWind(float minStrength, float maxStrength)
 
 bool EnvResourceHandler::AddGenerator(CUnit* u) {
 	// duplicates should never happen, no need to check
-	return (spring::VectorInsertUnique(newGeneratorIDs, u->id));
+	return (ArcLight::VectorInsertUnique(newGeneratorIDs, u->id));
 }
 
 bool EnvResourceHandler::DelGenerator(CUnit* u) {
 	// id is never present in both
-	return (spring::VectorErase(newGeneratorIDs, u->id) || spring::VectorErase(allGeneratorIDs, u->id));
+	return (ArcLight::VectorErase(newGeneratorIDs, u->id) || ArcLight::VectorErase(allGeneratorIDs, u->id));
 }
 
 

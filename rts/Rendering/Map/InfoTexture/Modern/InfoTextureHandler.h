@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _INFO_TEXTURE_HANDLER_H
 #define _INFO_TEXTURE_HANDLER_H
@@ -48,7 +48,7 @@ protected:
 	bool inMetalMode = false;
 	bool firstUpdate =  true;
 
-	spring::unordered_map<std::string, CPboInfoTexture*> infoTextures;
+	ArcLight::unordered_map<std::string, CPboInfoTexture*> infoTextures;
 
 	// special; always non-NULL at runtime
 	CInfoTextureCombiner* infoTex = nullptr;

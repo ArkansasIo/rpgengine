@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef SKIRMISH_AI_DATA_H
 #define SKIRMISH_AI_DATA_H
@@ -46,7 +46,7 @@ public:
 	std::string shortName;
 	std::string version;
 	std::vector<std::string> optionKeys;
-	spring::unordered_map<std::string, std::string> options;
+	ArcLight::unordered_map<std::string, std::string> options;
 
 	bool isLuaAI = false;
 

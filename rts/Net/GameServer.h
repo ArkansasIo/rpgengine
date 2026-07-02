@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _GAME_SERVER_H
 #define _GAME_SERVER_H
@@ -211,8 +211,8 @@ private:
 	std::vector<GameTeam> teams;
 	std::vector<unsigned char> winningAllyTeams;
 
-	std::array<           spring_time           , MAX_PLAYERS> netPingTimings; // throttles NETMSG_PING
-	std::array< std::pair<spring_time, uint32_t>, MAX_PLAYERS> mapDrawTimings; // throttles NETMSG_MAPDRAW
+	std::array<           ArcLight_time           , MAX_PLAYERS> netPingTimings; // throttles NETMSG_PING
+	std::array< std::pair<ArcLight_time, uint32_t>, MAX_PLAYERS> mapDrawTimings; // throttles NETMSG_MAPDRAW
 	std::array< std::pair<       bool,     bool>, MAX_PLAYERS> chatMutedFlags; // blocks NETMSG_{CHAT,DRAW}
 	std::array<                            bool , MAX_PLAYERS> aiControlFlags; // blocks NETMSG_AI_CREATED (aicontrol)
 
@@ -229,13 +229,13 @@ private:
 #endif
 
 	/////////////////// game status variables ///////////////////
-	spring_time serverStartTime = spring_gettime();
-	spring_time readyTime = spring_notime;
+	ArcLight_time serverStartTime = ArcLight_gettime();
+	ArcLight_time readyTime = ArcLight_notime;
 
-	spring_time lastNewFrameTick = spring_notime;
-	spring_time lastPlayerInfo = spring_notime;
-	spring_time lastUpdate = spring_notime;
-	spring_time lastBandwidthUpdate = spring_notime;
+	ArcLight_time lastNewFrameTick = ArcLight_notime;
+	ArcLight_time lastPlayerInfo = ArcLight_notime;
+	ArcLight_time lastUpdate = ArcLight_notime;
+	ArcLight_time lastBandwidthUpdate = ArcLight_notime;
 
 	float modGameTime = 0.0f;
 	float gameTime = 0.0f;
@@ -290,9 +290,9 @@ private:
 	std::unique_ptr<AutohostInterface> hostif;
 
 	CGlobalUnsyncedRNG rng;
-	spring::thread thread;
+	ArcLight::thread thread;
 
-	mutable spring::recursive_mutex gameServerMutex;
+	mutable ArcLight::recursive_mutex gameServerMutex;
 
 	std::atomic<bool> gameHasStarted{false};
 	std::atomic<bool> generatedGameID{false};

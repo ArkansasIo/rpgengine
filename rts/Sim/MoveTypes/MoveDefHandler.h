@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef MOVEDEF_HANDLER_H
 #define MOVEDEF_HANDLER_H
@@ -174,7 +174,7 @@ public:
 
 private:
 	std::array<MoveDef, 256> moveDefs;
-	spring::unordered_map<unsigned int, int> nameMap;
+	ArcLight::unordered_map<unsigned int, int> nameMap;
 
 	unsigned int mdCounter = 0;
 	unsigned int mdChecksum = 0;

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _GLOBAL_CONSTANTS_H
 #define _GLOBAL_CONSTANTS_H
@@ -7,11 +7,11 @@
  * @brief footprint scale
  *
  * Multiplier for {Unit, Feature, Move}Def footprint sizes which are
- * assumed to be expressed in "TA units". The resolution of Spring's
+ * assumed to be expressed in "TA units". The resolution of ArcLight's
  * blocking-map is twice that of TA's; each square of a TA footprint
  * covers SQUARE_SIZE*2 x SQUARE_SIZE*2 elmos.
  */
-static constexpr int SPRING_FOOTPRINT_SCALE = 2;
+static constexpr int ARCLIGHT_FOOTPRINT_SCALE = 2;
 
 /**
  * @brief square size

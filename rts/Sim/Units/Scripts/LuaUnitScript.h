@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef LUAUNITSCRIPT_H
 #define LUAUNITSCRIPT_H
@@ -31,7 +31,7 @@ private:
 	// contrary to COB the list of functions may differ per unit,
 	// so the LUAFN_* -> function mapping can differ per unit too.
 	std::array<int, LUAFN_Last> scriptIndex;
-	spring::unordered_map<std::string, int> scriptNames;
+	ArcLight::unordered_map<std::string, int> scriptNames;
 
 	// used to enforce SetDeathScriptFinished can only be used inside Killed
 	bool inKilled = false;

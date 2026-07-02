@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "ISky.h"
 #include "NullSky.h"
@@ -39,7 +39,7 @@ ISky* ISky::GetSky()
 	} catch (const content_error& ex) {
 		LOG_L(L_ERROR, "[%s] error: %s (falling back to NullSky)", __func__, ex.what());
 
-		spring::SafeDelete(sky);
+		ArcLight::SafeDelete(sky);
 	}
 
 	if (sky == nullptr)

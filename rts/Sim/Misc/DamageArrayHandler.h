@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _DAMAGE_ARRAY_HANDLER_H
 #define _DAMAGE_ARRAY_HANDLER_H
@@ -11,7 +11,7 @@
 #include "System/UnorderedMap.hpp"
 
 class LuaParser;
-class CDamageArrayHandler : public spring::noncopyable
+class CDamageArrayHandler : public ArcLight::noncopyable
 {
 	CR_DECLARE_STRUCT(CDamageArrayHandler)
 
@@ -28,7 +28,7 @@ public:
 	const std::vector<std::string>& GetTypeList() const { return armorDefKeys; }
 
 private:
-	spring::unordered_map<std::string, int> armorDefNameIdxMap;
+	ArcLight::unordered_map<std::string, int> armorDefNameIdxMap;
 	std::vector<std::string> armorDefKeys;
 };
 

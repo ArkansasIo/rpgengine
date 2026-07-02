@@ -1,11 +1,11 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 /**
- * @brief Defines the Spring demofile format
+ * @brief Defines the ArcLight demofile format
  *
- * This file defines the Spring demofile format and which parts of it are
+ * This file defines the ArcLight demofile format and which parts of it are
  * supposed to be stable (can be used safely by 3rd party applications) or
- * unstable (format may change every Spring release without notice).
+ * unstable (format may change every ArcLight release without notice).
  */
 
 #ifndef DEMO_FILE_H
@@ -15,7 +15,7 @@
 #include <cinttypes>
 
 /** The first 16 bytes of each demofile. */
-#define DEMOFILE_MAGIC "spring demofile"
+#define DEMOFILE_MAGIC "ArcLight demofile"
 
 /**
  * The current demofile version. Only change on major modifications for which
@@ -26,7 +26,7 @@
 #pragma pack(push, 1)
 
 /**
- * @brief Spring demo file main header
+ * @brief ArcLight demo file main header
  *
  * Demo file layout is like this:
  *
@@ -47,7 +47,7 @@
  * It is not supposed to change often (if at all). The headerSize field is a
  * minor version number, which happens to be equal to sizeof(DemoFileHeader).
  *
- * If Spring did not cleanup properly (crashed), the demoStreamSize is 0 and it
+ * If ArcLight did not cleanup properly (crashed), the demoStreamSize is 0 and it
  * can be assumed the demo stream continues until the end of the file.
  */
 struct DemoFileHeader
@@ -55,7 +55,7 @@ struct DemoFileHeader
 	char magic[16];               ///< DEMOFILE_MAGIC
 	int version;                  ///< DEMOFILE_VERSION
 	int headerSize;               ///< Size of the DemoFileHeader, minor version number.
-	char versionString[256];      ///< Spring version string, e.g. "0.75b2", "0.75b2+svn4123"
+	char versionString[256];      ///< ArcLight version string, e.g. "0.75b2", "0.75b2+svn4123"
 	std::uint8_t gameID[16];    ///< Unique game identifier. Identical for each player of the game.
 	std::uint64_t unixTime;     ///< Unix time when game was started.
 	int scriptSize;               ///< Size of startscript.
@@ -93,7 +93,7 @@ struct DemoFileHeader
 };
 
 /**
- * @brief Spring demo stream chunk header
+ * @brief ArcLight demo stream chunk header
  *
  * The demo stream layout is as follows:
  *

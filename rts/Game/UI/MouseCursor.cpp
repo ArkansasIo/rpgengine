@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 
 #include <array>
@@ -116,14 +116,14 @@ bool CMouseCursor::BuildFromSpecFile(const std::string& name, int& lastFrame)
 {
 	const std::string specFileName = "anims/" + name + ".txt";
 
-	if (!CFileHandler::FileExists(specFileName, SPRING_VFS_RAW_FIRST))
+	if (!CFileHandler::FileExists(specFileName, ARCLIGHT_VFS_RAW_FIRST))
 		return false;
 
 	CFileHandler specFile(specFileName);
 	CSimpleParser specParser(specFile);
 
 	const std::array<std::pair<std::string, int>, 3> commandsMap = {{{"frame", 0}, {"hotspot", 1}, {"lastframe", 2}}};
-		  spring::unsynced_map<std::string, int>     imageIdxMap;
+		  ArcLight::unsynced_map<std::string, int>     imageIdxMap;
 
 	for (std::string line = std::move(specParser.GetCleanLine()); !line.empty(); line = std::move(specParser.GetCleanLine())) {
 		const std::vector<std::string>& words = specParser.Tokenize(line, 2);
@@ -201,7 +201,7 @@ bool CMouseCursor::BuildFromFileNames(const std::string& name, int lastFrame)
 		memset(animFrameStr, 0, sizeof(animFrameStr));
 		snprintf(animFrameStr, sizeof(animFrameStr) - 1, "anims/%s_%d.%s", name.c_str(), 0, ext = e);
 
-		if (CFileHandler::FileExists(animFrameStr, SPRING_VFS_RAW_FIRST))
+		if (CFileHandler::FileExists(animFrameStr, ARCLIGHT_VFS_RAW_FIRST))
 			break;
 	}
 
@@ -245,7 +245,7 @@ bool CMouseCursor::LoadDummyImage()
 
 bool CMouseCursor::LoadCursorImage(const std::string& name, ImageData& image)
 {
-	if (!CFileHandler::FileExists(name, SPRING_VFS_RAW_FIRST))
+	if (!CFileHandler::FileExists(name, ARCLIGHT_VFS_RAW_FIRST))
 		return false;
 
 	CBitmap b;

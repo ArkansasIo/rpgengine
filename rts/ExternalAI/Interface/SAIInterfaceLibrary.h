@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef S_AI_INTERFACE_LIBRARY_H
 #define S_AI_INTERFACE_LIBRARY_H
@@ -18,7 +18,7 @@ extern "C" {
  * [string]
  * Absolute data dir containing the AIs AIInfo.lua file.
  * This property is set by the engine, not read from any file.
- * example: "/home/john/spring/AI/Interfaces/C/0.1"
+ * example: "/home/john/ArcLight/AI/Interfaces/C/0.1"
  */
 #define AI_INTERFACE_PROPERTY_DATA_DIR               "dataDir"
 
@@ -26,7 +26,7 @@ extern "C" {
  * [string]
  * Absolute, version independent data dir.
  * This property is set by the engine, not read from any file.
- * example: "/home/john/spring/AI/Interfaces/C/common"
+ * example: "/home/john/ArcLight/AI/Interfaces/C/common"
  */
 #define AI_INTERFACE_PROPERTY_DATA_DIR_COMMON        "dataDirCommon"
 
@@ -56,7 +56,7 @@ extern "C" {
 
 /**
  * [string]
- * example: "https://springrts.com/wiki/AIInterface:C"
+ * example: "https://ArcLightrts.com/wiki/AIInterface:C"
  */
 #define AI_INTERFACE_PROPERTY_URL                    "url"
 

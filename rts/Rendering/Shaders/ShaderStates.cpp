@@ -1,11 +1,11 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "Rendering/Shaders/ShaderStates.h"
 #include "System/Sync/HsiehHash.h"
 #include "System/UnorderedSet.hpp"
 
 
-static spring::unordered_set<int> samplerTypes{
+static ArcLight::unordered_set<int> samplerTypes{
 #ifndef HEADLESS
 	GL_SAMPLER_1D,
 	GL_SAMPLER_2D,

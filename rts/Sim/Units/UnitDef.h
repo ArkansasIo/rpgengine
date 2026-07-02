@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef UNITDEF_H
 #define UNITDEF_H
@@ -229,7 +229,7 @@ public:
 	std::array<unsigned int, 1 + MAX_UNITDEF_EXPGEN_IDS> pieceExplGenIDs;
 	std::array<unsigned int, 1 + MAX_UNITDEF_EXPGEN_IDS> crashExplGenIDs;
 
-	spring::unordered_map<int, std::string> buildOptions;
+	ArcLight::unordered_map<int, std::string> buildOptions;
 
 	const WeaponDef* shieldWeaponDef;
 	const WeaponDef* stockpileWeaponDef;

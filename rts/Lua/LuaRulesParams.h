@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef LUA_RULESPARAMS_H
 #define LUA_RULESPARAMS_H
@@ -35,7 +35,7 @@ namespace LuaRulesParams
 		std::string valueString;
 	};
 
-	typedef spring::unordered_map<std::string, Param> Params;
+	typedef ArcLight::unordered_map<std::string, Param> Params;
 }
 
 #endif // LUA_RULESPARAMS_H

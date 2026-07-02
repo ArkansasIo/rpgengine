@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 // Used for all metal-extractors.
 // Handles the metal-make-process.
@@ -129,14 +129,14 @@ void CExtractorBuilding::SetExtractionRangeAndDepth(float range, float depth)
 void CExtractorBuilding::AddNeighbour(CExtractorBuilding* neighbour)
 {
 	assert(neighbour != this);
-	spring::VectorInsertUnique(neighbours, neighbour, true);
+	ArcLight::VectorInsertUnique(neighbours, neighbour, true);
 }
 
 /* removes a neighbour for this extractor */
 void CExtractorBuilding::RemoveNeighbour(CExtractorBuilding* neighbour)
 {
 	assert(neighbour != this);
-	spring::VectorErase(neighbours, neighbour);
+	ArcLight::VectorErase(neighbours, neighbour);
 }
 
 

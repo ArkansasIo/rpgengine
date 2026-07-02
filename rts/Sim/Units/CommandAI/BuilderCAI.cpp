@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <cassert>
 
@@ -53,9 +53,9 @@ CR_REG_METADATA(CBuilderCAI , (
 ))
 
 // not adding to members, should repopulate itself
-spring::unordered_set<int> CBuilderCAI::reclaimers;
-spring::unordered_set<int> CBuilderCAI::featureReclaimers;
-spring::unordered_set<int> CBuilderCAI::resurrecters;
+ArcLight::unordered_set<int> CBuilderCAI::reclaimers;
+ArcLight::unordered_set<int> CBuilderCAI::featureReclaimers;
+ArcLight::unordered_set<int> CBuilderCAI::resurrecters;
 
 std::vector<int> CBuilderCAI::removees;
 
@@ -225,9 +225,9 @@ CBuilderCAI::~CBuilderCAI()
 
 void CBuilderCAI::InitStatic()
 {
-	spring::clear_unordered_set(reclaimers);
-	spring::clear_unordered_set(featureReclaimers);
-	spring::clear_unordered_set(resurrecters);
+	ArcLight::clear_unordered_set(reclaimers);
+	ArcLight::clear_unordered_set(featureReclaimers);
+	ArcLight::clear_unordered_set(resurrecters);
 }
 
 void CBuilderCAI::PostLoad()

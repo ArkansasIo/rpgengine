@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "LuaVFSDownload.h"
 #include "System/SafeUtil.h"
@@ -82,8 +82,8 @@ public:
 
 private:
 	std::deque<DownloadItem> queue;
-	spring::mutex mutex;
-	spring::thread thread;
+	ArcLight::mutex mutex;
+	ArcLight::thread thread;
 
 	bool breakLoop = false;
 };
@@ -92,7 +92,7 @@ private:
 static DownloadQueue downloadQueue;
 
 static std::deque< std::shared_ptr<DLEvent> > dlEventQueue;
-static spring::mutex dlEventQueueMutex;
+static ArcLight::mutex dlEventQueueMutex;
 
 static int queueIDCount = -1;
 static int currentDownloadID = -1;
@@ -100,7 +100,7 @@ static int currentDownloadID = -1;
 
 
 static void AddQueueEvent(std::shared_ptr<DLEvent> ev) {
-	std::lock_guard<spring::mutex> lck(dlEventQueueMutex);
+	std::lock_guard<ArcLight::mutex> lck(dlEventQueueMutex);
 	dlEventQueue.push_back(ev);
 }
 
@@ -152,7 +152,7 @@ static int StartDownloadJob(int id, const std::string& filename, DownloadEnum::C
 	//   many functions in ArchiveScanner do not lock, and are called at
 	//   various stages during loading (e.g. ArchiveFromName in PreGame)
 	//   a call to VFS.DownloadArchive (say from LuaMenu just prior to a
-	//   Spring.Reload) pushes an item into the queue which might at any
+	//   ArcLight.Reload) pushes an item into the queue which might at any
 	//   point be consumed by the dl-pump thread running StartDownloadJob
 	//   so this is problematic
 	//   does not even make sense to rescan until download is *finished*
@@ -178,7 +178,7 @@ void DownloadQueue::Pump()
 	while (!breakLoop) {
 		DownloadItem downloadItem;
 		{
-			std::lock_guard<spring::mutex> lck(mutex);
+			std::lock_guard<ArcLight::mutex> lck(mutex);
 			assert(!queue.empty());
 			downloadItem = queue.front();
 		}
@@ -196,7 +196,7 @@ void DownloadQueue::Pump()
 		}
 
 		{
-			std::lock_guard<spring::mutex> lck(mutex);
+			std::lock_guard<ArcLight::mutex> lck(mutex);
 			queue.pop_front();
 
 			if (queue.empty())
@@ -207,7 +207,7 @@ void DownloadQueue::Pump()
 
 void DownloadQueue::Push(const DownloadItem& downloadItem)
 {
-	std::unique_lock<spring::mutex> lck(mutex);
+	std::unique_lock<ArcLight::mutex> lck(mutex);
 
 	if (queue.empty()) {
 		// keep only one concurrent download-thread
@@ -219,7 +219,7 @@ void DownloadQueue::Push(const DownloadItem& downloadItem)
 
 		// mutex is still locked, thread will block if it gets
 		// to queue.front() before we get to queue.push_back()
-		thread = std::move(spring::thread(&DownloadQueue::Pump, this));
+		thread = std::move(ArcLight::thread(&DownloadQueue::Pump, this));
 	}
 
 	queue.push_back(downloadItem);
@@ -227,7 +227,7 @@ void DownloadQueue::Push(const DownloadItem& downloadItem)
 
 bool DownloadQueue::Remove(int id)
 {
-	std::unique_lock<spring::mutex> lck(mutex);
+	std::unique_lock<ArcLight::mutex> lck(mutex);
 
 	for (auto it = queue.begin(); it != queue.end(); ++it) {
 		if (it->id != id)
@@ -240,7 +240,7 @@ bool DownloadQueue::Remove(int id)
 			lck.lock();
 			SetAbortDownloads(false);
 
-			thread = std::move(spring::thread(&DownloadQueue::Pump, this));
+			thread = std::move(ArcLight::thread(&DownloadQueue::Pump, this));
 		} else {
 			queue.erase(it);
 		}
@@ -288,7 +288,7 @@ void LuaVFSDownload::Update()
 {
 	assert(Threading::IsMainThread() || Threading::IsGameLoadThread());
 	// only locks the mutex if the queue is not empty
-	std::unique_lock<spring::mutex> lck(dlEventQueueMutex);
+	std::unique_lock<ArcLight::mutex> lck(dlEventQueueMutex);
 
 	while (!dlEventQueue.empty()) {
 		std::shared_ptr<DLEvent> ev = dlEventQueue.front();

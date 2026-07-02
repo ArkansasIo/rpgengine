@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 
 #include <string>
@@ -8,7 +8,7 @@
 
 AssVFSStream::AssVFSStream(const std::string& pFile, const std::string& pMode)
 {
-	file = new CFileHandler(pFile, SPRING_VFS_ZIP);
+	file = new CFileHandler(pFile, ARCLIGHT_VFS_ZIP);
 }
 
 AssVFSStream::~AssVFSStream()
@@ -18,7 +18,7 @@ AssVFSStream::~AssVFSStream()
 
 size_t AssVFSStream::Read( void* pvBuffer, size_t pSize, size_t pCount)
 {
-	// Spring VFS only supports reading chars. Need to convert.
+	// ArcLight VFS only supports reading chars. Need to convert.
 	int length = pSize * pCount;
 	return file->Read(pvBuffer, length);
 }

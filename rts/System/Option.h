@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 // The structs in this file relate to *Options.lua files
 // They are used for Mods and Skirmish AIs for example.
@@ -77,22 +77,22 @@ std::string option_getDefString(const Option& option);
 void option_parseOptions(
 		std::vector<Option>& options,
 		const std::string& fileName,
-		const std::string& fileModes = SPRING_VFS_RAW,
-		const std::string& accessModes = SPRING_VFS_RAW,
+		const std::string& fileModes = ARCLIGHT_VFS_RAW,
+		const std::string& accessModes = ARCLIGHT_VFS_RAW,
 		std::set<std::string>* optionsSet = NULL);
 
 void option_parseOptionsLuaString(
 		std::vector<Option>& options,
 		const std::string& optionsLuaString,
-		const std::string& accessModes = SPRING_VFS_RAW,
+		const std::string& accessModes = ARCLIGHT_VFS_RAW,
 		std::set<std::string>* optionsSet = NULL);
 
 void option_parseMapOptions(
 		std::vector<Option>& options,
 		const std::string& fileName,
 		const std::string& mapName,
-		const std::string& fileModes = SPRING_VFS_RAW,
-		const std::string& accessModes = SPRING_VFS_RAW,
+		const std::string& fileModes = ARCLIGHT_VFS_RAW,
+		const std::string& accessModes = ARCLIGHT_VFS_RAW,
 		std::set<std::string>* optionsSet = NULL);
 
 #endif // _OPTION_H

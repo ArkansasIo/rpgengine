@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "SoundSource.h"
 
@@ -76,7 +76,7 @@ void CSoundSource::Update()
 			alSourcef(id, AL_ROLLOFF_FACTOR, ROLLOFF_FACTOR * curPlayingItem.rolloff * heightRolloffModifier);
 		}
 
-		if (!IsPlaying(true) || ((curPlayingItem.loopTime > 0) && (spring_gettime() > loopStop)))
+		if (!IsPlaying(true) || ((curPlayingItem.loopTime > 0) && (ArcLight_gettime() > loopStop)))
 			Stop();
 	}
 
@@ -203,7 +203,7 @@ void CSoundSource::Play(IAudioChannel* channel, SoundItem* item, float3 pos, flo
 	alSource3f(id, AL_VELOCITY, velocity.x, velocity.y, velocity.z);
 	alSourcei(id, AL_LOOPING, (item->loopTime > 0) ? AL_TRUE : AL_FALSE);
 
-	loopStop = spring_gettime() + spring_msecs(item->loopTime);
+	loopStop = ArcLight_gettime() + ArcLight_msecs(item->loopTime);
 
 	if (relative || !item->in3D) {
 		in3D = false;

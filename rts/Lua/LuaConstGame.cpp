@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "LuaConstGame.h"
 
@@ -132,7 +132,7 @@ bool LuaConstGame::PushEntries(lua_State* L)
 		// NB: instance is never null, but might not contain any data yet (e.g. in LuaIntro)
 		const std::vector<string>& cats = CCategoryHandler::Instance()->GetCategoryNames(~0);
 
-		lua_pushliteral(L, "springCategories");
+		lua_pushliteral(L, "ArcLightCategories");
 		lua_createtable(L, 0, cats.size());
 
 		for (unsigned int i = 0; i < cats.size(); i++) {

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef SOLID_OBJECT_DEF_H
 #define SOLID_OBJECT_DEF_H
@@ -80,7 +80,7 @@ public:
 	std::string name;      // eg. "arm_flash"
 	std::string modelName; // eg. "arm_flash.3do" (no path prefix)
 
-	spring::unordered_map<std::string, std::string> customParams;
+	ArcLight::unordered_map<std::string, std::string> customParams;
 };
 
 #endif

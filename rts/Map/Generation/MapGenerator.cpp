@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "MapGenerator.h"
 #include "Map/SMF/SMFFormat.h"
@@ -55,7 +55,7 @@ void CMapGenerator::GenerateSMF(CVirtualFile* fileSMF)
 	MapFeatureHeader smfFeature;
 
 	//--- Make SMFHeader ---
-	std::strcpy(smfHeader.magic, "spring map file");
+	std::strcpy(smfHeader.magic, "ArcLight map file");
 	smfHeader.version = 1;
 	smfHeader.mapid = 0x524d4746 ^ (int)setup->mapSeed;
 
@@ -161,7 +161,7 @@ void CMapGenerator::GenerateMapInfo(CVirtualFile* fileMapInfo)
 {
 	//Open template mapinfo.lua
 	const std::string luaTemplate = "mapgenerator/mapinfo_template.lua";
-	CFileHandler fh(luaTemplate, SPRING_VFS_PWD_ALL);
+	CFileHandler fh(luaTemplate, ARCLIGHT_VFS_PWD_ALL);
 	if (!fh.FileExists())
 		throw content_error("Error generating map: " + luaTemplate + " not found");
 
@@ -193,7 +193,7 @@ void CMapGenerator::GenerateSMT(CVirtualFile* fileSMT)
 
 	//--- Make TileFileHeader ---
 	TileFileHeader smtHeader;
-	std::strcpy(smtHeader.magic, "spring tilefile");
+	std::strcpy(smtHeader.magic, "ArcLight tilefile");
 	smtHeader.version = 1;
 	smtHeader.numTiles = 1; //32 * 32 * (generator->GetMapSize().x * 32) * (generator->GetMapSize().y * 32);
 	smtHeader.tileSize = tileSize;

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "AIInterfaceLibrary.h"
 
@@ -36,7 +36,7 @@ CAIInterfaceLibrary::CAIInterfaceLibrary(const CAIInterfaceLibraryInfo& _info)
 
 CAIInterfaceLibrary::~CAIInterfaceLibrary() {
 	ReleaseStatic();
-	spring::SafeDelete(sharedLib);
+	ArcLight::SafeDelete(sharedLib);
 }
 
 void CAIInterfaceLibrary::InitStatic() {

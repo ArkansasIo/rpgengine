@@ -1,17 +1,17 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
-#ifndef _SPRING_CONTROLLER_H
-#define _SPRING_CONTROLLER_H
+#ifndef _ArcLight_CONTROLLER_H
+#define _ArcLight_CONTROLLER_H
 
 #include "CameraController.h"
 #include "System/type2.h"
 
-class CSpringController : public CCameraController
+class CArcLightController : public CCameraController
 {
 public:
-	CSpringController();
+	CArcLightController();
 
-	const std::string GetName() const override { return "spring"; }
+	const std::string GetName() const override { return "ArcLight"; }
 
 	void KeyMove(float3 move) override;
 	void MouseMove(float3 move) override;
@@ -48,4 +48,4 @@ private:
 	bool cursorZoomOut;
 };
 
-#endif // _SPRING_CONTROLLER_H
+#endif // _ArcLight_CONTROLLER_H

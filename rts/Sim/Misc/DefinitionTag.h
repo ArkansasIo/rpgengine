@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 // based heavily on `System/Config/ConfigVariable.h`
 
@@ -44,7 +44,7 @@ namespace {
  * That is, meta data of a type that does not depend on the declared type
  * of the definition tag.
  */
-class DefTagMetaData : public spring::noncopyable
+class DefTagMetaData : public ArcLight::noncopyable
 {
 public:
 	typedef TypedStringConvertibleOptionalValue<std::string> OptionalString;

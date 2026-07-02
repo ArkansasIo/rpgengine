@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <algorithm>
 
@@ -101,7 +101,7 @@ void CQuadField::Quad::PostLoad()
 	Resize(teamHandler.ActiveAllyTeams());
 
 	for (CUnit* unit: units) {
-		spring::VectorInsertUnique(teamUnits[unit->allyteam], unit, false);
+		ArcLight::VectorInsertUnique(teamUnits[unit->allyteam], unit, false);
 	}
 #endif
 }
@@ -319,11 +319,11 @@ bool CQuadField::InsertUnitIf(CUnit* unit, const float3& wpos)
 		return false;
 
 	// unit might also be overlapping the cell, so test for uniqueness
-	if (!spring::VectorInsertUnique(unit->quads, wposQuadIdx, true))
+	if (!ArcLight::VectorInsertUnique(unit->quads, wposQuadIdx, true))
 		return false;
 
-	spring::VectorInsertUnique(baseQuads[wposQuadIdx].units, unit, false);
-	spring::VectorInsertUnique(baseQuads[wposQuadIdx].teamUnits[unit->allyteam], unit, false);
+	ArcLight::VectorInsertUnique(baseQuads[wposQuadIdx].units, unit, false);
+	ArcLight::VectorInsertUnique(baseQuads[wposQuadIdx].teamUnits[unit->allyteam], unit, false);
 	return true;
 }
 
@@ -349,11 +349,11 @@ bool CQuadField::RemoveUnitIf(CUnit* unit, const float3& wpos)
 		return false;
 	}
 
-	if (!spring::VectorErase(unit->quads, wposQuadIdx))
+	if (!ArcLight::VectorErase(unit->quads, wposQuadIdx))
 		return false;
 
-	spring::VectorErase(baseQuads[wposQuadIdx].units, unit);
-	spring::VectorErase(baseQuads[wposQuadIdx].teamUnits[unit->allyteam], unit);
+	ArcLight::VectorErase(baseQuads[wposQuadIdx].units, unit);
+	ArcLight::VectorErase(baseQuads[wposQuadIdx].teamUnits[unit->allyteam], unit);
 	return true;
 }
 #endif
@@ -373,13 +373,13 @@ void CQuadField::MovedUnit(CUnit* unit)
 	}
 
 	for (const int qi: unit->quads) {
-		spring::VectorErase(baseQuads[qi].units, unit);
-		spring::VectorErase(baseQuads[qi].teamUnits[unit->allyteam], unit);
+		ArcLight::VectorErase(baseQuads[qi].units, unit);
+		ArcLight::VectorErase(baseQuads[qi].teamUnits[unit->allyteam], unit);
 	}
 
 	for (const int qi: *qfQuery.quads) {
-		spring::VectorInsertUnique(baseQuads[qi].units, unit, false);
-		spring::VectorInsertUnique(baseQuads[qi].teamUnits[unit->allyteam], unit, false);
+		ArcLight::VectorInsertUnique(baseQuads[qi].units, unit, false);
+		ArcLight::VectorInsertUnique(baseQuads[qi].teamUnits[unit->allyteam], unit, false);
 	}
 
 	unit->quads = std::move(*qfQuery.quads);
@@ -388,8 +388,8 @@ void CQuadField::MovedUnit(CUnit* unit)
 void CQuadField::RemoveUnit(CUnit* unit)
 {
 	for (const int qi: unit->quads) {
-		spring::VectorErase(baseQuads[qi].units, unit);
-		spring::VectorErase(baseQuads[qi].teamUnits[unit->allyteam], unit);
+		ArcLight::VectorErase(baseQuads[qi].units, unit);
+		ArcLight::VectorErase(baseQuads[qi].teamUnits[unit->allyteam], unit);
 	}
 
 	unit->quads.clear();
@@ -420,11 +420,11 @@ void CQuadField::MovedRepulser(CPlasmaRepulser* repulser)
 	}
 
 	for (const int qi: repulserQuads) {
-		spring::VectorErase(baseQuads[qi].repulsers, repulser);
+		ArcLight::VectorErase(baseQuads[qi].repulsers, repulser);
 	}
 
 	for (const int qi: *qfQuery.quads) {
-		spring::VectorInsertUnique(baseQuads[qi].repulsers, repulser, false);
+		ArcLight::VectorInsertUnique(baseQuads[qi].repulsers, repulser, false);
 	}
 
 	repulser->SetQuads(std::move(*qfQuery.quads));
@@ -433,7 +433,7 @@ void CQuadField::MovedRepulser(CPlasmaRepulser* repulser)
 void CQuadField::RemoveRepulser(CPlasmaRepulser* repulser)
 {
 	for (const int qi: repulser->GetQuads()) {
-		spring::VectorErase(baseQuads[qi].repulsers, repulser);
+		ArcLight::VectorErase(baseQuads[qi].repulsers, repulser);
 	}
 
 	repulser->ClearQuads();
@@ -454,7 +454,7 @@ void CQuadField::AddFeature(CFeature* feature)
 	GetQuads(qfQuery, feature->pos, feature->radius);
 
 	for (const int qi: *qfQuery.quads) {
-		spring::VectorInsertUnique(baseQuads[qi].features, feature, false);
+		ArcLight::VectorInsertUnique(baseQuads[qi].features, feature, false);
 	}
 }
 
@@ -464,7 +464,7 @@ void CQuadField::RemoveFeature(CFeature* feature)
 	GetQuads(qfQuery, feature->pos, feature->radius);
 
 	for (const int qi: *qfQuery.quads) {
-		spring::VectorErase(baseQuads[qi].features, feature);
+		ArcLight::VectorErase(baseQuads[qi].features, feature);
 	}
 
 	#ifdef DEBUG_QUADFIELD
@@ -502,13 +502,13 @@ void CQuadField::AddProjectile(CProjectile* p)
 		GetQuadsOnRay(qfQuery, p->pos, p->dir, p->speed.w);
 
 		for (const int qi: *qfQuery.quads) {
-			spring::VectorInsertUnique(baseQuads[qi].projectiles, p, false);
+			ArcLight::VectorInsertUnique(baseQuads[qi].projectiles, p, false);
 		}
 
 		p->quads = std::move(*qfQuery.quads);
 	} else {
 		int newQuad = WorldPosToQuadFieldIdx(p->pos);
-		spring::VectorInsertUnique(baseQuads[newQuad].projectiles, p, false);
+		ArcLight::VectorInsertUnique(baseQuads[newQuad].projectiles, p, false);
 		p->quads.clear();
 		p->quads.push_back(newQuad);
 	}
@@ -519,7 +519,7 @@ void CQuadField::RemoveProjectile(CProjectile* p)
 	assert(p->synced);
 
 	for (const int qi: p->quads) {
-		spring::VectorErase(baseQuads[qi].projectiles, p);
+		ArcLight::VectorErase(baseQuads[qi].projectiles, p);
 	}
 
 	p->quads.clear();

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _BUILDER_CAI_H_
 #define _BUILDER_CAI_H_
@@ -63,11 +63,11 @@ public:
 	bool IsInBuildRange(const float3& pos, const float radius) const;
 
 public:
-	spring::unordered_set<int> buildOptions;
+	ArcLight::unordered_set<int> buildOptions;
 
-	static spring::unordered_set<int> reclaimers;
-	static spring::unordered_set<int> featureReclaimers;
-	static spring::unordered_set<int> resurrecters;
+	static ArcLight::unordered_set<int> reclaimers;
+	static ArcLight::unordered_set<int> featureReclaimers;
+	static ArcLight::unordered_set<int> resurrecters;
 
 	static std::vector<int> removees;
 

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _FILE_HANDLER_H
 #define _FILE_HANDLER_H
@@ -22,11 +22,11 @@
 class CFileHandler
 {
 public:
-	CFileHandler(const char* fileName, const char* modes = SPRING_VFS_RAW_FIRST);
-	CFileHandler(const std::string& fileName, const std::string& modes = SPRING_VFS_RAW_FIRST);
+	CFileHandler(const char* fileName, const char* modes = ARCLIGHT_VFS_RAW_FIRST);
+	CFileHandler(const std::string& fileName, const std::string& modes = ARCLIGHT_VFS_RAW_FIRST);
 	virtual ~CFileHandler() { Close(); }
 
-	void Open(const std::string& fileName, const std::string& modes = SPRING_VFS_RAW_FIRST);
+	void Open(const std::string& fileName, const std::string& modes = ARCLIGHT_VFS_RAW_FIRST);
 	void Close();
 
 	int Read(void* buf, int length);

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef FILE_SYSTEM_H
 #define FILE_SYSTEM_H
@@ -19,7 +19,7 @@
  * @brief filesystem interface
  *
  * Abstracts locating of content on different platforms.
- * Use this from the rest of the spring code, not FileSystemHandler!
+ * Use this from the rest of the ArcLight code, not FileSystemHandler!
  */
 class FileSystem : public FileSystemAbstraction
 {
@@ -70,26 +70,26 @@ public:
 	///@{
 	/**
 	 * @brief Returns the directory part of a path
-	 * "/home/user/.spring/test.txt" -> "/home/user/.spring/"
+	 * "/home/user/.ArcLight/test.txt" -> "/home/user/.ArcLight/"
 	 * "test.txt" -> ""
 	 */
 	static std::string GetDirectory(const std::string& path);
 	/**
 	 * @brief Returns the filename part of a path
-	 * "/home/user/.spring/test.txt" -> "test.txt"
+	 * "/home/user/.ArcLight/test.txt" -> "test.txt"
 	 */
 	static std::string GetFilename(const std::string& path);
 	/**
 	 * @brief Returns the basename part of a path
 	 * This is equvalent to the filename without extension.
-	 * "/home/user/.spring/test.txt" -> "test"
+	 * "/home/user/.ArcLight/test.txt" -> "test"
 	 */
 	static std::string GetBasename(const std::string& path);
 	/**
 	 * @brief Returns the extension of the filename part of the path
-	 * "/home/user/.spring/test.txt" -> "txt"
-	 * "/home/user/.spring/test.txt..." -> "txt"
-	 * "/home/user/.spring/test.txt. . ." -> "txt"
+	 * "/home/user/.ArcLight/test.txt" -> "txt"
+	 * "/home/user/.ArcLight/test.txt..." -> "txt"
+	 * "/home/user/.ArcLight/test.txt. . ." -> "txt"
 	 */
 	static std::string GetExtension(const std::string& path);
 	/**

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "DataDirsAccess.h"
 #include "DataDirLocater.h"
@@ -173,14 +173,14 @@ std::vector<std::string> DataDirsAccess::FindDirsInDirectSubDirs(
 
 	// find all subdirectories in the rootDirs
 	for (const std::string& dir: rootDirs) {
-		const std::vector<std::string>& localMainDirs = CFileHandler::SubDirs(dir, pattern, SPRING_VFS_RAW);
+		const std::vector<std::string>& localMainDirs = CFileHandler::SubDirs(dir, pattern, ARCLIGHT_VFS_RAW);
 		mainDirs.insert(mainDirs.end(), localMainDirs.begin(), localMainDirs.end());
 	}
 	//found.insert(found.end(), mainDirs.begin(), mainDirs.end());
 
 	// and add all subdriectories of these
 	for (const std::string& dir: mainDirs) {
-		const std::vector<std::string>& subDirs = CFileHandler::SubDirs(dir, pattern, SPRING_VFS_RAW);
+		const std::vector<std::string>& subDirs = CFileHandler::SubDirs(dir, pattern, ARCLIGHT_VFS_RAW);
 		found.insert(found.end(), subDirs.begin(), subDirs.end());
 	}
 

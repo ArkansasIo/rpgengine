@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _GAME_JOB_DISPATCHER_H
 #define _GAME_JOB_DISPATCHER_H
@@ -12,7 +12,7 @@ class JobDispatcher {
 public:
 	struct Job {
 	public:
-		Job(const spring_time t = spring_notime)
+		Job(const ArcLight_time t = ArcLight_notime)
 		: time(t.toMilliSecsf())
 		, freq(0.0f)
 
@@ -42,7 +42,7 @@ public:
 public:
 	void AddTimedJob(const Job& j) { jobs.push(j); }
 	void Update() {
-		const spring_time now = spring_gettime();
+		const ArcLight_time now = ArcLight_gettime();
 
 		while (!jobs.empty()) {
 			Job j = jobs.top();

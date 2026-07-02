@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "System/LogOutput.h"
 
@@ -47,8 +47,8 @@ CONFIG(int, LogRepeatLimit)
 /******************************************************************************/
 /******************************************************************************/
 
-static spring::unordered_map<std::string, int> GetEnabledSections() {
-	spring::unordered_map<std::string, int> sectionLevelMap;
+static ArcLight::unordered_map<std::string, int> GetEnabledSections() {
+	ArcLight::unordered_map<std::string, int> sectionLevelMap;
 
 	std::string enabledSections = ",";
 	std::string envSections = ",";
@@ -69,9 +69,9 @@ static spring::unordered_map<std::string, int> GetEnabledSections() {
 		enabledSections += StringToLower(configHandler->GetString("LogSections"));
 	}
 
-	if (getenv("SPRING_LOG_SECTIONS") != nullptr) {
+	if (getenv("ARCLIGHT_LOG_SECTIONS") != nullptr) {
 		// allow disabling all sections from the env var by setting it to "none"
-		envSections += getenv("SPRING_LOG_SECTIONS");
+		envSections += getenv("ARCLIGHT_LOG_SECTIONS");
 		envSections = StringToLower(envSections);
 
 		if (envSections == "none") {
@@ -195,7 +195,7 @@ void CLogOutput::Initialize()
  * This writes a list of all available and all enabled sections to the log.
  *
  * Log sections can be enabled using the configuration key "LogSections",
- * or the environment variable "SPRING_LOG_SECTIONS".
+ * or the environment variable "ARCLIGHT_LOG_SECTIONS".
  *
  * Both specify a comma-separated list of sections that should be enabled.
  * The lists from both sources are combined, there is no overriding.
@@ -250,7 +250,7 @@ void CLogOutput::LogSectionInfo()
 	LOG("  %s%s", (availableLogSectionsStr.str()).c_str(), (enabledLogSectionsStr.str()).c_str());
 	LOG("  ");
 	LOG("  Enable or disable log sections using the LogSections configuration key");
-	LOG("  or the SPRING_LOG_SECTIONS environment variable (both comma separated).");
+	LOG("  or the ARCLIGHT_LOG_SECTIONS environment variable (both comma separated).");
 	LOG("  Use \"none\" to disable the default log sections.");
 	LOG("============== </Log Sections> ==============\n");
 }
@@ -274,13 +274,13 @@ void CLogOutput::LogConfigInfo()
 void CLogOutput::LogSystemInfo()
 {
 	LOG("============== <User System> ==============");
-	LOG("  Spring Engine Version: %s", SpringVersion::GetFull().c_str());
-	LOG("      Build Environment: %s", SpringVersion::GetBuildEnvironment().c_str());
-	LOG("       Compiler Version: %s", SpringVersion::GetCompiler().c_str());
+	LOG("  ArcLight Engine Version: %s", ArcLightVersion::GetFull().c_str());
+	LOG("      Build Environment: %s", ArcLightVersion::GetBuildEnvironment().c_str());
+	LOG("       Compiler Version: %s", ArcLightVersion::GetCompiler().c_str());
 	LOG("       Operating System: %s", Platform::GetOSDisplayStr().c_str());
 	LOG("        Hardware Config: %s", Platform::GetHardwareStr().c_str());
 	LOG("       Binary Word Size: %s", Platform::GetWordSizeStr().c_str());
-	LOG("          Process Clock: %s", spring_clock::GetName());
+	LOG("          Process Clock: %s", ArcLight_clock::GetName());
 	LOG("     Physical CPU Cores: %d", Threading::GetPhysicalCpuCores());
 	LOG("      Logical CPU Cores: %d", Threading::GetLogicalCpuCores());
 	LOG("============== </User System> ==============\n");

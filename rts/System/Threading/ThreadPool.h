@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _THREADPOOL_H
 #define _THREADPOOL_H
@@ -14,7 +14,7 @@ namespace ThreadPool {
 		f(args ...);
 	}
 
-	static inline void AddExtJob(spring::thread&& t) { t.join(); }
+	static inline void AddExtJob(ArcLight::thread&& t) { t.join(); }
 	static inline void AddExtJob(std::future<void>&& f) { f.get(); }
 	static inline void ClearExtJobs() {}
 
@@ -85,7 +85,7 @@ namespace ThreadPool {
 	static auto Enqueue(F&& f, Args&&... args)
 	-> std::shared_ptr<std::future<typename std::result_of<F(Args...)>::type>>;
 
-	void AddExtJob(spring::thread&& t);
+	void AddExtJob(ArcLight::thread&& t);
 	void AddExtJob(std::future<void>&& f);
 	void ClearExtJobs();
 
@@ -130,12 +130,12 @@ public:
 	virtual bool SelfDelete() const { return false; }
 
 	uint64_t ExecuteLoop(int tid, bool wffCall) {
-		const spring_time t0 = spring_now();
+		const ArcLight_time t0 = ArcLight_now();
 
 		while (ExecuteStep());
 
-		const spring_time t1 = spring_now();
-		const spring_time dt = t1 - t0;
+		const ArcLight_time t1 = ArcLight_now();
+		const ArcLight_time dt = t1 - t0;
 
 		if (IsSliceTask()) {
 			// inTaskQueue would be set to false prematurely by the
@@ -177,17 +177,17 @@ public:
 	int RemainingTasks() const { return remainingTasks; }
 	int WantedThread() const { return wantedThread; }
 
-	bool WaitFor(const spring_time& rel_time) const {
-		const auto end = spring_now() + rel_time;
-		while (!IsFinished() && (spring_now() < end));
+	bool WaitFor(const ArcLight_time& rel_time) const {
+		const auto end = ArcLight_now() + rel_time;
+		while (!IsFinished() && (ArcLight_now() < end));
 		return IsFinished();
 	}
 
 	uint32_t GetId() const { return id; }
-	uint64_t GetDeltaTime(const spring_time t) const { return (std::max(ts.load(), uint64_t(t.toNanoSecsi())) - ts); }
+	uint64_t GetDeltaTime(const ArcLight_time t) const { return (std::max(ts.load(), uint64_t(t.toNanoSecsi())) - ts); }
 
 	void UpdateId() { id = lastId.fetch_add(1); }
-	void SetTimeStamp(const spring_time t) { ts = t.toNanoSecsi(); }
+	void SetTimeStamp(const ArcLight_time t) { ts = t.toNanoSecsi(); }
 
 	void ResetState(bool queued, bool pooled, bool inuse) {
 		remainingTasks.store(0);

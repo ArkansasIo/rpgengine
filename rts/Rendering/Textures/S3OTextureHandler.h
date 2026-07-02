@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef S3O_TEXTURE_HANDLER_H
 #define S3O_TEXTURE_HANDLER_H
@@ -60,15 +60,15 @@ private:
 	unsigned int InsertTextureMat(const S3DModel* model);
 
 private:
-	typedef spring::unsynced_map<std::string, CachedS3OTex> TextureCache;
-	typedef spring::unsynced_map<std::string, CBitmap> BitmapCache;
-	typedef spring::unsynced_map<std::uint64_t, unsigned int> TextureTable;
+	typedef ArcLight::unsynced_map<std::string, CachedS3OTex> TextureCache;
+	typedef ArcLight::unsynced_map<std::string, CBitmap> BitmapCache;
+	typedef ArcLight::unsynced_map<std::uint64_t, unsigned int> TextureTable;
 
 	TextureCache textureCache; // stores individual primary- and secondary-textures by name
 	TextureTable textureTable; // stores (primary, secondary) texture-pairs by unique ident
 	BitmapCache bitmapCache;
 
-	spring::mutex cacheMutex;
+	ArcLight::mutex cacheMutex;
 
 	std::vector<S3OTexMat> textures;
 };

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "MouseHandler.h"
 
@@ -48,7 +48,7 @@
 #include <SDL_keycode.h>
 
 
-CONFIG(bool, HardwareCursor).defaultValue(false).description("Sets hardware mouse cursor rendering. If you have a low framerate, your mouse cursor will seem \"laggy\". Setting hardware cursor will render the mouse cursor separately from spring and the mouse will behave normally. Note, not all GPU drivers support it in fullscreen mode!");
+CONFIG(bool, HardwareCursor).defaultValue(false).description("Sets hardware mouse cursor rendering. If you have a low framerate, your mouse cursor will seem \"laggy\". Setting hardware cursor will render the mouse cursor separately from ArcLight and the mouse will behave normally. Note, not all GPU drivers support it in fullscreen mode!");
 CONFIG(bool, InvertMouse).defaultValue(false);
 CONFIG(bool, MouseRelativeModeWarp).defaultValue(true);
 
@@ -133,7 +133,7 @@ void CMouseHandler::InitStatic()
 
 void CMouseHandler::KillStatic()
 {
-	spring::SafeDelete(mouse);
+	ArcLight::SafeDelete(mouse);
 	IMouseInput::FreeInstance(mouseInput);
 }
 
@@ -216,7 +216,7 @@ void CMouseHandler::ReloadCursors()
 	if (defCursorIt == cursorCommandMap.end()) {
 		throw content_error(
 			"Unable to load default cursor. Check that you have the required\n"
-			"content packages installed in your Spring \"base/\" directory.\n");
+			"content packages installed in your ArcLight \"base/\" directory.\n");
 	}
 
 	activeCursorIdx = defCursorIt->second;

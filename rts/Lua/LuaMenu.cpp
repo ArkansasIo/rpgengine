@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "LuaMenu.h"
 
@@ -33,7 +33,7 @@ CLuaMenu* luaMenu = nullptr;
 /******************************************************************************/
 /******************************************************************************/
 
-static spring::mutex m_singleton;
+static ArcLight::mutex m_singleton;
 
 DECL_LOAD_HANDLER(CLuaMenu, luaMenu)
 DECL_FREE_HANDLER(CLuaMenu, luaMenu)
@@ -101,11 +101,11 @@ CLuaMenu::CLuaMenu()
 
 	AddBasicCalls(L); // into Global
 
-	// load the spring libraries
+	// load the ArcLight libraries
 	if (
-		!AddEntriesToTable(L, "Spring",    LoadUnsyncedCtrlFunctions)      ||
-		!AddEntriesToTable(L, "Spring",    LoadUnsyncedReadFunctions)      ||
-		!AddEntriesToTable(L, "Spring",    LoadLuaMenuFunctions)           ||
+		!AddEntriesToTable(L, "ArcLight",    LoadUnsyncedCtrlFunctions)      ||
+		!AddEntriesToTable(L, "ArcLight",    LoadUnsyncedReadFunctions)      ||
+		!AddEntriesToTable(L, "ArcLight",    LoadLuaMenuFunctions)           ||
 		!AddEntriesToTable(L, "Engine",    LuaConstEngine::PushEntries)    ||
 		!AddEntriesToTable(L, "Platform",  LuaConstPlatform::PushEntries)  ||
 		!AddEntriesToTable(L, "Script",    LuaScream::PushEntries)         ||
@@ -113,7 +113,7 @@ CLuaMenu::CLuaMenu()
 		!AddEntriesToTable(L, "VFS",       LuaZipFileReader::PushUnsynced) ||
 		!AddEntriesToTable(L, "VFS",       LuaZipFileWriter::PushUnsynced) ||
 		!AddEntriesToTable(L, "VFS",       LuaArchive::PushEntries)        ||
-		!AddEntriesToTable(L, "Spring",    LuaRender::PushEntries)         ||
+		!AddEntriesToTable(L, "ArcLight",    LuaRender::PushEntries)         ||
 		!AddEntriesToTable(L, "gl",        LuaOpenGL::PushEntries)         ||
 		!AddEntriesToTable(L, "GL",        LuaConstGL::PushEntries)        ||
 		!AddEntriesToTable(L, "LOG",       LuaUtils::PushLogEntries)       ||
@@ -146,7 +146,7 @@ CLuaMenu::~CLuaMenu()
 
 string CLuaMenu::LoadFile(const string& name) const
 {
-	CFileHandler f(name, SPRING_VFS_MENU SPRING_VFS_MOD SPRING_VFS_BASE);
+	CFileHandler f(name, ARCLIGHT_VFS_MENU ARCLIGHT_VFS_MOD ARCLIGHT_VFS_BASE);
 
 	string code;
 	if (!f.LoadStringData(code))
@@ -173,7 +173,7 @@ void CLuaMenu::InitLuaSocket(lua_State* L) {
 
 bool CLuaMenu::RemoveSomeOpenGLFunctions(lua_State* L)
 {
-	// remove some spring opengl functions that don't work preloading
+	// remove some ArcLight opengl functions that don't work preloading
 	lua_getglobal(L, "gl"); {
 		#define PUSHNIL(x) lua_pushliteral(L, #x); lua_pushnil(L); lua_rawset(L, -3)
 		PUSHNIL(DrawMiniMap);

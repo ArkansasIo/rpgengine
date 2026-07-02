@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef PLAYER_H
 #define PLAYER_H
@@ -66,7 +66,7 @@ public:
 	FPSUnitController fpsController;
 
 private:
-	spring::unordered_set<int> controlledTeams;
+	ArcLight::unordered_set<int> controlledTeams;
 };
 
 #endif /* PLAYER_H */

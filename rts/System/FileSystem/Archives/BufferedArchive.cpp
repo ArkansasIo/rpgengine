@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "BufferedArchive.h"
 #include "System/GlobalConfig.h"
@@ -7,7 +7,7 @@
 
 #include <cassert>
 
-spring::mutex CBufferedArchive::archiveLock;
+ArcLight::mutex CBufferedArchive::archiveLock;
 
 
 CBufferedArchive::~CBufferedArchive()
@@ -21,7 +21,7 @@ CBufferedArchive::~CBufferedArchive()
 
 bool CBufferedArchive::GetFile(unsigned int fid, std::vector<std::uint8_t>& buffer)
 {
-	std::lock_guard<spring::mutex> lck(archiveLock);
+	std::lock_guard<ArcLight::mutex> lck(archiveLock);
 	assert(IsFileId(fid));
 
 	int ret = 0;

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "ConfigVariable.h"
 #include "System/Log/ILog.h"
@@ -128,7 +128,7 @@ static std::ostream& operator<< (std::ostream& out, const ConfigVariableMetaData
  *
  * This can be tested using, for example:
  *
- *	./spring --list-config-vars |
+ *	./ArcLight --list-config-vars |
  *		python -c 'import json, sys; json.dump(json.load(sys.stdin), sys.stdout)'
  */
 void ConfigVariable::OutputMetaDataMap()

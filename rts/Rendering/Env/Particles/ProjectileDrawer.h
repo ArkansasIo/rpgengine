@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef PROJECTILE_DRAWER_HDR
 #define PROJECTILE_DRAWER_HDR
@@ -60,7 +60,7 @@ public:
 	Shader::IProgramObject* gfShader = nullptr;
 
 private:
-	static void ParseAtlasTextures(const bool, const LuaTable&, spring::unordered_set<std::string>&, CTextureAtlas*);
+	static void ParseAtlasTextures(const bool, const LuaTable&, ArcLight::unordered_set<std::string>&, CTextureAtlas*);
 
 	void DrawProjectilePass(Shader::IProgramObject*, bool, bool);
 	void DrawParticlePass(Shader::IProgramObject*, bool, bool);

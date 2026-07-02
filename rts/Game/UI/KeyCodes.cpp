@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <cctype>
 #include <SDL_keycode.h>
@@ -221,7 +221,7 @@ void CKeyCodes::Reset()
 	AddPair("ctrl",  SDLK_LCTRL);
 	AddPair("alt",   SDLK_LALT);
 	AddPair("meta",  SDLK_LGUI);
-	// these can not be used correctly anyway (without special support in other parts of Spring code...)
+	// these can not be used correctly anyway (without special support in other parts of ArcLight code...)
 	//AddPair("super", SDLK_LSUPER);    // Left "Windows" key
 	//AddPair("mode", SDLK_MODE);       // "Alt Gr" key
 	//AddPair("compose", SDLK_COMPOSE); // Multi-key compose key

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 
 #include "CobThread.h"
@@ -235,7 +235,7 @@ constexpr int ADD         = 0x10031000;
 constexpr int SUB         = 0x10032000;
 constexpr int MUL         = 0x10033000;
 constexpr int DIV         = 0x10034000;
-constexpr int MOD		  = 0x10034001; ///< spring specific
+constexpr int MOD		  = 0x10034001; ///< ArcLight specific
 constexpr int BITWISE_AND = 0x10035000;
 constexpr int BITWISE_OR  = 0x10036000;
 constexpr int BITWISE_XOR = 0x10037000;
@@ -261,8 +261,8 @@ constexpr int LOGICAL_NOT          = 0x1005A000;
 // Flow control
 constexpr int START           = 0x10061000;
 constexpr int CALL            = 0x10062000; ///< converted when executed
-constexpr int REAL_CALL       = 0x10062001; ///< spring custom
-constexpr int LUA_CALL        = 0x10062002; ///< spring custom
+constexpr int REAL_CALL       = 0x10062001; ///< ArcLight custom
+constexpr int LUA_CALL        = 0x10062002; ///< ArcLight custom
 constexpr int JUMP            = 0x10064000;
 constexpr int RETURN          = 0x10065000;
 constexpr int JUMP_NOT_EQUAL  = 0x10066000;

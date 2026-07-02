@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "System/Platform/CrashHandler.h"
 
@@ -160,16 +160,16 @@ static std::string CreateAbsolutePath(const std::string& relativePath)
  * 4. <bin-path>/<bin-file><bin-extension> (== input)
  * <debug-path> is system dependent; on debian it is: /usr/lib/debug
  * examples:
- * - "./spring"
- *   -> "/usr/games/spring"
- * - "./spring"
- *   -> "/usr/games/spring.dbg"
- * - "/usr/games/spring"
- *   -> "/usr/lib/debug/usr/games/spring"
- * - "/usr/games/spring-dedicated"
- *   -> "/usr/lib/debug/usr/games/spring-dedicated"
- * - "/usr/lib/spring/libunitsync.so"
- *   -> "/usr/lib/debug/usr/lib/spring/libunitsync.so"
+ * - "./ArcLight"
+ *   -> "/usr/games/ArcLight"
+ * - "./ArcLight"
+ *   -> "/usr/games/ArcLight.dbg"
+ * - "/usr/games/ArcLight"
+ *   -> "/usr/lib/debug/usr/games/ArcLight"
+ * - "/usr/games/ArcLight-dedicated"
+ *   -> "/usr/lib/debug/usr/games/ArcLight-dedicated"
+ * - "/usr/lib/ArcLight/libunitsync.so"
+ *   -> "/usr/lib/debug/usr/lib/ArcLight/libunitsync.so"
  * - "/usr/lib/AI/Interfaces/Java/0.1/libAIInterface.so"
  *   -> "/usr/lib/debug/usr/lib/AI/Interfaces/Java/0.1/libAIInterface.so"
  * - "/usr/lib/AI/Skirmish/RAI/0.601/libSkirmishAI.so"
@@ -362,7 +362,7 @@ static std::string ExtractPath(const std::string& line)
 {
 	// line examples:
 	//
-	// ./spring() [0x84b7b5]
+	// ./ArcLight() [0x84b7b5]
 	// /usr/lib/libc.so.6(+0x33b20) [0x7fc022c68b20]
 	// /usr/lib/libstdc++.so.6(_ZN9__gnu_cxx27__verbose_terminate_handlerEv+0x16d) [0x7fc023553fcd]
 
@@ -387,7 +387,7 @@ static uintptr_t ExtractAddr(const StackFrame& frame)
 {
 	// frame.symbol examples:
 	//
-	// ./spring() [0x84b7b5]
+	// ./ArcLight() [0x84b7b5]
 	// /usr/lib/libc.so.6(abort+0x16a) [0x7fc022c69e6a]
 	// /usr/lib/libstdc++.so.6(+0x5eea1) [0x7fc023551ea1]
 
@@ -530,7 +530,7 @@ static void TranslateStackTrace(StackTrace& stacktrace, const int logLevel)
 				}
 			}
 
-			// hide error output from spring's pipe
+			// hide error output from ArcLight's pipe
 			execCommandBuffer << " 2>/dev/null";
 
 			execCommandString = std::move(execCommandBuffer.str());
@@ -666,10 +666,10 @@ static void LogStacktrace(const int logLevel, StackTrace& stacktrace)
 static void ForcedExit(int secs)
 {
 	std::function<void()> func = [secs]() {
-		spring::this_thread::sleep_for(std::chrono::seconds(secs));
-		std::exit(spring::EXIT_CODE_KILLED);
+		ArcLight::this_thread::sleep_for(std::chrono::seconds(secs));
+		std::exit(ArcLight::EXIT_CODE_KILLED);
 	};
-	spring::thread thread{func};
+	ArcLight::thread thread{func};
 
 	assert(thread.joinable());
 	thread.detach();
@@ -782,9 +782,9 @@ namespace CrashHandler
 #endif
 
 		if (threadName != nullptr) {
-			LOG_I(logLevel, "Stacktrace (%s) for Spring %s:", threadName, (SpringVersion::GetFull()).c_str());
+			LOG_I(logLevel, "Stacktrace (%s) for ArcLight %s:", threadName, (ArcLightVersion::GetFull()).c_str());
 		} else {
-			LOG_I(logLevel, "Stacktrace for Spring %s:", (SpringVersion::GetFull()).c_str());
+			LOG_I(logLevel, "Stacktrace for ArcLight %s:", (ArcLightVersion::GetFull()).c_str());
 		}
 
 		StackTrace stacktrace;
@@ -846,7 +846,7 @@ namespace CrashHandler
 		assert(ctls->handle != 0);
 		assert(threadName[0] != 0);
 
-		LOG_L(L_WARNING, "Suspended-thread Stacktrace (%s) for Spring %s:", threadName, (SpringVersion::GetFull()).c_str());
+		LOG_L(L_WARNING, "Suspended-thread Stacktrace (%s) for ArcLight %s:", threadName, (ArcLightVersion::GetFull()).c_str());
 		LOG_L(L_DEBUG, "[%s][1]", __func__);
 
 		StackTrace stacktrace;
@@ -892,7 +892,7 @@ namespace CrashHandler
 	 */
     void HaltedStacktrace(siginfo_t* siginfo, ucontext_t* ucontext, const char* signame)
     {
-		LOG_L(L_ERROR, "Halted Stacktrace for Spring %s (%s) using libunwind:", (SpringVersion::GetFull()).c_str(), signame);
+		LOG_L(L_ERROR, "Halted Stacktrace for ArcLight %s (%s) using libunwind:", (ArcLightVersion::GetFull()).c_str(), signame);
 
 		assert(siginfo != nullptr);
 		assert(ucontext != nullptr);
@@ -988,7 +988,7 @@ namespace CrashHandler
 			default     : {                      } break;
 		}
 
-		LOG_L(L_ERROR, "%s in Spring %s", signame, (SpringVersion::GetFull()).c_str());
+		LOG_L(L_ERROR, "%s in ArcLight %s", signame, (ArcLightVersion::GetFull()).c_str());
 
 		// print stacktrace
 		PrepareStacktrace();
@@ -999,14 +999,14 @@ namespace CrashHandler
 			char buf[8192];
 			char* ptr = buf;
 
-			ptr += snprintf(buf, sizeof(buf) - (ptr - buf), "%s", "Spring has crashed:\n");
+			ptr += snprintf(buf, sizeof(buf) - (ptr - buf), "%s", "ArcLight has crashed:\n");
 			ptr += snprintf(buf, sizeof(buf) - (ptr - buf), "%s.\n\n", "A stacktrace has been written to:\n");
 			ptr += snprintf(buf, sizeof(buf) - (ptr - buf), "%s.\n\n", (logOutput.GetFilePath()).c_str());
 
 			// fatal signal, try to clean up
 			Remove();
 			// exit if we cought a critical signal; don't handle any further signals when exiting
-			ErrorMessageBox(buf, "Spring crashed", MBF_OK | MBF_CRASH);
+			ErrorMessageBox(buf, "ArcLight crashed", MBF_OK | MBF_CRASH);
 		} else {
 			logSinkHandler.SetSinking(true);
 		}
@@ -1030,7 +1030,7 @@ namespace CrashHandler
 		LOG_L(L_ERROR, "Failed to allocate memory"); // make sure this ends up in the log also
 
 		OutputStacktrace();
-		ErrorMessageBox("Failed to allocate memory", "Spring: Fatal Error", MBF_OK | MBF_CRASH);
+		ErrorMessageBox("Failed to allocate memory", "ArcLight: Fatal Error", MBF_OK | MBF_CRASH);
 	}
 
 

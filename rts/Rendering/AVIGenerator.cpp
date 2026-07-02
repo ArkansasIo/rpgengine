@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #if       defined AVI_CAPTURING
 #include "AVIGenerator.h"
@@ -115,12 +115,12 @@ CAVIGenerator::~CAVIGenerator()
 {
 	if (AVIThread) {
 		{
-			std::lock_guard<spring::mutex> lock(AVIMutex);
+			std::lock_guard<ArcLight::mutex> lock(AVIMutex);
 			quitAVIgen = true;
 			AVICondition.notify_all();
 		}
 		AVIThread->join();
-		spring::SafeDelete(AVIThread);
+		ArcLight::SafeDelete(AVIThread);
 	}
 
 	while (!freeImageBuffers.empty()) {
@@ -132,7 +132,7 @@ CAVIGenerator::~CAVIGenerator()
 		imageBuffers.pop_front();
 	}
 
-	spring::SafeDelete(readBuf);
+	ArcLight::SafeDelete(readBuf);
 	ReleaseAVICompressionEngine();
 	LOG("Finished writing avi file %s", fileName.c_str());
 
@@ -215,7 +215,7 @@ HRESULT CAVIGenerator::InitAVICompressionEngine()
 	strHdr.dwRate                 = videoFPS;			// fps
 	strHdr.dwSuggestedBufferSize  = bitmapInfo.biSizeImage;	// Recommended buffer size, in bytes, for the stream.
 	SetRect(&strHdr.rcFrame, 0, 0, bitmapInfo.biWidth, bitmapInfo.biHeight);
-	strcpy(strHdr.szName, "Spring video.");
+	strcpy(strHdr.szName, "ArcLight video.");
 
 
 	memset(&opts, 0, sizeof(AVICOMPRESSOPTIONS));
@@ -328,13 +328,13 @@ bool CAVIGenerator::InitEngine()
 		freeImageBuffers.push_back(new unsigned char[bitmapInfo.biSizeImage]);
 	}
 
-	HWND mainWindow = FindWindow(nullptr, ("Spring " + SpringVersion::GetFull()).c_str());
+	HWND mainWindow = FindWindow(nullptr, ("ArcLight " + ArcLightVersion::GetFull()).c_str());
 
 	if (globalRendering->fullScreen)
 		ShowWindow(mainWindow, SW_SHOWMINNOACTIVE);
 
-	std::unique_lock<spring::mutex> lock(AVIMutex);
-	AVIThread = new spring::thread(std::bind(&CAVIGenerator::AVIGeneratorThreadProc, this));
+	std::unique_lock<ArcLight::mutex> lock(AVIMutex);
+	AVIThread = new ArcLight::thread(std::bind(&CAVIGenerator::AVIGeneratorThreadProc, this));
 	AVICondition.wait(lock);  // Wait until InitAVICompressionEngine() completes.
 
 	if (globalRendering->fullScreen)
@@ -366,7 +366,7 @@ HRESULT CAVIGenerator::AddFrame(unsigned char* pixelData)
 bool CAVIGenerator::readOpenglPixelDataThreaded()
 {
 	while (true) {
-		std::unique_lock<spring::mutex> lock(AVIMutex);
+		std::unique_lock<ArcLight::mutex> lock(AVIMutex);
 
 		if (quitAVIgen)
 			return false;
@@ -407,7 +407,7 @@ void CAVIGenerator::AVIGeneratorThreadProc()
 
 	while (true) {
 		{
-			std::unique_lock<spring::mutex> lock(AVIMutex);
+			std::unique_lock<ArcLight::mutex> lock(AVIMutex);
 			if (encoderError) {
 				LOG_L(L_ERROR, "The avi generator terminated unexpectedly!");
 				quitAVIgen = true;

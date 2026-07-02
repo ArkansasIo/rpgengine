@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef IMODELPARSER_H
 #define IMODELPARSER_H
@@ -35,8 +35,8 @@ public:
 	void LogErrors();
 
 public:
-	typedef spring::unordered_map<std::string, unsigned int> ModelMap; // "armflash.3do" --> id
-	typedef spring::unordered_map<std::string, unsigned int> FormatMap; // "3do" --> MODELTYPE_3DO
+	typedef ArcLight::unordered_map<std::string, unsigned int> ModelMap; // "armflash.3do" --> id
+	typedef ArcLight::unordered_map<std::string, unsigned int> FormatMap; // "3do" --> MODELTYPE_3DO
 	typedef std::array<IModelParser*, MODELTYPE_OTHER> ParserMap; // MODELTYPE_3DO --> parser
 
 private:
@@ -57,7 +57,7 @@ private:
 	FormatMap formats;
 	ParserMap parsers;
 
-	spring::mutex mutex;
+	ArcLight::mutex mutex;
 
 	std::vector<S3DModel> models;
 	std::vector< std::pair<std::string, std::string> > errors;

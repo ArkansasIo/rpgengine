@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "System/Matrix44f.h"
 #include "System/SpringMath.h"
@@ -567,7 +567,7 @@ CMatrix44f CMatrix44f::Invert(bool* status) const
 //
 // NOTE:
 //   this assumes a RIGHT-handed coordinate system, but
-//   in Spring all SolidObjects use LEFT-handed systems
+//   in ArcLight all SolidObjects use LEFT-handed systems
 //   instead
 //
 //   therefore (if called on an object's transform matrix)

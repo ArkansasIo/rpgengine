@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <cstring>
 
@@ -183,10 +183,10 @@ void CCamera::UpdateMatrices(unsigned int vsx, unsigned int vsy, float var)
 	// recalculate the projection transform
 	switch (projType) {
 		case PROJTYPE_PERSP: {
-			gluPerspectiveSpring(var, frustum.scales.z, frustum.scales.w);
+			gluPerspectiveArcLight(var, frustum.scales.z, frustum.scales.w);
 		} break;
 		case PROJTYPE_ORTHO: {
-			glOrthoScaledSpring(vsx, vsy, frustum.scales.z, frustum.scales.w);
+			glOrthoScaledArcLight(vsx, vsy, frustum.scales.z, frustum.scales.w);
 		} break;
 		default: {
 			assert(false);
@@ -202,7 +202,7 @@ void CCamera::UpdateMatrices(unsigned int vsx, unsigned int vsy, float var)
 	const float3 center = camPos + fShake;
 
 	// recalculate the view transform
-	gluLookAtSpring(camPos, center, up);
+	gluLookAtArcLight(camPos, center, up);
 
 
 	// create extra matrices (useful for shaders)
@@ -505,7 +505,7 @@ float3 CCamera::CalcWindowCoordinates(const float3& objPos) const
 }
 
 
-inline void CCamera::gluPerspectiveSpring(float aspect, float zn, float zf) {
+inline void CCamera::gluPerspectiveArcLight(float aspect, float zn, float zf) {
 	const float t = zn * tanHalfFov;
 	const float b = -t;
 	const float l = b * aspect;
@@ -516,7 +516,7 @@ inline void CCamera::gluPerspectiveSpring(float aspect, float zn, float zf) {
 
 
 // same as glOrtho(-1, 1, -1, 1, zn, zf) plus glScale(sx, sy, 1)
-inline void CCamera::glOrthoScaledSpring(
+inline void CCamera::glOrthoScaledArcLight(
 	const float sx,
 	const float sy,
 	const float zn,
@@ -531,7 +531,7 @@ inline void CCamera::glOrthoScaledSpring(
 }
 
 
-inline void CCamera::gluLookAtSpring(const float3& eye, const float3& center, const float3& up)
+inline void CCamera::gluLookAtArcLight(const float3& eye, const float3& center, const float3& up)
 {
 	const float3 f = (center - eye).ANormalize();
 	const float3 s = f.cross(up);

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 
 #include "KeySet.h"
@@ -164,10 +164,10 @@ bool CKeySet::Parse(const std::string& token, bool showerror)
 // CTimedKeyChain
 //
 
-void CTimedKeyChain::push_back(const int key, const spring_time t, const bool isRepeat)
+void CTimedKeyChain::push_back(const int key, const ArcLight_time t, const bool isRepeat)
 {
 	// clear chain on timeout
-	const auto dropTime = t - spring_msecs(keyBindings.GetKeyChainTimeout());
+	const auto dropTime = t - ArcLight_msecs(keyBindings.GetKeyChainTimeout());
 
 	if (!empty() && times.back() < dropTime)
 		clear();

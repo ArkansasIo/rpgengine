@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <cassert>
 
@@ -99,7 +99,7 @@ void AMoveType::KeepPointingTo(CUnit* unit, float distance, bool aggressive)
 
 float AMoveType::CalcStaticTurnRadius() const {
 	// calculate a rough turn radius (not based on current speed)
-	const float turnFrames = SPRING_CIRCLE_DIVS / std::max(owner->unitDef->turnRate, 1.0f);
+	const float turnFrames = ARCLIGHT_CIRCLE_DIVS / std::max(owner->unitDef->turnRate, 1.0f);
 	const float turnRadius = (maxSpeedDef * turnFrames) / math::TWOPI;
 
 	return turnRadius;

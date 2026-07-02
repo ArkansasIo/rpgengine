@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "LuaMenuController.h"
 
@@ -13,14 +13,14 @@
 #include "System/SafeUtil.h"
 #include "System/Log/ILog.h"
 
-CONFIG(std::string, DefaultLuaMenu).defaultValue("").description("Sets the default menu to be used when spring is started.");
+CONFIG(std::string, DefaultLuaMenu).defaultValue("").description("Sets the default menu to be used when ArcLight is started.");
 
 CLuaMenuController* luaMenuController = nullptr;
 
 
 CLuaMenuController::CLuaMenuController(const std::string& menuName)
 	: menuArchive(menuName)
-	, lastDrawFrameTime(spring_gettime())
+	, lastDrawFrameTime(ArcLight_gettime())
 {
 	if (!Valid())
 		menuArchive = configHandler->GetString("DefaultLuaMenu");
@@ -105,7 +105,7 @@ bool CLuaMenuController::Draw()
 
 	// render if global rendering active + luamenu allows it, and at least once per 30s
 	const bool allowDraw = (globalRendering->active && luaMenu->AllowDraw());
-	const bool forceDraw = ((spring_gettime() - lastDrawFrameTime).toSecsi() > 30);
+	const bool forceDraw = ((ArcLight_gettime() - lastDrawFrameTime).toSecsi() > 30);
 
 	if (allowDraw || forceDraw) {
 		ClearScreen();
@@ -115,11 +115,11 @@ bool CLuaMenuController::Draw()
 		mouse->DrawCursor();
 		eventHandler.DrawScreenPost();
 
-		lastDrawFrameTime = spring_gettime();
+		lastDrawFrameTime = ArcLight_gettime();
 		return true;
 	}
 
-	spring_msecs(10).sleep(true); // no draw needed, sleep a bit
+	ArcLight_msecs(10).sleep(true); // no draw needed, sleep a bit
 	return false;
 }
 

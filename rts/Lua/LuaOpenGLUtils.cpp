@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <cctype>
 
@@ -35,7 +35,7 @@
 
 
 // for "$info:los", etc
-static spring::unsynced_map<size_t, LuaMatTexture> luaMatTextures;
+static ArcLight::unsynced_map<size_t, LuaMatTexture> luaMatTextures;
 
 /******************************************************************************/
 /******************************************************************************/

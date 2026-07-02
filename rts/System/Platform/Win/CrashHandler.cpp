@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <windows.h>
 #include <process.h>
@@ -73,7 +73,7 @@ static const char* addrFmts[2] = {
 	"\t(%d) %s [0x%08lX]"
 };
 static const char* errFmt =
-	"Spring has crashed:\n  %s.\n\n"
+	"ArcLight has crashed:\n  %s.\n\n"
 	"A stacktrace has been written to:\n  %s";
 
 static FILE* logFile = nullptr;
@@ -191,9 +191,9 @@ inline static void StacktraceInline(const char* threadName, LPEXCEPTION_POINTERS
 
 	// NOTE: this line is parsed by the stacktrans script
 	if (threadName != nullptr) {
-		LOG_RAW_LINE(logLevel, "Stacktrace (%s) for Spring %s:", threadName, (SpringVersion::GetFull()).c_str());
+		LOG_RAW_LINE(logLevel, "Stacktrace (%s) for ArcLight %s:", threadName, (ArcLightVersion::GetFull()).c_str());
 	} else {
-		LOG_RAW_LINE(logLevel, "Stacktrace for Spring %s:", (SpringVersion::GetFull()).c_str());
+		LOG_RAW_LINE(logLevel, "Stacktrace for ArcLight %s:", (ArcLightVersion::GetFull()).c_str());
 	}
 
 	if (e != nullptr) {
@@ -423,7 +423,7 @@ void CleanupStacktrace(const int logLevel) {
 }
 
 void OutputStacktrace() {
-	LOG_RAW_LINE(LOG_LEVEL_ERROR, "Error handler invoked for Spring %s.", (SpringVersion::GetFull()).c_str());
+	LOG_RAW_LINE(LOG_LEVEL_ERROR, "Error handler invoked for ArcLight %s.", (ArcLightVersion::GetFull()).c_str());
 
 	PrepareStacktrace();
 	Stacktrace(nullptr, nullptr, INVALID_HANDLE_VALUE, LOG_LEVEL_ERROR);
@@ -437,15 +437,15 @@ void NewHandler() {
 	LOG_RAW_LINE(LOG_LEVEL_ERROR, "Failed to allocate memory"); // make sure this ends up in the log also
 
 	OutputStacktrace();
-	ErrorMessageBox("Failed to allocate memory", "Spring: Fatal Error", MBF_OK | MBF_CRASH);
+	ErrorMessageBox("Failed to allocate memory", "ArcLight: Fatal Error", MBF_OK | MBF_CRASH);
 }
 
 static void SigAbrtHandler(int signal)
 {
-	LOG_RAW_LINE(LOG_LEVEL_ERROR, "Spring received an ABORT signal");
+	LOG_RAW_LINE(LOG_LEVEL_ERROR, "ArcLight received an ABORT signal");
 
 	OutputStacktrace();
-	ErrorMessageBox("Abort / abnormal termination", "Spring: Fatal Error", MBF_OK | MBF_CRASH);
+	ErrorMessageBox("Abort / abnormal termination", "ArcLight: Fatal Error", MBF_OK | MBF_CRASH);
 }
 
 
@@ -456,7 +456,7 @@ LONG CALLBACK ExceptionHandler(LPEXCEPTION_POINTERS e)
 {
 	// prologue; disable registered sinks (info-console, ...)
 	logSinkHandler.SetSinking(false);
-	LOG_RAW_LINE(LOG_LEVEL_ERROR, "Spring %s has crashed.", (SpringVersion::GetFull()).c_str());
+	LOG_RAW_LINE(LOG_LEVEL_ERROR, "ArcLight %s has crashed.", (ArcLightVersion::GetFull()).c_str());
 	PrepareStacktrace();
 
 	const char* errStr = ExceptionName(e->ExceptionRecord->ExceptionCode);
@@ -475,7 +475,7 @@ LONG CALLBACK ExceptionHandler(LPEXCEPTION_POINTERS e)
 
 	// inform user about the exception
 	SNPRINTF(errBuf, sizeof(errBuf), errFmt, errStr, (logOutput.GetFilePath()).c_str());
-	ErrorMessageBox(errBuf, "Spring: Unhandled exception", MBF_OK | MBF_CRASH); //calls exit()!
+	ErrorMessageBox(errBuf, "ArcLight: Unhandled exception", MBF_OK | MBF_CRASH); //calls exit()!
 
 	// this seems to silently close the application
 	return EXCEPTION_EXECUTE_HANDLER;

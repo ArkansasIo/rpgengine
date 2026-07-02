@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _UDP_LISTENER_H
 #define _UDP_LISTENER_H
@@ -21,7 +21,7 @@ class UDPConnection;
  * You can Listen for new connections, initiate new ones and send/recieve data
  * to/from them.
  */
-class UDPListener : spring::noncopyable
+class UDPListener : ArcLight::noncopyable
 {
 public:
 	/**

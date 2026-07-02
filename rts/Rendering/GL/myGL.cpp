@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <cmath>
 
@@ -183,7 +183,7 @@ bool ShowDriverWarning(const char* glVendor, const char* glRenderer)
 
 	if (StrCaseStr(glVendor, "vmware") != nullptr) {
 		const char* msg =
-			"Running Spring with virtualized drivers can result in severely degraded "
+			"Running ArcLight with virtualized drivers can result in severely degraded "
 			"performance and is discouraged. Prefer to use your host operating system.";
 
 		LOG_L(L_WARNING, "%s", msg);
@@ -227,7 +227,7 @@ void glSaveTexture(const GLuint textureID, const char* filename)
 }
 
 
-void glSpringBindTextures(GLuint first, GLsizei count, const GLuint* textures)
+void glArcLightBindTextures(GLuint first, GLsizei count, const GLuint* textures)
 {
 #ifdef GLEW_ARB_multi_bind
 	if (GLEW_ARB_multi_bind) {
@@ -246,7 +246,7 @@ void glSpringBindTextures(GLuint first, GLsizei count, const GLuint* textures)
 }
 
 
-void glSpringTexStorage2D(const GLenum target, GLint levels, const GLint internalFormat, const GLsizei width, const GLsizei height)
+void glArcLightTexStorage2D(const GLenum target, GLint levels, const GLint internalFormat, const GLsizei width, const GLsizei height)
 {
 #ifdef GLEW_ARB_texture_storage
 	if (levels < 0)

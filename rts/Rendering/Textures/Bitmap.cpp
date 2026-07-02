@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <algorithm>
 #include <utility>
@@ -45,7 +45,7 @@ private:
 	std::vector<FreePair> freeList;
 
 	// libIL is not thread-safe, neither are {Alloc,Free}
-	spring::mutex bmpMutex;
+	ArcLight::mutex bmpMutex;
 
 	size_t numAllocs = 0;
 	size_t allocSize = 0;
@@ -56,7 +56,7 @@ public:
 	void GrabLock() { bmpMutex.lock(); }
 	void FreeLock() { bmpMutex.unlock(); }
 
-	spring::mutex& GetMutex() { return bmpMutex; }
+	ArcLight::mutex& GetMutex() { return bmpMutex; }
 
 	size_t Size() const { return (memArray.size()); }
 	size_t AllocIdx(size_t size) { return (Alloc(size) - Base()); }
@@ -64,7 +64,7 @@ public:
 
 	uint8_t* Base() { return (memArray.data()); }
 	uint8_t* Alloc(size_t size) {
-		std::lock_guard<spring::mutex> lck(bmpMutex);
+		std::lock_guard<ArcLight::mutex> lck(bmpMutex);
 		return (AllocRaw(size));
 	}
 
@@ -127,7 +127,7 @@ public:
 
 
 	void Free(uint8_t* mem, size_t size) {
-		std::lock_guard<spring::mutex> lck(bmpMutex);
+		std::lock_guard<ArcLight::mutex> lck(bmpMutex);
 		FreeRaw(mem, size);
 	}
 
@@ -180,7 +180,7 @@ public:
 		freeSize  = 0;
 	}
 	void Resize(size_t size) {
-		std::lock_guard<spring::mutex> lck(bmpMutex);
+		std::lock_guard<ArcLight::mutex> lck(bmpMutex);
 
 		if (memArray.empty()) {
 			freeList.reserve(32);
@@ -202,7 +202,7 @@ public:
 		if (freeList.empty())
 			return false;
 
-		std::lock_guard<spring::mutex> lck(bmpMutex);
+		std::lock_guard<ArcLight::mutex> lck(bmpMutex);
 		return (DefragRaw());
 	}
 
@@ -480,7 +480,7 @@ bool CBitmap::Load(const std::string& filename, uint8_t defaultAlpha)
 
 
 	{
-		std::lock_guard<spring::mutex> lck(texMemPool.GetMutex());
+		std::lock_guard<ArcLight::mutex> lck(texMemPool.GetMutex());
 
 		// do not preserve the image origin since IL does not
 		// vertically flip DDS images by default, unlike nv_dds
@@ -570,7 +570,7 @@ bool CBitmap::LoadGrayscale(const std::string& filename)
 	}
 
 	{
-		std::lock_guard<spring::mutex> lck(texMemPool.GetMutex());
+		std::lock_guard<ArcLight::mutex> lck(texMemPool.GetMutex());
 
 		ilOriginFunc(IL_ORIGIN_UPPER_LEFT);
 		ilEnable(IL_ORIGIN_SET);
@@ -618,7 +618,7 @@ bool CBitmap::Save(const std::string& filename, bool opaque, bool logged) const
 		return false;
 
 
-	std::lock_guard<spring::mutex> lck(texMemPool.GetMutex());
+	std::lock_guard<ArcLight::mutex> lck(texMemPool.GetMutex());
 
 	const uint8_t* mem = GetRawMem();
 	      uint8_t* buf = texMemPool.AllocRaw(xsize * ysize * 4);
@@ -754,7 +754,7 @@ bool CBitmap::SaveFloat(const std::string& filename) const
 	if (GetMemSize() == 0 || channels != 4)
 		return false;
 
-	std::lock_guard<spring::mutex> lck(texMemPool.GetMutex());
+	std::lock_guard<ArcLight::mutex> lck(texMemPool.GetMutex());
 
 	// seems IL_ORIGIN_SET only works in ilLoad and not in ilTexImage nor in ilSaveImage
 	// so we need to flip the image ourselves

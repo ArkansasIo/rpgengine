@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "InfoConsole.h"
 #include "GuiHandler.h"
@@ -27,7 +27,7 @@ void CInfoConsole::InitStatic() {
 
 void CInfoConsole::KillStatic() {
 	assert(infoConsole != nullptr);
-	spring::SafeDestruct(infoConsole);
+	ArcLight::SafeDestruct(infoConsole);
 	std::memset(infoConsoleMem, 0, sizeof(infoConsoleMem));
 }
 
@@ -131,7 +131,7 @@ void CInfoConsole::Update()
 		return;
 
 	// pop old messages after timeout
-	if (infoLines[0].timeout <= spring_gettime())
+	if (infoLines[0].timeout <= ArcLight_gettime())
 		infoLines.pop_front();
 
 	if (smallFont == nullptr)
@@ -219,7 +219,7 @@ void CInfoConsole::RecordLogMessage(int level, const std::string& section, const
 
 		InfoLine& l = infoLines.back();
 		l.text    = std::move(splitLine);
-		l.timeout = spring_gettime() + spring_secs(lifetime);
+		l.timeout = ArcLight_gettime() + ArcLight_secs(lifetime);
 	}
 }
 

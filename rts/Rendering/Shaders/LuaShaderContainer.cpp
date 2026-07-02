@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "LuaShaderContainer.h"
 #include "Lua/LuaParser.h"
@@ -152,11 +152,11 @@ bool LoadFromLua(Shader::IProgramObject* program, const std::string& filename)
 	// lua only supports glsl shaders
 	assert(dynamic_cast<Shader::GLSLProgramObject*>(program) != nullptr);
 
-	LuaParser p(filename, SPRING_VFS_RAW_FIRST, SPRING_VFS_MOD_BASE);
+	LuaParser p(filename, ARCLIGHT_VFS_RAW_FIRST, ARCLIGHT_VFS_MOD_BASE);
 	p.SetLowerKeys(false);
 	p.SetLowerCppKeys(false);
 
-	p.GetTable("Spring");
+	p.GetTable("ArcLight");
 	p.AddFunc("GetConfigInt",     LuaUnsyncedRead::GetConfigInt);
 	p.AddFunc("GetConfigFloat",   LuaUnsyncedRead::GetConfigFloat);
 	p.AddFunc("GetConfigString",  LuaUnsyncedRead::GetConfigString);

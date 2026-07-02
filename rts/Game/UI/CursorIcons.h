@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef CURSORICONS_H
 #define CURSORICONS_H
@@ -153,7 +153,7 @@ protected:
 	std::vector<IconText> texts;
 	std::vector<BuildIcon> buildIcons;
 
-	spring::unsynced_map<int, std::string> customTypes;
+	ArcLight::unsynced_map<int, std::string> customTypes;
 };
 
 

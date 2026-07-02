@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifdef THREADPOOL
 
@@ -57,7 +57,7 @@ struct ThreadStats {
 
 
 // external background threads which are only joined on exit
-static std::vector< spring::thread > extThreads;
+static std::vector< ArcLight::thread > extThreads;
 static std::vector< std::future<void> > extFutures;
 
 // global [idx = 0] and smaller per-thread [idx > 0] queues; the latter are
@@ -72,7 +72,7 @@ static std::array<moodycamel::ConcurrentQueue<ITaskGroup*>, ThreadPool::MAX_THRE
 static std::vector<void*> workerThreads[2];
 static std::array<bool, ThreadPool::MAX_THREADS> exitFlags;
 static std::array<ThreadStats, ThreadPool::MAX_THREADS> threadStats[2];
-static spring::signal newTasksSignal[2];
+static ArcLight::signal newTasksSignal[2];
 
 static _threadlocal int threadnum(0);
 
@@ -166,7 +166,7 @@ static bool DoTask(int tid, bool async)
 			assert(!async || tg->IsAsyncTask());
 
 			#ifdef USE_TASK_STATS_TRACKING
-			const uint64_t wdt = tg->GetDeltaTime(spring_now());
+			const uint64_t wdt = tg->GetDeltaTime(ArcLight_now());
 			const uint64_t edt = tg->ExecuteLoop(tid, false);
 
 			threadStats[async][tid].numTasksRun += 1;
@@ -189,7 +189,7 @@ static bool DoTask(int tid, bool async)
 			assert(!async || tg->IsAsyncTask());
 
 			#ifdef USE_TASK_STATS_TRACKING
-			const uint64_t wdt = tg->GetDeltaTime(spring_now());
+			const uint64_t wdt = tg->GetDeltaTime(ArcLight_now());
 			const uint64_t edt = tg->ExecuteLoop(tid, false);
 
 			threadStats[async][tid].numTasksRun += 1;
@@ -224,15 +224,15 @@ static void WorkerLoop(int tid, bool async)
 	// is inserted, which can then take over the job of waking up sleeping workers
 	// (see NotifyWorkerThreads)
 	// NOTE: the spin-time has to be *short* to avoid biasing thread 1's workload
-	const auto ourSpinTime = spring_time::fromMicroSecs(30 * (tid == 1));
-	const auto maxSleepTime = spring_time::fromMilliSecs(30);
+	const auto ourSpinTime = ArcLight_time::fromMicroSecs(30 * (tid == 1));
+	const auto maxSleepTime = ArcLight_time::fromMilliSecs(30);
 
 	while (!exitFlags[tid]) {
-		const auto spinlockEnd = spring_now() + ourSpinTime;
-		      auto sleepTime   = spring_time::fromMicroSecs(1);
+		const auto spinlockEnd = ArcLight_now() + ourSpinTime;
+		      auto sleepTime   = ArcLight_time::fromMicroSecs(1);
 
 		while (!DoTask(tid, async) && !exitFlags[tid]) {
-			if (spring_now() < spinlockEnd)
+			if (ArcLight_now() < spinlockEnd)
 				continue;
 
 			newTasksSignal[async].wait_for(sleepTime = std::min(sleepTime * 1.25f, maxSleepTime));
@@ -279,10 +279,10 @@ void WaitForFinished(std::shared_ptr<ITaskGroup>&& taskGroup)
 	NotifyWorkerThreads(true, false);
 
 	do {
-		const auto spinlockEnd = spring_now() + spring_time::fromMilliSecs(500);
+		const auto spinlockEnd = ArcLight_now() + ArcLight_time::fromMilliSecs(500);
 
 		while (!DoTask(tid, false) && !taskGroup->IsFinished() && !exitFlags[tid]) {
-			if (spring_now() < spinlockEnd)
+			if (ArcLight_now() < spinlockEnd)
 				continue;
 
 			// avoid a hang if the task is still not finished
@@ -315,7 +315,7 @@ void PushTaskGroup(ITaskGroup* taskGroup)
 		return;
 	#endif
 
-	taskGroup->SetTimeStamp(spring_now());
+	taskGroup->SetTimeStamp(ArcLight_now());
 
 	#ifdef USE_BOOST_LOCKFREE_QUEUE
 	while (!queue.push(taskGroup));
@@ -372,8 +372,8 @@ static void SpawnThreads(int wantedNumThreads, int curNumThreads)
 		for (int i = curNumThreads; i < wantedNumThreads; ++i) {
 			exitFlags[i] = false;
 
-			workerThreads[false].push_back(new spring::thread(std::bind(&WorkerLoop, i, false)));
-			workerThreads[ true].push_back(new spring::thread(std::bind(&WorkerLoop, i,  true)));
+			workerThreads[false].push_back(new ArcLight::thread(std::bind(&WorkerLoop, i, false)));
+			workerThreads[ true].push_back(new ArcLight::thread(std::bind(&WorkerLoop, i,  true)));
 		}
 	}
 }
@@ -397,8 +397,8 @@ static void KillThreads(int wantedNumThreads, int curNumThreads)
 		} else
 	#endif
 		{
-			{ auto th = reinterpret_cast<spring::thread*>(workerThreads[false].back()); th->join(); delete th; }
-			{ auto th = reinterpret_cast<spring::thread*>(workerThreads[ true].back()); th->join(); delete th; }
+			{ auto th = reinterpret_cast<ArcLight::thread*>(workerThreads[false].back()); th->join(); delete th; }
+			{ auto th = reinterpret_cast<ArcLight::thread*>(workerThreads[ true].back()); th->join(); delete th; }
 		}
 
 		workerThreads[false].pop_back();
@@ -632,7 +632,7 @@ void SetDefaultThreadCount()
 
 
 
-void AddExtJob(spring::thread&& t) {
+void AddExtJob(ArcLight::thread&& t) {
 	for (auto& et: extThreads) {
 		if (et.joinable())
 			continue;

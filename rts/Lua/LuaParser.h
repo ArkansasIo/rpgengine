@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef LUA_PARSER_H
 #define LUA_PARSER_H
@@ -49,10 +49,10 @@ public:
 	bool GetPairs(std::vector<std::pair<std::string, float>>& data) const;
 	bool GetPairs(std::vector<std::pair<std::string, std::string>>& data) const;
 
-	bool GetMap(spring::unordered_map<int, float>& data) const;
-	bool GetMap(spring::unordered_map<int, std::string>& data) const;
-	bool GetMap(spring::unordered_map<std::string, float>& data) const;
-	bool GetMap(spring::unordered_map<std::string, std::string>& data) const;
+	bool GetMap(ArcLight::unordered_map<int, float>& data) const;
+	bool GetMap(ArcLight::unordered_map<int, std::string>& data) const;
+	bool GetMap(ArcLight::unordered_map<std::string, float>& data) const;
+	bool GetMap(ArcLight::unordered_map<std::string, std::string>& data) const;
 
 	bool KeyExists(int key) const;
 	bool KeyExists(const std::string& key) const;
@@ -196,7 +196,7 @@ private:
 	// Weird call-outs
 	static int DontMessWithMyCase(lua_State* L);
 
-	// Spring call-outs
+	// ArcLight call-outs
 	static int RandomSeed(lua_State* L);
 	static int Random(lua_State* L);
 	static int DummyRandomSeed(lua_State* L);

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef AI_LEGACY_SUPPORT_H
 #define AI_LEGACY_SUPPORT_H
@@ -34,7 +34,7 @@
 
 
 #ifdef    BUILDING_AI
-namespace springLegacyAI {
+namespace ArcLightLegacyAI {
 #endif // BUILDING_AI
 
 struct UnitDef;
@@ -195,7 +195,7 @@ struct AIHCDebugDraw
 };
 
 #ifdef    BUILDING_AI
-} // namespace springLegacyAI
+} // namespace ArcLightLegacyAI
 #endif // BUILDING_AI
 
 #endif // AI_LEGACY_SUPPORT_H

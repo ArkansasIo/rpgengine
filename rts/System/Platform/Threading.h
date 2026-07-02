@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _THREADING_H_
 #define _THREADING_H_
@@ -61,14 +61,14 @@ namespace Threading {
 
 
 	/**
-	 * Creates a new spring::thread whose entry function is wrapped by some boilerplate code that allows for suspend/resume.
+	 * Creates a new ArcLight::thread whose entry function is wrapped by some boilerplate code that allows for suspend/resume.
 	 * These suspend/resume controls are exposed via the ThreadControls object that is provided by the caller and initialized by the thread.
 	 * The thread is guaranteed to be in a running and initialized state when this function returns.
 	 *
 	 * The threadCtls object is an optional return parameter that gives access to the Suspend/Resume controls under Linux.
 	 *
 	 */
-	spring::thread CreateNewThread(std::function<void()> taskFunc, std::shared_ptr<Threading::ThreadControls>* threadCtls = nullptr);
+	ArcLight::thread CreateNewThread(std::function<void()> taskFunc, std::shared_ptr<Threading::ThreadControls>* threadCtls = nullptr);
 
 	/**
 	 * Retrieves a shared pointer to the current ThreadControls for the calling thread.
@@ -93,8 +93,8 @@ namespace Threading {
 		NativeThreadHandle      handle;
 		std::atomic<bool>       running;
 	#ifndef _WIN32
-		spring::mutex            mutSuspend;
-		spring::condition_variable condInitialized;
+		ArcLight::mutex            mutSuspend;
+		ArcLight::condition_variable condInitialized;
 		ucontext_t              ucontext;
 		pid_t                   thread_id;
 	#endif

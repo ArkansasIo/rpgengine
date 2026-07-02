@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <SDL.h>
 #include <functional>
@@ -104,7 +104,7 @@ bool CLoadScreen::Init()
 	// Create a thread during the loading that pings the host/server, so it knows that this client is still alive/loading
 	clientNet->KeepUpdating(true);
 
-	netHeartbeatThread = std::move(spring::thread(Threading::CreateNewThread(std::bind(&CNetProtocol::UpdateLoop, clientNet))));
+	netHeartbeatThread = std::move(ArcLight::thread(Threading::CreateNewThread(std::bind(&CNetProtocol::UpdateLoop, clientNet))));
 	game = new CGame(mapFileName, modFileName, saveFile);
 
 	if ((CglFont::threadSafety = mtLoading)) {
@@ -203,7 +203,7 @@ void CLoadScreen::DeleteInstance()
 		return;
 
 	singleton->Kill();
-	spring::SafeDelete(singleton);
+	ArcLight::SafeDelete(singleton);
 }
 
 
@@ -238,7 +238,7 @@ bool CLoadScreen::Update()
 {
 	if (luaIntro != nullptr) {
 		// keep checking this while we are the active controller
-		std::lock_guard<spring::recursive_mutex> lck(mutex);
+		std::lock_guard<ArcLight::recursive_mutex> lck(mutex);
 
 		for (const auto& pair: loadMessages) {
 			good_fpu_control_registers(pair.first.c_str());
@@ -266,14 +266,14 @@ bool CLoadScreen::Draw()
 {
 	// limit FPS via sleep to not lock a singlethreaded CPU from loading the game
 	if (mtLoading) {
-		const spring_time now = spring_gettime();
-		const unsigned diffTime = spring_tomsecs(now - lastDrawTime);
+		const ArcLight_time now = ArcLight_gettime();
+		const unsigned diffTime = ArcLight_tomsecs(now - lastDrawTime);
 
 		constexpr unsigned wantedFPS = 50;
 		constexpr unsigned minFrameTime = 1000 / wantedFPS;
 
 		if (diffTime < minFrameTime)
-			spring_sleep(spring_msecs(minFrameTime - diffTime));
+			ArcLight_sleep(ArcLight_msecs(minFrameTime - diffTime));
 
 		lastDrawTime = now;
 	}
@@ -303,7 +303,7 @@ void CLoadScreen::SetLoadMessage(const std::string& text, bool replaceLast)
 {
 	Watchdog::ClearTimer(WDT_LOAD);
 
-	std::lock_guard<spring::recursive_mutex> lck(mutex);
+	std::lock_guard<ArcLight::recursive_mutex> lck(mutex);
 
 	loadMessages.emplace_back(text, replaceLast);
 

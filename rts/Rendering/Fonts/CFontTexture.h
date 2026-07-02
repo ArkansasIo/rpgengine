@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _CFONTTEXTURE_H
 #define _CFONTTEXTURE_H
@@ -146,10 +146,10 @@ private:
 
 
 	std::shared_ptr<FontFace> shFace;
-	spring::unsynced_set<std::shared_ptr<FontFace>> usedFallbackFonts;
+	ArcLight::unsynced_set<std::shared_ptr<FontFace>> usedFallbackFonts;
 
-	spring::unsynced_map<char32_t, GlyphInfo> glyphs; // UTF16 -> GlyphInfo
-	spring::unsynced_map<uint32_t, float> kerningDynamic; // contains unicode kerning
+	ArcLight::unsynced_map<char32_t, GlyphInfo> glyphs; // UTF16 -> GlyphInfo
+	ArcLight::unsynced_map<uint32_t, float> kerningDynamic; // contains unicode kerning
 
 	std::vector<CBitmap> atlasGlyphs;
 

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef CRITICALSECTION_H
 #define CRITICALSECTION_H
@@ -45,7 +45,7 @@ public:
 	win_signal& operator=(const win_signal&) = delete;
 
 	void wait();
-	void wait_for(spring_time t);
+	void wait_for(ArcLight_time t);
 	void notify_all(const int min_sleepers = 1);
 
 protected:

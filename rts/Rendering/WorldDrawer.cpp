@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "Rendering/GL/myGL.h"
 #include "Rendering/GL/RenderDataBuffer.hpp"
@@ -127,15 +127,15 @@ void CWorldDrawer::InitPost() const
 
 void CWorldDrawer::Kill()
 {
-	spring::SafeDelete(infoTextureHandler);
+	ArcLight::SafeDelete(infoTextureHandler);
 
-	spring::SafeDelete(water);
-	spring::SafeDelete(sky);
-	spring::SafeDelete(treeDrawer);
-	spring::SafeDelete(grassDrawer);
-	spring::SafeDelete(pathDrawer);
+	ArcLight::SafeDelete(water);
+	ArcLight::SafeDelete(sky);
+	ArcLight::SafeDelete(treeDrawer);
+	ArcLight::SafeDelete(grassDrawer);
+	ArcLight::SafeDelete(pathDrawer);
 	shadowHandler.Kill();
-	spring::SafeDelete(inMapDrawerView);
+	ArcLight::SafeDelete(inMapDrawerView);
 
 	CFeatureDrawer::KillStatic(gu->globalReload);
 	CUnitDrawer::KillStatic(gu->globalReload); // depends on unitHandler, cubeMapHandler
@@ -143,8 +143,8 @@ void CWorldDrawer::Kill()
 
 	modelLoader.Kill();
 
-	spring::SafeDelete(farTextureHandler);
-	spring::SafeDelete(heightMapTexture);
+	ArcLight::SafeDelete(farTextureHandler);
+	ArcLight::SafeDelete(heightMapTexture);
 
 	textureHandler3DO.Kill();
 	textureHandlerS3O.Kill();

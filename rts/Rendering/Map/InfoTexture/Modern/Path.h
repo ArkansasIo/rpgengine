@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _PATH_TEXTURE_H
 #define _PATH_TEXTURE_H
@@ -37,7 +37,7 @@ private:
 	unsigned int lastSelectedPathType;
 	int forcedPathType;
 	int forcedUnitDef;
-	spring_time lastUsage;
+	ArcLight_time lastUsage;
 	FBO fbo;
 };
 

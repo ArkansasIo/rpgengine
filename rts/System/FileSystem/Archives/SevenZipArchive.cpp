@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "SevenZipArchive.h"
 
@@ -140,7 +140,7 @@ CSevenZipArchive::CSevenZipArchive(const std::string& name)
 	, allocImp({SzAlloc, SzFree})
 	, allocTempImp({SzAllocTemp, SzFreeTemp})
 {
-	std::lock_guard<spring::mutex> lck(archiveLock);
+	std::lock_guard<ArcLight::mutex> lck(archiveLock);
 
 	constexpr const size_t kInputBufSize = (size_t)1 << 18;
 
@@ -198,7 +198,7 @@ CSevenZipArchive::CSevenZipArchive(const std::string& name)
 
 CSevenZipArchive::~CSevenZipArchive()
 {
-	std::lock_guard<spring::mutex> lck(archiveLock);
+	std::lock_guard<ArcLight::mutex> lck(archiveLock);
 
 	if (outBuffer != nullptr) {
 		IAlloc_Free(&allocImp, outBuffer);

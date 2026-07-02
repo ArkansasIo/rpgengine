@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _FEATURE_H
 #define _FEATURE_H
@@ -20,7 +20,7 @@ class DamageArray;
 
 
 
-class CFeature: public CSolidObject, public spring::noncopyable
+class CFeature: public CSolidObject, public ArcLight::noncopyable
 {
 	CR_DECLARE_DERIVED(CFeature)
 

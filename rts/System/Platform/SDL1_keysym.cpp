@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "SDL1_keysym.h"
 #include <SDL_keycode.h>
@@ -6,7 +6,7 @@
 #include "System/Log/ILog.h"
 #include "System/UnorderedMap.hpp"
 
-static const spring::unordered_bimap<int, int> SDL_keysym_bimap = {
+static const ArcLight::unordered_bimap<int, int> SDL_keysym_bimap = {
 	{SDLK_UNKNOWN, 0},
 
 	{SDLK_RETURN, 13},

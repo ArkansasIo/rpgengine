@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef LEGACYTRACKHANDLER_H
 #define LEGACYTRACKHANDLER_H
@@ -142,7 +142,7 @@ private:
 	#endif
 
 	std::vector<TrackType> trackTypes;
-	spring::unsynced_map<int, UnitTrack> unitTracks;
+	ArcLight::unsynced_map<int, UnitTrack> unitTracks;
 
 	std::vector<unsigned int> updatedTrackIDs;
 	std::vector<TrackToClean> cleanedTrackIDs;

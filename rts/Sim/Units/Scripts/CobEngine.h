@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef COB_ENGINE_H
 #define COB_ENGINE_H
@@ -130,7 +130,7 @@ private:
 
 private:
 	// registry of every thread across all script instances
-	spring::unordered_map<int, CCobThread> threadInstances;
+	ArcLight::unordered_map<int, CCobThread> threadInstances;
 	// threads that are spawned during Tick
 	std::vector<CCobThread> tickAddedThreads;
 

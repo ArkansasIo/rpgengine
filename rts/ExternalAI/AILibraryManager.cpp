@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "AILibraryManager.h"
 
@@ -415,7 +415,7 @@ void AILibraryManager::OutputAIInterfacesInfo()
 	const T_interfaceSpecs& intKeys = libMan->GetInterfaceKeys();
 
 	printf("#\n");
-	printf("# Available Spring Skirmish AIs\n");
+	printf("# Available ArcLight Skirmish AIs\n");
 	printf("# -----------------------------\n");
 	printf("# %-20s %s\n", "[Name]", "[Version]");
 
@@ -452,7 +452,7 @@ void AILibraryManager::OutputSkirmishAIInfo()
 	const AILibraryManager* libMan = AILibraryManager::GetInstance();
 	const T_skirmishAIKeys& aiKeys = libMan->GetSkirmishAIKeys();
 
-	printf("# Available Spring Skirmish AIs\n");
+	printf("# Available ArcLight Skirmish AIs\n");
 	printf("# -----------------------------\n");
 	printf("# %-20s %-20s %-20s %s\n", "[Name]", "[Version]", "[Interface-name]", "[Interface-version]");
 

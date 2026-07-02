@@ -1,13 +1,13 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 /**
-@brief Defines the Spring map format
+@brief Defines the ArcLight map format
 
-This file defines the Spring map format that is most common at the time of this
-writing, sometimes also refered to as SM2 (Spring Map format 2).
+This file defines the ArcLight map format that is most common at the time of this
+writing, sometimes also refered to as SM2 (ArcLight Map format 2).
 
-This type of maps consists of a .smd (Spring Map Definition/Description) file,
-a .smf (Spring Map Format) file and a .smt (Spring Map Tiles) file. As you may
+This type of maps consists of a .smd (ArcLight Map Definition/Description) file,
+a .smf (ArcLight Map Format) file and a .smt (ArcLight Map Tiles) file. As you may
 have guessed by this, the map is a tilemap.
 
 The SMD file is a file in the textual TDF format defining a number of
@@ -32,7 +32,7 @@ TileFileHeader for details.
 #define MINIMAP_NUM_MIPMAP 9
 
 /**
-@brief Spring Map File (.smf) main header
+@brief ArcLight Map File (.smf) main header
 
 Map file (.smf) layout is like this:
 
@@ -45,7 +45,7 @@ Map file (.smf) layout is like this:
 	- ...
 */
 struct SMFHeader {
-	char magic[16];      ///< "spring map file\0"
+	char magic[16];      ///< "ArcLight map file\0"
 	int version;         ///< Must be 1 for now
 	int mapid;           ///< Sort of a GUID of the file, just set to a random value when writing a map
 
@@ -107,7 +107,7 @@ that defines ground vegetation, if it's missing there is no ground vegetation.
 
 MapTileHeader is followed by numTileFiles file definition where each file
 definition is an int followed by a zero terminated file name. On loading,
-Spring prepends the filename with "maps/" and looks in it's VFS for a file
+ArcLight prepends the filename with "maps/" and looks in it's VFS for a file
 with the resulting filename. See TileFileHeader for details.
 
 Each file defines as many tiles the int indicates with the following files
@@ -156,7 +156,7 @@ struct MapFeatureStruct
 
 
 /**
-@brief Spring Tile File (.smt) main header
+@brief ArcLight Tile File (.smt) main header
 
 Map texture tile file (.smt) layout is like this:
 
@@ -172,7 +172,7 @@ exactly SMALL_TILE_SIZE (680) bytes per tile (512 + 128 + 32 + 8).
 */
 struct TileFileHeader
 {
-	char magic[16];      ///< "spring tilefile\0"
+	char magic[16];      ///< "ArcLight tilefile\0"
 	int version;         ///< Must be 1 for now
 
 	int numTiles;        ///< Total number of tiles in this file

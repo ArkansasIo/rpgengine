@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _BUFFERED_ARCHIVE_H
 #define _BUFFERED_ARCHIVE_H
@@ -46,7 +46,7 @@ protected:
 	// zlib (used to extract pool archive .gz entries) should
 	// not need this, but currently each buffered GetFileImpl
 	// call is protected
-	static spring::mutex archiveLock;
+	static ArcLight::mutex archiveLock;
 
 private:
 	uint32_t cacheSize = 0;

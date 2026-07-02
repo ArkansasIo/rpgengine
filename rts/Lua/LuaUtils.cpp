@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 //#include "System/Platform/Win/win32.h"
 
@@ -34,8 +34,8 @@ int LuaUtils::exportedDataSize = 0;
 /******************************************************************************/
 
 
-static bool CopyPushData(lua_State* dst, lua_State* src, int index, int depth, spring::unsynced_map<const void*, int>& alreadyCopied);
-static bool CopyPushTable(lua_State* dst, lua_State* src, int index, int depth, spring::unsynced_map<const void*, int>& alreadyCopied);
+static bool CopyPushData(lua_State* dst, lua_State* src, int index, int depth, ArcLight::unsynced_map<const void*, int>& alreadyCopied);
+static bool CopyPushTable(lua_State* dst, lua_State* src, int index, int depth, ArcLight::unsynced_map<const void*, int>& alreadyCopied);
 
 
 static inline int PosAbsLuaIndex(lua_State* src, int index)
@@ -47,7 +47,7 @@ static inline int PosAbsLuaIndex(lua_State* src, int index)
 }
 
 
-static bool CopyPushData(lua_State* dst, lua_State* src, int index, int depth, spring::unsynced_map<const void*, int>& alreadyCopied)
+static bool CopyPushData(lua_State* dst, lua_State* src, int index, int depth, ArcLight::unsynced_map<const void*, int>& alreadyCopied)
 {
 	switch (lua_type(src, index)) {
 		case LUA_TBOOLEAN: {
@@ -93,7 +93,7 @@ static bool CopyPushData(lua_State* dst, lua_State* src, int index, int depth, s
 }
 
 
-static bool CopyPushTable(lua_State* dst, lua_State* src, int index, int depth, spring::unsynced_map<const void*, int>& alreadyCopied)
+static bool CopyPushTable(lua_State* dst, lua_State* src, int index, int depth, ArcLight::unsynced_map<const void*, int>& alreadyCopied)
 {
 	const int table = PosAbsLuaIndex(src, index);
 
@@ -148,7 +148,7 @@ int LuaUtils::CopyData(lua_State* dst, lua_State* src, int count)
 	// hold a map of all already copied tables in the lua's registry table
 	// needed for recursive tables, i.e. "local t = {}; t[t] = t"
 	// the order of traversal doesn't matter so we can use an unsynced map
-	spring::unsynced_map<const void*, int> alreadyCopied;
+	ArcLight::unsynced_map<const void*, int> alreadyCopied;
 
 	const int startIndex = (srcTop - count + 1);
 	const int endIndex   = srcTop;
@@ -347,7 +347,7 @@ void LuaUtils::PushCurrentFuncEnv(lua_State* L, const char* caller)
 /******************************************************************************/
 /******************************************************************************/
 
-static void LowerKeysReal(lua_State* L, spring::unsynced_set<const void*>& checkedSet)
+static void LowerKeysReal(lua_State* L, ArcLight::unsynced_set<const void*>& checkedSet)
 {
 	luaL_checkstack(L, 8, __func__);
 
@@ -413,7 +413,7 @@ bool LuaUtils::LowerKeys(lua_State* L, int table)
 		return false;
 
 	// table of processed tables
-	spring::unsynced_set<const void*> checkedSet;
+	ArcLight::unsynced_set<const void*> checkedSet;
 	luaL_checkstack(L, 1, __func__);
 
 	lua_pushvalue(L, table); // push the table onto the top of the stack
@@ -536,18 +536,18 @@ int LuaUtils::IsEngineMinVersion(lua_State* L)
 	const int minMinorVer = luaL_optint(L, 2, 0);
 	const int minCommits  = luaL_optint(L, 3, 0);
 
-	if (StringToInt(SpringVersion::GetMajor()) < minMajorVer) {
+	if (StringToInt(ArcLightVersion::GetMajor()) < minMajorVer) {
 		lua_pushboolean(L, false);
 		return 1;
 	}
 
-	if (StringToInt(SpringVersion::GetMajor()) == minMajorVer) {
-		if (StringToInt(SpringVersion::GetMinor()) < minMinorVer) {
+	if (StringToInt(ArcLightVersion::GetMajor()) == minMajorVer) {
+		if (StringToInt(ArcLightVersion::GetMinor()) < minMinorVer) {
 			lua_pushboolean(L, false);
 			return 1;
 		}
 
-		if (StringToInt(SpringVersion::GetCommits()) < minCommits) {
+		if (StringToInt(ArcLightVersion::GetCommits()) < minCommits) {
 			lua_pushboolean(L, false);
 			return 1;
 		}
@@ -1398,20 +1398,20 @@ int LuaUtils::ParseLogLevel(lua_State* L, int index)
 	Logs a msg to the logfile / console
 	@param loglevel loglevel that will be used for the message
 	@param msg string to be logged
-	@fn Spring.Log(string logsection, int loglevel, ...)
-	@fn Spring.Log(string logsection, string loglevel, ...)
+	@fn ArcLight.Log(string logsection, int loglevel, ...)
+	@fn ArcLight.Log(string logsection, string loglevel, ...)
 */
 int LuaUtils::Log(lua_State* L)
 {
 	const int args = lua_gettop(L); // number of arguments
 	if (args < 3)
-		return luaL_error(L, "Incorrect arguments to Spring.Log(logsection, loglevel, ...)");
+		return luaL_error(L, "Incorrect arguments to ArcLight.Log(logsection, loglevel, ...)");
 
 	const char* section = luaL_checkstring(L, 1);
 
 	const int loglevel = LuaUtils::ParseLogLevel(L, 2);
 	if (loglevel < 0)
-		return luaL_error(L, "Incorrect arguments to Spring.Log(logsection, loglevel, ...)");
+		return luaL_error(L, "Incorrect arguments to ArcLight.Log(logsection, loglevel, ...)");
 
 	LogMsg(L, section, loglevel, 3);
 	return 0;

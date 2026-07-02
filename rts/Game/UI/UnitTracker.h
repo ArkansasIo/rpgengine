@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef UNIT_TRACKER_H
 #define UNIT_TRACKER_H
@@ -53,7 +53,7 @@ protected:
 	float3 oldCamDir = RgtVector;
 	float3 oldCamPos = {500.0f, 500.0f, 500.0f};
 
-	spring::unordered_set<int> trackedUnitIDs;
+	ArcLight::unordered_set<int> trackedUnitIDs;
 	std::vector<int> deadUnitIDs;
 	
 	static const char* modeNames[TrackModeCount];

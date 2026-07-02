@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef LUA_SCREAM_H
 #define LUA_SCREAM_H
@@ -12,7 +12,7 @@ struct lua_State;
  * You use it like this (Lua):
  * <code>
  *   local myScream = Script.CreateScream()
- *   myScream.func  = function() Spring.Echo("AHHHHHH") end
+ *   myScream.func  = function() ArcLight.Echo("AHHHHHH") end
  * </code>
  */
 class LuaScream {

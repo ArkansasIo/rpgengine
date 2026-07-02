@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 /*
  * This file has to be C99 compatible, as it is not only used by the engine,
@@ -68,7 +68,7 @@
  * @brief max Skirmish AIs
  *
  * Defines the maximum number of skirmish AIs.
- * As there can not be more then spring allows teams, this is the upper limit.
+ * As there can not be more then ArcLight allows teams, this is the upper limit.
  * (currently (February 2010) 255 real teams)
  */
 //const unsigned int MAX_SKIRMISH_AIS = MAX_TEAMS - 1;

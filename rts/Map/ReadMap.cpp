@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 
 #include <cstdlib>
@@ -145,7 +145,7 @@ CReadMap* CReadMap::LoadMap(const std::string& mapName)
 	CReadMap* rm = nullptr;
 
 	if (FileSystem::GetExtension(mapName) == "sm3") {
-		throw content_error("[CReadMap::LoadMap] SM3 maps are no longer supported as of Spring 95.0");
+		throw content_error("[CReadMap::LoadMap] SM3 maps are no longer supported as of ArcLight 95.0");
 	} else {
 		// assume SMF format by default; calls ::Initialize
 		rm = new CSMFReadMap(mapName);

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 // included first due to "WinSock.h has already been included" error on Windows
 #include "System/Net/UDPConnection.h"
@@ -44,8 +44,8 @@ CNetProtocol::~CNetProtocol()
 
 	LOG("[NetProto::%s] %s",__func__, serverConnPtr->Statistics().c_str());
 
-	spring::SafeDestruct(serverConnPtr);
-	spring::SafeDestruct(demoRecordPtr);
+	ArcLight::SafeDestruct(serverConnPtr);
+	ArcLight::SafeDestruct(demoRecordPtr);
 }
 
 
@@ -104,14 +104,14 @@ std::string CNetProtocol::ConnectionStr() const
 std::shared_ptr<const netcode::RawPacket> CNetProtocol::Peek(unsigned ahead) const
 {
 	// not called while client is loading
-	// std::lock_guard<spring::spinlock> lock(serverConnMutex);
+	// std::lock_guard<ArcLight::spinlock> lock(serverConnMutex);
 	return serverConnPtr->Peek(ahead);
 }
 
 void CNetProtocol::DeleteBufferPacketAt(unsigned index)
 {
 	// not called while client is loading
-	// std::lock_guard<spring::spinlock> lock(serverConnMutex);
+	// std::lock_guard<ArcLight::spinlock> lock(serverConnMutex);
 	return serverConnPtr->DeleteBufferPacketAt(index);
 }
 
@@ -128,7 +128,7 @@ float CNetProtocol::GetPacketTime(int frameNum) const
 
 std::shared_ptr<const netcode::RawPacket> CNetProtocol::GetData(int frameNum)
 {
-	std::lock_guard<spring::spinlock> lock(serverConnMutex);
+	std::lock_guard<ArcLight::spinlock> lock(serverConnMutex);
 	std::shared_ptr<const netcode::RawPacket> ret = serverConnPtr->GetData();
 
 	if (ret == nullptr)
@@ -146,7 +146,7 @@ std::shared_ptr<const netcode::RawPacket> CNetProtocol::GetData(int frameNum)
 void CNetProtocol::Send(const netcode::RawPacket* pkt) { Send(std::shared_ptr<const netcode::RawPacket>(pkt)); }
 void CNetProtocol::Send(std::shared_ptr<const netcode::RawPacket> pkt)
 {
-	std::lock_guard<spring::spinlock> lock(serverConnMutex);
+	std::lock_guard<ArcLight::spinlock> lock(serverConnMutex);
 	serverConnPtr->SendData(pkt);
 }
 
@@ -158,21 +158,21 @@ void CNetProtocol::UpdateLoop()
 
 	while (keepUpdating) {
 		Update();
-		spring_msecs(100).sleep();
+		ArcLight_msecs(100).sleep();
 	}
 }
 
 void CNetProtocol::Update()
 {
 	// any call to clientNet->Send is unsafe while heartbeat thread exists, i.e. during loading
-	std::lock_guard<spring::spinlock> lock(serverConnMutex);
+	std::lock_guard<ArcLight::spinlock> lock(serverConnMutex);
 
 	serverConnPtr->Update();
 }
 
 void CNetProtocol::Close(bool flush)
 {
-	std::lock_guard<spring::spinlock> lock(serverConnMutex);
+	std::lock_guard<ArcLight::spinlock> lock(serverConnMutex);
 
 	serverConnPtr->Close(flush);
 }

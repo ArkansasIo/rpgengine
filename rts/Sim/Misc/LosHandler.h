@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef LOS_HANDLER_H
 #define LOS_HANDLER_H
@@ -170,7 +170,7 @@ public:
 	static size_t cacheHits;
 	static size_t cacheRefs;
 
-	spring::unordered_map<int, std::vector<SLosInstance*> > instanceHashes;
+	ArcLight::unordered_map<int, std::vector<SLosInstance*> > instanceHashes;
 
 	std::vector<CLosMap> losMaps;
 	std::deque<SLosInstance> instances;

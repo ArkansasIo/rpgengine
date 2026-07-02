@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef S_SKIRMISH_AI_CALLBACK_H
 #define	S_SKIRMISH_AI_CALLBACK_H
@@ -16,7 +16,7 @@ extern "C" {
  * in its init(skirmishAIId) function and with the SInitEvent.
  *
  * This struct contains only activities that leave the game state as it is,
- * in spring terms: unsynced events
+ * in ArcLight terms: unsynced events
  * Activities that change game state (-> synced events) are handled through
  * AI commands, defined in AISCommands.h.
  *
@@ -94,14 +94,14 @@ struct SSkirmishAICallback {
 	bool              (CALLING_CONV *Engine_Version_isRelease)(int skirmishAIId);
 
 	/**
-	 * The basic part of a spring version.
+	 * The basic part of a ArcLight version.
 	 * This may only be used for sync-checking if IsRelease() returns true.
 	 * @return "Major.PatchSet" or "Major.PatchSet.1"
 	 */
 	const char*       (CALLING_CONV *Engine_Version_getNormal)(int skirmishAIId);
 
 	/**
-	 * The sync relevant part of a spring version.
+	 * The sync relevant part of a ArcLight version.
 	 * This may be used for sync-checking through a simple string-equality test.
 	 * @return "Major" or "Major.PatchSet.1-Commits-gHash Branch"
 	 */
@@ -200,14 +200,14 @@ struct SSkirmishAICallback {
 	/**
 	 * This interfaces main data dir, which is where the shared library
 	 * and the InterfaceInfo.lua file are located, e.g.:
-	 * /usr/share/games/spring/AI/Skirmish/RAI/0.601/
+	 * /usr/share/games/ArcLight/AI/Skirmish/RAI/0.601/
 	 */
 	const char*       (CALLING_CONV *DataDirs_getConfigDir)(int skirmishAIId);
 
 	/**
 	 * This interfaces writable data dir, which is where eg logs, caches
 	 * and learning data should be stored, e.g.:
-	 * /home/userX/.spring/AI/Skirmish/RAI/0.601/
+	 * /home/userX/.ArcLight/AI/Skirmish/RAI/0.601/
 	 */
 	const char*       (CALLING_CONV *DataDirs_getWriteableDir)(int skirmishAIId);
 
@@ -217,8 +217,8 @@ struct SSkirmishAICallback {
 	 *
 	 * example:
 	 * input:  "log/main.log", writeable, create, !dir, !common
-	 * output: "/home/userX/.spring/AI/Skirmish/RAI/0.601/log/main.log"
-	 * The path "/home/userX/.spring/AI/Skirmish/RAI/0.601/log/" is created,
+	 * output: "/home/userX/.ArcLight/AI/Skirmish/RAI/0.601/log/main.log"
+	 * The path "/home/userX/.ArcLight/AI/Skirmish/RAI/0.601/log/" is created,
 	 * if it does not yet exist.
 	 *
 	 * @see DataDirs_Roots_locatePath
@@ -232,7 +232,7 @@ struct SSkirmishAICallback {
 	 *                     including the last part
 	 * @param   common     if true, the version independent data-dir is formed,
 	 *                     which uses "common" instead of the version, eg:
-	 *                     "/home/userX/.spring/AI/Skirmish/RAI/common/..."
+	 *                     "/home/userX/.ArcLight/AI/Skirmish/RAI/common/..."
 	 * @return  whether the locating process was successfull
 	 *          -> the path exists and is stored in an absolute form in path
 	 */
@@ -243,7 +243,7 @@ struct SSkirmishAICallback {
 	 */
 	char*             (CALLING_CONV *DataDirs_allocatePath)(int skirmishAIId, const char* const relPath, bool writeable, bool create, bool dir, bool common);
 
-	/** Returns the number of springs data dirs. */
+	/** Returns the number of ArcLights data dirs. */
 	int               (CALLING_CONV *DataDirs_Roots_getSize)(int skirmishAIId);
 
 	/** Returns the data dir at dirIndex, which is valid between 0 and (DataDirs_Roots_getSize() - 1). */
@@ -255,8 +255,8 @@ struct SSkirmishAICallback {
 	 *
 	 * example:
 	 * input:  "AI/Skirmish", writeable, create, dir
-	 * output: "/home/userX/.spring/AI/Skirmish/"
-	 * The path "/home/userX/.spring/AI/Skirmish/" is created,
+	 * output: "/home/userX/.ArcLight/AI/Skirmish/"
+	 * The path "/home/userX/.ArcLight/AI/Skirmish/" is created,
 	 * if it does not yet exist.
 	 *
 	 * @see DataDirs_locatePath
@@ -669,7 +669,7 @@ struct SSkirmishAICallback {
 	/**
 	 * The flanking bonus indicates how much additional damage you can inflict to
 	 * a unit, if it gets attacked from different directions.
-	 * See the spring source code if you want to know it more precisely.
+	 * See the ArcLight source code if you want to know it more precisely.
 	 *
 	 * @return  0: no flanking bonus
 	 *          1: global coords, mobile

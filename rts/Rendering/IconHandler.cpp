@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "IconHandler.h"
 
@@ -45,7 +45,7 @@ void CIconHandler::Kill()
 
 bool CIconHandler::LoadIcons(const std::string& filename)
 {
-	LuaParser luaParser(filename, SPRING_VFS_MOD_BASE, SPRING_VFS_MOD_BASE);
+	LuaParser luaParser(filename, ARCLIGHT_VFS_MOD_BASE, ARCLIGHT_VFS_MOD_BASE);
 
 	if (!luaParser.Execute())
 		LOG_L(L_WARNING, "%s: %s", filename.c_str(), luaParser.GetErrorLog().c_str());

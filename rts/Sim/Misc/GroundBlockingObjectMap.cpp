@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <cassert>
 
@@ -239,14 +239,14 @@ bool CGroundBlockingObjectMap::CellInsertUnique(unsigned int sqr, CSolidObject* 
 		if (vecIndcs.empty()) {
 			assert(vecCells.size() > 0);
 			ac.SetVecIndx(vecCells.size());
-			vc = &spring::VectorEmplaceBack(vecCells);
+			vc = &ArcLight::VectorEmplaceBack(vecCells);
 		} else {
-			ac.SetVecIndx(spring::VectorBackPop(vecIndcs));
+			ac.SetVecIndx(ArcLight::VectorBackPop(vecIndcs));
 			vc = &vecCells[ac.GetVecIndx()];
 		}
 	}
 
-	return (spring::VectorInsertUnique(*vc, o, true));
+	return (ArcLight::VectorInsertUnique(*vc, o, true));
 }
 
 bool CGroundBlockingObjectMap::CellErase(unsigned int sqr, CSolidObject* o) {
@@ -259,7 +259,7 @@ bool CGroundBlockingObjectMap::CellErase(unsigned int sqr, CSolidObject* o) {
 
 		// never allow a hole between array and vector parts
 		assert(!vecCells[ac.GetVecIndx()].empty());
-		ac.Insert(spring::VectorBackPop(*(vc = &GetVecCell(sqr))));
+		ac.Insert(ArcLight::VectorBackPop(*(vc = &GetVecCell(sqr))));
 
 		goto CommonExit;
 	}
@@ -273,7 +273,7 @@ bool CGroundBlockingObjectMap::CellErase(unsigned int sqr, CSolidObject* o) {
 	// note that vc can still point to the dummy element if ac is
 	// full but never overflowed, which is fine since VectorErase
 	// will simply return false
-	if (!spring::VectorErase(*(vc = &GetVecCell(sqr)), o))
+	if (!ArcLight::VectorErase(*(vc = &GetVecCell(sqr)), o))
 		return false;
 
 CommonExit:

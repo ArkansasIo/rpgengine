@@ -49,7 +49,7 @@ void CNullProjectileDrawer::Init() {
 
 void CNullProjectileDrawer::Kill() {
 	IProjectileDrawer::Kill();
-	spring::SafeDelete(dummyTexture);
+	ArcLight::SafeDelete(dummyTexture);
 }
 
 unsigned int CNullProjectileDrawer::NumSmokeTextures() const {

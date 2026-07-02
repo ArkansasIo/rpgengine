@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef LIST_H
 #define LIST_H
@@ -60,7 +60,7 @@ private:
 	int NumDisplay();
 	float ScaleFactor();
 
-	spring_time clickedTime;
+	ArcLight_time clickedTime;
 	int place;
 
 	bool activeMousePress;

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef CPUID_H
 #define CPUID_H
@@ -11,7 +11,7 @@
 
 #include <cstdint>
 
-namespace springproc {
+namespace ArcLightproc {
 	_noinline void ExecCPUID(unsigned int* a, unsigned int* b, unsigned int* c, unsigned int* d);
 
 	/** Class to detect the processor topology, more specifically,

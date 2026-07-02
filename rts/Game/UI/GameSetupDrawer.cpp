@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "GameSetupDrawer.h"
 
@@ -43,15 +43,15 @@ void GameSetupDrawer::Disable()
 void GameSetupDrawer::StartCountdown(unsigned time)
 {
 	if (instance != nullptr) {
-		instance->lastTick = spring_gettime(); //FIXME
-		instance->readyCountdown = spring_msecs(time);
+		instance->lastTick = ArcLight_gettime(); //FIXME
+		instance->readyCountdown = ArcLight_msecs(time);
 	}
 }
 
 
 GameSetupDrawer::GameSetupDrawer():
-	readyCountdown(spring_notime),
-	lastTick(spring_notime)
+	readyCountdown(ArcLight_notime),
+	lastTick(ArcLight_notime)
 {
 	if (gameSetup->hostDemo)
 		return;
@@ -66,11 +66,11 @@ GameSetupDrawer::~GameSetupDrawer() = default;
 
 void GameSetupDrawer::Draw()
 {
-	if (readyCountdown > spring_nulltime) {
-		readyCountdown -= (spring_gettime() - lastTick);
-		lastTick = spring_gettime();
+	if (readyCountdown > ArcLight_nulltime) {
+		readyCountdown -= (ArcLight_gettime() - lastTick);
+		lastTick = ArcLight_gettime();
 
-		if (readyCountdown <= spring_nulltime) {
+		if (readyCountdown <= ArcLight_nulltime) {
 			GameSetupDrawer::Disable();
 			return; // *this is deleted!
 		}
@@ -81,7 +81,7 @@ void GameSetupDrawer::Draw()
 	std::vector< std::pair<int, std::string> > playerStates(numPlayers);
 	std::string startState = "Unknown state.";
 
-	if (readyCountdown > spring_nulltime) {
+	if (readyCountdown > ArcLight_nulltime) {
 		startState = "Starting in " + IntToString(readyCountdown.toSecsi(), "%i");
 	} else if (!playerHandler.Player(gu->myPlayerNum)->spectator && !playerHandler.Player(gu->myPlayerNum)->IsReadyToStart()) {
 		startState = "Choose start pos";

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <string>
 #include <vector>
@@ -373,7 +373,7 @@ static int CategorySetFromBits(lua_State* L, const void* data)
 
 static int CustomParamsTable(lua_State* L, const void* data)
 {
-	const spring::unordered_map<std::string, std::string>& params = *((const spring::unordered_map<std::string, std::string>*)data);
+	const ArcLight::unordered_map<std::string, std::string>& params = *((const ArcLight::unordered_map<std::string, std::string>*)data);
 	lua_createtable(L, 0, params.size());
 
 	for (const auto& param: params) {
@@ -417,7 +417,7 @@ static int GuiSoundSetTable(lua_State* L, const void* data)
 
 static bool InitParamMap()
 {
-	spring::clear_unordered_map(paramMap);
+	ArcLight::clear_unordered_map(paramMap);
 
 	paramMap["next"]  = DataElement(READONLY_TYPE);
 	paramMap["pairs"] = DataElement(READONLY_TYPE);

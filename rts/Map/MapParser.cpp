@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "MapParser.h"
 
@@ -15,7 +15,7 @@
 #include <cctype>
 
 static const char* mapInfos[] = {"maphelper/mapinfo.lua", "mapinfo.lua"};
-static const char* vfsModes   = SPRING_VFS_MAP_BASE;
+static const char* vfsModes   = ARCLIGHT_VFS_MAP_BASE;
 
 
 std::string MapParser::GetMapConfigName(const std::string& mapFileName)
@@ -44,7 +44,7 @@ MapParser::MapParser(const std::string& mapFileName): parser(mapInfos[CFileHandl
 	// this should not be included with unitsync:
 	// 1. avoids linkage with LuaSyncedRead
 	// 2. MapOptions are not valid during unitsync map parsing
-	parser.GetTable("Spring");
+	parser.GetTable("ArcLight");
 	parser.AddFunc("GetMapOptions", LuaSyncedRead::GetMapOptions);
 	parser.EndTable();
 #endif

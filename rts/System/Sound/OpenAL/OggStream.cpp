@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <cstring> //memset
 
@@ -72,14 +72,14 @@ COggStream::COggStream(ALuint _source)
 COggStream::~COggStream()
 {
 	Stop();
-	spring::SafeDeleteArray(pcmDecodeBuffer);
+	ArcLight::SafeDeleteArray(pcmDecodeBuffer);
 }
 
 
 COggStream& COggStream::operator=(COggStream&& rhs) noexcept
 {
 	if (this != &rhs) {
-		spring::SafeDeleteArray(pcmDecodeBuffer);
+		ArcLight::SafeDeleteArray(pcmDecodeBuffer);
 		pcmDecodeBuffer = rhs.pcmDecodeBuffer;
 		rhs.pcmDecodeBuffer = nullptr;
 
@@ -173,8 +173,8 @@ void COggStream::Stop()
 
 	ReleaseBuffers();
 
-	msecsPlayed = spring_nulltime;
-	lastTick = spring_gettime();
+	msecsPlayed = ArcLight_nulltime;
+	lastTick = ArcLight_gettime();
 
 	source = 0;
 	format = 0;
@@ -241,8 +241,8 @@ void COggStream::ReleaseBuffers()
 // filled with data from the stream
 bool COggStream::StartPlaying()
 {
-	msecsPlayed = spring_nulltime;
-	lastTick = spring_gettime();
+	msecsPlayed = ArcLight_nulltime;
+	lastTick = ArcLight_gettime();
 
 	if (!DecodeStream(buffers[0]))
 		return false;
@@ -309,7 +309,7 @@ void COggStream::Update()
 	if (stopped)
 		return;
 
-	const spring_time tick = spring_gettime();
+	const ArcLight_time tick = ArcLight_gettime();
 
 	if (!paused) {
 		// releasing buffers is only allowed once the source has actually

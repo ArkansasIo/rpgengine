@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <SDL_keycode.h>
 #include <SDL_mouse.h>
@@ -963,9 +963,9 @@ void CMiniMap::Update()
 	if (minimized || curDim.x == 0 || curDim.y == 0)
 		return;
 
-	static spring_time nextDrawScreenTime = spring_gettime();
+	static ArcLight_time nextDrawScreenTime = ArcLight_gettime();
 
-	if (spring_gettime() <= nextDrawScreenTime)
+	if (ArcLight_gettime() <= nextDrawScreenTime)
 		return;
 
 	float refreshRate = minimapRefreshRate;
@@ -975,7 +975,7 @@ void CMiniMap::Update()
 		const float mmapArea = (curDim.x * curDim.y) / viewArea;
 		refreshRate = (mmapArea >= 0.45f) ? 60 : (mmapArea > 0.15f) ? 25 : 15;
 	}
-	nextDrawScreenTime = spring_gettime() + spring_msecs(1000.0f / refreshRate);
+	nextDrawScreenTime = ArcLight_gettime() + ArcLight_msecs(1000.0f / refreshRate);
 
 	fbo.Bind();
 	ResizeTextureCache();

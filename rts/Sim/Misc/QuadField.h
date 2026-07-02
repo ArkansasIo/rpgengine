@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef QUAD_FIELD_H
 #define QUAD_FIELD_H
@@ -73,7 +73,7 @@ private:
 
 
 
-class CQuadField : spring::noncopyable
+class CQuadField : ArcLight::noncopyable
 {
 	CR_DECLARE_STRUCT(CQuadField)
 	CR_DECLARE_SUB(Quad)

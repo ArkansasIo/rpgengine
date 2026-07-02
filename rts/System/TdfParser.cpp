@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <algorithm>
 #include <cctype>
@@ -132,7 +132,7 @@ void TdfParser::ParseBuffer(const char* buf, size_t size) {
 	{
 		const std::string script = std::string("local TDF = VFS.Include('gamedata/parse_tdf.lua'); return TDF.ParseText([[") + buf + "]])";
 
-		LuaParser luaParser(script, SPRING_VFS_BASE);
+		LuaParser luaParser(script, ARCLIGHT_VFS_BASE);
 		luaParser.Execute();
 		ParseLuaTable(luaParser.GetRoot(), GetRootSection());
 	}

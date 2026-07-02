@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef LUA_MEM_POOL_H_
 #define LUA_MEM_POOL_H_
@@ -101,8 +101,8 @@ public:
 
 private:
 	#if (LMP_USE_CHUNK_TABLE == 1)
-	spring::unsynced_map<size_t, void*> freeChunksTable;
-	spring::unsynced_map<size_t, size_t> chunkCountTable;
+	ArcLight::unsynced_map<size_t, void*> freeChunksTable;
+	ArcLight::unsynced_map<size_t, size_t> chunkCountTable;
 
 	std::vector<void*> allocBlocks;
 	#endif

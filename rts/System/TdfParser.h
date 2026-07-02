@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef TDF_PARSER_H
 #define TDF_PARSER_H
@@ -22,8 +22,8 @@ class TdfParser
 {
 public:
 	struct TdfSection;
-	typedef spring::unordered_map<std::string, std::string> valueMap_t;
-	typedef spring::unordered_map<std::string, TdfSection*> sectionsMap_t;
+	typedef ArcLight::unordered_map<std::string, std::string> valueMap_t;
+	typedef ArcLight::unordered_map<std::string, TdfSection*> sectionsMap_t;
 
 	struct TdfSection
 	{

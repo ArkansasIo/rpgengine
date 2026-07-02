@@ -1,7 +1,7 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
-#ifndef SPRING_SHADER_STATES_HDR
-#define SPRING_SHADER_STATES_HDR
+#ifndef ArcLight_SHADER_STATES_HDR
+#define ArcLight_SHADER_STATES_HDR
 
 #include <cinttypes>
 #include <string.h>
@@ -303,9 +303,9 @@ namespace Shader {
 
 	private:
 		// NOTE: *only* pointers to constant addresses are allowed (literals, globals)
-		spring::unsynced_map<const void*, std::pair<unsigned int,  bool> > bitFlags;
-		spring::unsynced_map<const void*, std::pair<unsigned int,   int> > intFlags;
-		spring::unsynced_map<const void*, std::pair<unsigned int, float> > fltFlags;
+		ArcLight::unsynced_map<const void*, std::pair<unsigned int,  bool> > bitFlags;
+		ArcLight::unsynced_map<const void*, std::pair<unsigned int,   int> > intFlags;
+		ArcLight::unsynced_map<const void*, std::pair<unsigned int, float> > fltFlags;
 
 		unsigned int numValUpdates;
 		unsigned int prvValUpdates;

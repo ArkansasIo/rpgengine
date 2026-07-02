@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <cstring> // mem{set,cpy}
 
@@ -921,7 +921,7 @@ bool CSMFReadMap::SetLuaTexture(const MapTextureData& td) {
 }
 
 void CSMFReadMap::InitGroundDrawer() { groundDrawer = new CSMFGroundDrawer(this); }
-void CSMFReadMap::KillGroundDrawer() { spring::SafeDelete(groundDrawer); }
+void CSMFReadMap::KillGroundDrawer() { ArcLight::SafeDelete(groundDrawer); }
 
 // not placed in header since type CSMFGroundDrawer is only forward-declared there
 inline CBaseGroundDrawer* CSMFReadMap::GetGroundDrawer() { return groundDrawer; }

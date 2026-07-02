@@ -1,7 +1,7 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
-#ifndef SPRING_MATH_H
-#define SPRING_MATH_H
+#ifndef ArcLight_MATH_H
+#define ArcLight_MATH_H
 
 #include "Sim/Misc/GlobalConstants.h"
 #include "System/type2.h"
@@ -11,8 +11,8 @@
 #include <cmath> // std::fabs
 #include <algorithm> // std::{min,max}
 
-static constexpr int SPRING_MAX_HEADING = 32768;
-static constexpr int SPRING_CIRCLE_DIVS = (SPRING_MAX_HEADING << 1);
+static constexpr int ARCLIGHT_MAX_HEADING = 32768;
+static constexpr int ARCLIGHT_CIRCLE_DIVS = (ARCLIGHT_MAX_HEADING << 1);
 
 #define HEADING_CHECKSUM_1024 0x617a9968
 #define HEADING_CHECKSUM_4096 0x3d51b476

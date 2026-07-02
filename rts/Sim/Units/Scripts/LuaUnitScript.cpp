@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #define LUA_SYNCED_ONLY
 
@@ -99,18 +99,18 @@ some notes:
 - therefore, compared to COB, the X axis for the Move callout is mirrored
 - destination, speed, accel, decel for Turn, Spin, StopSpin are in radians
 - GetUnitCOBValue(PLAY_SOUND, ...) does NOT work for Lua unit scripts,
-  use Spring.PlaySound instead (synced code can call unsynced funcs!).
+  use ArcLight.PlaySound instead (synced code can call unsynced funcs!).
 - Because in current design CBCobThreadFinish can impossibly be called, certain
   state changes which normally happen immediately when script returns should
   be triggered through a call to a callOut when using Lua scripts.
   This applies to:
-  * Spring.SetUnitShieldState(unitID, false|true) replaces return value 0|1 of
+  * ArcLight.SetUnitShieldState(unitID, false|true) replaces return value 0|1 of
     COB's AimWeaponX function for plasma repulsers.
-  * Spring.SetUnitWeaponState(unitID, weaponNum, "aimReady", 0|1) replaces
+  * ArcLight.SetUnitWeaponState(unitID, weaponNum, "aimReady", 0|1) replaces
     return value 0|1 of COB's AimWeaponX function for all other weapons.
-  * Spring.UnitScript.SetDeathScriptFinished(wreckLevel) replaces
+  * ArcLight.UnitScript.SetDeathScriptFinished(wreckLevel) replaces
     return value of wreckLevel from Killed function.
-    This MUST be called, otherwise zombie units will eat your Spring!
+    This MUST be called, otherwise zombie units will eat your ArcLight!
 
 
 callIn notes:
@@ -125,7 +125,7 @@ callIn notes:
 - QueryLandingPadCount doesn't exist
 - QueryLandingPad should return an array (table) of all pieces
 - BeginTransport and QueryTransport take unitID instead of unit->height*65536,
-  use 'local height = Spring.GetUnitHeight(unitID)' to get the height.
+  use 'local height = ArcLight.GetUnitHeight(unitID)' to get the height.
 - TransportDrop takes x,y,z instead of PACKXZ(x,z)
 - AimWeapon for a shield (plasma repulser) takes no arguments instead of 0,0
 - Shot takes no arguments instead of 0
@@ -149,70 +149,70 @@ MoveFinished(number piece, number axis)
 
 docs for callouts defined in this file:
 
-Spring.UnitScript.SetUnitValue(...)
-	see wiki for Spring.SetUnitCOBValue (unchanged)
+ArcLight.UnitScript.SetUnitValue(...)
+	see wiki for ArcLight.SetUnitCOBValue (unchanged)
 
-Spring.UnitScript.GetUnitValue(...)
-	see wiki for Spring.GetUnitCOBValue (unchanged)
+ArcLight.UnitScript.GetUnitValue(...)
+	see wiki for ArcLight.GetUnitCOBValue (unchanged)
 
-Spring.UnitScript.SetPieceVisibility(number piece, boolean visible) -> nil
+ArcLight.UnitScript.SetPieceVisibility(number piece, boolean visible) -> nil
 	Set's piece visibility.  Same as COB's hide/show.
 
-Spring.UnitSript.EmitSfx(number piece, number type) -> nil
+ArcLight.UnitSript.EmitSfx(number piece, number type) -> nil
 	Same as COB's emit-sfx.
 
-Spring.UnitScript.AttachUnit(number piece, number transporteeID) -> nil
+ArcLight.UnitScript.AttachUnit(number piece, number transporteeID) -> nil
 	Same as COB's attach-unit.
 
-Spring.UnitScript.DropUnit(number transporteeID) -> nil
+ArcLight.UnitScript.DropUnit(number transporteeID) -> nil
 	Same as COB's drop-unit.
 
-Spring.UnitScript.Explode(number piece, number flags) -> nil
+ArcLight.UnitScript.Explode(number piece, number flags) -> nil
 	Same as COB's explode.
 
-Spring.UnitScript.ShowFlare(number piece) -> nil
+ArcLight.UnitScript.ShowFlare(number piece) -> nil
 	Same as COB's show _inside_ FireWeaponX.
 
-Spring.UnitScript.Spin(number piece, number axis, number speed[, number accel]) -> nil
+ArcLight.UnitScript.Spin(number piece, number axis, number speed[, number accel]) -> nil
 	Same as COB's spin.  If accel isn't given spinning starts at the desired speed.
 
-Spring.UnitScript.StopSpin(number piece, number axis[, number decel]) -> nil
+ArcLight.UnitScript.StopSpin(number piece, number axis[, number decel]) -> nil
 	Same as COB's stop-spin.  If decel isn't given spinning stops immediately.
 
-Spring.UnitScript.Turn(number piece, number axis, number destination[, number speed]) -> nil
+ArcLight.UnitScript.Turn(number piece, number axis, number destination[, number speed]) -> nil
 	Same as COB's turn iff speed is given and not zero, and turn-now otherwise.
 
-Spring.UnitScript.Move(number piece, number axis, number destination[, number speed]) -> nil
+ArcLight.UnitScript.Move(number piece, number axis, number destination[, number speed]) -> nil
 	Same as COB's move iff speed is given and not zero, and move-now otherwise.
 
-Spring.UnitScript.IsInTurn(number piece, number axis) -> boolean
-Spring.UnitScript.IsInMove(number piece, number axis) -> boolean
-Spring.UnitScript.IsInSpin(number piece, number axis) -> boolean
+ArcLight.UnitScript.IsInTurn(number piece, number axis) -> boolean
+ArcLight.UnitScript.IsInMove(number piece, number axis) -> boolean
+ArcLight.UnitScript.IsInSpin(number piece, number axis) -> boolean
 	Returns true iff such an animation exists, false otherwise.
 
-Spring.UnitScript.WaitForTurn(number piece, number axis) -> boolean
+ArcLight.UnitScript.WaitForTurn(number piece, number axis) -> boolean
 	Returns true iff such an animation exists, false otherwise.  Iff it returns
 	true, the TurnFinished callIn will be called once the turn completes.
 
-Spring.UnitScript.WaitForMove(number piece, number axis) -> boolean
+ArcLight.UnitScript.WaitForMove(number piece, number axis) -> boolean
 	Returns true iff such an animation exists, false otherwise.  Iff it returns
 	true, the MoveFinished callIn will be called once the move completes.
 
-Spring.UnitScript.SetDeathScriptFinished(number wreckLevel])
-	Tells Spring the Killed script finished, and which wreckLevel to use.
+ArcLight.UnitScript.SetDeathScriptFinished(number wreckLevel])
+	Tells ArcLight the Killed script finished, and which wreckLevel to use.
 	If wreckLevel is not given no wreck is created.
 
-Spring.UnitScript.CreateScript(number unitID, table callIns) -> nil
+ArcLight.UnitScript.CreateScript(number unitID, table callIns) -> nil
 	Replaces the current unit script (independent of type, also replaces COB)
 	with the unit script given by a table of callins for the unit.
 	Callins are similar to COB functions, e.g. a number of predefined names are
 	called by the engine if they exist in the table.
 
-Spring.UnitScript.UpdateCallIn(number unitID, string fname[, function callIn]) -> number|boolean
+ArcLight.UnitScript.UpdateCallIn(number unitID, string fname[, function callIn]) -> number|boolean
 	Iff callIn is a function, a single callIn is replaced or added, and the
 	new functionID is returned.  If callIn isn't given or is nil, the callIn is
 	nilled, returns true if it was removed, or false if the callin didn't exist.
-	See also Spring.UnitScript.CreateScript.
+	See also ArcLight.UnitScript.CreateScript.
 */
 
 
@@ -288,7 +288,7 @@ void CLuaUnitScript::HandleFreed(CLuaHandle* handle)
 		// signal the destructor it shouldn't unref refs
 		luaScript->L = nullptr;
 
-		spring::SafeDestruct(script);
+		ArcLight::SafeDestruct(script);
 	}
 }
 
@@ -328,7 +328,7 @@ int CLuaUnitScript::UpdateCallIn()
 
 	if (!remove) {
 		// the reference doubles as the functionId, as expected by RealCall
-		// from Lua this can be used with e.g. Spring.CallCOBScript
+		// from Lua this can be used with e.g. ArcLight.CallCOBScript
 		lua_pushnumber(L, r);
 	}
 	return 1;
@@ -578,7 +578,7 @@ void CLuaUnitScript::Call(int fn, float arg1, float arg2, float arg3)
 void CLuaUnitScript::Create()
 {
 	// There is no use for Create
-	// (Lua code can just call it after Spring.UnitScript.CreateScript(...))
+	// (Lua code can just call it after ArcLight.UnitScript.CreateScript(...))
 }
 
 
@@ -1069,7 +1069,7 @@ int CLuaUnitScript::CreateScript(lua_State* L)
 	}
 
 	if (unit->script != &CNullUnitScript::value)
-		spring::SafeDestruct(unit->script);
+		ArcLight::SafeDestruct(unit->script);
 
 	// replace the unit's script (ctor parses callIn table)
 	unit->script = CUnitScriptFactory::CreateLuaScript(unit, L);

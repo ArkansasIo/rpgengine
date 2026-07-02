@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _EFX_H_
 #define _EFX_H_
@@ -79,8 +79,8 @@ private:
 
 private:
 	// information about the supported features
-	spring::unsynced_map<ALuint, bool> effectsSupported;
-	spring::unsynced_map<ALuint, bool> filtersSupported;
+	ArcLight::unsynced_map<ALuint, bool> effectsSupported;
+	ArcLight::unsynced_map<ALuint, bool> filtersSupported;
 };
 
 // initialized in Sound.cpp

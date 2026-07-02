@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <algorithm>
 #include <array>
@@ -57,7 +57,7 @@ int CommonDefHandler::LoadSoundFile(const std::string& fileName)
 		// into memory; faster for large files and many small individually
 		// compressed sounds (e.g. in pool archives)
 		const bool foundExt = (std::find(soundExts.cbegin(), soundExts.cend(), soundExt) != soundExts.cend());
-		const bool haveFile = (foundExt && CFileHandler::FileExists(fileName, SPRING_VFS_RAW_FIRST));
+		const bool haveFile = (foundExt && CFileHandler::FileExists(fileName, ARCLIGHT_VFS_RAW_FIRST));
 		const bool haveItem = (haveFile || sound->HasSoundItem(fileName));
 
 		if (haveItem)
@@ -65,7 +65,7 @@ int CommonDefHandler::LoadSoundFile(const std::string& fileName)
 
 		const std::string soundFile = "sounds/" + fileName + ((soundExt.empty())? ".wav": "");
 
-		if (CFileHandler::FileExists(soundFile, SPRING_VFS_RAW_FIRST))
+		if (CFileHandler::FileExists(soundFile, ARCLIGHT_VFS_RAW_FIRST))
 			return (sound->GetSoundId(soundFile));
 
 		LOG_L(L_WARNING, "[%s] could not load sound \"%s\" from {Unit,Weapon}Def", __func__, fileName.c_str());

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "PathManager.h"
 #include "PathConstants.h"
@@ -74,7 +74,7 @@ std::uint32_t CPathManager::GetPathCheckSum() const {
 }
 
 std::int64_t CPathManager::Finalize() {
-	const spring_time t0 = spring_gettime();
+	const ArcLight_time t0 = ArcLight_gettime();
 
 	{
 		maxResPF = &gMaxResPF;
@@ -87,7 +87,7 @@ std::int64_t CPathManager::Finalize() {
 		lowResPE->Init(medResPE, LOWRES_PE_BLOCKSIZE, "pe2", mapInfo->map.name);
 	}
 
-	const spring_time dt = spring_gettime() - t0;
+	const ArcLight_time dt = ArcLight_gettime() - t0;
 	return (dt.toMilliSecsi());
 }
 

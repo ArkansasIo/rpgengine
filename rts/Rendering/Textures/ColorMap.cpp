@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <array>
 #include <cstring> // memcpy
@@ -24,7 +24,7 @@ CR_REG_METADATA(CColorMap, (
 
 
 static std::array<CColorMap, 2048 + 2> colorMapsCache;
-static spring::unordered_map<std::string, CColorMap*> namedColorMaps;
+static ArcLight::unordered_map<std::string, CColorMap*> namedColorMaps;
 
 static size_t numColorMaps = 0;
 

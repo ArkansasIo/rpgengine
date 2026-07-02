@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "SMFReadMap.h"
 #include "SMFGroundDrawer.h"
@@ -119,8 +119,8 @@ CSMFGroundDrawer::~CSMFGroundDrawer()
 	// at runtime
 	borderShader.Release(false);
 
-	spring::SafeDelete(groundTextures);
-	spring::SafeDelete(meshDrawer);
+	ArcLight::SafeDelete(groundTextures);
+	ArcLight::SafeDelete(meshDrawer);
 }
 
 
@@ -140,18 +140,18 @@ IMeshDrawer* CSMFGroundDrawer::SwitchMeshDrawer(int wantedMode)
 		#if 0
 		case SMF_MESHDRAWER_LEGACY: {
 			LOG("Switching to Legacy Mesh Rendering");
-			spring::SafeDelete(meshDrawer);
+			ArcLight::SafeDelete(meshDrawer);
 			meshDrawer = new CLegacyMeshDrawer(smfMap, this);
 		} break;
 		#endif
 		case SMF_MESHDRAWER_BASIC: {
 			LOG("Switching to Basic Mesh Rendering");
-			spring::SafeDelete(meshDrawer);
+			ArcLight::SafeDelete(meshDrawer);
 			meshDrawer = new CBasicMeshDrawer(this);
 		} break;
 		default: {
 			LOG("Switching to ROAM Mesh Rendering");
-			spring::SafeDelete(meshDrawer);
+			ArcLight::SafeDelete(meshDrawer);
 			meshDrawer = new CRoamMeshDrawer(this);
 		} break;
 	}

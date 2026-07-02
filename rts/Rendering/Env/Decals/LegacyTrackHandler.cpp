@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "LegacyTrackHandler.h"
 
@@ -238,7 +238,7 @@ void LegacyTrackHandler::CleanTracks()
 		}
 
 		if (parts.empty()) {
-			spring::VectorErase(trackTypes[ttc.ttIndex].trackIDs, track.id);
+			ArcLight::VectorErase(trackTypes[ttc.ttIndex].trackIDs, track.id);
 			unitTracks.erase(track.id);
 		}
 	}
@@ -398,7 +398,7 @@ void LegacyTrackHandler::CreateOrAddTrackPart(const CUnit* unit, const SolidObje
 		auto& decDef = unit->unitDef->decalDef;
 		auto& trType = trackTypes[decDef.trackDecalType];
 
-		spring::VectorInsertUnique(trType.trackIDs, unitTrack.id);
+		ArcLight::VectorInsertUnique(trType.trackIDs, unitTrack.id);
 	} else {
 		const TrackPart& prevPart = unitTrack.parts[unitTrack.parts.size() - 2];
 

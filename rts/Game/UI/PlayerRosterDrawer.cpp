@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 
 #include "PlayerRosterDrawer.h"
@@ -25,7 +25,7 @@ void CPlayerRosterDrawer::Draw()
 	if (playerRoster.GetSortType() == PlayerRoster::Disabled)
 		return;
 
-	const unsigned currentTime = spring_now().toSecsi();
+	const unsigned currentTime = ArcLight_now().toSecsi();
 
 	const char* prefix = "";
 	const char* formats[3] = {

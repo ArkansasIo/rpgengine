@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef SPRINGTHREADING_H
 #define SPRINGTHREADING_H
@@ -19,7 +19,7 @@
 	#include "System/Platform/Linux/Futex.h"
 #endif
 
-namespace spring {
+namespace ArcLight {
 #if   defined(_WIN32)
 	typedef CriticalSection mutex;
 	typedef CriticalSection recursive_mutex;
@@ -31,7 +31,7 @@ namespace spring {
 	typedef mac_signal signal;
 	typedef std::condition_variable condition_variable;
 #elif !defined(__APPLE__) && defined(USE_FUTEX)
-	typedef spring_futex mutex;
+	typedef ArcLight_futex mutex;
 	//typedef recursive_futex recursive_mutex;
 	typedef std::recursive_mutex recursive_mutex;
 	typedef linux_signal signal;

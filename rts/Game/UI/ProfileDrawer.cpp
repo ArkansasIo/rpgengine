@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <cassert>
 #include <deque>
@@ -24,7 +24,7 @@
 #include "System/EventHandler.h"
 #include "System/TimeProfiler.h"
 #include "System/SafeUtil.h"
-#include "lib/lua/include/LuaUser.h" // spring_lua_alloc_get_stats
+#include "lib/lua/include/LuaUser.h" // ArcLight_lua_alloc_get_stats
 
 ProfileDrawer* ProfileDrawer::instance = nullptr;
 
@@ -38,7 +38,7 @@ static constexpr float LINE_HEIGHT = 0.017f;
 
 static constexpr unsigned int DBG_FONT_FLAGS = (FONT_SCALE | FONT_NORM | FONT_SHADOW);
 
-typedef std::pair<spring_time, spring_time> TimeSlice;
+typedef std::pair<ArcLight_time, ArcLight_time> TimeSlice;
 static std::deque<TimeSlice> vidFrames;
 static std::deque<TimeSlice> simFrames;
 static std::deque<TimeSlice> lgcFrames;
@@ -57,7 +57,7 @@ ProfileDrawer::ProfileDrawer()
 void ProfileDrawer::SetEnabled(bool enable)
 {
 	if (!enable) {
-		spring::SafeDelete(instance);
+		ArcLight::SafeDelete(instance);
 		return;
 	}
 
@@ -117,8 +117,8 @@ static void DrawBufferStats(const float2 pos)
 
 static void DrawTimeSlices(
 	std::deque<TimeSlice>& frames,
-	const spring_time curTime,
-	const spring_time maxTime,
+	const ArcLight_time curTime,
+	const ArcLight_time maxTime,
 	const float4& drawArea,
 	const float4& sliceColor
 ) {
@@ -174,8 +174,8 @@ static void DrawThreadBarcode(GL::RenderDataBufferC* buffer)
 
 	const float drawArea[4] = {0.01f, 0.30f, (MIN_X_COOR * 0.5f), 0.35f};
 
-	const spring_time curTime = spring_now();
-	const spring_time maxTime = spring_secs(MAX_THREAD_HIST_TIME);
+	const ArcLight_time curTime = ArcLight_now();
+	const ArcLight_time maxTime = ArcLight_secs(MAX_THREAD_HIST_TIME);
 
 	const size_t numThreads = profiler.GetNumThreadProfiles();
 
@@ -232,8 +232,8 @@ static void DrawFrameBarcode(GL::RenderDataBufferC* buffer)
 
 	const float drawArea[4] = {0.01f, 0.21f, MIN_X_COOR - 0.05f, 0.26f};
 
-	const spring_time curTime = spring_now();
-	const spring_time maxTime = spring_secs(MAX_FRAMES_HIST_TIME);
+	const ArcLight_time curTime = ArcLight_now();
+	const ArcLight_time maxTime = ArcLight_secs(MAX_FRAMES_HIST_TIME);
 
 	// background
 	buffer->SafeAppend({{drawArea[0] - 10.0f * globalRendering->pixelX, drawArea[1] - 10.0f * globalRendering->pixelY, 0.0f}, {barColor}}); // tl
@@ -491,7 +491,7 @@ static void DrawInfoText(GL::RenderDataBufferC* buffer)
 
 	{
 		SLuaAllocState state = {{0}, {0}, {0}, {0}};
-		spring_lua_alloc_get_stats(&state);
+		ArcLight_lua_alloc_get_stats(&state);
 
 		const    float allocMegs = state.allocedBytes.load() / 1024.0f / 1024.0f;
 		const    float kiloAlloc = state.numLuaAllocs.load() / 1000.0f;
@@ -578,7 +578,7 @@ bool ProfileDrawer::IsAbove(int x, int y)
 }
 
 
-void ProfileDrawer::DbgTimingInfo(DbgTimingInfoType type, const spring_time start, const spring_time end)
+void ProfileDrawer::DbgTimingInfo(DbgTimingInfoType type, const ArcLight_time start, const ArcLight_time end)
 {
 	if (!IsEnabled())
 		return;

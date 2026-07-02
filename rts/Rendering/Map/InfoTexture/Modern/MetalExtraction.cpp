@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "MetalExtraction.h"
 #include "InfoTextureHandler.h"
@@ -42,7 +42,7 @@ CMetalExtractionTexture::CMetalExtractionTexture()
 	//  to upload the CPU array directly to the GPU w/o any (slow) cpu-side
 	//  transformation. The transformation (0..1 range rescaling) happens
 	//  then on the gpu instead.
-	glSpringTexStorage2D(GL_TEXTURE_2D, 1, GL_R32F, texSize.x, texSize.y);
+	glArcLightTexStorage2D(GL_TEXTURE_2D, 1, GL_R32F, texSize.x, texSize.y);
 
 	{
 		fbo.Bind();

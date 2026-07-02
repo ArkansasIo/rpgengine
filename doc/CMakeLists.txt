@@ -102,7 +102,7 @@ if     (USERDOCS_HTML)
 			if     (PANDOC_FOUND)
 				pandoc_md_to_html(  convert_command_${name}
 						"${${var_srcFile}}" "${DST_FILE_${name}}"
-						"Spring RTS Game Engine - ${name}")
+						"ArcLight Engine - ${name}")
 			else ()
 				markdown_md_to_html(convert_command_${name}
 						"${${var_srcFile}}" "${DST_FILE_${name}}")

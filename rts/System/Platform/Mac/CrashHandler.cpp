@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "System/Platform/CrashHandler.h"
 
@@ -130,7 +130,7 @@ static void TranslateStackTrace(StackTrace& stacktrace, const int logLevel)
 		}
 
 		// execute command atos, read stdout and write to log-file
-		// hide error output from spring's pipe
+		// hide error output from ArcLight's pipe
 		execCommandBuffer << " 2>/dev/null";
 		execCommandString = std::move(execCommandBuffer.str());
 

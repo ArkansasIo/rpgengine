@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <cassert>
 
@@ -206,8 +206,8 @@ bool CUnitHandler::AddUnit(CUnit* unit)
 
 	// 0 is not a valid UnitDef id, so just use unitsByDefs[team][0]
 	// as an unsorted bin to store all units belonging to unit->team
-	spring::VectorInsertUnique(GetUnitsByTeamAndDef(unit->team,                 0), unit, false);
-	spring::VectorInsertUnique(GetUnitsByTeamAndDef(unit->team, unit->unitDef->id), unit, false);
+	ArcLight::VectorInsertUnique(GetUnitsByTeamAndDef(unit->team,                 0), unit, false);
+	ArcLight::VectorInsertUnique(GetUnitsByTeamAndDef(unit->team, unit->unitDef->id), unit, false);
 
 	maxUnitRadius = std::max(unit->radius, maxUnitRadius);
 	return true;
@@ -284,8 +284,8 @@ void CUnitHandler::DeleteUnit(CUnit* delUnit)
 
 	activeUnits.erase(it);
 
-	spring::VectorErase(GetUnitsByTeamAndDef(delUnitTeam,           0), delUnit);
-	spring::VectorErase(GetUnitsByTeamAndDef(delUnitTeam, delUnitType), delUnit);
+	ArcLight::VectorErase(GetUnitsByTeamAndDef(delUnitTeam,           0), delUnit);
+	ArcLight::VectorErase(GetUnitsByTeamAndDef(delUnitTeam, delUnitType), delUnit);
 
 	idPool.FreeID(delUnit->id, true);
 
@@ -414,10 +414,10 @@ void CUnitHandler::RemoveBuilderCAI(CBuilderCAI* b)
 
 void CUnitHandler::ChangeUnitTeam(CUnit* unit, int oldTeamNum, int newTeamNum)
 {
-	spring::VectorErase       (GetUnitsByTeamAndDef(oldTeamNum,                 0), unit       );
-	spring::VectorErase       (GetUnitsByTeamAndDef(oldTeamNum, unit->unitDef->id), unit       );
-	spring::VectorInsertUnique(GetUnitsByTeamAndDef(newTeamNum,                 0), unit, false);
-	spring::VectorInsertUnique(GetUnitsByTeamAndDef(newTeamNum, unit->unitDef->id), unit, false);
+	ArcLight::VectorErase       (GetUnitsByTeamAndDef(oldTeamNum,                 0), unit       );
+	ArcLight::VectorErase       (GetUnitsByTeamAndDef(oldTeamNum, unit->unitDef->id), unit       );
+	ArcLight::VectorInsertUnique(GetUnitsByTeamAndDef(newTeamNum,                 0), unit, false);
+	ArcLight::VectorInsertUnique(GetUnitsByTeamAndDef(newTeamNum, unit->unitDef->id), unit, false);
 }
 
 

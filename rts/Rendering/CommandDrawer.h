@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef COMMAND_DRAWER_H
 #define COMMAND_DRAWER_H
@@ -43,7 +43,7 @@ private:
 	void DrawQueuedBuildingSquaresUW(const CBuilderCAI* cai) const;
 
 private:
-	spring::unordered_set<int> luaQueuedUnitSet;
+	ArcLight::unordered_set<int> luaQueuedUnitSet;
 
 	// used by DrawQueuedBuildingSquares
 	const float* buildQueueSquareColor = nullptr;

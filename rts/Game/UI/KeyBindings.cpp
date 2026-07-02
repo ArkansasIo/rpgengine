@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <cstdio>
 
@@ -179,7 +179,7 @@ static const DefaultBinding defaultBindings[] = {
 
 	{ "Ctrl+f1", "viewfps"  },
 	{ "Ctrl+f2", "viewta"   },
-	{ "Ctrl+f3", "viewspring" },
+	{ "Ctrl+f3", "viewArcLight" },
 	{ "Ctrl+f4", "viewrot"  },
 	{ "Ctrl+f5", "viewfree" },
 

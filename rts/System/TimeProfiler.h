@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef TIME_PROFILER_H
 #define TIME_PROFILER_H
@@ -27,17 +27,17 @@
 #define SCOPED_MT_TIMER(name)  ScopedMtTimer __scopedTimer(hashString(name));
 
 
-class BasicTimer : public spring::noncopyable
+class BasicTimer : public ArcLight::noncopyable
 {
 public:
-	//BasicTimer(const spring_time time): nameHash(0), startTime(time) {}
-	BasicTimer(unsigned _nameHash) : nameHash(_nameHash), startTime(spring_gettime()) { }
+	//BasicTimer(const ArcLight_time time): nameHash(0), startTime(time) {}
+	BasicTimer(unsigned _nameHash) : nameHash(_nameHash), startTime(ArcLight_gettime()) { }
 
-	spring_time GetDuration() const;
+	ArcLight_time GetDuration() const;
 
 protected:
 	const unsigned nameHash;
-	const spring_time startTime;
+	const ArcLight_time startTime;
 };
 
 
@@ -81,10 +81,10 @@ public:
 	ScopedOnceTimer(const char* name, const char* frmt = "[%s][%s] %ims");
 	~ScopedOnceTimer();
 
-	spring_time GetDuration() const;
+	ArcLight_time GetDuration() const;
 
 protected:
-	const spring_time startTime;
+	const ArcLight_time startTime;
 
 	char name[128];
 	char frmt[128];
@@ -106,14 +106,14 @@ public:
 
 	struct TimeRecord {
 		TimeRecord() {
-			frames.fill(spring_time(0));
+			frames.fill(ArcLight_time(0));
 		}
 
 		static constexpr unsigned numFrames = 128;
 
-		spring_time total = spring_notime;
-		spring_time current = spring_notime;
-		std::array<spring_time, numFrames> frames;
+		ArcLight_time total = ArcLight_notime;
+		ArcLight_time current = ArcLight_notime;
+		std::array<ArcLight_time, numFrames> frames;
 
 		// .x := maximum dt, .y := time-percentage, .z := peak-percentage
 		float3 stats;
@@ -126,7 +126,7 @@ public:
 
 public:
 	std::vector< std::pair<std::string, TimeRecord> >& GetSortedProfiles() { return sortedProfiles; }
-	std::vector< std::deque< std::pair<spring_time, spring_time> > >& GetThreadProfiles() { return threadProfiles; }
+	std::vector< std::deque< std::pair<ArcLight_time, ArcLight_time> > >& GetThreadProfiles() { return threadProfiles; }
 
 	size_t GetNumSortedProfiles() const { return (sortedProfiles.size()); }
 	size_t GetNumThreadProfiles() const { return (threadProfiles.size()); }
@@ -169,27 +169,27 @@ public:
 
 	void AddTime(
 		unsigned nameHash,
-		const spring_time startTime,
-		const spring_time deltaTime,
+		const ArcLight_time startTime,
+		const ArcLight_time deltaTime,
 		const bool showGraph = false,
 		const bool specialTimer = false,
 		const bool threadTimer = false
 	);
 	void AddTimeRaw(
 		unsigned nameHash,
-		const spring_time startTime,
-		const spring_time deltaTime,
+		const ArcLight_time startTime,
+		const ArcLight_time deltaTime,
 		const bool showGraph,
 		const bool threadTimer
 	);
 
 private:
-	spring::unordered_map<unsigned, TimeRecord> profiles;
+	ArcLight::unordered_map<unsigned, TimeRecord> profiles;
 
 	std::vector< std::pair<std::string, TimeRecord> > sortedProfiles;
-	std::vector< std::deque< std::pair<spring_time, spring_time> > > threadProfiles;
+	std::vector< std::deque< std::pair<ArcLight_time, ArcLight_time> > > threadProfiles;
 
-	spring_time lastBigUpdate;
+	ArcLight_time lastBigUpdate;
 
 	/// increases each update, from 0 to (numFrames-1)
 	unsigned currentPosition;
@@ -200,7 +200,7 @@ private:
 };
 
 
-class TimerNameRegistrar : public spring::noncopyable
+class TimerNameRegistrar : public ArcLight::noncopyable
 {
 public:
 	TimerNameRegistrar(const char* timerName) {

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "AssParser.h"
 #include "3DModel.h"
@@ -58,10 +58,10 @@ static constexpr unsigned int ASS_LOGGING_OPTIONS =
 
 static inline float3 aiVectorToFloat3(const aiVector3D v)
 {
-	// no-op; AssImp's internal coordinate-system matches Spring's modulo handedness
+	// no-op; AssImp's internal coordinate-system matches ArcLight's modulo handedness
 	return {v.x, v.y, v.z};
 
-	// Blender --> Spring
+	// Blender --> ArcLight
 	// return float3(v.x, v.z, -v.y);
 }
 
@@ -74,10 +74,10 @@ static inline CMatrix44f aiMatrixToMatrix(const aiMatrix4x4t<float>& m)
 	n[ 8] = m.c1; n[ 9] = m.c2; n[10] = m.c3; n[11] = m.c4; // 3rd column
 	n[12] = m.d1; n[13] = m.d2; n[14] = m.d3; n[15] = m.d4; // 4th column
 
-	// AssImp (row-major, RH) --> Spring (column-major, LH)
+	// AssImp (row-major, RH) --> ArcLight (column-major, LH)
 	return (n.Transpose());
 
-	// Blender --> Spring
+	// Blender --> ArcLight
 	// return (CMatrix44f(n.GetPos(), n.GetX(), n.GetZ(), -n.GetY()));
 }
 
@@ -158,19 +158,19 @@ S3DModel CAssParser::Load(const std::string& modelFilePath)
 	const std::string& modelPath = FileSystem::GetDirectory(modelFilePath);
 	const std::string& modelName = FileSystem::GetBasename(modelFilePath);
 
-	CFileHandler file(modelFilePath, SPRING_VFS_ZIP);
+	CFileHandler file(modelFilePath, ARCLIGHT_VFS_ZIP);
 
 	std::vector<unsigned char> fileBuf;
-	// load the lua metafile containing properties unique to Spring models (must return a table)
+	// load the lua metafile containing properties unique to ArcLight models (must return a table)
 	std::string metaFileName = modelFilePath + ".lua";
 
 	// try again without the model file extension
-	if (!CFileHandler::FileExists(metaFileName, SPRING_VFS_ZIP))
+	if (!CFileHandler::FileExists(metaFileName, ARCLIGHT_VFS_ZIP))
 		metaFileName = modelPath + modelName + ".lua";
-	if (!CFileHandler::FileExists(metaFileName, SPRING_VFS_ZIP))
+	if (!CFileHandler::FileExists(metaFileName, ARCLIGHT_VFS_ZIP))
 		LOG_SL(LOG_SECTION_MODEL, L_INFO, "No meta-file '%s'. Using defaults.", metaFileName.c_str());
 
-	LuaParser metaFileParser(metaFileName, SPRING_VFS_ZIP, SPRING_VFS_ZIP);
+	LuaParser metaFileParser(metaFileName, ARCLIGHT_VFS_ZIP, ARCLIGHT_VFS_ZIP);
 
 	if (!metaFileParser.Execute())
 		LOG_SL(LOG_SECTION_MODEL, L_INFO, "'%s': %s. Using defaults.", metaFileName.c_str(), metaFileParser.GetErrorLog().c_str());
@@ -353,7 +353,7 @@ void CAssParser::LoadPieceTransformations(
 	piece->scales.z = pieceTable.GetFloat("scalez", piece->scales.z);
 
 	if (piece->scales.x != piece->scales.y || piece->scales.y != piece->scales.z) {
-		// LOG_SL(LOG_SECTION_MODEL, L_WARNING, "Spring doesn't support non-uniform scaling");
+		// LOG_SL(LOG_SECTION_MODEL, L_WARNING, "ArcLight doesn't support non-uniform scaling");
 		piece->scales.y = piece->scales.x;
 		piece->scales.z = piece->scales.x;
 	}
@@ -433,8 +433,8 @@ void CAssParser::SetPieceName(
 		}
 	}
 
-	assert(piece->name != "SpringHeight");
-	assert(piece->name != "SpringRadius");
+	assert(piece->name != "ArcLightHeight");
+	assert(piece->name != "ArcLightRadius");
 }
 
 void CAssParser::SetPieceParentName(
@@ -592,7 +592,7 @@ static LuaTable GetPieceTableRecursively(
 
 SAssPiece* CAssParser::AllocPiece()
 {
-	std::lock_guard<spring::mutex> lock(poolMutex);
+	std::lock_guard<ArcLight::mutex> lock(poolMutex);
 
 	// lazily reserve pool here instead of during Init
 	// this way games using only one model-type do not
@@ -751,13 +751,13 @@ static std::string FindTexture(std::string testTextureFile, const std::string& m
 	if (testTextureFile.find("//..") == 0)
 		testTextureFile = testTextureFile.substr(4);
 
-	if (CFileHandler::FileExists(testTextureFile, SPRING_VFS_ZIP_FIRST))
+	if (CFileHandler::FileExists(testTextureFile, ARCLIGHT_VFS_ZIP_FIRST))
 		return testTextureFile;
 
-	if (CFileHandler::FileExists("unittextures/" + testTextureFile, SPRING_VFS_ZIP_FIRST))
+	if (CFileHandler::FileExists("unittextures/" + testTextureFile, ARCLIGHT_VFS_ZIP_FIRST))
 		return "unittextures/" + testTextureFile;
 
-	if (CFileHandler::FileExists(modelPath + testTextureFile, SPRING_VFS_ZIP_FIRST))
+	if (CFileHandler::FileExists(modelPath + testTextureFile, ARCLIGHT_VFS_ZIP_FIRST))
 		return modelPath + testTextureFile;
 
 	return fallback;

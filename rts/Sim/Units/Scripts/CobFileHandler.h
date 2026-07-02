@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef COB_FILE_HANDLER_H
 #define COB_FILE_HANDLER_H
@@ -23,7 +23,7 @@ public:
 	const CCobFile* GetScriptFile(const std::string& name) const;
 
 private:
-	spring::unordered_map<std::string, size_t> cobFileHandles;
+	ArcLight::unordered_map<std::string, size_t> cobFileHandles;
 	std::deque<CCobFile> cobFileObjects;
 };
 

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _COMMAND_AI_H
 #define _COMMAND_AI_H
@@ -115,7 +115,7 @@ public:
 	CWeapon* stockpileWeapon;
 
 	std::vector<const SCommandDescription*> possibleCommands;
-	spring::unordered_set<int> nonQueingCommands;
+	ArcLight::unordered_set<int> nonQueingCommands;
 
 	CCommandQueue commandQue;
 
@@ -152,7 +152,7 @@ protected:
 
 private:
 	// FIXME make synced?
-	spring::unsynced_set<CObject*> commandDeathDependences;
+	ArcLight::unsynced_set<CObject*> commandDeathDependences;
 	/**
 	 * continuously set to some non-zero value while target is in radar
 	 * decremented by 1 every SlowUpdate (!), command is canceled when

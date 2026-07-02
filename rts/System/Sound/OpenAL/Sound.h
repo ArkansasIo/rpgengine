@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _SOUND_H_
 #define _SOUND_H_
@@ -72,8 +72,8 @@ public:
 	int GetFrameSize() const { return frameSize; }
 
 private:
-	typedef spring::unordered_map<std::string, std::string> SoundItemNameMap;
-	typedef spring::unordered_map<std::string, SoundItemNameMap> SoundItemDefsMap;
+	typedef ArcLight::unordered_map<std::string, std::string> SoundItemNameMap;
+	typedef ArcLight::unordered_map<std::string, SoundItemNameMap> SoundItemDefsMap;
 
 private:
 	void Cleanup();
@@ -100,10 +100,10 @@ private:
 
 	std::string selectedDeviceName = "";
 
-	spring::thread soundThread;
-	spring::unordered_map<std::string, size_t> soundMap; // <name, id>
-	spring::unordered_set<std::string> preloadSet;
-	spring::unordered_set<std::string> failureSet;
+	ArcLight::thread soundThread;
+	ArcLight::unordered_map<std::string, size_t> soundMap; // <name, id>
+	ArcLight::unordered_set<std::string> preloadSet;
+	ArcLight::unordered_set<std::string> failureSet;
 
 	std::vector<SoundItem> soundItems;
 	std::vector<CSoundSource> soundSources; // fixed-size

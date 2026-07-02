@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _EFX_PRESETS_H_
 #define _EFX_PRESETS_H_
@@ -66,10 +66,10 @@ struct EAXSfxProps {
 		filter_props_f[AL_LOWPASS_GAINHF] = 1.0f;
 	}
 
-	spring::unsynced_map<ALuint, ALfloat> reverb_props_f;
-	spring::unsynced_map<ALuint, ALint>   reverb_props_i;
-	spring::unsynced_map<ALuint, float3>  reverb_props_v;
-	spring::unsynced_map<ALuint, ALfloat> filter_props_f;
+	ArcLight::unsynced_map<ALuint, ALfloat> reverb_props_f;
+	ArcLight::unsynced_map<ALuint, ALint>   reverb_props_i;
+	ArcLight::unsynced_map<ALuint, float3>  reverb_props_v;
+	ArcLight::unsynced_map<ALuint, ALfloat> filter_props_f;
 };
 
 namespace EFXParamTypes {
@@ -80,12 +80,12 @@ namespace EFXParamTypes {
 	};
 }
 
-extern spring::unsynced_map<std::string, EAXSfxProps> eaxPresets;
+extern ArcLight::unsynced_map<std::string, EAXSfxProps> eaxPresets;
 
-extern spring::unsynced_map<ALuint, unsigned> alParamType;
-extern spring::unsynced_map<std::string, ALuint> nameToALParam;
-extern spring::unsynced_map<ALuint, std::string> alParamToName;
-extern spring::unsynced_map<std::string, ALuint> nameToALFilterParam;
-extern spring::unsynced_map<ALuint, std::string> alFilterParamToName;
+extern ArcLight::unsynced_map<ALuint, unsigned> alParamType;
+extern ArcLight::unsynced_map<std::string, ALuint> nameToALParam;
+extern ArcLight::unsynced_map<ALuint, std::string> alParamToName;
+extern ArcLight::unsynced_map<std::string, ALuint> nameToALFilterParam;
+extern ArcLight::unsynced_map<ALuint, std::string> alFilterParamToName;
 
 #endif // _EFX_PRESETS_H_

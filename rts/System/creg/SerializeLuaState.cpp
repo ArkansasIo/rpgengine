@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 #include "SerializeLuaState.h"
 
 #include "VarTypes.h"
@@ -65,8 +65,8 @@ static bool inClosure = false;
 
 // C functions in lua have to be specially registered in order to
 // be serialized correctly
-static spring::unsynced_map<std::string, lua_CFunction> nameToFunc;
-static spring::unsynced_map<lua_CFunction, std::string> funcToName;
+static ArcLight::unsynced_map<std::string, lua_CFunction> nameToFunc;
+static ArcLight::unsynced_map<lua_CFunction, std::string> funcToName;
 
 
 /*
@@ -330,7 +330,7 @@ struct creg_global_State {
 	creg_Table *mt[NUM_TAGS];  /* metatables for basic types */
 	creg_TString *tmname[TM_N];  /* array with tag-method names */
 
-	//SPRING additions
+	//ArcLight additions
 	lua_Func_fopen  fopen_func;
 	lua_Func_popen  popen_func;
 	lua_Func_pclose pclose_func;

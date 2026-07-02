@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #if defined(_MSC_VER) && !defined(S_ISDIR)
 #	define S_ISDIR(m) (((m) & 0170000) == 0040000)
@@ -437,7 +437,7 @@ void FileSystemAbstraction::ChDir(const std::string& dir)
 	}
 }
 
-static void FindFiles(std::vector<std::string>& matches, const std::string& datadir, const std::string& dir, const spring::regex& regexPattern, int flags)
+static void FindFiles(std::vector<std::string>& matches, const std::string& datadir, const std::string& dir, const ArcLight::regex& regexPattern, int flags)
 {
 #ifdef _WIN32
 	WIN32_FIND_DATA wfd;
@@ -448,13 +448,13 @@ static void FindFiles(std::vector<std::string>& matches, const std::string& data
 			if (strcmp(wfd.cFileName,".") && strcmp(wfd.cFileName ,"..")) {
 				if (!(wfd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY)) {
 					if ((flags & FileQueryFlags::ONLY_DIRS) == 0) {
-						if (spring::regex_match(wfd.cFileName, regexPattern)) {
+						if (ArcLight::regex_match(wfd.cFileName, regexPattern)) {
 							matches.push_back(dir + wfd.cFileName);
 						}
 					}
 				} else {
 					if (flags & FileQueryFlags::INCLUDE_DIRS) {
-						if (spring::regex_match(wfd.cFileName, regexPattern)) {
+						if (ArcLight::regex_match(wfd.cFileName, regexPattern)) {
 							matches.push_back(dir + wfd.cFileName + "\\");
 						}
 					}
@@ -486,14 +486,14 @@ static void FindFiles(std::vector<std::string>& matches, const std::string& data
 
 		if (!S_ISDIR(info.st_mode)) {
 			if ((flags & FileQueryFlags::ONLY_DIRS) == 0) {
-				if (spring::regex_match(ep->d_name, regexPattern)) {
+				if (ArcLight::regex_match(ep->d_name, regexPattern)) {
 					matches.push_back(dir + ep->d_name);
 				}
 			}
 		} else {
 			// or a directory?
 			if (flags & FileQueryFlags::INCLUDE_DIRS) {
-				if (spring::regex_match(ep->d_name, regexPattern)) {
+				if (ArcLight::regex_match(ep->d_name, regexPattern)) {
 					matches.push_back(dir + ep->d_name + "/");
 				}
 			}
@@ -509,7 +509,7 @@ static void FindFiles(std::vector<std::string>& matches, const std::string& data
 
 void FileSystemAbstraction::FindFiles(std::vector<std::string>& matches, const std::string& dataDir, const std::string& dir, const std::string& regex, int flags)
 {
-	const spring::regex regexPattern(regex);
+	const ArcLight::regex regexPattern(regex);
 	::FindFiles(matches, dataDir, dir, regexPattern, flags);
 }
 

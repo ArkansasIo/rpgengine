@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 /**
  * @class LuaZipFileWriter
@@ -318,11 +318,11 @@ int LuaZipFileReader::meta_gc(lua_State* L)
 	ZipFileReaderUserdata* f = toreader(L);
 
 	if (f->stream) {
-		spring::SafeDelete(f->stream);
+		ArcLight::SafeDelete(f->stream);
 	}
 
 	if (f->archive && !f->dontClose) {
-		spring::SafeDelete(f->archive);
+		ArcLight::SafeDelete(f->archive);
 		lua_pushboolean(L, 1);
 		return 1;
 	}

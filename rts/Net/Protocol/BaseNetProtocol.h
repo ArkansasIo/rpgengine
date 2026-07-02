@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _BASE_NET_PROTOCOL_H
 #define _BASE_NET_PROTOCOL_H
@@ -26,7 +26,7 @@ struct PlayerStatistics;
 struct TeamStatistics;
 
 
-static const uint16_t NETWORK_VERSION = atoi(SpringVersion::GetMajor().c_str());
+static const uint16_t NETWORK_VERSION = atoi(ArcLightVersion::GetMajor().c_str());
 
 
 /**

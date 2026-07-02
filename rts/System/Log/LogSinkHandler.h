@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef LOG_SINK_HANDLER_H
 #define LOG_SINK_HANDLER_H
@@ -50,7 +50,7 @@ public:
 	void RecordLogMessage(int level, const std::string& section, const std::string& text);
 
 private:
-	spring::unsynced_set<ILogSink*> sinks;
+	ArcLight::unsynced_set<ILogSink*> sinks;
 
 	/**
 	 * Whether log records are passed on to registered sinks, or dismissed.

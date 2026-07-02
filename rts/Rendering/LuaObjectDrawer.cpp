@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "LuaObjectDrawer.h"
 #include "FeatureDrawer.h"
@@ -116,7 +116,7 @@ static float GetLODFloat(const std::string& name)
 {
 	// NOTE: the inverse of the value is used
 	const float value = std::max(0.0f, configHandler->GetFloat(name));
-	const float recip = spring::SafeDivide(1.0f, value);
+	const float recip = ArcLight::SafeDivide(1.0f, value);
 	return recip;
 }
 
@@ -316,7 +316,7 @@ void LuaObjectDrawer::Kill()
 	featureDrawFuncs[ true] = nullptr;
 
 	assert(geomBuffer != nullptr);
-	spring::SafeDelete(geomBuffer);
+	ArcLight::SafeDelete(geomBuffer);
 }
 
 

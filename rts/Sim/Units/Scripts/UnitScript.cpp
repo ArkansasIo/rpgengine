@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 /* heavily based on CobInstance.cpp */
 #include "UnitScript.h"
@@ -783,7 +783,7 @@ void CUnitScript::ShowFlare(int piece)
 /******************************************************************************/
 int CUnitScript::GetUnitVal(int val, int p1, int p2, int p3, int p4)
 {
-	// may happen in case one uses Spring.GetUnitCOBValue (Lua) on a unit with CNullUnitScript
+	// may happen in case one uses ArcLight.GetUnitCOBValue (Lua) on a unit with CNullUnitScript
 	if (unit == nullptr) {
 		ShowUnitScriptError("[US::GetUnitVal] invoked for null-scripted unit");
 		return 0;
@@ -1303,7 +1303,7 @@ int CUnitScript::GetUnitVal(int val, int p1, int p2, int p3, int p4)
 
 void CUnitScript::SetUnitVal(int val, int param)
 {
-	// may happen in case one uses Spring.SetUnitCOBValue (Lua) on a unit with CNullUnitScript
+	// may happen in case one uses ArcLight.SetUnitCOBValue (Lua) on a unit with CNullUnitScript
 	if (unit == nullptr) {
 		ShowUnitScriptError("[US::SetUnitVal] invoked for null-scripted unit");
 		return;

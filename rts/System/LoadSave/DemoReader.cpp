@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "DemoReader.h"
 
@@ -38,18 +38,18 @@ static bool CheckDemoHeader(const DemoFileHeader& fileHeader)
 	if (fileHeader.teamStatElemSize != sizeof(TeamStatistics))
 		return false;
 
-	// do not compare Spring version in debug mode: we do not want to make
+	// do not compare ArcLight version in debug mode: we do not want to make
 	// debugging dev-version demos impossible (because the version differs
 	// each build)
 	#ifndef _DEBUG
-	return (!SpringVersion::IsRelease() || strcmp(fileHeader.versionString, SpringVersion::GetSync().c_str()) == 0);
+	return (!ArcLightVersion::IsRelease() || strcmp(fileHeader.versionString, ArcLightVersion::GetSync().c_str()) == 0);
 	#endif
 
 	return true;
 }
 
 
-CDemoReader::CDemoReader(const std::string& filename, float curTime): playbackDemo(new CGZFileHandler(filename, SPRING_VFS_PWD_ALL))
+CDemoReader::CDemoReader(const std::string& filename, float curTime): playbackDemo(new CGZFileHandler(filename, ARCLIGHT_VFS_PWD_ALL))
 {
 	if (FileSystem::GetExtension(filename) != "sdfz")
 		throw content_error("Unknown demo extension: " + FileSystem::GetExtension(filename));
@@ -63,7 +63,7 @@ CDemoReader::CDemoReader(const std::string& filename, float curTime): playbackDe
 
 	if (!CheckDemoHeader(fileHeader)) {
 			char buf[1024];
-			const char* fmt = "[%s] demo-file \"%s\" (%d bytes, magic \"%s\") corrupt or created by a different Spring version, expected \"%s\"";
+			const char* fmt = "[%s] demo-file \"%s\" (%d bytes, magic \"%s\") corrupt or created by a different ArcLight version, expected \"%s\"";
 
 			memset(buf, 0, sizeof(buf));
 			snprintf(buf, sizeof(buf) - 1, fmt, __func__, filename.c_str(), playbackDemo->FileSize(), fileHeader.magic, fileHeader.versionString);
@@ -93,7 +93,7 @@ CDemoReader::CDemoReader(const std::string& filename, float curTime): playbackDe
 	if (fileHeader.demoStreamSize != 0) {
 		bytesRemaining = fileHeader.demoStreamSize;
 	} else {
-		// Spring crashed while recording the demo: replay until EOF,
+		// ArcLight crashed while recording the demo: replay until EOF,
 		// but at most filesize bytes to block watching demo of running game.
 		// For this we must determine the file size.
 		// (if this had still used CFileHandler that would have been easier ;-))
@@ -155,7 +155,7 @@ bool CDemoReader::ReachedEnd()
 
 void CDemoReader::LoadStats()
 {
-	// Stats are not available if Spring crashed while writing the demo.
+	// Stats are not available if ArcLight crashed while writing the demo.
 	if (fileHeader.demoStreamSize == 0)
 		return;
 

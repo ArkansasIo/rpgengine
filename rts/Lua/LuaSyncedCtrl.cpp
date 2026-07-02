@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <vector>
 #include <cctype>
@@ -1885,7 +1885,7 @@ int LuaSyncedCtrl::SetUnitArmored(lua_State* L)
 	if (lua_isboolean(L, 2))
 		unit->armoredState = lua_toboolean(L, 2);
 
-	// armored multiple of 0 will crash spring
+	// armored multiple of 0 will crash ArcLight
 	unit->armoredMultiple = std::max(0.0001f, luaL_optfloat(L, 3, unit->armoredMultiple));
 
 	if (lua_toboolean(L, 2)) {
@@ -3954,7 +3954,7 @@ int LuaSyncedCtrl::SetHeightMapFunc(lua_State* L)
 
 	const int args = lua_gettop(L); // number of arguments
 	if ((args < 1) || !lua_isfunction(L, 1)) {
-		luaL_error(L, "Incorrect arguments to Spring.SetHeightMapFunc(func, ...)");
+		luaL_error(L, "Incorrect arguments to ArcLight.SetHeightMapFunc(func, ...)");
 	}
 
 	if (inHeightMap) {
@@ -3972,7 +3972,7 @@ int LuaSyncedCtrl::SetHeightMapFunc(lua_State* L)
 	inHeightMap = false;
 
 	if (error != 0) {
-		LOG_L(L_ERROR, "Spring.SetHeightMapFunc: error(%i) = %s",
+		LOG_L(L_ERROR, "ArcLight.SetHeightMapFunc: error(%i) = %s",
 				error, lua_tostring(L, -1));
 		lua_error(L);
 	}
@@ -4135,7 +4135,7 @@ int LuaSyncedCtrl::SetSmoothMeshFunc(lua_State* L)
 {
 	const int args = lua_gettop(L); // number of arguments
 	if ((args < 1) || !lua_isfunction(L, 1)) {
-		luaL_error(L, "Incorrect arguments to Spring.SetSmoothMeshFunc(func, ...)");
+		luaL_error(L, "Incorrect arguments to ArcLight.SetSmoothMeshFunc(func, ...)");
 	}
 
 	if (inSmoothMesh) {
@@ -4149,7 +4149,7 @@ int LuaSyncedCtrl::SetSmoothMeshFunc(lua_State* L)
 	inSmoothMesh = false;
 
 	if (error != 0) {
-		LOG_L(L_ERROR, "Spring.SetSmoothMeshFunc: error(%i) = %s",
+		LOG_L(L_ERROR, "ArcLight.SetSmoothMeshFunc: error(%i) = %s",
 				error, lua_tostring(L, -1));
 		lua_error(L);
 	}

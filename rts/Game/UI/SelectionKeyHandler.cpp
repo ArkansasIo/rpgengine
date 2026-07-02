@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <fstream>
 
@@ -147,7 +147,7 @@ namespace {
 	)
 
 	DECLARE_FILTER_EX(InPrevSel, 0, prevTypes.find(unit->unitDef->id) != prevTypes.end(),
-		spring::unordered_set<int> prevTypes;
+		ArcLight::unordered_set<int> prevTypes;
 		void Prepare() override {
 			const auto& selUnits = selectedUnitsHandler.selectedUnits;
 

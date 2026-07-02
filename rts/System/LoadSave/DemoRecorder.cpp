@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <cassert>
 #include <cerrno>
@@ -28,12 +28,12 @@
 
 // server and client memory-streams
 static std::string demoStreams[2];
-static spring::mutex demoMutex;
+static ArcLight::mutex demoMutex;
 
 
 CDemoRecorder::CDemoRecorder(const std::string& mapName, const std::string& modName, bool serverDemo): isServerDemo(serverDemo)
 {
-	std::lock_guard<spring::mutex> lock(demoMutex);
+	std::lock_guard<ArcLight::mutex> lock(demoMutex);
 
 	SetStream();
 	SetName(mapName, modName);
@@ -68,7 +68,7 @@ void CDemoRecorder::SetFileHeader()
 	strcpy(fileHeader.magic, DEMOFILE_MAGIC);
 	fileHeader.version = DEMOFILE_VERSION;
 	fileHeader.headerSize = sizeof(DemoFileHeader);
-	STRNCPY(fileHeader.versionString, (SpringVersion::GetSync()).c_str(), sizeof(fileHeader.versionString) - 1);
+	STRNCPY(fileHeader.versionString, (ArcLightVersion::GetSync()).c_str(), sizeof(fileHeader.versionString) - 1);
 	fileHeader.unixTime = CTimeUtil::GetCurrentTime();
 	fileHeader.playerStatElemSize = sizeof(PlayerStatistics);
 	fileHeader.teamStatElemSize = sizeof(TeamStatistics);
@@ -85,7 +85,7 @@ void CDemoRecorder::WriteDemoFile()
 	// gz* should usually be finished before ctor runs again when reloading, but take no chances
 	std::string& data = demoStreams[isServerDemo];
 	std::function<void(gzFile, std::string&)> func = [](gzFile file, std::string& data) {
-		std::lock_guard<spring::mutex> lock(demoMutex);
+		std::lock_guard<ArcLight::mutex> lock(demoMutex);
 
 		gzwrite(file, data.c_str(), data.size());
 		gzflush(file, Z_FINISH);
@@ -97,7 +97,7 @@ void CDemoRecorder::WriteDemoFile()
 	#ifndef _WIN32
 	// NOTE: can not use ThreadPool for this directly here, workers are already gone
 	// FIXME: does not currently (august 2017) compile on Windows mingw buildbots
-	ThreadPool::AddExtJob(spring::thread(std::move(func), file, std::ref(data)));
+	ThreadPool::AddExtJob(ArcLight::thread(std::move(func), file, std::ref(data)));
 	#else
 	ThreadPool::AddExtJob(std::move(std::async(std::launch::async, std::move(func), file, std::ref(data))));
 	#endif
@@ -145,7 +145,7 @@ void CDemoRecorder::SetName(const std::string& mapName, const std::string& modNa
 	// FIXME: why is this not included?
 	// oss << FileSystem::GetBasename(modName);
 	// oss << "_";
-	oss << SpringVersion::GetSync();
+	oss << ArcLightVersion::GetSync();
 	buf << oss.str() << ".sdfz";
 
 	int n = 0;

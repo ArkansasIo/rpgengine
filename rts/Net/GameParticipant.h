@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _GAME_PARTICIPANT_H
 #define _GAME_PARTICIPANT_H
@@ -58,10 +58,10 @@ public:
 	};
 
 	std::shared_ptr<netcode::CConnection> clientLink;
-	spring::unordered_map<uint8_t, ClientLinkData> aiClientLinks;
+	ArcLight::unordered_map<uint8_t, ClientLinkData> aiClientLinks;
 
 	#ifdef SYNCCHECK
-	spring::unordered_map<int, unsigned int> syncResponse; // syncResponse[frameNum] = checksum
+	ArcLight::unordered_map<int, unsigned int> syncResponse; // syncResponse[frameNum] = checksum
 	#endif
 };
 

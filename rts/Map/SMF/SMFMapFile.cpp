@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 
 #include "SMFMapFile.h"
@@ -22,7 +22,7 @@ static bool CheckHeader(const SMFHeader& h)
 	if (h.squareSize != 8)
 		return false;
 
-	return (std::strcmp(h.magic, "spring map file") == 0);
+	return (std::strcmp(h.magic, "ArcLight map file") == 0);
 }
 
 

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 
 #include "System/Object.h"
@@ -26,12 +26,12 @@ std::atomic<std::int64_t> CObject::cur_sync_id(0);
 
 static bool VectorInsertSorted(std::vector<CObject*>& v, CObject* o)
 {
-	return (spring::VectorInsertUniqueSorted(v, o, [](const CObject* a, const CObject* b) { return (a->GetSyncID() < b->GetSyncID()); }));
+	return (ArcLight::VectorInsertUniqueSorted(v, o, [](const CObject* a, const CObject* b) { return (a->GetSyncID() < b->GetSyncID()); }));
 }
 
 static bool VectorEraseSorted(std::vector<CObject*>& v, CObject* o)
 {
-	return (spring::VectorEraseUniqueSorted(v, o, [](const CObject* a, const CObject* b) { return (a->GetSyncID() < b->GetSyncID()); }));
+	return (ArcLight::VectorEraseUniqueSorted(v, o, [](const CObject* a, const CObject* b) { return (a->GetSyncID() < b->GetSyncID()); }));
 }
 
 

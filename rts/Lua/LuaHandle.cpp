@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "LuaHandle.h"
 
@@ -56,9 +56,9 @@ CONFIG(float, LuaGarbageCollectionMemLoadMult).defaultValue(1.33f).minimumValue(
 CONFIG(float, LuaGarbageCollectionRunTimeMult).defaultValue(5.0f).minimumValue(1.0f).description("in milliseconds");
 
 
-static spring::unsynced_set<const luaContextData*>    SYNCED_LUAHANDLE_CONTEXTS;
-static spring::unsynced_set<const luaContextData*>  UNSYNCED_LUAHANDLE_CONTEXTS;
-const  spring::unsynced_set<const luaContextData*>*          LUAHANDLE_CONTEXTS[2] = {&UNSYNCED_LUAHANDLE_CONTEXTS, &SYNCED_LUAHANDLE_CONTEXTS};
+static ArcLight::unsynced_set<const luaContextData*>    SYNCED_LUAHANDLE_CONTEXTS;
+static ArcLight::unsynced_set<const luaContextData*>  UNSYNCED_LUAHANDLE_CONTEXTS;
+const  ArcLight::unsynced_set<const luaContextData*>*          LUAHANDLE_CONTEXTS[2] = {&UNSYNCED_LUAHANDLE_CONTEXTS, &SYNCED_LUAHANDLE_CONTEXTS};
 
 bool CLuaHandle::devMode = false;
 
@@ -68,7 +68,7 @@ bool CLuaHandle::devMode = false;
 
 void CLuaHandle::PushTracebackFuncToRegistry(lua_State* L)
 {
-	SPRING_LUA_OPEN_LIB(L, luaopen_debug);
+	ArcLight_LUA_OPEN_LIB(L, luaopen_debug);
 		HSTR_PUSH(L, "traceback");
 		LuaUtils::PushDebugTraceback(L);
 		lua_rawset(L, LUA_REGISTRYINDEX);
@@ -78,11 +78,11 @@ void CLuaHandle::PushTracebackFuncToRegistry(lua_State* L)
 }
 
 
-static void LUA_INSERT_CONTEXT(const luaContextData* D, const spring::unsynced_set<const luaContextData*>* S) {
-	const_cast<  spring::unsynced_set<const luaContextData*>*  >(S)->insert(D);
+static void LUA_INSERT_CONTEXT(const luaContextData* D, const ArcLight::unsynced_set<const luaContextData*>* S) {
+	const_cast<  ArcLight::unsynced_set<const luaContextData*>*  >(S)->insert(D);
 }
-static void LUA_ERASE_CONTEXT(const luaContextData* D, const spring::unsynced_set<const luaContextData*>* S) {
-	const_cast<  spring::unsynced_set<const luaContextData*>*  >(S)->erase(D);
+static void LUA_ERASE_CONTEXT(const luaContextData* D, const ArcLight::unsynced_set<const luaContextData*>* S) {
+	const_cast<  ArcLight::unsynced_set<const luaContextData*>*  >(S)->erase(D);
 }
 
 static int handlepanic(lua_State* L)
@@ -1940,7 +1940,7 @@ void CLuaHandle::GameProgress(int frameNum)
 	RunCallIn(L, cmdStr, 1, 0);
 }
 
-void CLuaHandle::Pong(uint8_t pingTag, const spring_time pktSendTime, const spring_time pktRecvTime)
+void CLuaHandle::Pong(uint8_t pingTag, const ArcLight_time pktSendTime, const ArcLight_time pktRecvTime)
 {
 	LUA_CALL_IN_CHECK(L);
 	luaL_checkstack(L, 1 + 1 + 3, __func__);
@@ -2530,7 +2530,7 @@ void CLuaHandle::CollectGarbage(bool forced)
 	const float gcMemLoadMult = D.gcCtrl.baseMemLoadMult;
 	const float gcRunTimeMult = D.gcCtrl.baseRunTimeMult;
 
-	if (!forced && spring_lua_alloc_skip_gc(gcMemLoadMult))
+	if (!forced && ArcLight_lua_alloc_skip_gc(gcMemLoadMult))
 		return;
 
 	LUA_CALL_IN_CHECK_NAMED(L, (GetLuaContextData(L)->synced)? "Lua::CollectGarbage::Synced": "Lua::CollectGarbage::Unsynced");
@@ -2552,11 +2552,11 @@ void CLuaHandle::CollectGarbage(bool forced)
 	const float gcBaseRunTime = smoothstep(10.0f, 100.0f, gcMemFootPrint / 1024);
 	const float gcLoopRunTime = Clamp((gcBaseRunTime * gcRunTimeMult) / gcSpeedFactor, D.gcCtrl.minLoopRunTime, D.gcCtrl.maxLoopRunTime);
 
-	const spring_time startTime = spring_gettime();
-	const spring_time   endTime = startTime + spring_msecs(gcLoopRunTime);
+	const ArcLight_time startTime = ArcLight_gettime();
+	const ArcLight_time   endTime = startTime + ArcLight_msecs(gcLoopRunTime);
 
 	// perform GC cycles until time runs out or iteration-limit is reached
-	while (forced || (gcItersInBatch < D.gcCtrl.itersPerBatch && spring_gettime() < endTime)) {
+	while (forced || (gcItersInBatch < D.gcCtrl.itersPerBatch && ArcLight_gettime() < endTime)) {
 		gcItersInBatch++;
 
 		if (!lua_gc(L_GC, LUA_GCSTEP, gcStepsPerIter))
@@ -2579,7 +2579,7 @@ void CLuaHandle::CollectGarbage(bool forced)
 	lua_unlock(L_GC);
 
 
-	const spring_time finishTime = spring_gettime();
+	const ArcLight_time finishTime = ArcLight_gettime();
 
 	if (gcStepsPerIter > 1 && gcItersInBatch > 0) {
 		// runtime optimize number of steps to process in a batch

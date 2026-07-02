@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef LUA_HANDLE_SYNCED
 #define LUA_HANDLE_SYNCED
@@ -132,7 +132,7 @@ class CSyncedLuaHandle : public CLuaHandle
 	protected:
 		CSplitLuaHandle& base;
 
-		spring::unordered_map<std::string, std::string> textCommands; // name, help
+		ArcLight::unordered_map<std::string, std::string> textCommands; // name, help
 
 	private:
 		int origNextRef;
@@ -267,7 +267,7 @@ class CSplitLuaHandle
 		CUnsyncedLuaHandle unsyncedLuaHandle;
 
 	public:
-		static void ClearGameParams() { spring::clear_unordered_map(gameParams); }
+		static void ClearGameParams() { ArcLight::clear_unordered_map(gameParams); }
 		static const LuaRulesParams::Params& GetGameParams() { return gameParams; }
 
 	private:

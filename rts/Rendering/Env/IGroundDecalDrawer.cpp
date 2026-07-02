@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "IGroundDecalDrawer.h"
 #include "Rendering/Env/Decals/GroundDecalHandler.h"
@@ -56,7 +56,7 @@ void IGroundDecalDrawer::Init()
 void IGroundDecalDrawer::FreeInstance()
 {
 	if (singleton != &nullDecalDrawer)
-		spring::SafeDelete(singleton);
+		ArcLight::SafeDelete(singleton);
 }
 
 

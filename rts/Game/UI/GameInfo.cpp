@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 
 #include "GameInfo.h"
@@ -91,8 +91,8 @@ CGameInfo::CGameInfo()
 		values.emplace_back(FileSystem::GetBasename(gameSetup->demoName));
 	}
 
-	labels.emplace_back("Spring Version:");
-	values.emplace_back(SpringVersion::GetFull());
+	labels.emplace_back("ArcLight Version:");
+	values.emplace_back(ArcLightVersion::GetFull());
 
 	labels.emplace_back("Game Speed:");
 	values.emplace_back(gs->speedFactor);

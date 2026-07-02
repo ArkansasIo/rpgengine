@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "lib/streflop/streflop_cond.h"
 #include "System/SpringMath.h"
@@ -79,7 +79,7 @@ int LuaMathExtra::round(lua_State* L) {
 
 	if (lua_gettop(L) > 1) {
 		// round number to <n> decimals
-		// Spring's Lua interpreter uses 32-bit floats,
+		// ArcLight's Lua interpreter uses 32-bit floats,
 		// therefore max. accuracy is ~7 decimal digits
 		const int i = std::min(7, int(sizeof(POWERS_OF_TEN) / sizeof(float)) - 1);
 		const int n = Clamp(luaL_checkint(L, 2), 0, i);

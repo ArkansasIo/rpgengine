@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef NET_PROTOCOL_H
 #define NET_PROTOCOL_H
@@ -114,7 +114,7 @@ public:
 private:
 	std::atomic<bool> keepUpdating;
 
-	spring::spinlock serverConnMutex;
+	ArcLight::spinlock serverConnMutex;
 
 	uint8_t serverConnMem[1024];
 	uint8_t demoRecordMem[ 512];

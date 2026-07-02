@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <string>
 
@@ -34,7 +34,7 @@ void CSimpleMapGenerator::GenerateInfo()
 
 
 	try {
-		// mapSize coordinates are actually 2x the spring map dimensions
+		// mapSize coordinates are actually 2x the ArcLight map dimensions
 		// Example: 10x10 map has mapSize = (5, 5)
 		const int newMapX = std::stoi(*newMapXStr) / 2;
 		const int newMapY = std::stoi(*newMapYStr) / 2;

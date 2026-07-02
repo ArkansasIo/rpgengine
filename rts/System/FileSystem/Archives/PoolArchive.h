@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _POOL_ARCHIVE_H
 #define _POOL_ARCHIVE_H
@@ -23,7 +23,7 @@ private:
 
 
 /**
- * The pool archive format (aka rapid) is specifically developed for spring.
+ * The pool archive format (aka rapid) is specifically developed for ArcLight.
  * It is tailored at incremental downloading of content.
  *
  * Practical example
@@ -43,7 +43,7 @@ private:
  *
  * Technical details
  * -----------------
- * The pool system uses two directories, to be found in the root of a spring
+ * The pool system uses two directories, to be found in the root of a ArcLight
  * data directory, called "pool" and "packages". They may look as follows:
  *   /pool/00/00756ec29fe8fc9d3da9b711e76bc9.gz
  *   /pool/00/3427d26f419dabe74eaf7b865407b8.gz

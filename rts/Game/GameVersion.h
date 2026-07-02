@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef GAME_VERSION_H
 #define GAME_VERSION_H
@@ -19,7 +19,7 @@
  * - 83.0                (release or hotfix preparation)
  * - 83.0.1              (main development version after the 0.83.0 release)
  */
-namespace SpringVersion
+namespace ArcLightVersion
 {
 	/**
 	 * Major version number (e.g. "83")
@@ -82,7 +82,7 @@ namespace SpringVersion
 	extern bool IsRelease();
 
 	/**
-	 * The basic part of a spring version.
+	 * The basic part of a ArcLight version.
 	 * This may only be used for sync-checking if IsRelease() returns true.
 	 * @return "Major.PatchSet" or "Major.PatchSet.1"
 	 * @see GetSync
@@ -90,7 +90,7 @@ namespace SpringVersion
 	extern const std::string& Get();
 
 	/**
-	 * The sync relevant part of a spring version.
+	 * The sync relevant part of a ArcLight version.
 	 * This may be used for sync-checking through a simple string-equality test.
 	 * In essence this means, that only releases with the same Major release
 	 * number may be detected as syncing.

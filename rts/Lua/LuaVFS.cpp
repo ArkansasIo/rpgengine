@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 
 #include <cmath>
@@ -25,17 +25,17 @@
 
 bool LuaVFS::PushCommon(lua_State* L)
 {
-	HSTR_PUSH_CSTRING(L, "RAW",       SPRING_VFS_RAW);
-	HSTR_PUSH_CSTRING(L, "MOD",       SPRING_VFS_MOD);
-	HSTR_PUSH_CSTRING(L, "GAME",      SPRING_VFS_MOD); // synonym to MOD
-	HSTR_PUSH_CSTRING(L, "MAP",       SPRING_VFS_MAP);
-	HSTR_PUSH_CSTRING(L, "BASE",      SPRING_VFS_BASE);
-	HSTR_PUSH_CSTRING(L, "MENU",      SPRING_VFS_MENU);
-	HSTR_PUSH_CSTRING(L, "ZIP",       SPRING_VFS_ZIP);
-	HSTR_PUSH_CSTRING(L, "RAW_FIRST", SPRING_VFS_RAW_FIRST);
-	HSTR_PUSH_CSTRING(L, "ZIP_FIRST", SPRING_VFS_ZIP_FIRST);
-	HSTR_PUSH_CSTRING(L, "RAW_ONLY",  SPRING_VFS_RAW); // backwards compatibility
-	HSTR_PUSH_CSTRING(L, "ZIP_ONLY",  SPRING_VFS_ZIP); // backwards compatibility
+	HSTR_PUSH_CSTRING(L, "RAW",       ARCLIGHT_VFS_RAW);
+	HSTR_PUSH_CSTRING(L, "MOD",       ARCLIGHT_VFS_MOD);
+	HSTR_PUSH_CSTRING(L, "GAME",      ARCLIGHT_VFS_MOD); // synonym to MOD
+	HSTR_PUSH_CSTRING(L, "MAP",       ARCLIGHT_VFS_MAP);
+	HSTR_PUSH_CSTRING(L, "BASE",      ARCLIGHT_VFS_BASE);
+	HSTR_PUSH_CSTRING(L, "MENU",      ARCLIGHT_VFS_MENU);
+	HSTR_PUSH_CSTRING(L, "ZIP",       ARCLIGHT_VFS_ZIP);
+	HSTR_PUSH_CSTRING(L, "RAW_FIRST", ARCLIGHT_VFS_RAW_FIRST);
+	HSTR_PUSH_CSTRING(L, "ZIP_FIRST", ARCLIGHT_VFS_ZIP_FIRST);
+	HSTR_PUSH_CSTRING(L, "RAW_ONLY",  ARCLIGHT_VFS_RAW); // backwards compatibility
+	HSTR_PUSH_CSTRING(L, "ZIP_ONLY",  ARCLIGHT_VFS_ZIP); // backwards compatibility
 
 	HSTR_PUSH_CFUNC(L, "PackU8",    PackU8);
 	HSTR_PUSH_CFUNC(L, "PackU16",   PackU16);
@@ -104,8 +104,8 @@ const string LuaVFS::GetModes(lua_State* L, int index, bool synced)
 {
 	const bool vfsOnly = (synced && !CLuaHandle::GetDevMode());
 
-	const char* defModes = vfsOnly? SPRING_VFS_ZIP : SPRING_VFS_RAW_FIRST;
-	const char* badModes = vfsOnly? SPRING_VFS_RAW SPRING_VFS_MENU : "";
+	const char* defModes = vfsOnly? ARCLIGHT_VFS_ZIP : ARCLIGHT_VFS_RAW_FIRST;
+	const char* badModes = vfsOnly? ARCLIGHT_VFS_RAW ARCLIGHT_VFS_MENU : "";
 
 	return CFileHandler::ForbidModes(luaL_optstring(L, index, defModes), badModes);
 }
@@ -241,7 +241,7 @@ int LuaVFS::FileExists(lua_State* L, bool synced)
 	const std::string& filename = luaL_checkstring(L, 1);
 	const std::string& vfsModes = GetModes(L, 2, synced);
 
-	// FIXME: return 0, keep searches within the Spring directory
+	// FIXME: return 0, keep searches within the ArcLight directory
 	// the path may point to a file or dir outside of any data-dir
 	// if (!LuaIO::IsSimplePath(filename)) return 0;
 
@@ -260,7 +260,7 @@ int LuaVFS::DirList(lua_State* L, bool synced)
 {
 	const std::string& dir = luaL_checkstring(L, 1);
 
-	// FIXME: return 0, keep searches within the Spring directory
+	// FIXME: return 0, keep searches within the ArcLight directory
 	// the path may point to a file or dir outside of any data-dir
 	// if (!LuaIO::IsSimplePath(dir)) return 0;
 
@@ -290,7 +290,7 @@ int LuaVFS::SubDirs(lua_State* L, bool synced)
 {
 	const std::string& dir = luaL_checkstring(L, 1);
 
-	// FIXME: return 0, keep searches within the Spring directory
+	// FIXME: return 0, keep searches within the ArcLight directory
 	// the path may point to a file or dir outside of any data-dir
 	// if (!LuaIO::IsSimplePath(dir)) return 0;
 
@@ -317,7 +317,7 @@ int LuaVFS::GetFileAbsolutePath(lua_State* L)
 {
 	const std::string filename = luaL_checkstring(L, 1);
 
-	// FIXME: return 0, keep searches within the Spring directory
+	// FIXME: return 0, keep searches within the ArcLight directory
 	// the path may point to a file or dir outside of any data-dir
 	// if (!LuaIO::IsSimplePath(filename)) return 0;
 
@@ -340,7 +340,7 @@ int LuaVFS::GetArchiveContainingFile(lua_State* L)
 {
 	const std::string filename = luaL_checkstring(L, 1);
 
-	// FIXME: return 0, keep searches within the Spring directory
+	// FIXME: return 0, keep searches within the ArcLight directory
 	// the path may point to a file or dir outside of any data-dir
 	// if (!LuaIO::IsSimplePath(filename)) return 0;
 

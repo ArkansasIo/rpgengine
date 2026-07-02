@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef MODEL_RENDER_CONTAINER_HDR
 #define MODEL_RENDER_CONTAINER_HDR
@@ -61,7 +61,7 @@ public:
 
 		// numBins += (ki == ke);
 		// cast since updating an object's draw-position requires mutability
-		numObjs += spring::VectorInsertUnique(bin, const_cast<TObject*>(o));
+		numObjs += ArcLight::VectorInsertUnique(bin, const_cast<TObject*>(o));
 	}
 
 	void DelObject(const TObject* o) {
@@ -79,7 +79,7 @@ public:
 		// and alpha containers (since it does not know the
 		// cloaked state) which also means the tex-type key
 		// might not exist here
-		numObjs -= spring::VectorErase(bin, const_cast<TObject*>(o));
+		numObjs -= ArcLight::VectorErase(bin, const_cast<TObject*>(o));
 		numBins -= (bin.empty());
 
 		if (!bin.empty())

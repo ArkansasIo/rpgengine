@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "LuaUI.h"
 
@@ -58,7 +58,7 @@ CLuaUI* luaUI = nullptr;
 /******************************************************************************/
 /******************************************************************************/
 
-static spring::mutex m_singleton;
+static ArcLight::mutex m_singleton;
 
 DECL_LOAD_HANDLER(CLuaUI, luaUI)
 DECL_FREE_HANDLER(CLuaUI, luaUI)
@@ -85,7 +85,7 @@ CLuaUI::CLuaUI()
 
 	const bool luaSocketEnabled = configHandler->GetBool("LuaSocketEnabled");
 
-	const std::string mode = (CLuaHandle::GetDevMode()) ? SPRING_VFS_RAW_FIRST : SPRING_VFS_MOD;
+	const std::string mode = (CLuaHandle::GetDevMode()) ? ARCLIGHT_VFS_RAW_FIRST : ARCLIGHT_VFS_MOD;
 	const std::string file = (CFileHandler::FileExists("luaui.lua", mode) ? "luaui.lua": "LuaUI/main.lua");
 	const std::string code = LoadFile(file, mode);
 
@@ -136,7 +136,7 @@ CLuaUI::CLuaUI()
 
 	AddBasicCalls(L); // into Global
 
-	// load the spring libraries
+	// load the ArcLight libraries
 	if (!LoadCFunctions(L)                                                      ||
 	    !AddEntriesToTable(L, "VFS",         LuaVFS::PushUnsynced)              ||
 	    !AddEntriesToTable(L, "VFS",         LuaZipFileReader::PushUnsynced)    ||
@@ -147,11 +147,11 @@ CLuaUI::CLuaUI()
 	    !AddEntriesToTable(L, "FeatureDefs", LuaFeatureDefs::PushEntries)       ||
 	    !AddEntriesToTable(L, "Script",      LuaInterCall::PushEntriesUnsynced) ||
 	    !AddEntriesToTable(L, "Script",      LuaScream::PushEntries)            ||
-	    !AddEntriesToTable(L, "Spring",      LuaSyncedRead::PushEntries)        ||
-	    !AddEntriesToTable(L, "Spring",      LuaUnsyncedCtrl::PushEntries)      ||
-	    !AddEntriesToTable(L, "Spring",      LuaUnsyncedRead::PushEntries)      ||
-	    !AddEntriesToTable(L, "Spring",      LuaUICommand::PushEntries)         ||
-	    !AddEntriesToTable(L, "Spring",      LuaRender::PushEntries)            ||
+	    !AddEntriesToTable(L, "ArcLight",      LuaSyncedRead::PushEntries)        ||
+	    !AddEntriesToTable(L, "ArcLight",      LuaUnsyncedCtrl::PushEntries)      ||
+	    !AddEntriesToTable(L, "ArcLight",      LuaUnsyncedRead::PushEntries)      ||
+	    !AddEntriesToTable(L, "ArcLight",      LuaUICommand::PushEntries)         ||
+	    !AddEntriesToTable(L, "ArcLight",      LuaRender::PushEntries)            ||
 	    !AddEntriesToTable(L, "gl",          LuaOpenGL::PushEntries)            ||
 	    !AddEntriesToTable(L, "GL",          LuaConstGL::PushEntries)           ||
 	    !AddEntriesToTable(L, "Engine",      LuaConstEngine::PushEntries)       ||
@@ -265,7 +265,7 @@ bool CLuaUI::LoadCFunctions(lua_State* L)
 
 	REGISTER_LUA_CFUNC(SetShockFrontFactors);
 
-	lua_setglobal(L, "Spring");
+	lua_setglobal(L, "ArcLight");
 	return true;
 }
 
@@ -353,7 +353,7 @@ bool CLuaUI::LayoutButtons(
 	vector<ReStringPair>& reNamedCmds,
 	vector<ReStringPair>& reTooltipCmds,
 	vector<ReParamsPair>& reParamsCmds,
-	spring::unordered_map<int, int>& buttonList,
+	ArcLight::unordered_map<int, int>& buttonList,
 	string& menuName
 ) {
 	customCmds.clear();
@@ -485,7 +485,7 @@ bool CLuaUI::BuildCmdDescTable(lua_State* L, const vector<SCommandDescription>& 
 }
 
 
-bool CLuaUI::GetLuaIntMap(lua_State* L, int index, spring::unordered_map<int, int>& intMap)
+bool CLuaUI::GetLuaIntMap(lua_State* L, int index, ArcLight::unordered_map<int, int>& intMap)
 {
 	const int table = index;
 	if (!lua_istable(L, table))

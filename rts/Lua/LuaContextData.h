@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef LUA_CONTEXT_DATA_H
 #define LUA_CONTEXT_DATA_H
@@ -75,7 +75,7 @@ public:
 
 public:
 	CLuaHandle* owner;
-	spring::recursive_mutex* luamutex;
+	ArcLight::recursive_mutex* luamutex;
 
 	LuaMemPool* memPool;
 	LuaParser* parser;

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <algorithm>
 #include <climits>
@@ -14,17 +14,17 @@
 	#include "System/Threading/ThreadPool.h"
 #endif
 
-static spring::spinlock profileMutex;
-static spring::spinlock hashToNameMutex;
-static spring::unordered_map<unsigned, std::string> hashToName;
-static spring::unordered_map<unsigned, int> refCounters;
+static ArcLight::spinlock profileMutex;
+static ArcLight::spinlock hashToNameMutex;
+static ArcLight::unordered_map<unsigned, std::string> hashToName;
+static ArcLight::unordered_map<unsigned, int> refCounters;
 
 static CGlobalUnsyncedRNG profileColorRNG;
 
 
-spring_time BasicTimer::GetDuration() const
+ArcLight_time BasicTimer::GetDuration() const
 {
-	return spring_difftime(spring_gettime(), startTime);
+	return ArcLight_difftime(ArcLight_gettime(), startTime);
 }
 
 ScopedTimer::ScopedTimer(const unsigned _nameHash, bool _autoShowGraph, bool _specialTimer)
@@ -58,7 +58,7 @@ ScopedTimer::~ScopedTimer()
 
 
 
-ScopedOnceTimer::ScopedOnceTimer(const char* timerName, const char* timerFrmt): startTime(spring_gettime())
+ScopedOnceTimer::ScopedOnceTimer(const char* timerName, const char* timerFrmt): startTime(ArcLight_gettime())
 {
 	strncpy(name, timerName, sizeof(name));
 	strncpy(frmt, timerFrmt, sizeof(frmt));
@@ -67,7 +67,7 @@ ScopedOnceTimer::ScopedOnceTimer(const char* timerName, const char* timerFrmt): 
 	frmt[sizeof(frmt) - 1] = 0;
 }
 
-ScopedOnceTimer::ScopedOnceTimer(const std::string& timerName, const char* timerFrmt): startTime(spring_gettime())
+ScopedOnceTimer::ScopedOnceTimer(const std::string& timerName, const char* timerFrmt): startTime(ArcLight_gettime())
 {
 	strncpy(name, timerName.c_str(), sizeof(name));
 	strncpy(frmt, timerFrmt        , sizeof(frmt));
@@ -81,9 +81,9 @@ ScopedOnceTimer::~ScopedOnceTimer()
 	LOG(frmt, __func__, name, int(GetDuration().toMilliSecsi()));
 }
 
-spring_time ScopedOnceTimer::GetDuration() const
+ArcLight_time ScopedOnceTimer::GetDuration() const
 {
-	return spring_difftime(spring_gettime(), startTime);
+	return ArcLight_difftime(ArcLight_gettime(), startTime);
 }
 
 
@@ -123,7 +123,7 @@ CTimeProfiler::~CTimeProfiler() = default;
 CTimeProfiler::~CTimeProfiler()
 {
 	// should not be needed, destructor runs after main returns and all threads are gone
-	std::lock_guard<spring::spinlock> lock(profileMutex);
+	std::lock_guard<ArcLight::spinlock> lock(profileMutex);
 }
 #endif
 
@@ -138,7 +138,7 @@ bool CTimeProfiler::RegisterTimer(const char* timerName)
 {
 	const unsigned nameHash = hashString(timerName);
 
-	std::lock_guard<spring::spinlock> lock(hashToNameMutex);
+	std::lock_guard<ArcLight::spinlock> lock(hashToNameMutex);
 
 	const auto iter = hashToName.find(nameHash);
 
@@ -158,7 +158,7 @@ bool CTimeProfiler::UnRegisterTimer(const char* timerName)
 {
 	const unsigned nameHash = hashString(timerName);
 
-	std::lock_guard<spring::spinlock> lock(hashToNameMutex);
+	std::lock_guard<ArcLight::spinlock> lock(hashToNameMutex);
 
 	const auto iter = hashToName.find(nameHash);
 
@@ -172,7 +172,7 @@ bool CTimeProfiler::UnRegisterTimer(const char* timerName)
 
 void CTimeProfiler::ResetState() {
 	// grab lock; ThreadPool workers might already be running SCOPED_MT_TIMER
-	std::lock_guard<spring::spinlock> lock(profileMutex);
+	std::lock_guard<ArcLight::spinlock> lock(profileMutex);
 
 	profiles.clear();
 	profiles.reserve(128);
@@ -182,7 +182,7 @@ void CTimeProfiler::ResetState() {
 	threadProfiles.resize(ThreadPool::GetMaxThreads());
 	#endif
 
-	profileColorRNG.Seed(spring_tomsecs(lastBigUpdate = spring_gettime()));
+	profileColorRNG.Seed(ArcLight_tomsecs(lastBigUpdate = ArcLight_gettime()));
 
 	currentPosition = 0;
 	resortProfiles = 0;
@@ -210,7 +210,7 @@ void CTimeProfiler::Update()
 	}
 
 	// FIXME: non-locking threadsafe
-	std::lock_guard<spring::spinlock> lock(profileMutex);
+	std::lock_guard<ArcLight::spinlock> lock(profileMutex);
 
 	UpdateRaw();
 	ResortProfilesRaw();
@@ -223,19 +223,19 @@ void CTimeProfiler::UpdateRaw()
 	currentPosition &= (TimeRecord::numFrames - 1);
 
 	for (auto& pi: profiles) {
-		pi.second.frames[currentPosition] = spring_notime;
+		pi.second.frames[currentPosition] = ArcLight_notime;
 	}
 
-	const spring_time curTime = spring_gettime();
-	const float timeDiff = spring_diffmsecs(curTime, lastBigUpdate);
+	const ArcLight_time curTime = ArcLight_gettime();
+	const float timeDiff = ArcLight_diffmsecs(curTime, lastBigUpdate);
 
 	if (timeDiff > 500.0f) {
 		// update percentages and peaks twice every second
 		for (auto& pi: profiles) {
 			auto& p = pi.second;
 
-			p.stats.y = spring_tomsecs(p.current) / timeDiff;
-			p.current = spring_notime;
+			p.stats.y = ArcLight_tomsecs(p.current) / timeDiff;
+			p.current = ArcLight_notime;
 
 			p.newLagPeak = false;
 			p.newPeak = (p.stats.y > p.stats.z);
@@ -272,7 +272,7 @@ void CTimeProfiler::ResortProfilesRaw()
 
 		// either caller already has lock, or we are disabled and thread-safe
 		{
-			std::lock_guard<spring::spinlock> lock(hashToNameMutex);
+			std::lock_guard<ArcLight::spinlock> lock(hashToNameMutex);
 
 			for (const auto& profile: profiles) {
 				const auto iter = hashToName.find(profile.first);
@@ -299,7 +299,7 @@ void CTimeProfiler::RefreshProfiles()
 	assert(enabled);
 
 	// lock so nothing modifies *unsorted* profiles during the refresh
-	std::lock_guard<spring::spinlock> lock(profileMutex);
+	std::lock_guard<ArcLight::spinlock> lock(profileMutex);
 
 	RefreshProfilesRaw();
 }
@@ -326,7 +326,7 @@ const CTimeProfiler::TimeRecord& CTimeProfiler::GetTimeRecord(const char* name) 
 	if (!enabled)
 		return (GetTimeRecordRaw(name));
 
-	std::lock_guard<spring::spinlock> lock(profileMutex);
+	std::lock_guard<ArcLight::spinlock> lock(profileMutex);
 
 	return (GetTimeRecordRaw(name));
 }
@@ -334,13 +334,13 @@ const CTimeProfiler::TimeRecord& CTimeProfiler::GetTimeRecord(const char* name) 
 
 void CTimeProfiler::AddTime(
 	const unsigned nameHash,
-	const spring_time startTime,
-	const spring_time deltaTime,
+	const ArcLight_time startTime,
+	const ArcLight_time deltaTime,
 	const bool showGraph,
 	const bool specialTimer,
 	const bool threadTimer
 ) {
-	const spring_time t0 = spring_now();
+	const ArcLight_time t0 = ArcLight_now();
 
 	if (!enabled) {
 		if (!specialTimer)
@@ -348,28 +348,28 @@ void CTimeProfiler::AddTime(
 
 		assert(!threadTimer);
 		AddTimeRaw(nameHash, startTime, deltaTime, showGraph, threadTimer);
-		AddTimeRaw(hashString("Misc::Profiler::AddTime"), t0, spring_now() - t0, false, false);
+		AddTimeRaw(hashString("Misc::Profiler::AddTime"), t0, ArcLight_now() - t0, false, false);
 		return;
 	}
 
 	// acquire lock at the start; one inserting thread could
 	// cause a profile rehash and invalidate <pi> for another
-	std::lock_guard<spring::spinlock> lock(profileMutex);
+	std::lock_guard<ArcLight::spinlock> lock(profileMutex);
 
 	AddTimeRaw(nameHash, startTime, deltaTime, showGraph, threadTimer);
-	AddTimeRaw(hashString("Misc::Profiler::AddTime"), t0, spring_now() - t0, false, false);
+	AddTimeRaw(hashString("Misc::Profiler::AddTime"), t0, ArcLight_now() - t0, false, false);
 }
 
 void CTimeProfiler::AddTimeRaw(
 	const unsigned nameHash,
-	const spring_time startTime,
-	const spring_time deltaTime,
+	const ArcLight_time startTime,
+	const ArcLight_time deltaTime,
 	const bool showGraph,
 	const bool threadTimer
 ) {
 #ifdef THREADPOOL
 	if (threadTimer)
-		threadProfiles[ThreadPool::GetThreadNum()].emplace_back(startTime, spring_gettime());
+		threadProfiles[ThreadPool::GetThreadNum()].emplace_back(startTime, ArcLight_gettime());
 #endif
 
 	auto pi = profiles.find(nameHash);

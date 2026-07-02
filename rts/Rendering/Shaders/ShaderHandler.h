@@ -1,7 +1,7 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
-#ifndef SPRING_SHADERHANDLER_HDR
-#define SPRING_SHADERHANDLER_HDR
+#ifndef ArcLight_SHADERHANDLER_HDR
+#define ArcLight_SHADERHANDLER_HDR
 
 #include <string>
 
@@ -16,12 +16,12 @@ namespace Shader {
 
 class CShaderHandler {
 public:
-	typedef spring::unsynced_map<std::string, Shader::IProgramObject*> ProgramObjMap;
-	typedef spring::unsynced_map<std::string, Shader::IProgramObject*>::iterator ProgramObjMapIt;
-	typedef spring::unsynced_map<std::string, ProgramObjMap> ProgramTable;
+	typedef ArcLight::unsynced_map<std::string, Shader::IProgramObject*> ProgramObjMap;
+	typedef ArcLight::unsynced_map<std::string, Shader::IProgramObject*>::iterator ProgramObjMapIt;
+	typedef ArcLight::unsynced_map<std::string, ProgramObjMap> ProgramTable;
 	// indexed by literals
-	typedef spring::unsynced_map<unsigned int, std::array<std::string, GL::SHADER_TYPE_CNT>> ExtShaderSourceMap;
-	typedef spring::unsynced_map<unsigned int, Shader::IProgramObject*> ExtProgramObjMap;
+	typedef ArcLight::unsynced_map<unsigned int, std::array<std::string, GL::SHADER_TYPE_CNT>> ExtShaderSourceMap;
+	typedef ArcLight::unsynced_map<unsigned int, Shader::IProgramObject*> ExtProgramObjMap;
 
 	static CShaderHandler* GetInstance();
 
@@ -105,7 +105,7 @@ public:
 		}
 
 	private:
-		spring::unsynced_map<size_t, GLuint> cache;
+		ArcLight::unsynced_map<size_t, GLuint> cache;
 	};
 
 	const ShaderCache& GetShaderCache() const { return shaderCache; }

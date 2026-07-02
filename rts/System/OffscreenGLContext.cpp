@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "lib/streflop/streflop_cond.h" //! must happen before OffscreenGLContext.h, which includes agl.h
 #include "System/OffscreenGLContext.h"
@@ -15,7 +15,7 @@ COffscreenGLThread::COffscreenGLThread(std::function<void()> f)
 {
 	// activate secondary context on main window
 	globalRendering->MakeCurrentContext(false, true, false);
-	thread = std::move(spring::thread(std::bind(&COffscreenGLThread::WrapFunc, this, f)));
+	thread = std::move(ArcLight::thread(std::bind(&COffscreenGLThread::WrapFunc, this, f)));
 }
 
 
@@ -45,7 +45,7 @@ void COffscreenGLThread::WrapFunc(std::function<void()> f)
 
 	try {
 		f();
-	} CATCH_SPRING_ERRORS
+	} CATCH_ArcLight_ERRORS
 
 	// deactivate primary GL context on hidden window
 	globalRendering->MakeCurrentContext(true, false, true);

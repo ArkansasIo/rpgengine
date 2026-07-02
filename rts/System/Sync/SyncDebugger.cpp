@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 
 #ifdef SYNCDEBUG
@@ -414,8 +414,8 @@ void CSyncDebugger::ServerDumpStack()
 	// we make a pool of backtraces (to merge identical ones)
 	unsigned curBacktrace = 0;
 
-	spring::unordered_map<unsigned, unsigned> checksumToIndex;
-	spring::unordered_map<unsigned, unsigned> indexToHistPos;
+	ArcLight::unordered_map<unsigned, unsigned> checksumToIndex;
+	ArcLight::unordered_map<unsigned, unsigned> indexToHistPos;
 
 	// then loop from virtualPosInHistory to virtualHistorySize and from 0 to virtualPosInHistory.
 	for (unsigned i = virtualPosInHistory, c = 0; c < virtualHistorySize; ++i, ++c) {

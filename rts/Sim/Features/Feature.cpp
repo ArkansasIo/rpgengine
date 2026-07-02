@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "Feature.h"
 #include "FeatureDef.h"
@@ -235,7 +235,7 @@ void CFeature::Initialize(const FeatureLoadParams& params)
 	UpdateCollidableStateBit(CSolidObject::CSTATE_BIT_SOLIDOBJECTS, def->collidable);
 	Block();
 
-	// allow Spring.SetFeatureBlocking to be called from gadget:FeatureCreated
+	// allow ArcLight.SetFeatureBlocking to be called from gadget:FeatureCreated
 	// (callin sees the complete default state, but can change any part of it)
 	eventHandler.FeatureCreated(this);
 	eventHandler.RenderFeatureCreated(this);

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 /**
  * Glob conversion by Chris Han (based on work by Nathaniel Smith).
@@ -224,20 +224,20 @@ std::string FileSystem::GetNormalizedPath(const std::string& path) {
 	normalizedPath = StringReplace(normalizedPath, "/./", "/");
 
 	try {
-		normalizedPath = spring::regex_replace(normalizedPath, spring::regex("[/]{2,}"), {"/"});
-	} catch (const spring::regex_error& e) {
+		normalizedPath = ArcLight::regex_replace(normalizedPath, ArcLight::regex("[/]{2,}"), {"/"});
+	} catch (const ArcLight::regex_error& e) {
 		LOG_L(L_WARNING, "[%s][1] regex exception \"%s\" (code=%d)", __func__, e.what(), int(e.code()));
 	}
 
 	try {
-		normalizedPath = spring::regex_replace(normalizedPath, spring::regex("[^/]+[/][.]{2}"), {""});
-	} catch (const spring::regex_error& e) {
+		normalizedPath = ArcLight::regex_replace(normalizedPath, ArcLight::regex("[^/]+[/][.]{2}"), {""});
+	} catch (const ArcLight::regex_error& e) {
 		LOG_L(L_WARNING, "[%s][2] regex exception \"%s\" (code=%d)", __func__, e.what(), int(e.code()));
 	}
 
 	try {
-		normalizedPath = spring::regex_replace(normalizedPath, spring::regex("[/]{2,}"), {"/"});
-	} catch (const spring::regex_error& e) {
+		normalizedPath = ArcLight::regex_replace(normalizedPath, ArcLight::regex("[/]{2,}"), {"/"});
+	} catch (const ArcLight::regex_error& e) {
 		LOG_L(L_WARNING, "[%s][3] regex exception \"%s\" (code=%d)", __func__, e.what(), int(e.code()));
 	}
 
@@ -295,7 +295,7 @@ const std::string& FileSystem::GetCacheDir()
 	// same directory as any previous development build
 	// (regardless of branch), so keep caches separate
 	static const std::string cacheType[2] = {"dev-", "rel-"};
-	static const std::string cacheVersion = SpringVersion::GetMajor() + cacheType[SpringVersion::IsRelease()] + SpringVersion::GetBranch();
+	static const std::string cacheVersion = ArcLightVersion::GetMajor() + cacheType[ArcLightVersion::IsRelease()] + ArcLightVersion::GetBranch();
 	static const std::string cacheDir = EnsurePathSepAtEnd(GetCacheBaseDir()) + cacheVersion;
 	return cacheDir;
 }

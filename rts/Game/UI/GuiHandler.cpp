@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "GuiHandler.h"
 
@@ -357,7 +357,7 @@ void CGuiHandler::ParseFillOrder(const std::string& text)
 	if ((int)slotNames.size() != iconsPerPage)
 		return;
 
-	spring::unordered_set<int> slotSet;
+	ArcLight::unordered_set<int> slotSet;
 	std::vector<int> slotVec;
 
 	slotSet.reserve(iconsPerPage);
@@ -703,7 +703,7 @@ bool CGuiHandler::LayoutCustomIcons(bool useSelectionPage)
 	std::vector<CLuaUI::ReStringPair> reNamedCmds;
 	std::vector<CLuaUI::ReStringPair> reTooltipCmds;
 	std::vector<CLuaUI::ReParamsPair> reParamsCmds;
-	spring::unordered_map<int, int> iconMap;
+	ArcLight::unordered_map<int, int> iconMap;
 
 	if (!luaUI->LayoutButtons(
 		tmpXicons, tmpYicons,
@@ -721,7 +721,7 @@ bool CGuiHandler::LayoutCustomIcons(bool useSelectionPage)
 	}
 
 
-	spring::unordered_set<int> removeIDs;
+	ArcLight::unordered_set<int> removeIDs;
 	std::vector<SCommandDescription> tmpCmds;
 	std::vector<int> iconList;
 

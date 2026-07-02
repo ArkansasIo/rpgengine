@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <sstream>
 #include <zlib.h>
@@ -188,7 +188,7 @@ static void LoadLuaState(CSplitLuaHandle* handle, creg::CInputStreamSerializer& 
 	if ((handle != nullptr) && handle->syncedLuaHandle.IsValid() && lsc->valid)
 		handle->SwapSyncedHandle(lsc->L, lsc->L_GC);
 
-	spring::SafeDelete(lsc);
+	ArcLight::SafeDelete(lsc);
 	return;
 
 }
@@ -203,7 +203,7 @@ void CCregLoadSaveHandler::SaveGame(const std::string& path)
 		std::stringstream oss;
 
 		// write our own header. SavePackage() will add its own
-		WriteString(oss, SpringVersion::GetSync());
+		WriteString(oss, ArcLightVersion::GetSync());
 		WriteString(oss, gameSetup->setupText);
 		WriteString(oss, modName);
 		WriteString(oss, mapName);
@@ -280,11 +280,11 @@ void CCregLoadSaveHandler::SaveGame(const std::string& path)
 /// loads the data (map&mod-name,setup-script) needed by PreGame
 bool CCregLoadSaveHandler::LoadGameStartInfo(const std::string& path)
 {
-	CGZFileHandler saveFile(dataDirsAccess.LocateFile(FindSaveFile(path)), SPRING_VFS_RAW_FIRST);
+	CGZFileHandler saveFile(dataDirsAccess.LocateFile(FindSaveFile(path)), ARCLIGHT_VFS_RAW_FIRST);
 
 	std::stringbuf* sbuf = iss.rdbuf();
 	std::string saveVersion;
-	std::string syncVersion = SpringVersion::GetSync();
+	std::string syncVersion = ArcLightVersion::GetSync();
 
 	char buf[4096];
 	int len;
@@ -297,7 +297,7 @@ bool CCregLoadSaveHandler::LoadGameStartInfo(const std::string& path)
 	// in general these will *not* be binary-compatible
 	// (so prefer to terminate loading from PreGame)
 	if (saveVersion != syncVersion)
-		LOG_L(L_WARNING, "[LSH::%s][release=%d] file \"%s\" saved by engine version \"%s\" incompatible with \"%s\"", __func__, SpringVersion::IsRelease(), path.c_str(), saveVersion.c_str(), syncVersion.c_str());
+		LOG_L(L_WARNING, "[LSH::%s][release=%d] file \"%s\" saved by engine version \"%s\" incompatible with \"%s\"", __func__, ArcLightVersion::IsRelease(), path.c_str(), saveVersion.c_str(), syncVersion.c_str());
 
 	// read our own header
 	ReadString(iss, scriptText);
@@ -329,7 +329,7 @@ void CCregLoadSaveHandler::LoadGame()
 
 		// the only job of gsc is to collect gamestate data
 		CGameStateCollector* gsc = static_cast<CGameStateCollector*>(pGSC);
-		spring::SafeDelete(gsc);
+		ArcLight::SafeDelete(gsc);
 
 		// load ai state
 		for (const auto& ai: skirmishAIHandler.GetAllSkirmishAIs()) {

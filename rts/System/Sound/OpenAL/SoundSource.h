@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef SOUNDSOURCE_H
 #define SOUNDSOURCE_H
@@ -98,7 +98,7 @@ private:
 	COggStream curStream;
 
 	float curVolume;
-	spring_time loopStop;
+	ArcLight_time loopStop;
 	bool in3D;
 	bool efxEnabled;
 	int efxUpdates;

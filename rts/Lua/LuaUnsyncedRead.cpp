@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "LuaUnsyncedRead.h"
 
@@ -414,7 +414,7 @@ int LuaUnsyncedRead::GetLuaMemUsage(lua_State* L)
 	const SLuaAllocState* lhs = &lcd->allocState;
 	      SLuaAllocState  lgs;
 
-	spring_lua_alloc_get_stats(&lgs);
+	ArcLight_lua_alloc_get_stats(&lgs);
 
 	lua_pushnumber(L, lhs->allocedBytes / 1024.0f); // (kilo)bytes, can exceed 1<<24 otherwise
 	lua_pushnumber(L, lhs->numLuaAllocs / 1000.0f); // (kilo)allocs, ditto
@@ -422,7 +422,7 @@ int LuaUnsyncedRead::GetLuaMemUsage(lua_State* L)
 	lua_pushnumber(L, lgs.numLuaAllocs / 1000.0f);
 
 	// [0] := unsynced, [1] := synced
-	extern const spring::unsynced_set<const luaContextData*>* LUAHANDLE_CONTEXTS[2];
+	extern const ArcLight::unsynced_set<const luaContextData*>* LUAHANDLE_CONTEXTS[2];
 
 	// sum up the individual (unsynced and synced) state footprints
 	for (bool synced: {false, true}) {
@@ -1443,7 +1443,7 @@ int LuaUnsyncedRead::GetCameraState(lua_State* L)
 			lua_pushnumber(L, camState["flipped"]);
 			return 1 + 3;
 
-		case CCameraHandler::CAMERA_MODE_SPRING:
+		case CCameraHandler::CAMERA_MODE_ArcLight:
 			lua_pushnumber(L, camState["rx"]);
 			lua_pushnumber(L, camState["ry"]);
 			lua_pushnumber(L, camState["rz"]);
@@ -1731,9 +1731,9 @@ int LuaUnsyncedRead::GetTeamOrigColor(lua_State* L)
 /******************************************************************************/
 /******************************************************************************/
 
-static void PushTimer(lua_State* L, const spring_time& time)
+static void PushTimer(lua_State* L, const ArcLight_time& time)
 {
-	// use time since Spring's epoch in MILLIseconds because that
+	// use time since ArcLight's epoch in MILLIseconds because that
 	// is more likely to fit in a 32-bit pointer (on any platforms
 	// where sizeof(void*) == 4) than time since ::chrono's epoch
 	// (which can be arbitrarily large) and can be represented by
@@ -1755,7 +1755,7 @@ static void PushTimer(lua_State* L, const spring_time& time)
 
 int LuaUnsyncedRead::GetTimer(lua_State* L)
 {
-	PushTimer(L, spring_now());
+	PushTimer(L, ArcLight_now());
 	return 1;
 }
 
@@ -1789,7 +1789,7 @@ int LuaUnsyncedRead::DiffTimers(lua_State* L)
 	// t1 is supposed to be the most recent time-point
 	assert(t1 >= t2);
 
-	const spring_time dt = spring_time::fromMilliSecs(t1 - t2);
+	const ArcLight_time dt = ArcLight_time::fromMilliSecs(t1 - t2);
 
 	if (luaL_optboolean(L, 3, false)) {
 		lua_pushnumber(L, dt.toMilliSecsf());

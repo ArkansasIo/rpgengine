@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "ProtocolDef.h"
 
@@ -53,7 +53,7 @@ int ProtocolDef::PacketLength(const unsigned char* const buf, const unsigned buf
 		return (slen >= 3) ? slen : -1;
 	}
 
-	throw network_error(spring::format("Invalid Message Length: %u", (unsigned int)msgid ));
+	throw network_error(ArcLight::format("Invalid Message Length: %u", (unsigned int)msgid ));
 }
 
 bool ProtocolDef::IsValidLength(const int pktLength, const unsigned bufLength) const

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "ShieldSegmentProjectile.h"
 #include "Game/Camera.h"
@@ -39,7 +39,7 @@ CR_REG_METADATA(ShieldSegmentProjectile, (
 
 
 static std::vector<float3> spherevertices;
-static spring::unsynced_map<const AtlasedTexture*, std::vector<float2> > spheretexcoords;
+static ArcLight::unsynced_map<const AtlasedTexture*, std::vector<float2> > spheretexcoords;
 
 
 

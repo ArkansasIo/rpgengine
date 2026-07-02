@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "SpringTime.h"
 #include "System/MainDefines.h"
@@ -13,8 +13,8 @@
 	#include "System/creg/Serializer.h"
 
 	//FIXME always use class even in non-debug! for creg!
-	CR_BIND(spring_time, )
-	CR_REG_METADATA(spring_time,(
+	CR_BIND(ArcLight_time, )
+	CR_REG_METADATA(ArcLight_time,(
 		CR_IGNORED(x),
 		CR_SERIALIZER(Serialize)
 	))
@@ -40,7 +40,7 @@ namespace this_thread { using namespace std::this_thread; }
 
 
 
-namespace spring_clock {
+namespace ArcLight_clock {
 	static bool highResMode = false;
 	static bool timerInited = false;
 
@@ -173,7 +173,7 @@ namespace spring_clock {
 
 
 
-std::int64_t spring_time::xs = 0;
+std::int64_t ArcLight_time::xs = 0;
 
 static std::atomic_int avgThreadYieldTimeMicroSecs = {0};
 static std::atomic_int avgThreadSleepTimeMicroSecs = {0};
@@ -181,10 +181,10 @@ static std::atomic_int avgThreadSleepTimeMicroSecs = {0};
 
 static void thread_yield()
 {
-	const spring_time t0 = spring_time::gettime();
+	const ArcLight_time t0 = ArcLight_time::gettime();
 	this_thread::yield();
-	const spring_time t1 = spring_time::gettime();
-	const spring_time dt = t1 - t0;
+	const ArcLight_time t1 = ArcLight_time::gettime();
+	const ArcLight_time dt = t1 - t0;
 
 	if (t1 >= t0) {
 		// yes, it's not 100% thread correct, but it's okay when 1 of 1 million writes is dropped
@@ -195,17 +195,17 @@ static void thread_yield()
 }
 
 
-void spring_time::sleep(bool forceThreadSleep)
+void ArcLight_time::sleep(bool forceThreadSleep)
 {
 	if (forceThreadSleep) {
-		spring::this_thread::sleep_for(chrono::nanoseconds(toNanoSecsi()));
+		ArcLight::this_thread::sleep_for(chrono::nanoseconds(toNanoSecsi()));
 		return;
 	}
 
 
 	// for very short time intervals use a yielding loop (yield is ~5x more accurate than sleep(), check the UnitTest)
 	if (toMicroSecsi() < (avgThreadSleepTimeMicroSecs + avgThreadYieldTimeMicroSecs * 5)) {
-		const spring_time s = gettime();
+		const ArcLight_time s = gettime();
 
 		while ((gettime() - s) < *this)
 			thread_yield();
@@ -214,12 +214,12 @@ void spring_time::sleep(bool forceThreadSleep)
 	}
 
 	// expected wakeup time
-	const spring_time t0 = gettime() + *this;
+	const ArcLight_time t0 = gettime() + *this;
 
-	spring::this_thread::sleep_for(chrono::nanoseconds(toNanoSecsi()));
+	ArcLight::this_thread::sleep_for(chrono::nanoseconds(toNanoSecsi()));
 
-	const spring_time t1 = gettime();
-	const spring_time dt = t1 - t0;
+	const ArcLight_time t1 = gettime();
+	const ArcLight_time dt = t1 - t0;
 
 	if (t1 >= t0) {
 		// yes, it's not 100% thread correct, but it's okay when 1 of 1 million writes is dropped
@@ -229,22 +229,22 @@ void spring_time::sleep(bool forceThreadSleep)
 	}
 }
 
-void spring_time::sleep_until()
+void ArcLight_time::sleep_until()
 {
 	auto tp = chrono::time_point<chrono::high_resolution_clock, chrono::nanoseconds>(chrono::nanoseconds(toNanoSecsi()));
 	this_thread::sleep_until(tp);
 }
 
 #if defined USING_CREG && !defined UNIT_TEST
-void spring_time::Serialize(creg::ISerializer* s)
+void ArcLight_time::Serialize(creg::ISerializer* s)
 {
 	if (s->IsWriting()) {
-		int y = spring_tomsecs(*this - spring_gettime());
+		int y = ArcLight_tomsecs(*this - ArcLight_gettime());
 		s->SerializeInt(&y, 4);
 	} else {
 		int y;
 		s->SerializeInt(&y, 4);
-		*this = *this + spring_msecs(y);
+		*this = *this + ArcLight_msecs(y);
 	}
 }
 #endif

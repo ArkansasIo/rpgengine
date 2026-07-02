@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 
 #include "ModInfo.h"
@@ -115,9 +115,9 @@ void CModInfo::Init(const std::string& modFileName)
 		description = md.GetDescription();
 	}
 
-	LuaParser parser("gamedata/modrules.lua", SPRING_VFS_MOD_BASE, SPRING_VFS_ZIP);
+	LuaParser parser("gamedata/modrules.lua", ARCLIGHT_VFS_MOD_BASE, ARCLIGHT_VFS_ZIP);
 	// customize the defs environment
-	parser.GetTable("Spring");
+	parser.GetTable("ArcLight");
 	parser.AddFunc("GetModOptions", LuaSyncedRead::GetModOptions);
 	parser.EndTable();
 	parser.Execute();

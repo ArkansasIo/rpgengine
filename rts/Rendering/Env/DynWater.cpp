@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "DynWater.h"
 #if 0
@@ -509,7 +509,7 @@ void CDynWater::DrawWaves()
 	float dx = camPosBig.x - oldCamPosBig.x;
 	float dy = camPosBig.z - oldCamPosBig.z;
 
-	glSpringMatrix2dSetupPV(0.0f, 1.0f, 0.0f, 1.0f, -1.0f, 1.0f);
+	glArcLightMatrix2dSetupPV(0.0f, 1.0f, 0.0f, 1.0f, -1.0f, 1.0f);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, waveTex3);
@@ -687,7 +687,7 @@ void CDynWater::DrawWaves()
 
 void CDynWater::DrawHeightTex()
 {
-	glSpringMatrix2dSetupPV(0.0f, 1.0f, 0.0f, 1.0f, -1.0f, 1.0f);
+	glArcLightMatrix2dSetupPV(0.0f, 1.0f, 0.0f, 1.0f, -1.0f, 1.0f);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, waveTex1);
@@ -998,7 +998,7 @@ void CDynWater::AddShipWakes()
 	glAttribStatePtr->Enable(GL_BLEND);
 	glAttribStatePtr->BlendFunc(GL_ONE, GL_ONE);
 
-	glSpringMatrix2dSetupPV(0.0f, 1.0f, 0.0f, 1.0f, -1.0f, 1.0f);
+	glArcLightMatrix2dSetupPV(0.0f, 1.0f, 0.0f, 1.0f, -1.0f, 1.0f);
 
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		LOG_L(L_WARNING, "[DynWater::%s] FBO not ready", __func__);
@@ -1114,7 +1114,7 @@ void CDynWater::AddExplosions()
 	glAttribStatePtr->Enable(GL_BLEND);
 	glAttribStatePtr->BlendFunc(GL_ONE, GL_ONE);
 
-	glSpringMatrix2dSetupPV(0.0f, 1.0f, 0.0f, 1.0f, -1.0f, 1.0f);
+	glArcLightMatrix2dSetupPV(0.0f, 1.0f, 0.0f, 1.0f, -1.0f, 1.0f);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, splashTex);

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <chrono>
 #include <cinttypes>
@@ -50,7 +50,7 @@ namespace QTPFS {
 		}
 
 		void AddMessage(std::string&& msg) {
-			std::lock_guard<spring::mutex> loadMessageLock(loadMessageMutex);
+			std::lock_guard<ArcLight::mutex> loadMessageLock(loadMessageMutex);
 			loadMessages.emplace_back(std::move(msg));
 		}
 
@@ -58,11 +58,11 @@ namespace QTPFS {
 		void Init(const std::function<void(QTPFS::PathManager*)>& lf, QTPFS::PathManager* pm) {
 			// must be set here to handle reloading
 			loading = true;
-			loadThread = spring::thread(std::bind(lf, pm));
+			loadThread = ArcLight::thread(std::bind(lf, pm));
 		}
 		void Loop() {
 			while (loading) {
-				spring::this_thread::sleep_for(std::chrono::milliseconds(50));
+				ArcLight::this_thread::sleep_for(std::chrono::milliseconds(50));
 
 				// need this to be always executed after waking up
 				SetMessages();
@@ -76,7 +76,7 @@ namespace QTPFS {
 		}
 
 		void SetMessages() {
-			std::lock_guard<spring::mutex> loadMessageLock(loadMessageMutex);
+			std::lock_guard<ArcLight::mutex> loadMessageLock(loadMessageMutex);
 
 			for (std::string& msg: loadMessages) {
 				#ifdef QTPFS_NO_LOADSCREEN
@@ -91,8 +91,8 @@ namespace QTPFS {
 
 	private:
 		std::vector<std::string> loadMessages;
-		spring::mutex loadMessageMutex;
-		spring::thread loadThread;
+		ArcLight::mutex loadMessageMutex;
+		ArcLight::thread loadThread;
 
 		std::atomic<bool> loading = {false};
 	};
@@ -160,21 +160,21 @@ QTPFS::PathManager::~PathManager() {
 }
 
 std::int64_t QTPFS::PathManager::Finalize() {
-	const spring_time t0 = spring_gettime();
+	const ArcLight_time t0 = ArcLight_gettime();
 
 	{
 		pmLoadScreen.Show(&PathManager::Load, this);
 
 		#ifdef QTPFS_ENABLE_THREADED_UPDATE
-		mutexThreadUpdate = spring::mutex();
-		condThreadUpdate = spring::condition_variable();
-		condThreadUpdated = spring::condition_variable();
-		updateThread = spring::thread(std::bind(&PathManager::ThreadUpdate, this));
+		mutexThreadUpdate = ArcLight::mutex();
+		condThreadUpdate = ArcLight::condition_variable();
+		condThreadUpdated = ArcLight::condition_variable();
+		updateThread = ArcLight::thread(std::bind(&PathManager::ThreadUpdate, this));
 		#endif
 	}
 
-	const spring_time t1 = spring_gettime();
-	const spring_time dt = t1 - t0;
+	const ArcLight_time t1 = ArcLight_gettime();
+	const ArcLight_time dt = t1 - t0;
 
 	return (dt.toMilliSecsi());
 }
@@ -274,10 +274,10 @@ std::uint64_t QTPFS::PathManager::GetMemFootPrint() const {
 
 
 void QTPFS::PathManager::SpawnSpringThreads(MemberFunc f, const SRectangle& r) {
-	static std::vector<spring::thread*> threads(std::min(GetNumThreads(), nodeLayers.size()), nullptr);
+	static std::vector<ArcLight::thread*> threads(std::min(GetNumThreads(), nodeLayers.size()), nullptr);
 
 	for (unsigned int threadNum = 0; threadNum < threads.size(); threadNum++) {
-		threads[threadNum] = new spring::thread(std::bind(f, this, threadNum, threads.size(), r));
+		threads[threadNum] = new ArcLight::thread(std::bind(f, this, threadNum, threads.size(), r));
 	}
 
 	for (unsigned int threadNum = 0; threadNum < threads.size(); threadNum++) {
@@ -576,10 +576,10 @@ void QTPFS::PathManager::Serialize(const std::string& cacheFileDir) {
 				// fstreams can not be easily locked however, see
 				// http://stackoverflow.com/questions/839856/
 				while (!FileSystem::FileExists(fileNames[i] + "-tmp")) {
-					spring::this_thread::sleep_for(std::chrono::milliseconds(100));
+					ArcLight::this_thread::sleep_for(std::chrono::milliseconds(100));
 				}
 				while (FileSystem::GetFileSize(fileNames[i] + "-tmp") != sizeof(unsigned int)) {
-					spring::this_thread::sleep_for(std::chrono::milliseconds(100));
+					ArcLight::this_thread::sleep_for(std::chrono::milliseconds(100));
 				}
 
 				fileStreams[i]->open((fileNames[i] + "-tmp").c_str(), std::ios::in | std::ios::binary);
@@ -587,10 +587,10 @@ void QTPFS::PathManager::Serialize(const std::string& cacheFileDir) {
 				fileStreams[i]->close();
 
 				while (!FileSystem::FileExists(fileNames[i])) {
-					spring::this_thread::sleep_for(std::chrono::milliseconds(100));
+					ArcLight::this_thread::sleep_for(std::chrono::milliseconds(100));
 				}
 				while (FileSystem::GetFileSize(fileNames[i]) != fileSizes[i]) {
-					spring::this_thread::sleep_for(std::chrono::milliseconds(100));
+					ArcLight::this_thread::sleep_for(std::chrono::milliseconds(100));
 				}
 			}
 
@@ -619,7 +619,7 @@ void QTPFS::PathManager::Serialize(const std::string& cacheFileDir) {
 
 		#ifdef QTPFS_CACHE_XACCESS
 		if (!haveCacheDir) {
-			// signal any other (concurrently loading) Spring processes; needed for validation-tests
+			// signal any other (concurrently loading) ArcLight processes; needed for validation-tests
 			fileStreams[i]->open((fileNames[i] + "-tmp").c_str(), std::ios::out | std::ios::binary);
 			fileStreams[i]->write(reinterpret_cast<const char*>(&fileSizes[i]), sizeof(unsigned int));
 			fileStreams[i]->flush();
@@ -669,7 +669,7 @@ void QTPFS::PathManager::Update() {
 	#ifdef QTPFS_ENABLE_THREADED_UPDATE
 	streflop::streflop_init<streflop::Simple>();
 
-	std::lock_guard<spring::mutex> lock(mutexThreadUpdate);
+	std::lock_guard<ArcLight::mutex> lock(mutexThreadUpdate);
 
 	// allow ThreadUpdate to run one iteration
 	condThreadUpdate.notify_one();
@@ -687,7 +687,7 @@ __FORCE_ALIGN_STACK__
 void QTPFS::PathManager::ThreadUpdate() {
 	#ifdef QTPFS_ENABLE_THREADED_UPDATE
 	while (!nodeLayers.empty()) {
-		std::lock_guard<spring::mutex> lock(mutexThreadUpdate);
+		std::lock_guard<ArcLight::mutex> lock(mutexThreadUpdate);
 
 		// wait for green light from Update
 		condThreadUpdate.wait(lock);

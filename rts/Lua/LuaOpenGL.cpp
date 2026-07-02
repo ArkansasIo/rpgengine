@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 
 #include "Rendering/GL/myGL.h"
@@ -1798,7 +1798,7 @@ int LuaOpenGL::TexRect(lua_State* L)
 
 	GL::RenderDataBufferTC* buffer = GL::GetRenderBufferTC();
 
-	// Spring's textures are vertically flipped;
+	// ArcLight's textures are vertically flipped;
 	// invert the default texcoors to compensate
 	if (args <= 6) {
 		if ((args >= 5) && luaL_optboolean(L, 5, false)) {

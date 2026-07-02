@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef S_SKIRMISH_AI_LIBRARY_H
 #define S_SKIRMISH_AI_LIBRARY_H
@@ -11,7 +11,7 @@ extern "C" {
  * [string]
  * Absolute data dir containing the AIs AIInfo.lua file.
  * This property is set by the engine, not read from any file.
- * example: "/home/john/spring/AI/Skirmish/RAI/0.601"
+ * example: "/home/john/ArcLight/AI/Skirmish/RAI/0.601"
  */
 #define SKIRMISH_AI_PROPERTY_DATA_DIR                "dataDir"
 
@@ -19,7 +19,7 @@ extern "C" {
  * [string]
  * Absolute, version independent data dir.
  * This property is set by the engine, not read from any file.
- * example: "/home/john/spring/AI/Skirmish/RAI/common"
+ * example: "/home/john/ArcLight/AI/Skirmish/RAI/common"
  */
 #define SKIRMISH_AI_PROPERTY_DATA_DIR_COMMON         "dataDirCommon"
 
@@ -49,7 +49,7 @@ extern "C" {
 
 /**
  * [string]
- * example: "https://springrts.com/wiki/AI:RAI"
+ * example: "https://ArcLightrts.com/wiki/AI:RAI"
  */
 #define SKIRMISH_AI_PROPERTY_URL                     "url"
 

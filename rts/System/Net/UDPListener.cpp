@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "UDPListener.h"
 
@@ -168,7 +168,7 @@ void UDPListener::Update() {
 	#ifdef DEBUG
 		std::string conns;
 		for (auto it = connMap.cbegin(); it != connMap.cend(); ++it) {
-			conns += spring::format(" [%s]:%i;", it->first.address().to_string().c_str(),it->first.port());
+			conns += ArcLight::format(" [%s]:%i;", it->first.address().to_string().c_str(),it->first.port());
 		}
 		LOG_L(L_DEBUG, "[UDPListener::%s] open connections: %s", __func__, conns.c_str());
 	#endif

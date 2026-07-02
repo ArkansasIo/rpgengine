@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef MOUSEHANDLER_H
 #define MOUSEHANDLER_H
@@ -158,8 +158,8 @@ private:
 	std::string activeCursorName; /// current cursor name
 
 	std::vector<CMouseCursor> loadedCursors;
-	spring::unordered_map<std::string, size_t> cursorFileMap;
-	spring::unordered_map<std::string, size_t> cursorCommandMap;
+	ArcLight::unordered_map<std::string, size_t> cursorFileMap;
+	ArcLight::unordered_map<std::string, size_t> cursorCommandMap;
 
 	const CUnit* lastClicked = nullptr;
 };

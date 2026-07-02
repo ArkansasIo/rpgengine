@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 
 #include "ProjectileDrawer.h"
@@ -38,8 +38,8 @@
 void CProjectileDrawer::Init() {
 	IProjectileDrawer::Init();
 
-	LuaParser resourcesParser("gamedata/resources.lua", SPRING_VFS_MOD_BASE, SPRING_VFS_ZIP);
-	LuaParser mapResParser("gamedata/resources_map.lua", SPRING_VFS_MAP_BASE, SPRING_VFS_ZIP);
+	LuaParser resourcesParser("gamedata/resources.lua", ARCLIGHT_VFS_MOD_BASE, ARCLIGHT_VFS_ZIP);
+	LuaParser mapResParser("gamedata/resources_map.lua", ARCLIGHT_VFS_MAP_BASE, ARCLIGHT_VFS_ZIP);
 
 	resourcesParser.Execute();
 
@@ -52,7 +52,7 @@ void CProjectileDrawer::Init() {
 	// used to block resources_map.* from overriding any of
 	// resources.lua:{projectile, smoke, groundfx}textures,
 	// as well as various defaults (repulsegfxtexture, etc)
-	spring::unordered_set<std::string> blockedTexNames;
+	ArcLight::unordered_set<std::string> blockedTexNames;
 
 	ParseAtlasTextures(true, resProjTexturesTable, blockedTexNames, textureAtlas);
 	ParseAtlasTextures(true, resGroundFXTexturesTable, blockedTexNames, groundFXAtlas);
@@ -261,11 +261,11 @@ void CProjectileDrawer::Kill() {
 void CProjectileDrawer::ParseAtlasTextures(
 	const bool blockTextures,
 	const LuaTable& textureTable,
-	spring::unordered_set<std::string>& blockedTextures,
+	ArcLight::unordered_set<std::string>& blockedTextures,
 	CTextureAtlas* texAtlas
 ) {
 	std::vector<std::string> subTables;
-	spring::unordered_map<std::string, std::string> texturesMap;
+	ArcLight::unordered_map<std::string, std::string> texturesMap;
 
 	textureTable.GetMap(texturesMap);
 	textureTable.GetKeys(subTables);

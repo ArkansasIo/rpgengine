@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "IProjectileDrawer.h"
 
@@ -35,7 +35,7 @@ void IProjectileDrawer::KillStatic(bool reload) {
 	if (reload)
 		return;
 
-	spring::SafeDestruct(projectileDrawer);
+	ArcLight::SafeDestruct(projectileDrawer);
 }
 
 void IProjectileDrawer::Init() {
@@ -51,8 +51,8 @@ void IProjectileDrawer::Kill() {
 	eventHandler.RemoveClient(this);
 	autoLinkedEvents.clear();
 
-	spring::SafeDelete(textureAtlas);
-	spring::SafeDelete(groundFXAtlas);
+	ArcLight::SafeDelete(textureAtlas);
+	ArcLight::SafeDelete(groundFXAtlas);
 }
 
 bool IProjectileDrawer::WantsEvent(const std::string& eventName) {

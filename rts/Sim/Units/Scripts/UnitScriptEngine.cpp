@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 /* heavily based on CobEngine.cpp */
 
@@ -87,7 +87,7 @@ void CUnitScriptEngine::ReloadScripts(const UnitDef* udef)
 
 		count++;
 
-		spring::SafeDestruct(unitScript);
+		ArcLight::SafeDestruct(unitScript);
 
 		unitScript = CUnitScriptFactory::CreateCOBScript(unit, newScriptFile);
 		unitScript->Create();
@@ -102,7 +102,7 @@ void CUnitScriptEngine::AddInstance(CUnitScript* instance)
 	if (instance == currentScript)
 		return;
 
-	spring::VectorInsertUnique(animating, instance/*, true*/);
+	ArcLight::VectorInsertUnique(animating, instance/*, true*/);
 }
 
 void CUnitScriptEngine::RemoveInstance(CUnitScript* instance)
@@ -110,7 +110,7 @@ void CUnitScriptEngine::RemoveInstance(CUnitScript* instance)
 	if (instance == currentScript)
 		return;
 
-	spring::VectorErase(animating, instance);
+	ArcLight::VectorErase(animating, instance);
 }
 
 

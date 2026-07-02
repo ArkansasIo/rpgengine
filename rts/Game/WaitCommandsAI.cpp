@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 
 #include "WaitCommandsAI.h"
@@ -119,7 +119,7 @@ void CWaitCommandsAI::Update()
 	}
 
 	// delete old unacknowledged waits
-	const spring_time nowTime = spring_gettime();
+	const ArcLight_time nowTime = ArcLight_gettime();
 	it = unackedMap.begin();
 	while (it != unackedMap.end()) {
 		WaitMap::iterator tmp = it;
@@ -365,7 +365,7 @@ CWaitCommandsAI::KeyType CWaitCommandsAI::Wait::GetKeyFromFloat(float f)
 
 void CWaitCommandsAI::Wait::PostLoad()
 {
-	deadTime = spring_gettime() + spring_secs(maxNetDelay);
+	deadTime = ArcLight_gettime() + ArcLight_secs(maxNetDelay);
 }
 
 // static
@@ -379,7 +379,7 @@ CWaitCommandsAI::Wait::Wait(float _code)
 	: code(_code),
 	key(0),
 	valid(false),
-	deadTime(spring_gettime() + spring_secs(maxNetDelay))
+	deadTime(ArcLight_gettime() + ArcLight_secs(maxNetDelay))
 {
 }
 
@@ -738,7 +738,7 @@ void CWaitCommandsAI::DeathWait::Update()
 	if (!deathUnits.empty())
 		return; // more must die
 
-	spring::unordered_set<int> unblockSet;
+	ArcLight::unordered_set<int> unblockSet;
 	std::vector<int> voidWaitUnitIDs;
 
 	for (const int unitID: waitUnits) {
@@ -925,7 +925,7 @@ void CWaitCommandsAI::SquadWait::Update()
 	}
 
 	if ((int)waitUnits.size() >= squadCount) {
-		spring::unordered_set<int> unblockSet;
+		ArcLight::unordered_set<int> unblockSet;
 		std::vector<int> voidWaitUnitIDs;
 
 		for (const int unitID: waitUnits) {

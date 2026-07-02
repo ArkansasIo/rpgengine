@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef GEOMETRIC_OBJECTS_H
 #define GEOMETRIC_OBJECTS_H
@@ -12,7 +12,7 @@
 
 class CGeoSquareProjectile;
 
-class CGeometricObjects : public spring::noncopyable
+class CGeometricObjects : public ArcLight::noncopyable
 {
 	CR_DECLARE_STRUCT(CGeometricObjects)
 	CR_DECLARE_SUB(GeoGroup)
@@ -36,8 +36,8 @@ public:
 	void MarkSquare(int mapSquare);
 
 private:
-	spring::unordered_map<int, GeoGroup> geoGroups;
-	spring::unordered_map<int, std::vector<int> > timedGroups;
+	ArcLight::unordered_map<int, GeoGroup> geoGroups;
+	ArcLight::unordered_map<int, std::vector<int> > timedGroups;
 
 	int firstFreeGroup;
 };

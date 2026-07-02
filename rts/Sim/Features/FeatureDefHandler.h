@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _FEATUREDEF_HANDLER_H
 #define _FEATUREDEF_HANDLER_H
@@ -15,7 +15,7 @@
 class LuaTable;
 class LuaParser;
 
-class CFeatureDefHandler : public spring::noncopyable
+class CFeatureDefHandler : public ArcLight::noncopyable
 {
 
 public:
@@ -42,7 +42,7 @@ public:
 	unsigned int NumFeatureDefs() const { return (featureDefsVector.size() - 1); }
 
 	const std::vector<FeatureDef>& GetFeatureDefsVec() const { return featureDefsVector; }
-	const spring::unordered_map<std::string, int>& GetFeatureDefIDs() const { return featureDefIDs; }
+	const ArcLight::unordered_map<std::string, int>& GetFeatureDefIDs() const { return featureDefIDs; }
 
 private:
 
@@ -55,7 +55,7 @@ private:
 	void AddFeatureDef(const std::string& name, FeatureDef* feature, bool isDefaultFeature);
 
 private:
-	spring::unordered_map<std::string, int> featureDefIDs;
+	ArcLight::unordered_map<std::string, int> featureDefIDs;
 	std::vector<FeatureDef> featureDefsVector;
 };
 

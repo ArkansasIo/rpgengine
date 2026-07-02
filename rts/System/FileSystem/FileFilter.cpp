@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "FileFilter.h"
 
@@ -26,7 +26,7 @@ private:
 	struct Rule {
 		Rule() = default;
 		string glob;
-		spring::regex regex;
+		ArcLight::regex regex;
 		bool negate = false;
 	};
 
@@ -108,8 +108,8 @@ void CFileFilter::AddRule(const string& rule)
 		}
 	}
 	r.glob = rule.substr(p, 1 + q - p);
-	r.regex = spring::regex(glob_to_regex(r.glob)
-		, spring::regex::icase);
+	r.regex = ArcLight::regex(glob_to_regex(r.glob)
+		, ArcLight::regex::icase);
 	rules.push_back(r);
 	//printf("added %s%s: %s\n", r.negate ? "!" : "", r.glob.c_str(), r.regex.expression());
 }
@@ -120,7 +120,7 @@ bool CFileFilter::Match(const string& filename) const
 {
 	bool match = false;
 	for (const auto& rule: rules) {
-		if (spring::regex_search(filename, rule.regex))
+		if (ArcLight::regex_search(filename, rule.regex))
 			match = !rule.negate;
 	}
 	return match;

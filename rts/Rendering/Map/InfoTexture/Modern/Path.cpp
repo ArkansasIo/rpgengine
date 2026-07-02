@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "Path.h"
 #include "Game/GameHelper.h"
@@ -29,7 +29,7 @@ CPathTexture::CPathTexture()
 , lastSelectedPathType(0)
 , forcedPathType(-1)
 , forcedUnitDef(-1)
-, lastUsage(spring_gettime())
+, lastUsage(ArcLight_gettime())
 {
 	texSize = int2(mapDims.hmapx, mapDims.hmapy);
 	texChannels = 4;
@@ -40,7 +40,7 @@ CPathTexture::CPathTexture()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glSpringTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA8, texSize.x, texSize.y);
+	glArcLightTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA8, texSize.x, texSize.y);
 
 	infoTexPBO.Bind();
 	infoTexPBO.New(texSize.x * texSize.y * texChannels, GL_STREAM_DRAW);
@@ -122,7 +122,7 @@ const UnitDef* CPathTexture::GetCurrentBuildCmdUnitDef()
 
 GLuint CPathTexture::GetTexture()
 {
-	lastUsage = spring_gettime();
+	lastUsage = ArcLight_gettime();
 	return texture;
 }
 
@@ -148,7 +148,7 @@ bool CPathTexture::ShowUnitDef(const int udefid)
 bool CPathTexture::IsUpdateNeeded()
 {
 	// don't update when not rendered/used
-	if ((spring_gettime() - lastUsage).toSecsi() > 2) {
+	if ((ArcLight_gettime() - lastUsage).toSecsi() > 2) {
 		forcedUnitDef = forcedPathType = -1;
 		return false;
 	}

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef TEXTURE_ATLAS_H
 #define TEXTURE_ATLAS_H
@@ -144,8 +144,8 @@ protected:
 	// temporary storage of all textures
 	std::vector<MemTex> memTextures;
 
-	spring::unordered_map<std::string, size_t> files;
-	spring::unordered_map<std::string, AtlasedTexture> textures;
+	ArcLight::unordered_map<std::string, size_t> files;
+	ArcLight::unordered_map<std::string, AtlasedTexture> textures;
 
 	unsigned int atlasTexID = 0;
 

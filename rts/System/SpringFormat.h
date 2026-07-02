@@ -1,12 +1,12 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
-#ifndef SPRING_FORMAT_H
-#define SPRING_FORMAT_H
+#ifndef ArcLight_FORMAT_H
+#define ArcLight_FORMAT_H
 
 #include "MainDefines.h"
 #include <string>
 
-namespace spring {
+namespace ArcLight {
 	template<class... Args>
 	std::string format(const char* fmt, const Args&... args) {
 		char buff[4096];
@@ -22,4 +22,4 @@ namespace spring {
 	}
 }
 
-#endif //SPRING_FORMAT_H
+#endif //ArcLight_FORMAT_H

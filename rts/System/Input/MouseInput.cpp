@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 /*
 	This workaround fixes the windows slow mouse movement problem
@@ -44,7 +44,7 @@ IMouseInput::IMouseInput(bool relModeWarp)
 	// Windows 10 FCU (Fall Creators Update) causes spurious SDL_MOUSEMOTION
 	// events to be generated with SDL_HINT_MOUSE_RELATIVE_MODE_WARP enabled
 	//
-	// while Spring did not previously set this hint and SDL defaults to raw
+	// while ArcLight did not previously set this hint and SDL defaults to raw
 	// input, the update also affects MMB scrolling via SDL_WarpMouseInWindow
 	// (our ancient manually implemented method of achieving relative motion)
 	//
@@ -123,7 +123,7 @@ public:
 	HWND wnd;
 	HCURSOR hCursor;
 
-	static LRESULT CALLBACK SpringWndProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam)
+	static LRESULT CALLBACK ArcLightWndProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		switch (msg) {
 			case WM_SETCURSOR: {
@@ -156,9 +156,9 @@ public:
 
 		LONG_PTR cur_wndproc = GetWindowLongPtr(wnd, GWLP_WNDPROC);
 
-		if (cur_wndproc != (LONG_PTR)SpringWndProc) {
+		if (cur_wndproc != (LONG_PTR)ArcLightWndProc) {
 			sdl_wndproc = GetWindowLongPtr(wnd, GWLP_WNDPROC);
-			SetWindowLongPtr(wnd, GWLP_WNDPROC, (LONG_PTR)SpringWndProc);
+			SetWindowLongPtr(wnd, GWLP_WNDPROC, (LONG_PTR)ArcLightWndProc);
 		}
 	}
 
@@ -246,7 +246,7 @@ IMouseInput* IMouseInput::GetInstance(bool relModeWarp)
 
 void IMouseInput::FreeInstance(IMouseInput* mouseInp) {
 	assert(mouseInp == mouseInput);
-	spring::SafeDestruct(mouseInp);
+	ArcLight::SafeDestruct(mouseInp);
 	memset(mouseInputMem, 0, sizeof(mouseInputMem));
 	mouseInput = nullptr;
 }

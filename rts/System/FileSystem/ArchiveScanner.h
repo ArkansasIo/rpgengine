@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _ARCHIVE_SCANNER_H
 #define _ARCHIVE_SCANNER_H
@@ -66,7 +66,7 @@ public:
 		std::string GetDescription() const { return GetInfoValueString("description"); } /// ex:  Little units blowing up other little units
 		std::string GetMapFile() const { return GetInfoValueString("mapFile"); }         /// in case its a map, store location of smf file
 		int GetModType() const { return GetInfoValueInteger("modType"); }                /// 0=hidden, 1=primary, (2=unused), 3=map, 4=base, 5=menu
-		bool GetOnlyLocal() const { return GetInfoValueBool("onlyLocal"); }              /// if true spring will not listen for incoming connections
+		bool GetOnlyLocal() const { return GetInfoValueBool("onlyLocal"); }              /// if true ArcLight will not listen for incoming connections
 
 		const std::vector< std::pair<std::string, InfoItem> >& GetInfo() const { return infoItems; }
 		std::vector<InfoItem> GetInfoItems() const;
@@ -118,7 +118,7 @@ public:
 	const std::string& GetFilepath() const { return cachefile; }
 
 	static const char* GetMapHelperContentName() { return "Map Helper v1"; }
-	static const char* GetSpringBaseContentName() { return "Spring content v1"; }
+	static const char* GetArcLightBaseContentName() { return "ArcLight content v1"; }
 	static uint32_t GetNumScannedArchives();
 
 	std::vector<std::string> GetMaps() const;
@@ -237,8 +237,8 @@ private:
 	static bool CheckCompression(const IArchive* ar, const std::string& fullName, std::string& error);
 
 private:
-	spring::unordered_map<std::string, size_t> archiveInfosIndex;
-	spring::unordered_map<std::string, size_t> brokenArchivesIndex;
+	ArcLight::unordered_map<std::string, size_t> archiveInfosIndex;
+	ArcLight::unordered_map<std::string, size_t> brokenArchivesIndex;
 
 	std::vector<ArchiveInfo> archiveInfos;
 	std::vector<BrokenArchive> brokenArchives;

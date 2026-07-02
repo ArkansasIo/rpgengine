@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef ASS_PARSER_H
 #define ASS_PARSER_H
@@ -67,8 +67,8 @@ public:
 class CAssParser: public IModelParser
 {
 public:
-	typedef spring::unordered_map<std::string, S3DModelPiece*> ModelPieceMap;
-	typedef spring::unordered_map<std::string, std::string> ParentNameMap;
+	typedef ArcLight::unordered_map<std::string, S3DModelPiece*> ModelPieceMap;
+	typedef ArcLight::unordered_map<std::string, std::string> ParentNameMap;
 
 	void Init() override;
 	void Kill() override;
@@ -131,7 +131,7 @@ private:
 	unsigned int numPoolPieces = 0;
 
 	std::vector<SAssPiece> piecePool;
-	spring::mutex poolMutex;
+	ArcLight::mutex poolMutex;
 };
 
 #endif /* ASS_PARSER_H */

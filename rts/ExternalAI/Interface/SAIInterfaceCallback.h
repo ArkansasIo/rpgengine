@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef S_AI_INTERFACE_CALLBACK_H
 #define S_AI_INTERFACE_CALLBACK_H
@@ -81,14 +81,14 @@ struct SAIInterfaceCallback {
 	bool              (CALLING_CONV *Engine_Version_isRelease)(int interfaceId);
 
 	/**
-	 * The basic part of a spring version.
+	 * The basic part of a ArcLight version.
 	 * This may only be used for sync-checking if IsRelease() returns true.
 	 * @return "Major.PatchSet" or "Major.PatchSet.1"
 	 */
 	const char*       (CALLING_CONV *Engine_Version_getNormal)(int interfaceId);
 
 	/**
-	 * The sync relevant part of a spring version.
+	 * The sync relevant part of a ArcLight version.
 	 * This may be used for sync-checking through a simple string-equality test.
 	 * @return "Major" or "Major.PatchSet.1-Commits-gHash Branch"
 	 */
@@ -165,14 +165,14 @@ struct SAIInterfaceCallback {
 	/**
 	 * This interfaces main data dir, which is where the shared library
 	 * and the InterfaceInfo.lua file are located, e.g.:
-	 * /usr/share/games/spring/AI/Interfaces/C/0.1/
+	 * /usr/share/games/ArcLight/AI/Interfaces/C/0.1/
 	 */
 	const char*       (CALLING_CONV *DataDirs_getConfigDir)(int interfaceId);
 
 	/**
 	 * This interfaces writable data dir, which is where eg logs, caches
 	 * and learning data should be stored, e.g.:
-	 * /home/userX/.spring/AI/Interfaces/C/0.1/
+	 * /home/userX/.ArcLight/AI/Interfaces/C/0.1/
 	 */
 	const char*       (CALLING_CONV *DataDirs_getWriteableDir)(int interfaceId);
 
@@ -182,8 +182,8 @@ struct SAIInterfaceCallback {
 	 *
 	 * example:
 	 * input:  "log/main.log", writeable, create, !dir, !common
-	 * output: "/home/userX/.spring/AI/Interfaces/C/0.1/log/main.log"
-	 * The path "/home/userX/.spring/AI/Interfaces/C/0.1/log/" is created,
+	 * output: "/home/userX/.ArcLight/AI/Interfaces/C/0.1/log/main.log"
+	 * The path "/home/userX/.ArcLight/AI/Interfaces/C/0.1/log/" is created,
 	 * if it does not yet exist.
 	 *
 	 * @see DataDirs_Roots_locatePath
@@ -197,7 +197,7 @@ struct SAIInterfaceCallback {
 	 *                     including the last part
 	 * @param   common     if true, the version independent data-dir is formed,
 	 *                     which uses "common" instead of the version, eg:
-	 *                     "/home/userX/.spring/AI/Interfaces/C/common/..."
+	 *                     "/home/userX/.ArcLight/AI/Interfaces/C/common/..."
 	 * @return  whether the locating process was successfull
 	 *          -> the path exists and is stored in an absolute form in path
 	 */
@@ -208,7 +208,7 @@ struct SAIInterfaceCallback {
 	 */
 	char*             (CALLING_CONV *DataDirs_allocatePath)(int interfaceId, const char* const relPath, bool writeable, bool create, bool dir, bool common);
 
-	/// Returns the number of springs data dirs.
+	/// Returns the number of ArcLights data dirs.
 	int               (CALLING_CONV *DataDirs_Roots_getSize)(int interfaceId);
 
 	/// Returns the data dir at dirIndex, which is valid between 0 and (DataDirs_Roots_getSize() - 1).
@@ -220,8 +220,8 @@ struct SAIInterfaceCallback {
 	 *
 	 * example:
 	 * input:  "AI/Skirmish", writeable, create, dir
-	 * output: "/home/userX/.spring/AI/Skirmish/"
-	 * The path "/home/userX/.spring/AI/Skirmish/" is created,
+	 * output: "/home/userX/.ArcLight/AI/Skirmish/"
+	 * The path "/home/userX/.ArcLight/AI/Skirmish/" is created,
 	 * if it does not yet exist.
 	 *
 	 * @see DataDirs_locatePath

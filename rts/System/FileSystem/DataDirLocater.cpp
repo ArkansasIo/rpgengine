@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "DataDirLocater.h"
 
@@ -32,23 +32,23 @@
 #include "System/Platform/Misc.h"
 #include "System/SafeUtil.h"
 
-CONFIG(std::string, SpringData)
+CONFIG(std::string, ArcLightData)
 	.defaultValue("")
 	.description("List of additional data-directories, separated by ';' on Windows and ':' on other OSs")
 	.readOnly(true);
 
-CONFIG(std::string, SpringDataRoot)
+CONFIG(std::string, ArcLightDataRoot)
 	.defaultValue("")
 	.description("Optional custom data-directory content root ('base', 'maps', ...) to scan for archives")
 	.readOnly(true);
 
 
-static inline std::string GetSpringBinaryName()
+static inline std::string GetArcLightBinaryName()
 {
 #if defined(_WIN32)
-	return "spring.exe";
+	return "arclight.exe";
 #else
-	return "spring";
+	return "arclight";
 #endif
 }
 
@@ -105,7 +105,7 @@ void DataDirLocater::UpdateIsolationModeByEnvVar()
 	isolationMode = false;
 	isolationModeDir = "";
 
-	const char* const envIsolation = getenv("SPRING_ISOLATED");
+	const char* const envIsolation = getenv("ARCLIGHT_ISOLATED");
 	if (envIsolation != nullptr) {
 		SetIsolationMode(true);
 		SetIsolationModeDir(envIsolation);
@@ -295,24 +295,24 @@ void DataDirLocater::AddHomeDirs()
 	const std::string pathMyDocs = pathMyDocsC;
 	const std::string pathAppData = pathAppDataC;
 
-	// e.g. F:\Dokumente und Einstellungen\Karl-Robert\Eigene Dateien\Spring
-	const std::string dd_myDocs = pathMyDocs + "\\Spring";
+	// e.g. F:\Dokumente und Einstellungen\Karl-Robert\Eigene Dateien\ArcLight
+	const std::string dd_myDocs = pathMyDocs + "\\ArcLight";
 
 	// My Documents\My Games seems to be the MS standard even if no official guidelines exist
 	// most if not all new Games For Windows(TM) games use this dir
-	const std::string dd_myDocsMyGames = pathMyDocs + "\\My Games\\Spring";
+	const std::string dd_myDocsMyGames = pathMyDocs + "\\My Games\\ArcLight";
 
-	// e.g. F:\Dokumente und Einstellungen\All Users\Anwendungsdaten\Spring
-	const std::string dd_appData = pathAppData + "\\Spring";
+	// e.g. F:\Dokumente und Einstellungen\All Users\Anwendungsdaten\ArcLight
+	const std::string dd_appData = pathAppData + "\\ArcLight";
 
-	AddDirs(dd_myDocsMyGames);  // "C:/.../My Documents/My Games/Spring/"
-	AddDirs(dd_myDocs);         // "C:/.../My Documents/Spring/"
-	AddDirs(dd_appData);        // "C:/.../All Users/Applications/Spring/"
+	AddDirs(dd_myDocsMyGames);  // "C:/.../My Documents/My Games/ArcLight/"
+	AddDirs(dd_myDocs);         // "C:/.../My Documents/ArcLight/"
+	AddDirs(dd_appData);        // "C:/.../All Users/Applications/ArcLight/"
 
 #else
 	// Linux, FreeBSD, Solaris, Apple non-bundle
-	AddDirs("${XDG_CONFIG_HOME-\"~/.config\"}/spring");
-	AddDirs("~/.spring");
+	AddDirs("${XDG_CONFIG_HOME-\"~/.config\"}/ArcLight");
+	AddDirs("~/.ArcLight");
 #endif
 }
 
@@ -325,7 +325,7 @@ void DataDirLocater::AddEtcDirs()
 	// settings in /etc
 	std::string dd_etc;
 	{
-		FILE* fileH = ::fopen("/etc/spring/datadir", "r");
+		FILE* fileH = ::fopen("/etc/ArcLight/datadir", "r");
 		if (fileH) {
 			const char whiteSpaces[3] = {'\t', ' ', '\0'};
 			char lineBuf[1024];
@@ -345,7 +345,7 @@ void DataDirLocater::AddEtcDirs()
 		}
 	}
 
-	AddDirs(dd_etc);  // from /etc/spring/datadir FIXME add in IsolatedMode too?
+	AddDirs(dd_etc);  // from /etc/ArcLight/datadir FIXME add in IsolatedMode too?
 #endif
 }
 
@@ -360,25 +360,25 @@ void DataDirLocater::AddShareDirs()
 	// Mac OS X Application Bundle (*.app) - single file install
 
 	// directory structure (Apple standard):
-	// Spring.app/Contents/MacOS/springlobby
-	// Spring.app/Contents/Resources/bin/spring
-	// Spring.app/Contents/Resources/lib/unitsync.dylib
-	// Spring.app/Contents/Resources/share/games/spring/base/
+	// ArcLight.app/Contents/MacOS/ArcLightlobby
+	// ArcLight.app/Contents/Resources/bin/ArcLight
+	// ArcLight.app/Contents/Resources/lib/unitsync.dylib
+	// ArcLight.app/Contents/Resources/share/games/ArcLight/base/
 
 	const std::string dd_curWorkDir = GetBinaryLocation();
 
-	// This corresponds to Spring.app/Contents/Resources/
+	// This corresponds to ArcLight.app/Contents/Resources/
 	const std::string bundleResourceDir = FileSystem::GetParent(dd_curWorkDir);
 
 	// This has to correspond with the value in the build-script
-	const std::string dd_curWorkDirData = bundleResourceDir + "/share/games/spring";
+	const std::string dd_curWorkDirData = bundleResourceDir + "/share/games/ArcLight";
 
-	AddDirs(dd_curWorkDirData);             // "Spring.app/Contents/Resources/share/games/spring"
+	AddDirs(dd_curWorkDirData);             // "ArcLight.app/Contents/Resources/share/games/ArcLight"
 #endif
 
-#ifdef SPRING_DATADIR
-	// CompilerInfo: using the defineflag SPRING_DATADIR & "SPRING_DATADIR" as string works fine, the preprocessor won't touch the 2nd
-	AddDirs(SPRING_DATADIR); // from -DSPRING_DATADIR, example /usr/games/share/spring/
+#ifdef ARCLIGHT_DATADIR
+	// CompilerInfo: using the defineflag ARCLIGHT_DATADIR & "ARCLIGHT_DATADIR" as string works fine, the preprocessor won't touch the 2nd
+	AddDirs(ARCLIGHT_DATADIR); // from -DARCLIGHT_DATADIR, example /usr/games/share/ArcLight/
 #endif
 }
 
@@ -397,10 +397,10 @@ void DataDirLocater::LocateDataDirs()
 		if (!forcedWriteDir.empty())
 			AddDirs(forcedWriteDir);
 
-		const char* env = getenv("SPRING_WRITEDIR");
+		const char* env = getenv("ARCLIGHT_WRITEDIR");
 
 		if (env != nullptr && *env != 0)
-			AddDirs(env); // ENV{SPRING_WRITEDIR}
+			AddDirs(env); // ENV{ARCLIGHT_WRITEDIR}
 	}
 
 	// LEVEL 2: automated dirs
@@ -424,14 +424,14 @@ void DataDirLocater::LocateDataDirs()
 
 	// LEVEL 3: additional custom data sources
 	{
-		const char* env = getenv("SPRING_DATADIR");
+		const char* env = getenv("ARCLIGHT_DATADIR");
 
 		if (env != nullptr && *env != 0)
-			AddDirs(env); // ENV{SPRING_DATADIR}
+			AddDirs(env); // ENV{ARCLIGHT_DATADIR}
 
-		// user defined in spring config (Linux: ~/.springrc, Windows: .\springsettings.cfg)
+		// user defined in ArcLight config (Linux: ~/.ArcLightrc, Windows: .\ArcLightsettings.cfg)
 		if (configHandler != nullptr)
-			AddDirs(configHandler->GetString("SpringData"));
+			AddDirs(configHandler->GetString("ArcLightData"));
 	}
 
 	// Find the folder we save to
@@ -455,13 +455,13 @@ void DataDirLocater::Check()
 		const std::string errstr =
 				"Not a single writable data directory found!\n\n"
 				"Configure a writable data directory using either:\n"
-				"- the SPRING_DATADIR environment variable,\n"
+				"- the ARCLIGHT_DATADIR environment variable,\n"
 			#ifdef _WIN32
-				"- a SpringData=C:/path/to/data declaration in spring's config file ./springsettings.cfg\n"
+				"- a ArcLightData=C:/path/to/data declaration in ArcLight's config file ./ArcLightsettings.cfg\n"
 				"- by giving your user-account write access to the installation directory";
 			#else
-				"- a SpringData=/path/to/data declaration in ~/.springrc or\n"
-				"- the configuration file /etc/spring/datadir";
+				"- a ArcLightData=/path/to/data declaration in ~/.ArcLightrc or\n"
+				"- the configuration file /etc/ArcLight/datadir";
 			#endif
 		throw content_error(errstr);
 	}
@@ -495,10 +495,10 @@ void DataDirLocater::ChangeCwdToWriteDir()
 
 bool DataDirLocater::IsInstallDirDataDir()
 {
-	// Check if spring binary & unitsync library are in the same folder
+	// Check if ArcLight binary & unitsync library are in the same folder
 	if (BuildType::IsUnitsync()) {
 		const std::string dir = Platform::GetModulePath();
-		const std::string fileExe = FileSystem::EnsurePathSepAtEnd(dir) + GetSpringBinaryName();
+		const std::string fileExe = FileSystem::EnsurePathSepAtEnd(dir) + GetArcLightBinaryName();
 
 		return FileSystem::FileExists(fileExe);
 	}
@@ -513,14 +513,14 @@ bool DataDirLocater::IsInstallDirDataDir()
 bool DataDirLocater::IsPortableMode()
 {
 	// Test 1
-	// Check if spring binary & unitsync library are in the same folder
+	// Check if ArcLight binary & unitsync library are in the same folder
 	if (!IsInstallDirDataDir())
 		return false;
 
 	// Test 2
-	// Check if "springsettings.cfg" is in the same folder, too.
+	// Check if "ArcLightsettings.cfg" is in the same folder, too.
 	const std::string dir = FileSystem::EnsurePathSepAtEnd(GetBinaryLocation());
-	if (!FileSystem::FileExists(dir + "springsettings.cfg"))
+	if (!FileSystem::FileExists(dir + "ArcLightsettings.cfg"))
 		return false;
 
 	// Test 3
@@ -573,7 +573,7 @@ std::vector<std::string> DataDirLocater::GetDataDirPaths() const
 
 std::array<std::string, 5> DataDirLocater::GetDataDirRoots() const
 {
-	return {{"base", "maps", "games", "packages", configHandler->GetString("SpringDataRoot")}};
+	return {{"base", "maps", "games", "packages", configHandler->GetString("ArcLightDataRoot")}};
 }
 
 
@@ -588,6 +588,6 @@ DataDirLocater& DataDirLocater::GetInstance()
 
 void DataDirLocater::FreeInstance()
 {
-	spring::SafeDelete(instance);
+	ArcLight::SafeDelete(instance);
 }
 

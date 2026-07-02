@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "Watchdog.h"
 
@@ -28,7 +28,7 @@ namespace Watchdog
 {
 	static const char* threadNames[] = {"main", "load", "audio", "vfsi"};
 
-	static spring::mutex wdmutex;
+	static ArcLight::mutex wdmutex;
 
 	static unsigned int curorder = 0;
 
@@ -36,7 +36,7 @@ namespace Watchdog
 		WatchDogThreadInfo() { ResetThreadInfo(); }
 
 		void ResetThreadInfo() {
-			timer = spring_notime;
+			timer = ArcLight_notime;
 
 			thread = {};
 			threadid = {0};
@@ -55,7 +55,7 @@ namespace Watchdog
 			#endif
 		}
 
-		spring_time timer;
+		ArcLight_time timer;
 
 		std::atomic<Threading::NativeThreadHandle> thread;
 		std::atomic<Threading::NativeThreadId> threadid;
@@ -79,12 +79,12 @@ namespace Watchdog
 	static WatchDogThreadSlot threadSlots[WDT_COUNT + 1];
 
 	// maps hash(name) to WTD_*
-	static spring::unsynced_map<unsigned int, unsigned int> threadNumTable;
+	static ArcLight::unsynced_map<unsigned int, unsigned int> threadNumTable;
 
-	static spring::thread hangDetectorThread;
+	static ArcLight::thread hangDetectorThread;
 	static std::atomic<bool> hangDetectorThreadInterrupted = {false};
 
-	static spring_time hangTimeout = spring_msecs(0);
+	static ArcLight_time hangTimeout = ArcLight_msecs(0);
 
 
 	static inline void UpdateActiveThreads(Threading::NativeThreadId num) {
@@ -119,7 +119,7 @@ namespace Watchdog
 		Threading::SetWatchDogThread();
 
 		while (!hangDetectorThreadInterrupted) {
-			const spring_time curtime = spring_gettime();
+			const ArcLight_time curtime = ArcLight_gettime();
 
 			bool hangDetected = false;
 			bool hangThreads[WDT_COUNT] = {false};
@@ -131,9 +131,9 @@ namespace Watchdog
 					continue;
 
 				WatchDogThreadInfo* threadInfo = registeredThreads[i];
-				const spring_time curwdt = threadInfo->timer;
+				const ArcLight_time curwdt = threadInfo->timer;
 
-				if (spring_istime(curwdt) && (curtime - curwdt) > hangTimeout) {
+				if (ArcLight_istime(curwdt) && (curtime - curwdt) > hangTimeout) {
 					hangDetected = true;
 					hangThreads[i] = true;
 					threadInfo->timer = curtime;
@@ -141,7 +141,7 @@ namespace Watchdog
 			}
 
 			if (hangDetected) {
-				LOG_L(L_WARNING, "[Watchdog] Hang detection triggered for Spring %s.", SpringVersion::GetFull().c_str());
+				LOG_L(L_WARNING, "[Watchdog] Hang detection triggered for ArcLight %s.", ArcLightVersion::GetFull().c_str());
 				LOG_L(L_WARNING, "\t(in threads: {%s,%s,%s,%s}={%d,%d,%d,%d})",
 					threadNames[WDT_MAIN], threadNames[WDT_LOAD], threadNames[WDT_AUDIO], threadNames[WDT_VFSI],
 					hangThreads[WDT_MAIN], hangThreads[WDT_LOAD], hangThreads[WDT_AUDIO], hangThreads[WDT_VFSI]
@@ -164,14 +164,14 @@ namespace Watchdog
 				CrashHandler::CleanupStacktrace(LOG_LEVEL_WARNING);
 			}
 
-			spring::this_thread::sleep_for(std::chrono::seconds(1));
+			ArcLight::this_thread::sleep_for(std::chrono::seconds(1));
 		}
 	}
 
 
 	void RegisterThread(WatchdogThreadnum num, bool primary)
 	{
-		std::lock_guard<spring::mutex> lock(wdmutex);
+		std::lock_guard<ArcLight::mutex> lock(wdmutex);
 
 		if (num >= WDT_COUNT || registeredThreads[num]->numreg != 0) {
 			LOG_L(L_ERROR, "[Watchdog::%s] Invalid thread number %u", __func__, num);
@@ -210,7 +210,7 @@ namespace Watchdog
 		WatchDogThreadInfo* threadInfo = registeredThreads[num];
 		threadInfo->thread = thread;
 		threadInfo->threadid = threadId;
-		threadInfo->timer = spring_gettime();
+		threadInfo->timer = ArcLight_gettime();
 		threadInfo->numreg += 1;
 
 		// note: WDT_MAIN and WDT_LOAD share the same controls if LoadingMT=0
@@ -226,7 +226,7 @@ namespace Watchdog
 
 	bool DeregisterThread(WatchdogThreadnum num)
 	{
-		std::lock_guard<spring::mutex> lock(wdmutex);
+		std::lock_guard<ArcLight::mutex> lock(wdmutex);
 
 		WatchDogThreadInfo* threadInfo = nullptr;
 
@@ -306,8 +306,8 @@ namespace Watchdog
 			return;
 		}
 
-		// notime always satisfies !spring_istime
-		threadInfo->timer = disable ? spring_notime : spring_gettime();
+		// notime always satisfies !ArcLight_istime
+		threadInfo->timer = disable ? ArcLight_notime : ArcLight_gettime();
 	}
 
 
@@ -325,7 +325,7 @@ namespace Watchdog
 			return;
 		}
 
-		threadInfo->timer = disable ? spring_notime : spring_gettime();
+		threadInfo->timer = disable ? ArcLight_notime : ArcLight_gettime();
 	}
 
 	void ClearTimer(const char* name, bool disable)
@@ -344,7 +344,7 @@ namespace Watchdog
 			return;
 		}
 
-		threadInfo->timer = disable ? spring_notime : spring_gettime();
+		threadInfo->timer = disable ? ArcLight_notime : ArcLight_gettime();
 	}
 
 	void ClearTimers(bool disable, bool primary)
@@ -357,14 +357,14 @@ namespace Watchdog
 			WatchDogThreadInfo* threadInfo = registeredThreads[i];
 
 			if (!primary || threadSlots[i].primary)
-				threadInfo->timer = disable ? spring_notime : spring_gettime();
+				threadInfo->timer = disable ? ArcLight_notime : ArcLight_gettime();
 		}
 	}
 
 
 	void Install()
 	{
-		std::lock_guard<spring::mutex> lock(wdmutex);
+		std::lock_guard<ArcLight::mutex> lock(wdmutex);
 
 		memset(registeredThreadsData, 0, sizeof(registeredThreadsData));
 		for (unsigned int i = 0; i < WDT_COUNT; ++i) {
@@ -392,10 +392,10 @@ namespace Watchdog
 			return;
 		}
 
-		hangTimeout = spring_secs(hangTimeoutSecs);
+		hangTimeout = ArcLight_secs(hangTimeoutSecs);
 
 		// start the watchdog thread
-		hangDetectorThread = std::move(spring::thread(&HangDetectorLoop));
+		hangDetectorThread = std::move(ArcLight::thread(&HangDetectorLoop));
 
 		LOG("[WatchDog::%s] installed (hang-timeout: %is)", __func__, hangTimeoutSecs);
 	}
@@ -408,7 +408,7 @@ namespace Watchdog
 		if (!hangDetectorThread.joinable())
 			return;
 
-		std::lock_guard<spring::mutex> lock(wdmutex);
+		std::lock_guard<ArcLight::mutex> lock(wdmutex);
 
 		hangDetectorThreadInterrupted = true;
 

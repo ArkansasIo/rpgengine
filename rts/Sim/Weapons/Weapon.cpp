@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "Weapon.h"
 #include "WeaponDefHandler.h"
@@ -341,7 +341,7 @@ bool CWeapon::CallAimingScript(bool waitForAim)
 	// periodically re-aim the weapon (by calling the script's AimWeapon
 	// every N=15 frames regardless of current angleGood state; interval
 	// can be artificially shrunk by larger maxFireAngle [firetolerance]
-	// *or* via Spring.SetUnitWeaponState)
+	// *or* via ArcLight.SetUnitWeaponState)
 	// if it does not (eg. because AimWeapon always spawns a thread to
 	// aim the weapon and defers setting angleGood to it) then this can
 	// lead to irregular/stuttering firing behavior, even in scenarios
@@ -724,7 +724,7 @@ void CWeapon::DependentDied(CObject* o)
 
 	// NOTE: DependentDied is called from ~CObject-->Detach, object is just barely valid
 	if (weaponDef->interceptor || weaponDef->isShield) {
-		spring::VectorErase(incomingProjectileIDs, static_cast<CWeaponProjectile*>(o)->id);
+		ArcLight::VectorErase(incomingProjectileIDs, static_cast<CWeaponProjectile*>(o)->id);
 	}
 }
 

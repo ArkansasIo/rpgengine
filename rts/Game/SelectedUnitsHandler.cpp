@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "SelectedUnitsHandler.h"
 #include "SelectedUnitsAI.h"
@@ -91,7 +91,7 @@ CSelectedUnitsHandler::AvailableCommandsStruct CSelectedUnitsHandler::GetAvailab
 	int foundGroup = -2;
 	int foundGroup2 = -2;
 
-	spring::unordered_map<int, int> states;
+	ArcLight::unordered_map<int, int> states;
 	std::vector<SCommandDescription> commands;
 
 	for (const int unitID: selectedUnits) {
@@ -500,7 +500,7 @@ void CSelectedUnitsHandler::SelectUnits(const std::string& line)
 
 void CSelectedUnitsHandler::SelectCycle(const std::string& command)
 {
-	static spring::unordered_set<int> unitIDs;
+	static ArcLight::unordered_set<int> unitIDs;
 	static int lastID = -1;
 
 	if (command == "restore") {
@@ -533,7 +533,7 @@ void CSelectedUnitsHandler::SelectCycle(const std::string& command)
 	}
 
 	// clean the list
-	spring::unordered_set<int> tmpSet;
+	ArcLight::unordered_set<int> tmpSet;
 	for (const int unitID: unitIDs) {
 		if (unitHandler.GetUnit(unitID) == nullptr)
 			continue;

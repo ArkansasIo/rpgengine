@@ -1,19 +1,19 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
-#ifndef _SPRING_HASH_H_
-#define _SPRING_HASH_H_
+#ifndef _ArcLight_HASH_H_
+#define _ArcLight_HASH_H_
 
 #include "Sync/HsiehHash.h"
 #include <string>
 
-namespace spring {
+namespace ArcLight {
 	template<typename T>
 	struct synced_hash {
 		std::uint32_t operator()(const T& s) const;
 	};
 
 
-	#define SpringDefaultHash(T)                          \
+	#define ArcLightDefaultHash(T)                          \
 	template<>                                            \
 	struct synced_hash<T>                                 \
 	{                                                     \
@@ -22,13 +22,13 @@ namespace spring {
 		}                                                 \
 	};
 
-	SpringDefaultHash(std::int8_t)
-	SpringDefaultHash(std::uint8_t)
-	SpringDefaultHash(std::int16_t)
-	SpringDefaultHash(std::uint16_t)
-	SpringDefaultHash(std::int32_t)
-	SpringDefaultHash(std::uint32_t)
-	#undef SpringDefaultHash
+	ArcLightDefaultHash(std::int8_t)
+	ArcLightDefaultHash(std::uint8_t)
+	ArcLightDefaultHash(std::int16_t)
+	ArcLightDefaultHash(std::uint16_t)
+	ArcLightDefaultHash(std::int32_t)
+	ArcLightDefaultHash(std::uint32_t)
+	#undef ArcLightDefaultHash
 
 	template<>
 	struct synced_hash<std::int64_t> {
@@ -59,4 +59,4 @@ namespace spring {
 	};
 }
 
-#endif //_SPRING_HASH_H_
+#endif //_ArcLight_HASH_H_

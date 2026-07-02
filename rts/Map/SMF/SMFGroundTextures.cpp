@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 
 #include <cmath>
@@ -147,7 +147,7 @@ void CSMFGroundTextures::LoadTiles(CSMFMapFile& file)
 		TileFileHeader tfh;
 		CSMFMapFile::ReadMapTileFileHeader(tfh, tileFile);
 
-		if (strcmp(tfh.magic, "spring tilefile") != 0 || tfh.version != 1 || tfh.tileSize != 32 || tfh.compressionType != 1) {
+		if (strcmp(tfh.magic, "ArcLight tilefile") != 0 || tfh.version != 1 || tfh.tileSize != 32 || tfh.compressionType != 1) {
 			snprintf(
 				tmp, sizeof(tmp),
 				"[SMFGroundTextures::%s] tile-file %d (path=\"%s\" magic=\"%s\" version=%d tileSize=%d comprType=%d) does not match .smt format",

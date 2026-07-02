@@ -1,8 +1,8 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 //
 // ROAM Simplistic Implementation
-// Added to Spring by Peter Sarkozy (mysterme AT gmail DOT com)
+// Added to ArcLight by Peter Sarkozy (mysterme AT gmail DOT com)
 // Billion thanks to Bryan Turner (Jan, 2000)
 //                    brturn@bellsouth.net
 //

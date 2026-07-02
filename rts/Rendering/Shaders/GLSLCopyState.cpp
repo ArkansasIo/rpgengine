@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "GLSLCopyState.h"
 #include "Shader.h"
@@ -37,7 +37,7 @@ enum {
 	ATOMIC
 };
 
-static const spring::unordered_map<GLenum, int> bindingTypeMap = {
+static const ArcLight::unordered_map<GLenum, int> bindingTypeMap = {
 	{GL_FLOAT     , FLOAT1},
 	{GL_FLOAT_VEC2, FLOAT2},
 	{GL_FLOAT_VEC3, FLOAT3},
@@ -163,7 +163,7 @@ static const spring::unordered_map<GLenum, int> bindingTypeMap = {
 
 
 
-static void CopyUniforms(GLuint newProgID, GLuint oldProgID, spring::unordered_map<std::size_t, Shader::UniformState, fast_hash>* uniformStates)
+static void CopyUniforms(GLuint newProgID, GLuint oldProgID, ArcLight::unordered_map<std::size_t, Shader::UniformState, fast_hash>* uniformStates)
 {
 	GLsizei numUniforms = 0;
 	GLsizei maxUniformNameLength = 0;
@@ -499,7 +499,7 @@ static void CopyGeometry(GLuint newProgID, GLuint oldProgID)
 
 
 namespace Shader {
-	void GLSLCopyState(GLuint newProgID, GLuint oldProgID, spring::unordered_map<std::size_t, UniformState, fast_hash>* uniformStates)
+	void GLSLCopyState(GLuint newProgID, GLuint oldProgID, ArcLight::unordered_map<std::size_t, UniformState, fast_hash>* uniformStates)
 	{
 	#if !defined(HEADLESS)
 		CopyUniforms(newProgID, oldProgID, uniformStates);

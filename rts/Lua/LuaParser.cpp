@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 
 #include "LuaParser.h"
@@ -150,7 +150,7 @@ void LuaParser::SetupEnv(bool isSyncedCtxt, bool isDefsParser)
 
 	AddFunc("DontMessWithMyCase", DontMessWithMyCase);
 
-	GetTable("Spring");
+	GetTable("ArcLight");
 	AddFunc("Echo", LuaUtils::Echo);
 	AddFunc("Log", LuaUtils::Log);
 	AddFunc("TimeCheck", TimeCheck);
@@ -288,8 +288,8 @@ bool LuaParser::Execute()
 }
 
 
-void LuaParser::AddTable(LuaTable* tbl) { spring::VectorInsertUnique(tables, tbl); }
-void LuaParser::RemoveTable(LuaTable* tbl) { spring::VectorErase(tables, tbl); }
+void LuaParser::AddTable(LuaTable* tbl) { ArcLight::VectorInsertUnique(tables, tbl); }
+void LuaParser::RemoveTable(LuaTable* tbl) { ArcLight::VectorErase(tables, tbl); }
 
 
 LuaTable LuaParser::GetRoot()
@@ -629,7 +629,7 @@ int LuaParser::Include(lua_State* L)
 	}
 
 	#if 0
-	spring::VectorInsertUnique(currentParser->accessedFiles, StringToLower(filename), true);
+	ArcLight::VectorInsertUnique(currentParser->accessedFiles, StringToLower(filename), true);
 	#endif
 	return (lua_gettop(L) - paramTop);
 }
@@ -663,7 +663,7 @@ int LuaParser::LoadFile(lua_State* L)
 	lua_pushstring(L, data.c_str());
 
 	#if 0
-	spring::VectorInsertUnique(currentParser->accessedFiles, StringToLower(filename), true);
+	ArcLight::VectorInsertUnique(currentParser->accessedFiles, StringToLower(filename), true);
 	#endif
 	return 1;
 }
@@ -1255,7 +1255,7 @@ bool LuaTable::GetPairs(std::vector<std::pair<std::string, std::string>>& data) 
 //  Map functions
 //
 
-bool LuaTable::GetMap(spring::unordered_map<int, float>& data) const
+bool LuaTable::GetMap(ArcLight::unordered_map<int, float>& data) const
 {
 	if (!PushTable())
 		return false;
@@ -1272,7 +1272,7 @@ bool LuaTable::GetMap(spring::unordered_map<int, float>& data) const
 	return true;
 }
 
-bool LuaTable::GetMap(spring::unordered_map<int, std::string>& data) const
+bool LuaTable::GetMap(ArcLight::unordered_map<int, std::string>& data) const
 {
 	if (!PushTable())
 		return false;
@@ -1296,7 +1296,7 @@ bool LuaTable::GetMap(spring::unordered_map<int, std::string>& data) const
 	return true;
 }
 
-bool LuaTable::GetMap(spring::unordered_map<std::string, float>& data) const
+bool LuaTable::GetMap(ArcLight::unordered_map<std::string, float>& data) const
 {
 	if (!PushTable())
 		return false;
@@ -1313,7 +1313,7 @@ bool LuaTable::GetMap(spring::unordered_map<std::string, float>& data) const
 	return true;
 }
 
-bool LuaTable::GetMap(spring::unordered_map<std::string, std::string>& data) const
+bool LuaTable::GetMap(ArcLight::unordered_map<std::string, std::string>& data) const
 {
 	if (!PushTable())
 		return false;

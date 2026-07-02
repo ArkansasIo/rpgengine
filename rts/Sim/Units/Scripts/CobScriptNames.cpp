@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <cassert>
 
@@ -8,7 +8,7 @@
 
 // script function-indices never change, so this is fine wrt. reloading
 static std::array<std::string, COBFN_NumUnitFuncs> scriptNames;
-static spring::unordered_map<std::string, int> scriptMap;
+static ArcLight::unordered_map<std::string, int> scriptMap;
 
 
 void CCobUnitScriptNames::InitScriptNames()
@@ -90,7 +90,7 @@ void CCobUnitScriptNames::InitScriptNames()
 
 
 const std::array<std::string, COBFN_NumUnitFuncs>& CCobUnitScriptNames::GetScriptNames() { assert(!scriptMap.empty()); return scriptNames; }
-const spring::unordered_map<std::string, int>& CCobUnitScriptNames::GetScriptMap() { assert(!scriptMap.empty()); return scriptMap; }
+const ArcLight::unordered_map<std::string, int>& CCobUnitScriptNames::GetScriptMap() { assert(!scriptMap.empty()); return scriptMap; }
 
 
 int CCobUnitScriptNames::GetScriptNumber(const std::string& fname)

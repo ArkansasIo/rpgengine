@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef CONFIG_VALUE_H
 #define CONFIG_VALUE_H
@@ -17,7 +17,7 @@
  * That is, meta data of a type that does not depend on the declared type
  * of the config variable.
  */
-class ConfigVariableMetaData : public spring::noncopyable
+class ConfigVariableMetaData : public ArcLight::noncopyable
 {
 public:
 	typedef TypedStringConvertibleOptionalValue<std::string> OptionalString;
@@ -95,7 +95,7 @@ public:
 	 * int domain even if ConfigHandler::GetString is used to fetch it.
 	 *
 	 * This guarantees the value will always be in range, even if Lua, a client
-	 * of unitsync or erroneous Spring code uses the wrong getter.
+	 * of unitsync or erroneous ArcLight code uses the wrong getter.
 	 */
 	std::string Clamp(const std::string& value) const override
 	{
@@ -134,7 +134,7 @@ protected:
  *   .readOnly(true);
  */
 template<typename T>
-class ConfigVariableBuilder : public spring::noncopyable
+class ConfigVariableBuilder : public ArcLight::noncopyable
 {
 public:
 	ConfigVariableBuilder(ConfigVariableTypedMetaData<T>& data) : data(&data) {}

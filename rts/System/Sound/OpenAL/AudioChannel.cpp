@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "AudioChannel.h"
 
@@ -14,7 +14,7 @@
 
 #include <climits>
 
-extern spring::recursive_mutex soundMutex;
+extern ArcLight::recursive_mutex soundMutex;
 
 
 
@@ -25,7 +25,7 @@ void AudioChannel::SetVolume(float newVolume)
 	if (curSources.empty())
 		return;
 
-	std::lock_guard<spring::recursive_mutex> lck(soundMutex);
+	std::lock_guard<ArcLight::recursive_mutex> lck(soundMutex);
 
 	for (CSoundSource* src: curSources) {
 		src->UpdateVolume();
@@ -37,7 +37,7 @@ void AudioChannel::SetVolume(float newVolume)
 
 void AudioChannel::Enable(bool newState)
 {
-	std::lock_guard<spring::recursive_mutex> lck(soundMutex);
+	std::lock_guard<ArcLight::recursive_mutex> lck(soundMutex);
 
 	if ((enabled = newState))
 		return;
@@ -66,7 +66,7 @@ void AudioChannel::FindSourceAndPlay(size_t id, const float3& pos, const float3&
 	if (id == 0 || volume <= 0.0f)
 		return;
 
-	std::lock_guard<spring::recursive_mutex> lck(soundMutex);
+	std::lock_guard<ArcLight::recursive_mutex> lck(soundMutex);
 
 	if (!enabled)
 		return;
@@ -168,7 +168,7 @@ void AudioChannel::PlayRandomSample(const GuiSoundSet& soundSet, const float3& p
 
 void AudioChannel::StreamPlay(const std::string& filepath, float volume, bool enqueue)
 {
-	std::lock_guard<spring::recursive_mutex> lck(soundMutex);
+	std::lock_guard<ArcLight::recursive_mutex> lck(soundMutex);
 
 	if (!enabled)
 		return;
@@ -196,7 +196,7 @@ void AudioChannel::StreamPlay(const std::string& filepath, float volume, bool en
 
 void AudioChannel::StreamPause()
 {
-	std::lock_guard<spring::recursive_mutex> lck(soundMutex);
+	std::lock_guard<ArcLight::recursive_mutex> lck(soundMutex);
 
 	if (curStreamSrc != nullptr)
 		curStreamSrc->StreamPause();
@@ -204,7 +204,7 @@ void AudioChannel::StreamPause()
 
 void AudioChannel::StreamStop()
 {
-	std::lock_guard<spring::recursive_mutex> lck(soundMutex);
+	std::lock_guard<ArcLight::recursive_mutex> lck(soundMutex);
 
 	if (curStreamSrc != nullptr)
 		curStreamSrc->StreamStop();
@@ -212,7 +212,7 @@ void AudioChannel::StreamStop()
 
 float AudioChannel::StreamGetTime()
 {
-	std::lock_guard<spring::recursive_mutex> lck(soundMutex);
+	std::lock_guard<ArcLight::recursive_mutex> lck(soundMutex);
 
 	if (curStreamSrc != nullptr)
 		return curStreamSrc->GetStreamTime();
@@ -222,7 +222,7 @@ float AudioChannel::StreamGetTime()
 
 float AudioChannel::StreamGetPlayTime()
 {
-	std::lock_guard<spring::recursive_mutex> lck(soundMutex);
+	std::lock_guard<ArcLight::recursive_mutex> lck(soundMutex);
 
 	if (curStreamSrc != nullptr)
 		return curStreamSrc->GetStreamPlayTime();

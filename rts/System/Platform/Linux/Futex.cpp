@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include "Futex.h"
 #include <cstdlib>
@@ -9,19 +9,19 @@
 #include <algorithm>
 
 
-spring_futex::spring_futex() noexcept
+ArcLight_futex::ArcLight_futex() noexcept
 {
 	mtx = 0;
 }
 
 
-spring_futex::~spring_futex()
+ArcLight_futex::~ArcLight_futex()
 {
 	mtx = 0;
 }
 
 
-void spring_futex::lock()
+void ArcLight_futex::lock()
 {
 	native_type c;
 	if ((c = __sync_val_compare_and_swap(&mtx, 0, 1)) == 0)
@@ -34,13 +34,13 @@ void spring_futex::lock()
 }
 
 
-bool spring_futex::try_lock() noexcept
+bool ArcLight_futex::try_lock() noexcept
 {
 	return __sync_bool_compare_and_swap(&mtx, 0, 1);
 }
 
 
-void spring_futex::unlock()
+void ArcLight_futex::unlock()
 {
 	if (__sync_fetch_and_sub(&mtx, 1) != 1) {
 		mtx = 0;
@@ -131,7 +131,7 @@ void linux_signal::wait()
 }
 
 
-void linux_signal::wait_for(spring_time t)
+void linux_signal::wait_for(ArcLight_time t)
 {
 	int m; // cur gen
 	const int g = gen.load(); // our gen
@@ -141,9 +141,9 @@ void linux_signal::wait_for(spring_time t)
 	linux_t.tv_sec  = 0;
 	linux_t.tv_nsec = t.toNanoSecsi();
 
-	const spring_time endTimer = spring_now() + t;
+	const ArcLight_time endTimer = ArcLight_now() + t;
 
-	while (((g - (m = mtx)) >= 0) && (spring_now() < endTimer)) {
+	while (((g - (m = mtx)) >= 0) && (ArcLight_now() < endTimer)) {
 		syscall(SYS_futex, &mtx, FUTEX_WAIT_PRIVATE, m, &linux_t, NULL, 0);
 	}
 	sleepers--;

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _3DO_TEXTURE_HANDLER_H
 #define _3DO_TEXTURE_HANDLER_H
@@ -29,7 +29,7 @@ public:
 	unsigned int GetAtlasTexSizeX() const { return bigTexX; }
 	unsigned int GetAtlasTexSizeY() const { return bigTexY; }
 
-	const spring::unordered_map<std::string, UnitTexture>& GetAtlasTextures() const { return textures; }
+	const ArcLight::unordered_map<std::string, UnitTexture>& GetAtlasTextures() const { return textures; }
 
 private:
 	std::vector<TexFile> LoadTexFiles();
@@ -37,7 +37,7 @@ private:
 	static TexFile CreateTex(const std::string& name, const std::string& name2, bool teamcolor = false);
 
 private:
-	spring::unordered_map<std::string, UnitTexture> textures;
+	ArcLight::unordered_map<std::string, UnitTexture> textures;
 
 	CTAPalette palette;
 

@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef EXPLOSION_GENERATOR_H
 #define EXPLOSION_GENERATOR_H
@@ -30,7 +30,7 @@ public:
 	std::string FindAlias(const std::string& className) const;
 
 private:
-	spring::unordered_map<std::string, std::string> aliases;
+	ArcLight::unordered_map<std::string, std::string> aliases;
 };
 
 
@@ -80,8 +80,8 @@ protected:
 
 	std::vector<IExplosionGenerator*> explosionGenerators;
 
-	spring::unordered_map<unsigned int, unsigned int> expGenHashIdentMap; // hash->id
-	spring::unordered_map<unsigned int, std::array<char, 64>> expGenIdentNameMap; // id->name
+	ArcLight::unordered_map<unsigned int, unsigned int> expGenHashIdentMap; // hash->id
+	ArcLight::unordered_map<unsigned int, std::array<char, 64>> expGenIdentNameMap; // id->name
 };
 
 

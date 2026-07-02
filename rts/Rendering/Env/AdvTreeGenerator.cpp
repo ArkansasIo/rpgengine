@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #include <cstring>
 #include <vector>
@@ -29,7 +29,7 @@ static uint8_t treeTexMem[TEX_SIZE_Y * TEX_SIZE_X * 4 * 2 * TEX_SIZE_C];
 
 void CAdvTreeGenerator::Init()
 {
-	LuaParser resourcesParser("gamedata/resources.lua", SPRING_VFS_MOD_BASE, SPRING_VFS_ZIP);
+	LuaParser resourcesParser("gamedata/resources.lua", ARCLIGHT_VFS_MOD_BASE, ARCLIGHT_VFS_ZIP);
 
 	if (!resourcesParser.Execute())
 		LOG_L(L_ERROR, "%s", resourcesParser.GetErrorLog().c_str());

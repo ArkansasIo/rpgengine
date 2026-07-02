@@ -1,4 +1,4 @@
-/* This file is part of the Spring engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the ArcLight engine (GPL v2 or later), see LICENSE.html */
 
 #ifndef _GLOBAL_RENDERING_H
 #define _GLOBAL_RENDERING_H
@@ -129,7 +129,7 @@ public:
 	float lastFrameTime;
 
 	/// the starting time in tick for last draw frame
-	spring_time lastFrameStart;
+	ArcLight_time lastFrameStart;
 
 	/// 0.001f * gu->simFPS, used for rendering
 	float weightedSpeedFactor;
