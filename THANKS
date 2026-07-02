@@ -1,8 +1,8 @@
-# Spring RTS game engine
+# ArcLight Engine
 
 ## THANKS
 
-For significant contributions to the spring engine or the community,
+For significant contributions to ArcLight Engine or the community,
 special gratitude goes to (in alphabetical order):
 
 * bibim (Yann Riou)
@@ -27,7 +27,7 @@ special gratitude goes to (in alphabetical order):
 ### Notes
 
 NEVER send bug reports, help- and feature-requests directly to the
-persons in this list, but visit <https://springrts.com> instead.
+persons in this list, but visit <https://github.com/ArkansasIo/rpgengine> instead.
 Of course you are free to write mails about donating.
 
 For additions/corrections to the list, please post in the community forum.
