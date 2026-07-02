@@ -97,7 +97,7 @@ public:
 	void FileInfoSize(unsigned int fid, int& size) const;
 
 	const std::string& GetFileName() const { return fileName; }
-	const ArcLight::unordered_map<std::string, unsigned int>& GetNameIndex() const { return lcNameIndex; }
+	const spring::unordered_map<std::string, unsigned int>& GetNameIndex() const { return lcNameIndex; }
 
 	void WriteToFile();
 
@@ -106,7 +106,7 @@ private:
 
 	std::string fileName;
 	std::vector<CVirtualFile> files;
-	ArcLight::unordered_map<std::string, unsigned int> lcNameIndex;
+	spring::unordered_map<std::string, unsigned int> lcNameIndex;
 };
 
 #endif // _VIRTUAL_ARCHIVE_H

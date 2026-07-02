@@ -130,12 +130,12 @@ public:
 	virtual bool SelfDelete() const { return false; }
 
 	uint64_t ExecuteLoop(int tid, bool wffCall) {
-		const ArcLight_time t0 = ArcLight_now();
+		const spring_time t0 = spring_now();
 
 		while (ExecuteStep());
 
-		const ArcLight_time t1 = ArcLight_now();
-		const ArcLight_time dt = t1 - t0;
+		const spring_time t1 = spring_now();
+		const spring_time dt = t1 - t0;
 
 		if (IsSliceTask()) {
 			// inTaskQueue would be set to false prematurely by the
@@ -177,17 +177,17 @@ public:
 	int RemainingTasks() const { return remainingTasks; }
 	int WantedThread() const { return wantedThread; }
 
-	bool WaitFor(const ArcLight_time& rel_time) const {
-		const auto end = ArcLight_now() + rel_time;
-		while (!IsFinished() && (ArcLight_now() < end));
+	bool WaitFor(const spring_time& rel_time) const {
+		const auto end = spring_now() + rel_time;
+		while (!IsFinished() && (spring_now() < end));
 		return IsFinished();
 	}
 
 	uint32_t GetId() const { return id; }
-	uint64_t GetDeltaTime(const ArcLight_time t) const { return (std::max(ts.load(), uint64_t(t.toNanoSecsi())) - ts); }
+	uint64_t GetDeltaTime(const spring_time t) const { return (std::max(ts.load(), uint64_t(t.toNanoSecsi())) - ts); }
 
 	void UpdateId() { id = lastId.fetch_add(1); }
-	void SetTimeStamp(const ArcLight_time t) { ts = t.toNanoSecsi(); }
+	void SetTimeStamp(const spring_time t) { ts = t.toNanoSecsi(); }
 
 	void ResetState(bool queued, bool pooled, bool inuse) {
 		remainingTasks.store(0);

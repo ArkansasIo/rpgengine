@@ -242,7 +242,11 @@ endif ()
 # Look for dependencies, but only if the user wants to build the interface
 if    (AI_TYPES_JAVA)
 	if    (NOT JAVA_FOUND)
-		find_package(Java REQUIRED COMPONENTS Development)
+		find_package(Java QUIET COMPONENTS Development)
+		if(NOT Java_FOUND)
+			message(STATUS "Java not found, skipping Java AI Interface")
+			return()
+		endif()
 	endif ()
 	if    (MINGW)
 		set (JNI_FOUND TRUE)
@@ -537,8 +541,8 @@ if    (BUILD_${myName}_AIINTERFACE)
 		target_include_directories(${myNativeTarget} PRIVATE ${MINGWLIBS}/include/java)
 	endif ()
 	target_include_directories(${myNativeTarget} PRIVATE
-		${Spring_SOURCE_DIR}/rts
-		${Spring_SOURCE_DIR}/AI/Wrappers
+		${CMAKE_SOURCE_DIR}/rts
+		${CMAKE_SOURCE_DIR}/AI/Wrappers
 		${myNativeSourceDir}
 		${myNativeGeneratedSourceDir}
 		${JAVA_INCLUDE_PATH}

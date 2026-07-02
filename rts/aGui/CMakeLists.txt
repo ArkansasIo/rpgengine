@@ -11,9 +11,9 @@ add_library(engineaGui STATIC EXCLUDE_FROM_ALL
 	Window.cpp
 )
 target_include_directories(engineaGui PRIVATE
-		${Spring_SOURCE_DIR}/rts
+		${CMAKE_SOURCE_DIR}/rts
 		${SDL2_INCLUDE_DIRS}
 		${GLEW_INCLUDE_DIR}
 	PUBLIC
-		${Spring_SOURCE_DIR}/rts/lib/slimsig/include
+		${CMAKE_SOURCE_DIR}/rts/lib/slimsig/include
 )

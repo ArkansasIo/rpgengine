@@ -231,7 +231,7 @@ void ShowSplashScreen(
 
 	glActiveTexture(GL_TEXTURE0);
 
-	for (ArcLight_time t0 = ArcLight_now(), t1 = t0; !testDoneFunc(); t1 = ArcLight_now()) {
+	for (spring_time t0 = spring_now(), t1 = t0; !testDoneFunc(); t1 = spring_now()) {
 		glAttribStatePtr->Clear(GL_COLOR_BUFFER_BIT);
 		glBindTexture(GL_TEXTURE_2D, splashTex);
 

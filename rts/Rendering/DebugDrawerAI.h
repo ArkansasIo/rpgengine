@@ -82,7 +82,7 @@ private:
 			float lineLabelHeight;
 		};
 
-		ArcLight::unordered_map<int, GraphLine> lines;
+		spring::unordered_map<int, GraphLine> lines;
 
 		float3 pos;
 		float3 size;
@@ -149,7 +149,7 @@ private:
 			float labelHeight;
 		};
 
-		ArcLight::unordered_map<int, Texture> textures;
+		spring::unordered_map<int, Texture> textures;
 		int curTexHandle;
 	};
 

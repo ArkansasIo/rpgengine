@@ -439,7 +439,7 @@ UnitDef::UnitDef(const LuaTable& udTable, const std::string& unitName, int id)
 
 	turnRate    = udTable.GetFloat("turnRate", 0.0f);
 	turnInPlace = udTable.GetBool("turnInPlace", true);
-	turnInPlaceSpeedLimit = turnRate / ARCLIGHT_CIRCLE_DIVS;
+	turnInPlaceSpeedLimit = turnRate / SPRING_CIRCLE_DIVS;
 	turnInPlaceSpeedLimit *= (math::TWOPI * SQUARE_SIZE);
 	turnInPlaceSpeedLimit /= std::max(speed / GAME_SPEED, 1.0f);
 	turnInPlaceSpeedLimit = udTable.GetFloat("turnInPlaceSpeedLimit", std::min(speed, turnInPlaceSpeedLimit));
@@ -583,8 +583,8 @@ UnitDef::UnitDef(const LuaTable& udTable, const std::string& unitName, int id)
 	activateWhenBuilt = udTable.GetBool("activateWhenBuilt", false);
 	onoffable = udTable.GetBool("onoffable", false);
 
-	xsize = std::max(1 * ARCLIGHT_FOOTPRINT_SCALE, (udTable.GetInt("footprintX", 1) * ARCLIGHT_FOOTPRINT_SCALE));
-	zsize = std::max(1 * ARCLIGHT_FOOTPRINT_SCALE, (udTable.GetInt("footprintZ", 1) * ARCLIGHT_FOOTPRINT_SCALE));
+	xsize = std::max(1 * SPRING_FOOTPRINT_SCALE, (udTable.GetInt("footprintX", 1) * SPRING_FOOTPRINT_SCALE));
+	zsize = std::max(1 * SPRING_FOOTPRINT_SCALE, (udTable.GetInt("footprintZ", 1) * SPRING_FOOTPRINT_SCALE));
 
 	buildingMask = (std::uint16_t)udTable.GetInt("buildingMask", 1); //1st bit set to 1 constitutes for "normal building"
 	if (IsImmobileUnit())

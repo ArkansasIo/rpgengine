@@ -98,7 +98,7 @@ private:
 	COggStream curStream;
 
 	float curVolume;
-	ArcLight_time loopStop;
+	spring_time loopStop;
 	bool in3D;
 	bool efxEnabled;
 	int efxUpdates;

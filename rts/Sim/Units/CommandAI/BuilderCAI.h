@@ -63,11 +63,11 @@ public:
 	bool IsInBuildRange(const float3& pos, const float radius) const;
 
 public:
-	ArcLight::unordered_set<int> buildOptions;
+	spring::unordered_set<int> buildOptions;
 
-	static ArcLight::unordered_set<int> reclaimers;
-	static ArcLight::unordered_set<int> featureReclaimers;
-	static ArcLight::unordered_set<int> resurrecters;
+	static spring::unordered_set<int> reclaimers;
+	static spring::unordered_set<int> featureReclaimers;
+	static spring::unordered_set<int> resurrecters;
 
 	static std::vector<int> removees;
 

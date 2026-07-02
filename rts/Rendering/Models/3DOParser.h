@@ -122,7 +122,7 @@ public:
 		int num,
 		int excludePrim,
 		const std::vector<unsigned char>& fileBuf,
-		const ArcLight::unordered_set<std::string>& teamTextures
+		const spring::unordered_set<std::string>& teamTextures
 	);
 
 	bool IsBasePlate(const S3DOPrimitive* face) const;
@@ -130,7 +130,7 @@ public:
 	C3DOTextureHandler::UnitTexture* GetTexture(
 		const TA3DO::_Primitive* p,
 		const std::vector<unsigned char>& fileBuf,
-		const ArcLight::unordered_set<std::string>& teamTextures
+		const spring::unordered_set<std::string>& teamTextures
 	) const;
 
 public:
@@ -157,7 +157,7 @@ public:
 	S3DOPiece* LoadPiece(S3DModel* model, S3DOPiece* parent, const std::vector<uint8_t>& buf, int pos);
 
 private:
-	ArcLight::unordered_set<std::string> teamTextures;
+	spring::unordered_set<std::string> teamTextures;
 	std::vector<S3DOPiece> piecePool;
 	ArcLight::mutex poolMutex;
 

@@ -129,7 +129,7 @@ public:
 	float lastFrameTime;
 
 	/// the starting time in tick for last draw frame
-	ArcLight_time lastFrameStart;
+	spring_time lastFrameStart;
 
 	/// 0.001f * gu->simFPS, used for rendering
 	float weightedSpeedFactor;

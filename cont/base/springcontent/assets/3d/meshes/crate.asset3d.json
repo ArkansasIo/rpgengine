@@ -1,0 +1,12 @@
+{
+  "id": "prop.crate.wood",
+  "type": "mesh",
+  "dimension": "3d",
+  "source": "assets/3d/meshes/models/crate.fbx",
+  "material": "assets/3d/materials/wood_crate.mat.json",
+  "lods": [
+    { "level": 0, "mesh": "assets/3d/meshes/models/crate.fbx" },
+    { "level": 1, "mesh": "assets/3d/meshes/models/crate_lod1.fbx" }
+  ],
+  "tags": ["prop", "destructible"]
+}

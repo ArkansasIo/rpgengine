@@ -69,7 +69,7 @@ public:
 	static void InitScriptNames();
 
 	static const std::array<std::string, COBFN_NumUnitFuncs>& GetScriptNames(); // COBFN_* -> string
-	static const ArcLight::unordered_map<std::string, int>& GetScriptMap(); // string -> COBFN_*
+	static const spring::unordered_map<std::string, int>& GetScriptMap(); // string -> COBFN_*
 
 	static int GetScriptNumber(const std::string& fname);
 	static const std::string& GetScriptName(unsigned int num);

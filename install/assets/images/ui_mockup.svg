@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <defs>
+    <linearGradient id="uiBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a1628;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#061018;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="panelBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1a2d;stop-opacity:0.95"/>
+      <stop offset="100%" style="stop-color:#081220;stop-opacity:0.95"/>
+    </linearGradient>
+  </defs>
+  <!-- Background (game world) -->
+  <rect width="1280" height="720" fill="#0a1a0a"/>
+  <!-- Terrain hint -->
+  <rect x="0" y="0" width="1280" height="720" fill="none" stroke="#1a3a1a" stroke-width="0.5" opacity="0.3"/>
+  <!-- Grid -->
+  <g opacity="0.05" stroke="#00ff00" stroke-width="0.5">
+    <line x1="0" y1="180" x2="1280" y2="180"/><line x1="0" y1="360" x2="1280" y2="360"/>
+    <line x1="0" y1="540" x2="1280" y2="540"/>
+    <line x1="320" y1="0" x2="320" y2="720"/><line x1="640" y1="0" x2="640" y2="720"/>
+    <line x1="960" y1="0" x2="960" y2="720"/>
+  </g>
+  <!-- Units on field -->
+  <g fill="#00cc44" opacity="0.8">
+    <polygon points="600,350 610,330 620,350"/><polygon points="640,360 650,340 660,360"/>
+    <polygon points="580,370 590,350 600,370"/><polygon points="620,340 630,320 640,340"/>
+    <polygon points="660,350 670,330 680,350"/>
+  </g>
+  <!-- Enemy units -->
+  <g fill="#cc3333" opacity="0.8">
+    <polygon points="800,300 810,280 820,300"/><polygon points="830,310 840,290 850,310"/>
+    <polygon points="820,320 830,300 840,320"/>
+  </g>
+  <!-- === TOP BAR === -->
+  <rect x="0" y="0" width="1280" height="36" fill="url(#panelBg)"/>
+  <line x1="0" y1="36" x2="1280" y2="36" stroke="#00d4ff" stroke-width="0.5" opacity="0.3"/>
+  <!-- Resources -->
+  <g font-family="Arial" font-size="13" fill="#ccddee">
+    <text x="30" y="24" fill="#ffcc00">&#x2699;</text><text x="48" y="24">12,450</text>
+    <text x="140" y="24" fill="#00cc66">&#x25C6;</text><text x="158" y="24">8,230</text>
+    <text x="250" y="24" fill="#ff6644">&#x26A1;</text><text x="268" y="24">5,100</text>
+    <text x="360" y="24" fill="#88aaff">&#x2693;</text><text x="378" y="24">120/200</text>
+    <text x="480" y="24" fill="#ff88cc">&#x2726;</text><text x="498" y="24">340</text>
+  </g>
+  <!-- Timer -->
+  <text x="640" y="24" text-anchor="middle" font-family="Arial" font-size="14" fill="#ffffff" font-weight="bold">12:34</text>
+  <!-- Supply -->
+  <text x="1100" y="24" font-family="Arial" font-size="12" fill="#889999">FPS: 60 | Ping: 24ms</text>
+  <!-- === MINIMAP (bottom-left) === -->
+  <rect x="10" y="610" width="200" height="100" rx="4" fill="#0a1520" stroke="#00d4ff" stroke-width="1" opacity="0.9"/>
+  <text x="110" y="605" text-anchor="middle" font-family="Arial" font-size="10" fill="#668899">MINIMAP</text>
+  <!-- Minimap terrain -->
+  <rect x="15" y="615" width="190" height="90" fill="#0a2a0a" opacity="0.5"/>
+  <!-- Minimap units -->
+  <circle cx="80" cy="650" r="3" fill="#00cc44"/>
+  <circle cx="95" cy="645" r="3" fill="#00cc44"/>
+  <circle cx="130" cy="640" r="3" fill="#cc3333"/>
+  <circle cx="140" cy="650" r="3" fill="#cc3333"/>
+  <!-- Selection box on minimap -->
+  <rect x="70" y="635" width="35" height="25" fill="none" stroke="#00ff00" stroke-width="1" opacity="0.6"/>
+  <!-- === UNIT INFO PANEL (bottom-center) === -->
+  <rect x="280" y="580" width="400" height="130" rx="4" fill="url(#panelBg)" stroke="#00d4ff" stroke-width="0.5"/>
+  <text x="290" y="600" font-family="Arial" font-size="14" fill="#00d4ff" font-weight="bold">Battle Mech MK-IV</text>
+  <text x="290" y="620" font-family="Arial" font-size="11" fill="#889999">HP: 850/1000 | Shield: 200/300</text>
+  <!-- Health bar -->
+  <rect x="290" y="628" width="200" height="8" rx="3" fill="#1a1a2a"/>
+  <rect x="290" y="628" width="170" height="8" rx="3" fill="#00cc44"/>
+  <!-- Shield bar -->
+  <rect x="290" y="640" width="200" height="8" rx="3" fill="#1a1a2a"/>
+  <rect x="290" y="640" width="133" height="8" rx="3" fill="#4488ff"/>
+  <text x="290" y="665" font-family="Arial" font-size="11" fill="#889999">ATK: 45 | DEF: 22 | SPD: 8.5</text>
+  <text x="290" y="685" font-family="Arial" font-size="11" fill="#889999">Weapons: Plasma Cannon, Missiles</text>
+  <text x="290" y="705" font-family="Arial" font-size="11" fill="#889999">Abilities: Overcharge, Shield Burst</text>
+  <!-- === COMMAND CARD (bottom-right) === -->
+  <rect x="720" y="580" width="250" height="130" rx="4" fill="url(#panelBg)" stroke="#00d4ff" stroke-width="0.5"/>
+  <text x="730" y="600" font-family="Arial" font-size="12" fill="#00d4ff" font-weight="bold">COMMANDS</text>
+  <g font-family="Arial" font-size="11">
+    <rect x="730" y="610" width="55" height="45" rx="3" fill="#1a2a3a" stroke="#006688" stroke-width="0.5"/>
+    <text x="758" y="638" text-anchor="middle" fill="#aaccdd">Move</text>
+    <rect x="795" y="610" width="55" height="45" rx="3" fill="#1a2a3a" stroke="#006688" stroke-width="0.5"/>
+    <text x="823" y="638" text-anchor="middle" fill="#aaccdd">Attack</text>
+    <rect x="860" y="610" width="55" height="45" rx="3" fill="#1a2a3a" stroke="#006688" stroke-width="0.5"/>
+    <text x="888" y="638" text-anchor="middle" fill="#aaccdd">Stop</text>
+    <rect x="730" y="660" width="55" height="45" rx="3" fill="#1a2a3a" stroke="#006688" stroke-width="0.5"/>
+    <text x="758" y="688" text-anchor="middle" fill="#aaccdd">Patrol</text>
+    <rect x="795" y="660" width="55" height="45" rx="3" fill="#1a2a3a" stroke="#006688" stroke-width="0.5"/>
+    <text x="823" y="688" text-anchor="middle" fill="#aaccdd">Guard</text>
+    <rect x="860" y="660" width="55" height="45" rx="3" fill="#2a1a1a" stroke="#884444" stroke-width="0.5"/>
+    <text x="888" y="688" text-anchor="middle" fill="#ff6666">Scuttle</text>
+  </g>
+  <!-- === PRODUCTION QUEUE (right side) === -->
+  <rect x="1050" y="36" width="230" height="150" rx="4" fill="url(#panelBg)" stroke="#00d4ff" stroke-width="0.5"/>
+  <text x="1060" y="56" font-family="Arial" font-size="12" fill="#00d4ff" font-weight="bold">PRODUCTION QUEUE</text>
+  <g font-family="Arial" font-size="11">
+    <rect x="1060" y="65" width="40" height="40" rx="3" fill="#1a2a3a" stroke="#006688" stroke-width="0.5"/>
+    <text x="1080" y="90" text-anchor="middle" fill="#00cc44">&#x25B2;</text>
+    <text x="1110" y="82" fill="#ccddee">Battle Mech</text>
+    <rect x="1110" y="88" width="100" height="4" rx="2" fill="#1a1a2a"/>
+    <rect x="1110" y="88" width="65" height="4" rx="2" fill="#00cc44"/>
+    <text x="1110" y="100" fill="#668899">7s remaining</text>
+    <rect x="1060" y="115" width="40" height="40" rx="3" fill="#1a2a3a" stroke="#006688" stroke-width="0.5"/>
+    <text x="1080" y="140" text-anchor="middle" fill="#88aaff">&#x25BC;</text>
+    <text x="1110" y="132" fill="#ccddee">Scout Drone</text>
+    <text x="1110" y="150" fill="#668899">Queued (x3)</text>
+  </g>
+  <!-- === RESOURCE BAR (top-center) === -->
+  <rect x="450" y="42" width="380" height="25" rx="3" fill="#0a1520" opacity="0.8"/>
+  <g font-family="Arial" font-size="11">
+    <text x="460" y="59" fill="#ffcc00">Minerals</text>
+    <rect x="520" y="50" width="100" height="6" rx="2" fill="#1a1a2a"/>
+    <rect x="520" y="50" width="80" height="6" rx="2" fill="#ffcc00"/>
+    <text x="630" y="59" fill="#00cc66">Gas</text>
+    <rect x="660" y="50" width="80" height="6" rx="2" fill="#1a1a2a"/>
+    <rect x="660" y="50" width="50" height="6" rx="2" fill="#00cc66"/>
+  </g>
+  <!-- Version watermark -->
+  <text x="1260" y="715" text-anchor="end" font-family="Arial" font-size="9" fill="#334455">ArcLight Engine v1.0.0 | Developer: Stephen</text>
+</svg>

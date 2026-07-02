@@ -42,7 +42,7 @@ CONFIG(bool, LogClientData).defaultValue(false);
 #define LOG_SECTION_NET "Net"
 LOG_REGISTER_SECTION_GLOBAL(LOG_SECTION_NET)
 
-static ArcLight::unordered_map<int32_t, uint32_t> localSyncChecksums;
+static spring::unordered_map<int32_t, uint32_t> localSyncChecksums;
 
 
 void CGame::AddTraffic(int playerID, int packetCode, int length)
@@ -68,10 +68,10 @@ void CGame::AddTraffic(int playerID, int packetCode, int length)
 
 void CGame::SendClientProcUsage()
 {
-	static ArcLight_time lastProcUsageUpdateTime = ArcLight_gettime();
+	static spring_time lastProcUsageUpdateTime = spring_gettime();
 
-	if ((ArcLight_gettime() - lastProcUsageUpdateTime).toMilliSecsf() >= 1000.0f) {
-		lastProcUsageUpdateTime = ArcLight_gettime();
+	if ((spring_gettime() - lastProcUsageUpdateTime).toMilliSecsf() >= 1000.0f) {
+		lastProcUsageUpdateTime = spring_gettime();
 
 		if (playing) {
 			const float simProcUsage = (profiler.GetTimePercentage("Sim"));
@@ -100,8 +100,8 @@ uint32_t CGame::GetNumQueuedSimFrameMessages(uint32_t maxFrames) const
 	while ((packet = clientNet->Peek(packetPeekIndex))) {
 		switch (packet->data[0]) {
 			case NETMSG_PING: {
-				const ArcLight_time pktSendTime = ArcLight_msecs(*reinterpret_cast<const float*>(&packet->data[3]));
-				const ArcLight_time pktRecvTime = ArcLight_now();
+				const spring_time pktSendTime = ArcLight_msecs(*reinterpret_cast<const float*>(&packet->data[3]));
+				const spring_time pktRecvTime = spring_now();
 
 				// LOG_L(L_INFO, "[Game::%s][NETMSG_PING] tag=%u dt=%fms", __func__, packet->data[2], pktRecvTime.toMilliSecsf() - pktSendTime.toMilliSecsf());
 
@@ -140,10 +140,10 @@ void CGame::UpdateNumQueuedSimFrames()
 		return;
 
 
-	static ArcLight_time lastUpdateTime = ArcLight_gettime();
+	static spring_time lastUpdateTime = spring_gettime();
 
-	const ArcLight_time currTime = ArcLight_gettime();
-	const ArcLight_time deltaTime = currTime - lastUpdateTime;
+	const spring_time currTime = spring_gettime();
+	const spring_time deltaTime = currTime - lastUpdateTime;
 
 	// update consumption-rate faster at higher game speeds
 	if (deltaTime.toMilliSecsf() < (500.0f / gs->speedFactor))
@@ -189,8 +189,8 @@ void CGame::UpdateNetMessageProcessingTimeLeft()
 {
 	// compute new msgProcTimeLeft to "smooth" out SimFrame() calls
 	if (gameServer == nullptr) {
-		const ArcLight_time currentReadNetTime = ArcLight_gettime();
-		const ArcLight_time deltaReadNetTime = currentReadNetTime - lastReadNetTime;
+		const spring_time currentReadNetTime = spring_gettime();
+		const spring_time deltaReadNetTime = currentReadNetTime - lastReadNetTime;
 
 		if (skipping) {
 			msgProcTimeLeft = 10.0f;
@@ -234,7 +234,7 @@ void CGame::ClientReadNet()
 	UpdateNumQueuedSimFrames();
 	UpdateNetMessageProcessingTimeLeft();
 
-	const ArcLight_time msgProcEndTime = ArcLight_gettime() + ArcLight_msecs(GetNetMessageProcessingTimeLimit());
+	const spring_time msgProcEndTime = spring_gettime() + ArcLight_msecs(GetNetMessageProcessingTimeLimit());
 
 	const bool haveServerDemo = (gameServer != nullptr && gameServer->GetDemoReader() != nullptr);
 	const bool haveClientDemo = (clientNet->GetDemoRecorder() != nullptr);
@@ -243,10 +243,10 @@ void CGame::ClientReadNet()
 	while (true) {
 		if (msgProcTimeLeft <= 0.0f)
 			break;
-		if (ArcLight_gettime() > msgProcEndTime)
+		if (spring_gettime() > msgProcEndTime)
 			break;
 
-		lastNetPacketProcessTime = ArcLight_gettime();
+		lastNetPacketProcessTime = spring_gettime();
 
 
 		{
@@ -278,7 +278,7 @@ void CGame::ClientReadNet()
 		if (packet == nullptr)
 			break;
 
-		lastReceivedNetPacketTime = ArcLight_gettime();
+		lastReceivedNetPacketTime = spring_gettime();
 
 		const uint8_t* inbuf = packet->data;
 		const uint32_t dataLength = packet->length;
@@ -362,7 +362,7 @@ void CGame::ClientReadNet()
 				eventHandler.GamePaused(playerNum, gs->paused);
 				AddTraffic(playerNum, packetCode, dataLength);
 
-				lastReadNetTime = ArcLight_gettime();
+				lastReadNetTime = spring_gettime();
 			} break;
 
 			case NETMSG_INTERNAL_SPEED: {
@@ -557,7 +557,7 @@ void CGame::ClientReadNet()
 			}
 			case NETMSG_NEWFRAME: {
 				msgProcTimeLeft -= 1000.0f;
-				lastSimFrameNetPacketTime = ArcLight_gettime();
+				lastSimFrameNetPacketTime = spring_gettime();
 
 				SimFrame();
 

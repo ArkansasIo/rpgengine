@@ -144,7 +144,7 @@ int CPoolArchive::GetFileImpl(unsigned int fid, std::vector<std::uint8_t>& buffe
 	      std::string rpath = poolRootDir + "/pool/" + prefix + "/" + pstfix + ".gz";
 	const std::string  path = FileSystem::FixSlashes(rpath);
 
-	const ArcLight_time startTime = ArcLight_now();
+	const spring_time startTime = spring_now();
 
 
 	gzFile in = gzopen(path.c_str(), "rb");
@@ -158,7 +158,7 @@ int CPoolArchive::GetFileImpl(unsigned int fid, std::vector<std::uint8_t>& buffe
 	const int bytesRead = (buffer.empty()) ? 0 : gzread(in, reinterpret_cast<char*>(buffer.data()), buffer.size());
 	gzclose(in);
 
-	s->readTime = (ArcLight_now() - startTime).toNanoSecsi();
+	s->readTime = (spring_now() - startTime).toNanoSecsi();
 
 
 	if (bytesRead != buffer.size()) {

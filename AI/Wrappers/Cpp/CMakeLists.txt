@@ -271,7 +271,7 @@ if    (BUILD_${myName}_AIWRAPPER)
 	target_include_directories(${myTarget} PRIVATE
 		${mySourceDir}
 		${myGeneratedSourceDir}
-		${Spring_SOURCE_DIR}/rts
+		${CMAKE_SOURCE_DIR}/rts
 	)
 	add_dependencies(${myTarget} generateVersionFiles)
 	set_target_properties(${myTarget} PROPERTIES OUTPUT_NAME "${myName}")

@@ -60,7 +60,7 @@ private:
 	int NumDisplay();
 	float ScaleFactor();
 
-	ArcLight_time clickedTime;
+	spring_time clickedTime;
 	int place;
 
 	bool activeMousePress;

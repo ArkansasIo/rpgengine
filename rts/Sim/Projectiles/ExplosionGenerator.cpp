@@ -881,7 +881,7 @@ bool CCustomExplosionGenerator::Load(CExplosionGeneratorHandler* handler, const 
 		psi.count = std::max(0, spawnTable.GetInt("count", 1));
 
 		std::string code;
-		ArcLight::unordered_map<string, string> props;
+		spring::unordered_map<string, string> props;
 
 		spawnTable.SubTable("properties").GetMap(props);
 

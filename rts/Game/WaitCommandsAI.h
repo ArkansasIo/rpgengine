@@ -26,7 +26,7 @@ class CWaitCommandsAI {
 	CR_DECLARE_SUB(GatherWait)
 
 	public:
-		typedef ArcLight::unordered_set<int> CUnitSet;
+		typedef spring::unordered_set<int> CUnitSet;
 
 		CWaitCommandsAI();
 		~CWaitCommandsAI();
@@ -58,7 +58,7 @@ class CWaitCommandsAI {
 
 	private:
 		typedef int KeyType;
-		typedef ArcLight::unordered_map<KeyType, Wait*> WaitMap;
+		typedef spring::unordered_map<KeyType, Wait*> WaitMap;
 		WaitMap waitMap;
 		WaitMap unackedMap;
 
@@ -76,7 +76,7 @@ class CWaitCommandsAI {
 				virtual void AddUnitPosition(const float3& pos) {}
 				virtual const std::string& GetStateText() const { return noText; }
 			public:
-				ArcLight_time GetDeadTime() const { return deadTime; }
+				spring_time GetDeadTime() const { return deadTime; }
 				float GetCode() const { return code; }
 				KeyType GetKey() const { return key; }
 			public:
@@ -96,7 +96,7 @@ class CWaitCommandsAI {
 				float code;
 				KeyType key;
 				bool valid;
-				ArcLight_time deadTime;
+				spring_time deadTime;
 			protected:
 				static KeyType GetNewKey();
 			private:

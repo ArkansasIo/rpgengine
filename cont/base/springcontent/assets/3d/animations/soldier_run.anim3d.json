@@ -1,0 +1,10 @@
+{
+  "id": "anim.soldier.run",
+  "type": "animation",
+  "dimension": "3d",
+  "source": "assets/3d/animations/clips/soldier_run.fbx",
+  "target": "unit.soldier.base",
+  "fps": 30,
+  "loop": true,
+  "tags": ["animation", "run", "soldier"]
+}

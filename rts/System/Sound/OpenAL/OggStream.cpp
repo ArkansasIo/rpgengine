@@ -174,7 +174,7 @@ void COggStream::Stop()
 	ReleaseBuffers();
 
 	msecsPlayed = ArcLight_nulltime;
-	lastTick = ArcLight_gettime();
+	lastTick = spring_gettime();
 
 	source = 0;
 	format = 0;
@@ -242,7 +242,7 @@ void COggStream::ReleaseBuffers()
 bool COggStream::StartPlaying()
 {
 	msecsPlayed = ArcLight_nulltime;
-	lastTick = ArcLight_gettime();
+	lastTick = spring_gettime();
 
 	if (!DecodeStream(buffers[0]))
 		return false;
@@ -309,7 +309,7 @@ void COggStream::Update()
 	if (stopped)
 		return;
 
-	const ArcLight_time tick = ArcLight_gettime();
+	const spring_time tick = spring_gettime();
 
 	if (!paused) {
 		// releasing buffers is only allowed once the source has actually

@@ -1,0 +1,9 @@
+{
+  "id": "ui.icon.defend",
+  "type": "icon",
+  "dimension": "2d",
+  "source": "assets/2d/textures/ui/icons/defend.png",
+  "pixelsPerUnit": 100,
+  "pivot": [0.5, 0.5],
+  "tags": ["ui", "icon", "defense"]
+}

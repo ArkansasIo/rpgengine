@@ -153,7 +153,7 @@ public:
 	const PathFlowMap* GetPathFlowMap() const { return pathFlowMap; }
 	const PathHeatMap* GetPathHeatMap() const { return pathHeatMap; }
 
-	const ArcLight::unordered_map<unsigned int, MultiPath>& GetPathMap() const { return pathMap; }
+	const spring::unordered_map<unsigned int, MultiPath>& GetPathMap() const { return pathMap; }
 
 private:
 	IPath::SearchResult ArrangePath(
@@ -194,7 +194,7 @@ private:
 	PathFlowMap* pathFlowMap;
 	PathHeatMap* pathHeatMap;
 
-	ArcLight::unordered_map<unsigned int, MultiPath> pathMap;
+	spring::unordered_map<unsigned int, MultiPath> pathMap;
 
 	unsigned int nextPathID;
 };

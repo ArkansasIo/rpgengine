@@ -81,7 +81,7 @@ static void CheckSkirmishAIId(int skirmishAIId, const char* caller) {
 }
 
 static size_t ShallowCopyKeyValPairs(
-	const ArcLight::unordered_map<std::string, std::string>& map,
+	const spring::unordered_map<std::string, std::string>& map,
 	const char* cMapKeys[],
 	const char* cMapValues[]
 ) {

@@ -76,7 +76,7 @@ private:
 	std::string modFileName;
 	ILoadSaveHandler* saveFileHandler;
 
-	ArcLight_time connectTimer;
+	spring_time connectTimer;
 
 	bool wantDemo;
 };

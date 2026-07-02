@@ -58,10 +58,10 @@ public:
 	};
 
 	std::shared_ptr<netcode::CConnection> clientLink;
-	ArcLight::unordered_map<uint8_t, ClientLinkData> aiClientLinks;
+	spring::unordered_map<uint8_t, ClientLinkData> aiClientLinks;
 
 	#ifdef SYNCCHECK
-	ArcLight::unordered_map<int, unsigned int> syncResponse; // syncResponse[frameNum] = checksum
+	spring::unordered_map<int, unsigned int> syncResponse; // syncResponse[frameNum] = checksum
 	#endif
 };
 

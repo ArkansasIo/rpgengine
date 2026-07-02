@@ -214,16 +214,16 @@ CR_REG_METADATA(CGame, (
 
 
 CGame::CGame(const std::string& mapFileName, const std::string& modFileName, ILoadSaveHandler* saveFile)
-	: frameStartTime(ArcLight_gettime())
-	, lastSimFrameTime(ArcLight_gettime())
-	, lastDrawFrameTime(ArcLight_gettime())
-	, lastFrameTime(ArcLight_gettime())
-	, lastReadNetTime(ArcLight_gettime())
-	, lastNetPacketProcessTime(ArcLight_gettime())
-	, lastReceivedNetPacketTime(ArcLight_gettime())
-	, lastSimFrameNetPacketTime(ArcLight_gettime())
-	, lastUnsyncedUpdateTime(ArcLight_gettime())
-	, skipLastDrawTime(ArcLight_gettime())
+	: frameStartTime(spring_gettime())
+	, lastSimFrameTime(spring_gettime())
+	, lastDrawFrameTime(spring_gettime())
+	, lastFrameTime(spring_gettime())
+	, lastReadNetTime(spring_gettime())
+	, lastNetPacketProcessTime(spring_gettime())
+	, lastReceivedNetPacketTime(spring_gettime())
+	, lastSimFrameNetPacketTime(spring_gettime())
+	, lastUnsyncedUpdateTime(spring_gettime())
+	, skipLastDrawTime(spring_gettime())
 
 	, saveFileHandler(saveFile)
 {
@@ -307,7 +307,7 @@ void CGame::AddTimedJobs()
 		JobDispatcher::Job j;
 
 		j.f = [this]() -> bool {
-			const float simFrameDeltaTime = (ArcLight_gettime() - lastSimFrameNetPacketTime).toMilliSecsf();
+			const float simFrameDeltaTime = (spring_gettime() - lastSimFrameNetPacketTime).toMilliSecsf();
 			const float gcForcedDeltaTime = (5.0f * 1000.0f) / (GAME_SPEED * gs->speedFactor);
 
 			// SimFrame handles gc when not paused, this all other cases
@@ -807,7 +807,7 @@ void CGame::LoadFinalize()
 		);
 	}
 
-	lastReadNetTime = ArcLight_gettime();
+	lastReadNetTime = spring_gettime();
 	lastSimFrameTime = lastReadNetTime;
 	lastDrawFrameTime = lastReadNetTime;
 	updateDeltaSeconds = 0.0f;
@@ -981,7 +981,7 @@ int CGame::KeyPressed(int key, bool isRepeat)
 		playerHandler.Player(gu->myPlayerNum)->currentStats.keyPresses++;
 
 	const CKeySet ks(key, false);
-	curKeyChain.push_back(key, ArcLight_gettime(), isRepeat);
+	curKeyChain.push_back(key, spring_gettime(), isRepeat);
 
 	// Get the list of possible key actions
 	//LOG_L(L_DEBUG, "curKeyChain: %s", curKeyChain.GetString().c_str());
@@ -1114,12 +1114,12 @@ bool CGame::Update()
 }
 
 
-bool CGame::UpdateUnsynced(const ArcLight_time currentTime)
+bool CGame::UpdateUnsynced(const spring_time currentTime)
 {
 	SCOPED_TIMER("Update");
 
 	// timings and frame interpolation
-	const ArcLight_time deltaDrawFrameTime = currentTime - lastDrawFrameTime;
+	const spring_time deltaDrawFrameTime = currentTime - lastDrawFrameTime;
 
 	const float modGameDeltaTimeSecs = mix(deltaDrawFrameTime.toMilliSecsf() * 0.001f, 0.01f, skipping);
 	const float unsyncedUpdateDeltaTime = (currentTime - lastUnsyncedUpdateTime).toSecsf();
@@ -1142,7 +1142,7 @@ bool CGame::UpdateUnsynced(const ArcLight_time currentTime)
 	{
 		// update sim-FPS counter once per second
 		static int lsf = gs->frameNum;
-		static ArcLight_time lsft = currentTime;
+		static spring_time lsft = currentTime;
 
 		// toSecsf throws away too much precision
 		const float diffMilliSecs = (currentTime - lsft).toMilliSecsf();
@@ -1247,18 +1247,18 @@ bool CGame::UpdateUnsynced(const ArcLight_time currentTime)
 		SCOPED_TIMER("Update::EventHandler");
 		eventHandler.Update();
 	}
-	eventHandler.DbgTimingInfo(TIMING_UNSYNCED, currentTime, ArcLight_now());
+	eventHandler.DbgTimingInfo(TIMING_UNSYNCED, currentTime, spring_now());
 	return false;
 }
 
 
 bool CGame::Draw() {
-	const ArcLight_time currentTimePreUpdate = ArcLight_gettime();
+	const spring_time currentTimePreUpdate = spring_gettime();
 
 	if (UpdateUnsynced(currentTimePreUpdate))
 		return false;
 
-	const ArcLight_time currentTimePreDraw = ArcLight_gettime();
+	const spring_time currentTimePreDraw = spring_gettime();
 
 	SCOPED_SPECIAL_TIMER("Draw");
 	globalRendering->SetGLTimeStamp(CGlobalRendering::FRAME_REF_TIME_QUERY_IDX);
@@ -1356,8 +1356,8 @@ bool CGame::Draw() {
 	SetDrawMode(Game::NotDrawing);
 	CTeamHighlight::Disable();
 
-	const ArcLight_time currentTimePostDraw = ArcLight_gettime();
-	const ArcLight_time currentFrameDrawTime = currentTimePostDraw - currentTimePreDraw;
+	const spring_time currentTimePostDraw = spring_gettime();
+	const spring_time currentFrameDrawTime = currentTimePostDraw - currentTimePreDraw;
 	gu->avgDrawFrameTime = mix(gu->avgDrawFrameTime, currentFrameDrawTime.toMilliSecsf(), 0.05f);
 
 	eventHandler.DbgTimingInfo(TIMING_VIDEO, currentTimePreDraw, currentTimePostDraw);
@@ -1457,7 +1457,7 @@ void CGame::StartPlaying()
 	playing = true;
 
 	{
-		lastReadNetTime = ArcLight_gettime();
+		lastReadNetTime = spring_gettime();
 
 		gu->startTime = gu->gameTime;
 		gu->myTeam = gu->GetMyPlayer()->team;
@@ -1483,7 +1483,7 @@ void CGame::SimFrame() {
 
 	// note: starts at -1, first actual frame is 0
 	gs->frameNum += 1;
-	lastFrameTime = ArcLight_gettime();
+	lastFrameTime = spring_gettime();
 
 	// clear allocator statistics periodically
 	// note: allocator itself should do this (so that
@@ -1545,7 +1545,7 @@ void CGame::SimFrame() {
 		playerHandler.GameFrame(gs->frameNum);
 	}
 
-	lastSimFrameTime = ArcLight_gettime();
+	lastSimFrameTime = spring_gettime();
 	gu->avgSimFrameTime = mix(gu->avgSimFrameTime, (lastSimFrameTime - lastFrameTime).toMilliSecsf(), 0.05f);
 	gu->avgSimFrameTime = std::max(gu->avgSimFrameTime, 0.001f);
 
@@ -1771,7 +1771,7 @@ void CGame::StartSkip(int toFrame) {
 	gs->speedFactor     = speed;
 	gs->wantedSpeedFactor = speed;
 
-	skipLastDrawTime = ArcLight_gettime();
+	skipLastDrawTime = spring_gettime();
 
 	skipping = true;
 	#endif
@@ -1850,7 +1850,7 @@ void CGame::ReloadCOB(const string& msg, int player)
 
 bool CGame::IsSimLagging(float maxLatency) const
 {
-	const float deltaTime = ArcLight_tomsecs(ArcLight_gettime() - lastFrameTime);
+	const float deltaTime = ArcLight_tomsecs(spring_gettime() - lastFrameTime);
 	const float sfLatency = maxLatency / gs->speedFactor;
 
 	return (!gs->paused && (deltaTime > sfLatency));

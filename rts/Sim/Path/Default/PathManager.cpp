@@ -74,7 +74,7 @@ std::uint32_t CPathManager::GetPathCheckSum() const {
 }
 
 std::int64_t CPathManager::Finalize() {
-	const ArcLight_time t0 = ArcLight_gettime();
+	const spring_time t0 = spring_gettime();
 
 	{
 		maxResPF = &gMaxResPF;
@@ -87,7 +87,7 @@ std::int64_t CPathManager::Finalize() {
 		lowResPE->Init(medResPE, LOWRES_PE_BLOCKSIZE, "pe2", mapInfo->map.name);
 	}
 
-	const ArcLight_time dt = ArcLight_gettime() - t0;
+	const spring_time dt = spring_gettime() - t0;
 	return (dt.toMilliSecsi());
 }
 

@@ -148,7 +148,7 @@ namespace icon {
 			unsigned int defTexID = 0;
 			unsigned int numIcons = 0;
 
-			ArcLight::unordered_map<std::string, CIcon> iconMap;
+			spring::unordered_map<std::string, CIcon> iconMap;
 			std::array<CIconData, 2048> iconData;
 	};
 

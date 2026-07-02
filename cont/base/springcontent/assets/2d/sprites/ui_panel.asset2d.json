@@ -1,0 +1,9 @@
+{
+  "id": "ui.panel.command",
+  "type": "sprite",
+  "dimension": "2d",
+  "source": "assets/2d/textures/ui/panel_command.png",
+  "pixelsPerUnit": 100,
+  "pivot": [0.5, 0.5],
+  "tags": ["ui", "panel"]
+}

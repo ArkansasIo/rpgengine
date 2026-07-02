@@ -72,8 +72,8 @@ public:
 	int GetFrameSize() const { return frameSize; }
 
 private:
-	typedef ArcLight::unordered_map<std::string, std::string> SoundItemNameMap;
-	typedef ArcLight::unordered_map<std::string, SoundItemNameMap> SoundItemDefsMap;
+	typedef spring::unordered_map<std::string, std::string> SoundItemNameMap;
+	typedef spring::unordered_map<std::string, SoundItemNameMap> SoundItemDefsMap;
 
 private:
 	void Cleanup();
@@ -101,9 +101,9 @@ private:
 	std::string selectedDeviceName = "";
 
 	ArcLight::thread soundThread;
-	ArcLight::unordered_map<std::string, size_t> soundMap; // <name, id>
-	ArcLight::unordered_set<std::string> preloadSet;
-	ArcLight::unordered_set<std::string> failureSet;
+	spring::unordered_map<std::string, size_t> soundMap; // <name, id>
+	spring::unordered_set<std::string> preloadSet;
+	spring::unordered_set<std::string> failureSet;
 
 	std::vector<SoundItem> soundItems;
 	std::vector<CSoundSource> soundSources; // fixed-size

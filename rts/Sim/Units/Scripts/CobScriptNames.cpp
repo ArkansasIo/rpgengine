@@ -8,7 +8,7 @@
 
 // script function-indices never change, so this is fine wrt. reloading
 static std::array<std::string, COBFN_NumUnitFuncs> scriptNames;
-static ArcLight::unordered_map<std::string, int> scriptMap;
+static spring::unordered_map<std::string, int> scriptMap;
 
 
 void CCobUnitScriptNames::InitScriptNames()
@@ -90,7 +90,7 @@ void CCobUnitScriptNames::InitScriptNames()
 
 
 const std::array<std::string, COBFN_NumUnitFuncs>& CCobUnitScriptNames::GetScriptNames() { assert(!scriptMap.empty()); return scriptNames; }
-const ArcLight::unordered_map<std::string, int>& CCobUnitScriptNames::GetScriptMap() { assert(!scriptMap.empty()); return scriptMap; }
+const spring::unordered_map<std::string, int>& CCobUnitScriptNames::GetScriptMap() { assert(!scriptMap.empty()); return scriptMap; }
 
 
 int CCobUnitScriptNames::GetScriptNumber(const std::string& fname)

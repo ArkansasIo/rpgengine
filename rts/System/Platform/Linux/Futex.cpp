@@ -131,7 +131,7 @@ void linux_signal::wait()
 }
 
 
-void linux_signal::wait_for(ArcLight_time t)
+void linux_signal::wait_for(spring_time t)
 {
 	int m; // cur gen
 	const int g = gen.load(); // our gen
@@ -141,9 +141,9 @@ void linux_signal::wait_for(ArcLight_time t)
 	linux_t.tv_sec  = 0;
 	linux_t.tv_nsec = t.toNanoSecsi();
 
-	const ArcLight_time endTimer = ArcLight_now() + t;
+	const spring_time endTimer = spring_now() + t;
 
-	while (((g - (m = mtx)) >= 0) && (ArcLight_now() < endTimer)) {
+	while (((g - (m = mtx)) >= 0) && (spring_now() < endTimer)) {
 		syscall(SYS_futex, &mtx, FUTEX_WAIT_PRIVATE, m, &linux_t, NULL, 0);
 	}
 	sleepers--;

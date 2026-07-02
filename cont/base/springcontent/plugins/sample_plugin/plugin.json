@@ -1,0 +1,7 @@
+{
+  "name": "SampleGameplayPlugin",
+  "version": "1.0.0",
+  "entry": "plugins/sample_plugin/plugin.lua",
+  "dependencies": [],
+  "description": "Example plugin that hooks startup and update callbacks."
+}

@@ -1793,7 +1793,7 @@ static inline void InsertSearchUnitDefs(const UnitDef* ud, bool allied)
 
 	gtuObjectIDs.push_back(ud->id);
 
-	// ArcLight::unordered_map<int, std::vector<int> >
+	// spring::unordered_map<int, std::vector<int> >
 	const auto& decoyMap = unitDefHandler->GetDecoyDefIDs();
 	const auto decoyMapIt = decoyMap.find(ud->id);
 

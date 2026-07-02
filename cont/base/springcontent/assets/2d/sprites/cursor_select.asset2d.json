@@ -1,0 +1,9 @@
+{
+  "id": "fx.cursor.select",
+  "type": "cursor",
+  "dimension": "2d",
+  "source": "assets/2d/textures/fx/cursor_select.png",
+  "pixelsPerUnit": 100,
+  "pivot": [0.5, 0.5],
+  "tags": ["fx", "cursor", "selection"]
+}

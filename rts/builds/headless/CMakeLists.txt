@@ -30,7 +30,7 @@ if (UNIX)
 endif()
 
 target_include_directories(engine-headless PRIVATE
-	${Spring_SOURCE_DIR}/rts
+	${CMAKE_SOURCE_DIR}/rts
 	${ENGINE_SRC_ROOT_DIR}/lib/assimp/include
 	${ENGINE_SRC_ROOT_DIR}/lib/slimsig/include
 	${SPRING_MINIZIP_INCLUDE_DIR}

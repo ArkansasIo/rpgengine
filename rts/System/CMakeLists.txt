@@ -213,9 +213,9 @@ add_library(engineMisc STATIC EXCLUDE_FROM_ALL
 
 target_include_directories(engineMisc
 	PRIVATE
-		${Spring_SOURCE_DIR}/rts
-		${Spring_SOURCE_DIR}/rts/lib/lua/include	
-		${Spring_SOURCE_DIR}/rts/lib/slimsig/include
+		${CMAKE_SOURCE_DIR}/rts
+		${CMAKE_SOURCE_DIR}/rts/lib/lua/include	
+		${CMAKE_SOURCE_DIR}/rts/lib/slimsig/include
 		${SPRING_MINIZIP_INCLUDE_DIR}
 		${SDL2_INCLUDE_DIRS}
 )

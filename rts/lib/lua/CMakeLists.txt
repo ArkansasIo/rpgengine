@@ -2,7 +2,6 @@
 
 # deactivate signaling-NANs for this library
 remove_flag("-fsignaling-nans")
-pkg_check_modules(GLEW REQUIRED glew>=1.5.1)
 
 SET(luaSources
 	"src/lapi.cpp"

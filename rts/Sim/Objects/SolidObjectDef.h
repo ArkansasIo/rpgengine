@@ -80,7 +80,7 @@ public:
 	std::string name;      // eg. "arm_flash"
 	std::string modelName; // eg. "arm_flash.3do" (no path prefix)
 
-	ArcLight::unordered_map<std::string, std::string> customParams;
+	spring::unordered_map<std::string, std::string> customParams;
 };
 
 #endif

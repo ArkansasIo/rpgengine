@@ -229,7 +229,7 @@ public:
 	std::array<unsigned int, 1 + MAX_UNITDEF_EXPGEN_IDS> pieceExplGenIDs;
 	std::array<unsigned int, 1 + MAX_UNITDEF_EXPGEN_IDS> crashExplGenIDs;
 
-	ArcLight::unordered_map<int, std::string> buildOptions;
+	spring::unordered_map<int, std::string> buildOptions;
 
 	const WeaponDef* shieldWeaponDef;
 	const WeaponDef* stockpileWeaponDef;

@@ -112,10 +112,10 @@ int main(int argc, char* argv[])
 {
 	Threading::SetMainThread();
 	try {
-		ArcLight_clock::PushTickRate();
+		spring_clock::PushTickRate();
 		// initialize start time (can safely be done before SDL_Init
 		// since we are not using SDL_GetTicks as our clock anymore)
-		ArcLight_time::setstarttime(ArcLight_time::gettime(true));
+		spring_time::setstarttime(spring_time::gettime(true));
 
 		CLogOutput::LogSystemInfo();
 
@@ -163,7 +163,7 @@ int main(int argc, char* argv[])
 		CGlobalUnsyncedRNG rng;
 
 		const uint32_t sleepTime = FLAGS_sleeptime;
-		const uint32_t randSeed = time(nullptr) % ((ArcLight_gettime().toNanoSecsi() + 1) * 9007);
+		const uint32_t randSeed = time(nullptr) % ((spring_gettime().toNanoSecsi() + 1) * 9007);
 
 		rng.Seed(randSeed);
 		dsGameData->SetRandomSeed(rng.NextInt());
@@ -246,7 +246,7 @@ int main(int argc, char* argv[])
 		FileSystemInitializer::Cleanup();
 		DataDirLocater::FreeInstance();
 
-		ArcLight_clock::PopTickRate();
+		spring_clock::PopTickRate();
 		LOG("exited");
 	}
 	CATCH_ArcLight_ERRORS

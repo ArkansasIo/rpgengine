@@ -358,8 +358,8 @@ public:
 	}
 
 private:
-	ArcLight::unordered_set<int>    unitIDs;
-	ArcLight::unordered_set<int> featureIDs;
+	spring::unordered_set<int>    unitIDs;
+	spring::unordered_set<int> featureIDs;
 
 	Shader::IProgramObject* ipo = nullptr;
 };

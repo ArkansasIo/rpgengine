@@ -28,7 +28,7 @@ public:
 	const std::vector<std::string>& GetTypeList() const { return armorDefKeys; }
 
 private:
-	ArcLight::unordered_map<std::string, int> armorDefNameIdxMap;
+	spring::unordered_map<std::string, int> armorDefNameIdxMap;
 	std::vector<std::string> armorDefKeys;
 };
 

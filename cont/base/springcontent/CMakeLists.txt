@@ -216,6 +216,29 @@ set(FILES
 	scripts/ooscript/ooclass.lua
 	scripts/ooscript/runtime.lua
 	scripts/ooscript/example_player.lua
+	scripts/ogamebeyond/README.md
+	scripts/ogamebeyond/main.lua
+	scripts/ogamebeyond/docs/architecture.md
+	scripts/ogamebeyond/docs/uml.md
+	scripts/ogamebeyond/engine/engine.lua
+	scripts/ogamebeyond/engine/event.lua
+	scripts/ogamebeyond/engine/timer.lua
+	scripts/ogamebeyond/game/combat.lua
+	scripts/ogamebeyond/game/economy.lua
+	scripts/ogamebeyond/game/fleet.lua
+	scripts/ogamebeyond/game/planet.lua
+	scripts/ogamebeyond/game/research.lua
+	scripts/ogamebeyond/game/serialization.lua
+	scripts/ogamebeyond/game/state.lua
+	scripts/ogamebeyond/game/universe.lua
+	scripts/ogamebeyond/ui/bottombar.lua
+	scripts/ogamebeyond/ui/fleet.lua
+	scripts/ogamebeyond/ui/galaxy.lua
+	scripts/ogamebeyond/ui/main.lua
+	scripts/ogamebeyond/ui/overview.lua
+	scripts/ogamebeyond/ui/sidebar.lua
+	scripts/ogamebeyond/ui/topbar.lua
+	scripts/ogamebeyond/ui/widgets/widgets.lua
 )
 
 create_base_content_archive("base" "springcontent.sdz" "${FILES}")

@@ -174,7 +174,7 @@ private:
 	};
 
 	static std::vector<FBO*> activeFBOs;
-	static ArcLight::unordered_map<GLuint, TexData> fboTexData;
+	static spring::unordered_map<GLuint, TexData> fboTexData;
 
 	static GLint maxAttachments;
 	static GLsizei maxSamples;

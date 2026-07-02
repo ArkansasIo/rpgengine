@@ -11,8 +11,8 @@
 #include <cmath> // std::fabs
 #include <algorithm> // std::{min,max}
 
-static constexpr int ARCLIGHT_MAX_HEADING = 32768;
-static constexpr int ARCLIGHT_CIRCLE_DIVS = (ARCLIGHT_MAX_HEADING << 1);
+static constexpr int SPRING_MAX_HEADING = 32768;
+static constexpr int SPRING_CIRCLE_DIVS = (SPRING_MAX_HEADING << 1);
 
 #define HEADING_CHECKSUM_1024 0x617a9968
 #define HEADING_CHECKSUM_4096 0x3d51b476

@@ -1,0 +1,11 @@
+{
+  "id": "animset.soldier.default",
+  "type": "animation_set",
+  "dimension": "3d",
+  "source": "assets/3d/animations/soldier_set.animset.json",
+  "clips": {
+    "idle": "assets/3d/animations/soldier_idle.anim3d.json",
+    "run": "assets/3d/animations/soldier_run.anim3d.json"
+  },
+  "tags": ["animation", "set", "soldier"]
+}

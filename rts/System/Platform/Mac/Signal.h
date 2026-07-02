@@ -18,7 +18,7 @@ public:
 	mac_signal& operator=(const mac_signal&) = delete;
 
 	void wait();
-	void wait_for(ArcLight_time t);
+	void wait_for(spring_time t);
 	void notify_all(const int min_sleepers = 1);
 
 protected:

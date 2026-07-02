@@ -47,8 +47,8 @@ CONFIG(int, LogRepeatLimit)
 /******************************************************************************/
 /******************************************************************************/
 
-static ArcLight::unordered_map<std::string, int> GetEnabledSections() {
-	ArcLight::unordered_map<std::string, int> sectionLevelMap;
+static spring::unordered_map<std::string, int> GetEnabledSections() {
+	spring::unordered_map<std::string, int> sectionLevelMap;
 
 	std::string enabledSections = ",";
 	std::string envSections = ",";
@@ -280,7 +280,7 @@ void CLogOutput::LogSystemInfo()
 	LOG("       Operating System: %s", Platform::GetOSDisplayStr().c_str());
 	LOG("        Hardware Config: %s", Platform::GetHardwareStr().c_str());
 	LOG("       Binary Word Size: %s", Platform::GetWordSizeStr().c_str());
-	LOG("          Process Clock: %s", ArcLight_clock::GetName());
+	LOG("          Process Clock: %s", spring_clock::GetName());
 	LOG("     Physical CPU Cores: %d", Threading::GetPhysicalCpuCores());
 	LOG("      Logical CPU Cores: %d", Threading::GetLogicalCpuCores());
 	LOG("============== </User System> ==============\n");

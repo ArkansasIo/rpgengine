@@ -38,7 +38,7 @@ public:
 
 private:
 	std::vector<WeaponDef> weaponDefsVector;
-	ArcLight::unordered_map<std::string, int> weaponDefIDs;
+	spring::unordered_map<std::string, int> weaponDefIDs;
 };
 
 

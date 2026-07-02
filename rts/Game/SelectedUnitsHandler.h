@@ -76,7 +76,7 @@ public:
 	bool selectionChanged = false;
 	bool possibleCommandsChanged = true;
 
-	ArcLight::unordered_set<int> selectedUnits;
+	spring::unordered_set<int> selectedUnits;
 	std::vector< std::vector<int> > netSelected;
 
 private:

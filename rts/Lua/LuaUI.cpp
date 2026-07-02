@@ -353,7 +353,7 @@ bool CLuaUI::LayoutButtons(
 	vector<ReStringPair>& reNamedCmds,
 	vector<ReStringPair>& reTooltipCmds,
 	vector<ReParamsPair>& reParamsCmds,
-	ArcLight::unordered_map<int, int>& buttonList,
+	spring::unordered_map<int, int>& buttonList,
 	string& menuName
 ) {
 	customCmds.clear();
@@ -485,7 +485,7 @@ bool CLuaUI::BuildCmdDescTable(lua_State* L, const vector<SCommandDescription>& 
 }
 
 
-bool CLuaUI::GetLuaIntMap(lua_State* L, int index, ArcLight::unordered_map<int, int>& intMap)
+bool CLuaUI::GetLuaIntMap(lua_State* L, int index, spring::unordered_map<int, int>& intMap)
 {
 	const int table = index;
 	if (!lua_istable(L, table))

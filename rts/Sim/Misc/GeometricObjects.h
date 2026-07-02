@@ -36,8 +36,8 @@ public:
 	void MarkSquare(int mapSquare);
 
 private:
-	ArcLight::unordered_map<int, GeoGroup> geoGroups;
-	ArcLight::unordered_map<int, std::vector<int> > timedGroups;
+	spring::unordered_map<int, GeoGroup> geoGroups;
+	spring::unordered_map<int, std::vector<int> > timedGroups;
 
 	int firstFreeGroup;
 };

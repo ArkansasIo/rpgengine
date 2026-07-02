@@ -100,7 +100,7 @@ struct STex {
 };
 
 typedef float4 SAtlasTex;
-static ArcLight::unordered_map<std::string, SAtlasTex> atlasTexs;
+static spring::unordered_map<std::string, SAtlasTex> atlasTexs;
 
 
 static std::string GetExtraTextureName(const std::string& s)
@@ -399,7 +399,7 @@ static STex LoadTexture(const std::string& name)
 }
 
 
-static inline void GetBuildingDecals(ArcLight::unordered_map<std::string, STex>& textures)
+static inline void GetBuildingDecals(spring::unordered_map<std::string, STex>& textures)
 {
 	for (const UnitDef& unitDef: unitDefHandler->GetUnitDefsVec()) {
 		const SolidObjectDecalDef& decalDef = unitDef.decalDef;
@@ -419,7 +419,7 @@ static inline void GetBuildingDecals(ArcLight::unordered_map<std::string, STex>&
 }
 
 
-static inline void GetGroundScars(ArcLight::unordered_map<std::string, STex>& textures)
+static inline void GetGroundScars(spring::unordered_map<std::string, STex>& textures)
 {
 	LuaParser resourcesParser("gamedata/resources.lua", ARCLIGHT_VFS_MOD_BASE, ARCLIGHT_VFS_ZIP);
 	if (!resourcesParser.Execute()) {
@@ -443,7 +443,7 @@ static inline void GetGroundScars(ArcLight::unordered_map<std::string, STex>& te
 }
 
 
-static inline void GetFallbacks(ArcLight::unordered_map<std::string, STex>& textures)
+static inline void GetFallbacks(spring::unordered_map<std::string, STex>& textures)
 {
 	auto CREATE_SINGLE_COLOR = [](SColor c) -> STex {
 		CBitmap bm;
@@ -459,7 +459,7 @@ static inline void GetFallbacks(ArcLight::unordered_map<std::string, STex>& text
 
 void CDecalsDrawerGL4::GenerateAtlasTexture()
 {
-	ArcLight::unordered_map<std::string, STex> textures;
+	spring::unordered_map<std::string, STex> textures;
 
 	GetBuildingDecals(textures);
 	GetGroundScars(textures);

@@ -144,8 +144,8 @@ protected:
 	// temporary storage of all textures
 	std::vector<MemTex> memTextures;
 
-	ArcLight::unordered_map<std::string, size_t> files;
-	ArcLight::unordered_map<std::string, AtlasedTexture> textures;
+	spring::unordered_map<std::string, size_t> files;
+	spring::unordered_map<std::string, AtlasedTexture> textures;
 
 	unsigned int atlasTexID = 0;
 

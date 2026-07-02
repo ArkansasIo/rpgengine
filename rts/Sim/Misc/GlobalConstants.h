@@ -11,7 +11,7 @@
  * blocking-map is twice that of TA's; each square of a TA footprint
  * covers SQUARE_SIZE*2 x SQUARE_SIZE*2 elmos.
  */
-static constexpr int ARCLIGHT_FOOTPRINT_SCALE = 2;
+static constexpr int SPRING_FOOTPRINT_SCALE = 2;
 
 /**
  * @brief square size

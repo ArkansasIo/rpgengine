@@ -15,7 +15,7 @@ macro(create_base_content_archive outputdir filename files)
 	elseif(WIN32)
 		set(QUIET ">nul")
 	endif ()
-	set(outputfile "${Spring_BINARY_DIR}/${outputdir}/${filename}")
+	set(outputfile "${CMAKE_BINARY_DIR}/${outputdir}/${filename}")
 	set(ENV{TZ} UTC)
 	add_custom_command(
 		OUTPUT "${outputfile}"
@@ -37,8 +37,8 @@ macro(create_base_content_archive outputdir filename files)
 		DESTINATION ${DATADIR}/${outputdir})
 endmacro()
 
-file(MAKE_DIRECTORY "${Spring_BINARY_DIR}/base")
-file(MAKE_DIRECTORY "${Spring_BINARY_DIR}/base/spring")
+file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/base")
+file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/base/spring")
 
 add_subdirectory(bitmaps)
 add_subdirectory(springcontent)

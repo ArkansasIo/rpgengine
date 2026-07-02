@@ -53,9 +53,9 @@ CR_REG_METADATA(CBuilderCAI , (
 ))
 
 // not adding to members, should repopulate itself
-ArcLight::unordered_set<int> CBuilderCAI::reclaimers;
-ArcLight::unordered_set<int> CBuilderCAI::featureReclaimers;
-ArcLight::unordered_set<int> CBuilderCAI::resurrecters;
+spring::unordered_set<int> CBuilderCAI::reclaimers;
+spring::unordered_set<int> CBuilderCAI::featureReclaimers;
+spring::unordered_set<int> CBuilderCAI::resurrecters;
 
 std::vector<int> CBuilderCAI::removees;
 

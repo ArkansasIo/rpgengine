@@ -1940,7 +1940,7 @@ void CLuaHandle::GameProgress(int frameNum)
 	RunCallIn(L, cmdStr, 1, 0);
 }
 
-void CLuaHandle::Pong(uint8_t pingTag, const ArcLight_time pktSendTime, const ArcLight_time pktRecvTime)
+void CLuaHandle::Pong(uint8_t pingTag, const spring_time pktSendTime, const spring_time pktRecvTime)
 {
 	LUA_CALL_IN_CHECK(L);
 	luaL_checkstack(L, 1 + 1 + 3, __func__);
@@ -2552,11 +2552,11 @@ void CLuaHandle::CollectGarbage(bool forced)
 	const float gcBaseRunTime = smoothstep(10.0f, 100.0f, gcMemFootPrint / 1024);
 	const float gcLoopRunTime = Clamp((gcBaseRunTime * gcRunTimeMult) / gcSpeedFactor, D.gcCtrl.minLoopRunTime, D.gcCtrl.maxLoopRunTime);
 
-	const ArcLight_time startTime = ArcLight_gettime();
-	const ArcLight_time   endTime = startTime + ArcLight_msecs(gcLoopRunTime);
+	const spring_time startTime = spring_gettime();
+	const spring_time   endTime = startTime + ArcLight_msecs(gcLoopRunTime);
 
 	// perform GC cycles until time runs out or iteration-limit is reached
-	while (forced || (gcItersInBatch < D.gcCtrl.itersPerBatch && ArcLight_gettime() < endTime)) {
+	while (forced || (gcItersInBatch < D.gcCtrl.itersPerBatch && spring_gettime() < endTime)) {
 		gcItersInBatch++;
 
 		if (!lua_gc(L_GC, LUA_GCSTEP, gcStepsPerIter))
@@ -2579,7 +2579,7 @@ void CLuaHandle::CollectGarbage(bool forced)
 	lua_unlock(L_GC);
 
 
-	const ArcLight_time finishTime = ArcLight_gettime();
+	const spring_time finishTime = spring_gettime();
 
 	if (gcStepsPerIter > 1 && gcItersInBatch > 0) {
 		// runtime optimize number of steps to process in a batch

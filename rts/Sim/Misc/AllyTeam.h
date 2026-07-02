@@ -17,7 +17,7 @@ class AllyTeam
 public:
 	AllyTeam() { customValues.reserve(8); }
 
-	typedef ArcLight::unordered_map<std::string, std::string> customOpts;
+	typedef spring::unordered_map<std::string, std::string> customOpts;
 
 	void SetValue(const std::string& key, const std::string& value);
 	const customOpts& GetAllValues() const { return customValues; }

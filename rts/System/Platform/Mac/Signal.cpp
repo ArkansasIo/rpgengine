@@ -15,7 +15,7 @@ void mac_signal::wait()
 }
 
 
-void mac_signal::wait_for(ArcLight_time t)
+void mac_signal::wait_for(spring_time t)
 {
 	sleepers++;
 	{

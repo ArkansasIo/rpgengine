@@ -23,7 +23,7 @@ public:
 	const CCobFile* GetScriptFile(const std::string& name) const;
 
 private:
-	ArcLight::unordered_map<std::string, size_t> cobFileHandles;
+	spring::unordered_map<std::string, size_t> cobFileHandles;
 	std::deque<CCobFile> cobFileObjects;
 };
 

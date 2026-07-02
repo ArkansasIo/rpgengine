@@ -237,8 +237,8 @@ private:
 	static bool CheckCompression(const IArchive* ar, const std::string& fullName, std::string& error);
 
 private:
-	ArcLight::unordered_map<std::string, size_t> archiveInfosIndex;
-	ArcLight::unordered_map<std::string, size_t> brokenArchivesIndex;
+	spring::unordered_map<std::string, size_t> archiveInfosIndex;
+	spring::unordered_map<std::string, size_t> brokenArchivesIndex;
 
 	std::vector<ArchiveInfo> archiveInfos;
 	std::vector<BrokenArchive> brokenArchives;

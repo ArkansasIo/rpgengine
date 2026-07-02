@@ -1,0 +1,11 @@
+{
+  "id": "mat.tree.bark",
+  "type": "material",
+  "dimension": "3d",
+  "source": "assets/3d/materials/shaders/pbr_foliage.shader",
+  "albedo": "assets/3d/materials/textures/tree_bark_albedo.png",
+  "normal": "assets/3d/materials/textures/tree_bark_normal.png",
+  "roughness": 0.9,
+  "metallic": 0.0,
+  "tags": ["material", "foliage", "tree"]
+}

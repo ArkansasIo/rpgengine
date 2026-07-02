@@ -13,7 +13,7 @@ set(noSoundSources
 add_library(no-sound STATIC EXCLUDE_FROM_ALL ${noSoundSources})
 set_target_properties(no-sound PROPERTIES COMPILE_FLAGS "-DNO_SOUND")
 target_include_directories(no-sound PRIVATE
-		${Spring_SOURCE_DIR}/rts
+		${CMAKE_SOURCE_DIR}/rts
 )
 
 # Define default sound implementation
@@ -57,7 +57,7 @@ if(NOT NO_SOUND)
 			${OGG_LINK_LIBRARIES}
 	)
 	target_include_directories(sound PRIVATE
-		${Spring_SOURCE_DIR}/rts
+		${CMAKE_SOURCE_DIR}/rts
 		${OPENAL_INCLUDE_DIRS}
 		${OGG_INCLUDE_DIR} ${VORBIS_INCLUDE_DIR}
 		${SDL2_INCLUDE_DIRS}

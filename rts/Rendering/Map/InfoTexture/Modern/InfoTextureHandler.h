@@ -48,7 +48,7 @@ protected:
 	bool inMetalMode = false;
 	bool firstUpdate =  true;
 
-	ArcLight::unordered_map<std::string, CPboInfoTexture*> infoTextures;
+	spring::unordered_map<std::string, CPboInfoTexture*> infoTextures;
 
 	// special; always non-NULL at runtime
 	CInfoTextureCombiner* infoTex = nullptr;

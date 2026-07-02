@@ -1,0 +1,9 @@
+{
+  "id": "ui.button.primary",
+  "type": "sprite",
+  "dimension": "2d",
+  "source": "assets/2d/textures/ui/button_primary.png",
+  "pixelsPerUnit": 100,
+  "pivot": [0.5, 0.5],
+  "tags": ["ui", "button", "primary"]
+}

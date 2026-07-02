@@ -189,6 +189,7 @@ private:
 	int defaultCmdMemory = -1;
 	int explicitCommand = -1;
 	int curIconCommand = -1;
+	bool spaceHudMousePress = false;
 
 	int actionOffset = 0;
 

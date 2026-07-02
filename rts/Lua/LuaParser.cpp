@@ -1255,7 +1255,7 @@ bool LuaTable::GetPairs(std::vector<std::pair<std::string, std::string>>& data) 
 //  Map functions
 //
 
-bool LuaTable::GetMap(ArcLight::unordered_map<int, float>& data) const
+bool LuaTable::GetMap(spring::unordered_map<int, float>& data) const
 {
 	if (!PushTable())
 		return false;
@@ -1272,7 +1272,7 @@ bool LuaTable::GetMap(ArcLight::unordered_map<int, float>& data) const
 	return true;
 }
 
-bool LuaTable::GetMap(ArcLight::unordered_map<int, std::string>& data) const
+bool LuaTable::GetMap(spring::unordered_map<int, std::string>& data) const
 {
 	if (!PushTable())
 		return false;
@@ -1296,7 +1296,7 @@ bool LuaTable::GetMap(ArcLight::unordered_map<int, std::string>& data) const
 	return true;
 }
 
-bool LuaTable::GetMap(ArcLight::unordered_map<std::string, float>& data) const
+bool LuaTable::GetMap(spring::unordered_map<std::string, float>& data) const
 {
 	if (!PushTable())
 		return false;
@@ -1313,7 +1313,7 @@ bool LuaTable::GetMap(ArcLight::unordered_map<std::string, float>& data) const
 	return true;
 }
 
-bool LuaTable::GetMap(ArcLight::unordered_map<std::string, std::string>& data) const
+bool LuaTable::GetMap(spring::unordered_map<std::string, std::string>& data) const
 {
 	if (!PushTable())
 		return false;

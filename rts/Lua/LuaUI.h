@@ -33,7 +33,7 @@ public: // structs
 
 	struct ReParamsPair {
 		int cmdIndex;
-		ArcLight::unordered_map<int, string> params;
+		spring::unordered_map<int, string> params;
 	};
 
 public:
@@ -67,7 +67,7 @@ public: // call-ins
 	                   vector<ReStringPair>& reNamedCmds,
 	                   vector<ReStringPair>& reTooltipCmds,
 	                   vector<ReParamsPair>& reParamsCmds,
-	                   ArcLight::unordered_map<int, int>& iconList,
+	                   spring::unordered_map<int, int>& iconList,
 	                   string& menuName);
 
 	bool ConfigureLayout(const string& command);
@@ -84,7 +84,7 @@ protected:
 	void InitLuaSocket(lua_State* L);
 
 	bool BuildCmdDescTable(lua_State* L, const vector<SCommandDescription>& cmds);
-	bool GetLuaIntMap(lua_State* L, int index, ArcLight::unordered_map<int, int>& intList);
+	bool GetLuaIntMap(lua_State* L, int index, spring::unordered_map<int, int>& intList);
 	bool GetLuaIntList(lua_State* L, int index, vector<int>& intList);
 	bool GetLuaReStringList(lua_State* L, int index, vector<ReStringPair>& reStringCmds);
 	bool GetLuaReParamsList(lua_State* L, int index, vector<ReParamsPair>& reParamsCmds);

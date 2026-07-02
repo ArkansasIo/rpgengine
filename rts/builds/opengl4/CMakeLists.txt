@@ -14,15 +14,24 @@ set(engineLibraries ${SDL2_LINK_LIBRARIES})
 
 list(APPEND engineLibraries ${OPENGL_LINK_LIBRARIES} ${GLEW_LINK_LIBRARIES} ${IL_LINK_LIBRARIES})
 
-pkg_check_modules(FONTCONFIG fontconfig)
-if(FONTCONFIG_FOUND)
-	list(APPEND engineIncludes ${FONTCONFIG_INCLUDE_DIRS})
-	list(APPEND engineLibraries ${FONTCONFIG_LINK_LIBRARIES})
-	add_definitions(-DUSE_FONTCONFIG)
-endif()
+if(PKG_CONFIG_FOUND)
+	pkg_check_modules(FONTCONFIG fontconfig)
+	if(FONTCONFIG_FOUND)
+		list(APPEND engineIncludes ${FONTCONFIG_INCLUDE_DIRS})
+		list(APPEND engineLibraries ${FONTCONFIG_LINK_LIBRARIES})
+		add_definitions(-DUSE_FONTCONFIG)
+	endif()
 
-pkg_check_modules(FREETYPE REQUIRED freetype2)
-list(APPEND engineLibraries ${FREETYPE_LINK_LIBRARIES})
+	pkg_check_modules(FREETYPE REQUIRED freetype2)
+	list(APPEND engineLibraries ${FREETYPE_LINK_LIBRARIES})
+else()
+	find_path(FREETYPE_INCLUDE_DIR ft2build.h)
+	find_library(FREETYPE_LIBRARY freetype)
+	if(FREETYPE_INCLUDE_DIR AND FREETYPE_LIBRARY)
+		list(APPEND engineIncludes ${FREETYPE_INCLUDE_DIR})
+		list(APPEND engineLibraries ${FREETYPE_LIBRARY})
+	endif()
+endif()
 
 if    (UNIX)
 	find_package(X11 REQUIRED)
@@ -50,7 +59,7 @@ target_link_libraries(engine-opengl4
 	engineMisc
 )
 target_include_directories(engine-opengl4 PRIVATE
-	${Spring_SOURCE_DIR}/rts
+	${CMAKE_SOURCE_DIR}/rts
 	${ENGINE_SRC_ROOT_DIR}/lib/assimp/include
 	${OPENAL_INCLUDE_DIRS}
 	${SDL2_INCLUDE_DIRS}

@@ -132,7 +132,7 @@ class CSyncedLuaHandle : public CLuaHandle
 	protected:
 		CSplitLuaHandle& base;
 
-		ArcLight::unordered_map<std::string, std::string> textCommands; // name, help
+		spring::unordered_map<std::string, std::string> textCommands; // name, help
 
 	private:
 		int origNextRef;

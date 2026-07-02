@@ -91,7 +91,7 @@ CSelectedUnitsHandler::AvailableCommandsStruct CSelectedUnitsHandler::GetAvailab
 	int foundGroup = -2;
 	int foundGroup2 = -2;
 
-	ArcLight::unordered_map<int, int> states;
+	spring::unordered_map<int, int> states;
 	std::vector<SCommandDescription> commands;
 
 	for (const int unitID: selectedUnits) {
@@ -500,7 +500,7 @@ void CSelectedUnitsHandler::SelectUnits(const std::string& line)
 
 void CSelectedUnitsHandler::SelectCycle(const std::string& command)
 {
-	static ArcLight::unordered_set<int> unitIDs;
+	static spring::unordered_set<int> unitIDs;
 	static int lastID = -1;
 
 	if (command == "restore") {
@@ -533,7 +533,7 @@ void CSelectedUnitsHandler::SelectCycle(const std::string& command)
 	}
 
 	// clean the list
-	ArcLight::unordered_set<int> tmpSet;
+	spring::unordered_set<int> tmpSet;
 	for (const int unitID: unitIDs) {
 		if (unitHandler.GetUnit(unitID) == nullptr)
 			continue;

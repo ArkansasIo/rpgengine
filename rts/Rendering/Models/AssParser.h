@@ -67,8 +67,8 @@ public:
 class CAssParser: public IModelParser
 {
 public:
-	typedef ArcLight::unordered_map<std::string, S3DModelPiece*> ModelPieceMap;
-	typedef ArcLight::unordered_map<std::string, std::string> ParentNameMap;
+	typedef spring::unordered_map<std::string, S3DModelPiece*> ModelPieceMap;
+	typedef spring::unordered_map<std::string, std::string> ParentNameMap;
 
 	void Init() override;
 	void Kill() override;

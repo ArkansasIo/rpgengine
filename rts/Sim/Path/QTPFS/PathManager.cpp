@@ -160,7 +160,7 @@ QTPFS::PathManager::~PathManager() {
 }
 
 std::int64_t QTPFS::PathManager::Finalize() {
-	const ArcLight_time t0 = ArcLight_gettime();
+	const spring_time t0 = spring_gettime();
 
 	{
 		pmLoadScreen.Show(&PathManager::Load, this);
@@ -173,8 +173,8 @@ std::int64_t QTPFS::PathManager::Finalize() {
 		#endif
 	}
 
-	const ArcLight_time t1 = ArcLight_gettime();
-	const ArcLight_time dt = t1 - t0;
+	const spring_time t1 = spring_gettime();
+	const spring_time dt = t1 - t0;
 
 	return (dt.toMilliSecsi());
 }

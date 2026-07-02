@@ -130,7 +130,7 @@ private:
 
 private:
 	// registry of every thread across all script instances
-	ArcLight::unordered_map<int, CCobThread> threadInstances;
+	spring::unordered_map<int, CCobThread> threadInstances;
 	// threads that are spawned during Tick
 	std::vector<CCobThread> tickAddedThreads;
 

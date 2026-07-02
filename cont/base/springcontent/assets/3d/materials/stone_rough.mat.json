@@ -1,0 +1,11 @@
+{
+  "id": "mat.stone.rough",
+  "type": "material",
+  "dimension": "3d",
+  "source": "assets/3d/materials/shaders/pbr_rock.shader",
+  "albedo": "assets/3d/materials/textures/stone_rough_albedo.png",
+  "normal": "assets/3d/materials/textures/stone_rough_normal.png",
+  "roughness": 0.78,
+  "metallic": 0.02,
+  "tags": ["material", "pbr", "stone"]
+}

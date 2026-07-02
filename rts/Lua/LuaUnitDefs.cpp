@@ -288,7 +288,7 @@ static int SafeIconType(lua_State* L, const void* data)
 
 static int CustomParamsTable(lua_State* L, const void* data)
 {
-	const ArcLight::unordered_map<std::string, std::string>& params = *((const ArcLight::unordered_map<std::string, std::string>*)data);
+	const spring::unordered_map<std::string, std::string>& params = *((const spring::unordered_map<std::string, std::string>*)data);
 	lua_newtable(L);
 
 	for (const auto& param: params) {
@@ -302,8 +302,8 @@ static int CustomParamsTable(lua_State* L, const void* data)
 
 static int BuildOptions(lua_State* L, const void* data)
 {
-	const ArcLight::unordered_map<int, std::string>& buildOptions = *((const ArcLight::unordered_map<int, std::string>*)data);
-	const ArcLight::unordered_map<std::string, int>& unitDefIDsMap = unitDefHandler->GetUnitDefIDs();
+	const spring::unordered_map<int, std::string>& buildOptions = *((const spring::unordered_map<int, std::string>*)data);
+	const spring::unordered_map<std::string, int>& unitDefIDsMap = unitDefHandler->GetUnitDefIDs();
 
 	lua_newtable(L);
 	int count = 0;

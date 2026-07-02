@@ -65,6 +65,48 @@ CONFIG(bool, InvertQueueKey).defaultValue(false);
 CGuiHandler* guihandler = nullptr;
 
 
+static std::vector<arclight::SpaceHUDMapMarker> BuildSelectedUnitMarkers()
+{
+	std::vector<arclight::SpaceHUDMapMarker> markers;
+	markers.reserve(selectedUnitsHandler.selectedUnits.size());
+
+	for (const int unitID: selectedUnitsHandler.selectedUnits) {
+		const CUnit* unit = unitHandler.GetUnit(unitID);
+		if (unit == nullptr)
+			continue;
+
+		arclight::SpaceHUDMapMarker marker;
+		marker.id = "unit_" + IntToString(unitID);
+		marker.name = (unit->unitDef != nullptr) ? unit->unitDef->humanName : ("Unit " + IntToString(unitID));
+		marker.position = unit->midPos;
+		marker.ownerTeam = gu->myTeam;
+		marker.size = 1.0f;
+		marker.isSelected = true;
+
+		const std::string unitName = (unit->unitDef != nullptr) ? StringToLower(unit->unitDef->name) : std::string();
+		if (unitName.find("factory") != std::string::npos) {
+			marker.type = "factory";
+		} else if ((unitName.find("energy") != std::string::npos) || (unitName.find("reactor") != std::string::npos) || (unitName.find("power") != std::string::npos)) {
+			marker.type = "power";
+		} else if (unitName.find("shield") != std::string::npos) {
+			marker.type = "shield";
+		} else if ((unitName.find("research") != std::string::npos) || (unitName.find("lab") != std::string::npos)) {
+			marker.type = "research";
+		} else if ((unitName.find("storage") != std::string::npos) || (unitName.find("warehouse") != std::string::npos)) {
+			marker.type = "storage";
+		} else if ((unitName.find("ship") != std::string::npos) || (unitName.find("fleet") != std::string::npos)) {
+			marker.type = "shipyard";
+		} else {
+			marker.type = "economy";
+		}
+
+		markers.push_back(marker);
+	}
+
+	return markers;
+}
+
+
 CGuiHandler::CGuiHandler()
 {
 	icons.resize(16);
@@ -973,6 +1015,8 @@ void CGuiHandler::SetShowingMetal(bool show)
 void CGuiHandler::Update()
 {
 	SetCursorIcon();
+	spaceHUD.SetMapMarkers(BuildSelectedUnitMarkers());
+	spaceHUD.Update(0.016f);
 
 	{
 		if (!invertQueueKey && (needShift && !KeyInput::GetKeyModState(KMOD_SHIFT))) {
@@ -1139,6 +1183,9 @@ bool CGuiHandler::MousePress(int x, int y, int button)
 		}
 		else if (AboveGui(x,y)) {
 			activeMousePress = true;
+			spaceHudMousePress = spaceHUD.HandleMousePress(MouseX(x), MouseY(y), button);
+			if (spaceHudMousePress)
+				return true;
 
 			if ((curIconCommand < 0) && !game->hideInterface) {
 				const int iconPos = IconAtPos(x, y);
@@ -1194,6 +1241,10 @@ void CGuiHandler::MouseRelease(int x, int y, int button, const float3& cameraPos
 		return;
 
 	activeMousePress = false;
+	if (spaceHudMousePress) {
+		spaceHudMousePress = false;
+		return;
+	}
 
 	if (!invertQueueKey && needShift && !KeyInput::GetKeyModState(KMOD_SHIFT)) {
 		SetShowingMetal(false);
@@ -1980,6 +2031,9 @@ bool CGuiHandler::IsAbove(int x, int y)
 std::string CGuiHandler::GetTooltip(int x, int y)
 {
 	std::string s;
+	const std::string hudTip = spaceHUD.GetTooltip(MouseX(x), MouseY(y));
+	if (!hudTip.empty())
+		return hudTip;
 
 	const int iconPos = IconAtPos(x, y);
 	const int iconCmd = (iconPos >= 0) ? icons[iconPos].commandsID : -1;
@@ -2512,9 +2566,6 @@ void CGuiHandler::ProcessFrontPositions(float3& pos0, const float3& pos1)
 
 void CGuiHandler::Draw()
 {
-	if ((iconsCount <= 0) && (luaUI == nullptr))
-		return;
-
 	glAttribStatePtr->PushEnableBit();
 
 	glAttribStatePtr->DisableDepthTest();
@@ -2523,6 +2574,152 @@ void CGuiHandler::Draw()
 
 	if (iconsCount > 0)
 		DrawMenu();
+
+	auto DrawSpaceHUDPanel = [&](const SpaceHUDPanel& panel, const std::string& title, const std::vector<std::string>& lines, const SColor& fillColor) {
+		if (!panel.isVisible)
+			return;
+
+		GL::RenderDataBufferC* buffer = GL::GetRenderBufferC();
+		Shader::IProgramObject* shader = buffer->GetShader();
+		const TRectangle<float> rect = {panel.bounds.x, panel.bounds.y, panel.bounds.x + panel.bounds.w, panel.bounds.y + panel.bounds.h};
+
+		gleDrawQuadC(rect, fillColor, buffer);
+
+		shader->Enable();
+		shader->SetUniformMatrix4x4<float>("u_movi_mat", false, CMatrix44f::Identity());
+		shader->SetUniformMatrix4x4<float>("u_proj_mat", false, CMatrix44f::ClipOrthoProj01(globalRendering->supportClipSpaceControl * 1.0f));
+		buffer->Submit(GL_TRIANGLES);
+		shader->Disable();
+
+		const unsigned int fontOptions = (guihandler != nullptr && guihandler->GetOutlineFonts()) ? (FONT_OUTLINE | FONT_NORM) : FONT_NORM;
+		const float titleFontSize = std::max(12.0f, panel.bounds.h * globalRendering->viewSizeY * 0.10f);
+		const float lineFontSize = std::max(10.0f, panel.bounds.h * globalRendering->viewSizeY * 0.075f);
+		const float textX = panel.bounds.x + 0.012f;
+		float textY = panel.bounds.y + 0.024f;
+
+		smallFont->SetTextColor(0.88f, 0.94f, 1.0f, 0.95f);
+		smallFont->glPrint(textX, textY, titleFontSize, FONT_ASCENDER | fontOptions | FONT_BUFFERED, title.c_str());
+
+		textY += panel.bounds.h * 0.06f;
+		smallFont->SetTextColor(0.75f, 0.85f, 0.95f, 0.92f);
+		for (const std::string& line : lines) {
+			smallFont->glPrint(textX, textY, lineFontSize, FONT_ASCENDER | fontOptions | FONT_BUFFERED, line.c_str());
+			textY += panel.bounds.h * 0.05f;
+		}
+
+		smallFont->DrawBufferedGL4();
+	};
+
+	auto DrawResourceChipBars = [&]() {
+		if (spaceHUD.topBar.chips.empty())
+			return;
+
+		GL::RenderDataBufferC* buffer = GL::GetRenderBufferC();
+		Shader::IProgramObject* shader = buffer->GetShader();
+		const float chipH = spaceHUD.layout.topStrip.bounds.h * 0.58f;
+		const float chipY = spaceHUD.layout.topStrip.bounds.y + (spaceHUD.layout.topStrip.bounds.h * 0.06f);
+		const float chipW = spaceHUD.layout.topStrip.bounds.w / std::max<size_t>(1, spaceHUD.topBar.chips.size());
+		const float barInsetX = chipW * 0.08f;
+		const float barInsetY = chipH * 0.56f;
+		const float barH = chipH * 0.16f;
+
+		shader->Enable();
+		shader->SetUniformMatrix4x4<float>("u_movi_mat", false, CMatrix44f::Identity());
+		shader->SetUniformMatrix4x4<float>("u_proj_mat", false, CMatrix44f::ClipOrthoProj01(globalRendering->supportClipSpaceControl * 1.0f));
+
+		for (size_t i = 0; i < spaceHUD.topBar.chips.size(); ++i) {
+			const auto& chip = spaceHUD.topBar.chips[i];
+			const float x0 = spaceHUD.layout.topStrip.bounds.x + (chipW * i) + barInsetX;
+			const float x1 = spaceHUD.layout.topStrip.bounds.x + (chipW * (i + 1)) - barInsetX;
+			const float y0 = chipY + barInsetY;
+			const float y1 = y0 + barH;
+			const float fillRatio = std::clamp((chip.value <= 0.0f) ? 0.0f : (chip.value / std::max(1.0f, chip.value + std::abs(chip.perSecond) * 12.0f)), 0.0f, 1.0f);
+			const float fillX1 = x0 + ((x1 - x0) * fillRatio);
+			const bool isActive = (chip.id == spaceHUD.activeResource);
+			const float pulse = 0.72f + (0.18f * (0.5f + 0.5f * std::sin(spaceHUD.resourcePulse + float(i) * 0.7f)));
+
+			gleDrawQuadC({x0, y0, x1, y1}, SColor{0.05f, 0.07f, 0.10f, 0.82f}, buffer);
+			gleDrawQuadC(
+				{x0, y0, fillX1, y1},
+				isActive ? SColor{0.30f * pulse, 0.70f * pulse, 0.95f * pulse, 0.92f} : SColor{float(chip.tint.r) / 255.0f, float(chip.tint.g) / 255.0f, float(chip.tint.b) / 255.0f, chip.isCritical ? 0.94f : 0.78f},
+				buffer
+			);
+
+			if (isActive) {
+				gleDrawQuadC({x0, y0, x1, y0 + (barH * 0.12f)}, SColor{0.88f, 0.96f, 1.0f, 0.95f}, buffer);
+			}
+		}
+
+		buffer->Submit(GL_TRIANGLES);
+		shader->Disable();
+	};
+
+	if (!spaceHUD.topBar.chips.empty()) {
+		std::vector<std::string> topLines;
+		topLines.reserve(spaceHUD.topBar.chips.size());
+		for (const auto& chip : spaceHUD.topBar.chips) {
+			const std::string activePrefix = (chip.id == spaceHUD.activeResource) ? "> " : "  ";
+			topLines.push_back(activePrefix + chip.label + " " + FloatToString(chip.value, "%.0f") + " | " + FloatToString(chip.perSecond, "%+.1f") + "/s");
+		}
+		topLines.push_back("Focus: " + spaceHUD.activeSelection + " | " + spaceHUD.activeTab);
+		topLines.push_back("Status: " + spaceHUD.activeStatus);
+		DrawSpaceHUDPanel(spaceHUD.topBar.panel, "Resources", topLines, SColor{0.03f, 0.08f, 0.13f, 0.88f});
+		DrawResourceChipBars();
+	}
+
+	{
+		std::vector<std::string> railLines;
+		railLines.reserve(spaceHUD.sideRail.entries.size());
+		for (const auto& entry : spaceHUD.sideRail.entries) {
+			const std::string selectedPrefix = entry.isSelected ? "> " : "  ";
+			railLines.push_back(selectedPrefix + entry.label + (entry.unreadCount > 0 ? (" (" + IntToString(entry.unreadCount) + ")") : ""));
+		}
+		DrawSpaceHUDPanel(spaceHUD.sideRail.panel, "Empire", railLines, SColor{0.04f, 0.09f, 0.15f, 0.82f});
+	}
+
+	{
+		std::vector<std::string> bottomLines;
+		bottomLines.reserve(spaceHUD.bottomDeck.tabs.size() + spaceHUD.focusedQueue.size());
+		for (const auto& tab : spaceHUD.bottomDeck.tabs) {
+			bottomLines.push_back(std::string(tab.isActive ? "> " : "  ") + tab.label);
+		}
+		for (const auto& queueItem : spaceHUD.focusedQueue) {
+			bottomLines.push_back(queueItem.label + " " + IntToString(queueItem.remainingSeconds) + "s");
+		}
+		DrawSpaceHUDPanel(spaceHUD.bottomDeck.panel, "Construction", bottomLines, SColor{0.05f, 0.08f, 0.14f, 0.88f});
+	}
+
+	{
+		std::vector<std::string> galaxyLines = spaceHUD.BuildResourceFocusLines();
+		galaxyLines.push_back("Selection: " + spaceHUD.activeSelection);
+		galaxyLines.push_back("Tab: " + spaceHUD.activeTab);
+		galaxyLines.push_back("Status: " + spaceHUD.activeStatus);
+		galaxyLines.push_back("Markers: " + IntToString(static_cast<int>(spaceHUD.galaxyPanel.visibleMarkers.size())));
+		for (const auto& marker : spaceHUD.galaxyPanel.visibleMarkers) {
+			const std::string selectedPrefix = marker.isSelected ? "* " : "  ";
+			const std::string typeLabel = marker.type.empty() ? "unit" : marker.type;
+			galaxyLines.push_back(selectedPrefix + marker.name + " [" + typeLabel + "] @ " + FloatToString(marker.position.x, "%.0f") + ", " + FloatToString(marker.position.z, "%.0f"));
+		}
+		DrawSpaceHUDPanel(spaceHUD.galaxyPanel.panel, "Galaxy View / Focus", galaxyLines, SColor{0.02f, 0.05f, 0.10f, 0.86f});
+	}
+
+	{
+		std::vector<std::string> researchLines;
+		researchLines.reserve(spaceHUD.researchPanel.queue.size());
+		for (const auto& line : spaceHUD.researchPanel.queue) {
+			researchLines.push_back(line.name + " " + FloatToString(line.progress, "%.1f") + "/" + FloatToString(line.total, "%.1f"));
+		}
+		DrawSpaceHUDPanel(spaceHUD.researchPanel.panel, "Research", researchLines, SColor{0.04f, 0.05f, 0.13f, 0.84f});
+	}
+
+	{
+		std::vector<std::string> fleetLines;
+		fleetLines.reserve(spaceHUD.fleetPanel.lines.size());
+		for (const auto& line : spaceHUD.fleetPanel.lines) {
+			fleetLines.push_back(line.name + " x" + IntToString(line.count));
+		}
+		DrawSpaceHUDPanel(spaceHUD.fleetPanel.panel, "Fleet", fleetLines, SColor{0.03f, 0.07f, 0.12f, 0.84f});
+	}
 
 	glAttribStatePtr->PopBits();
 }

@@ -254,7 +254,7 @@ class CLuaHandle : public CEventClient
 		void DrawInMiniMapBackground() override;
 
 		void GameProgress(int frameNum) override;
-		void Pong(uint8_t pingTag, const ArcLight_time pktSendTime, const ArcLight_time pktRecvTime) override;
+		void Pong(uint8_t pingTag, const spring_time pktSendTime, const spring_time pktRecvTime) override;
 
 		//FIXME void MetalMapChanged(const int x, const int z);
 

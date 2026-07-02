@@ -5,7 +5,7 @@
 #include "System/UnorderedSet.hpp"
 
 
-static ArcLight::unordered_set<int> samplerTypes{
+static spring::unordered_set<int> samplerTypes{
 #ifndef HEADLESS
 	GL_SAMPLER_1D,
 	GL_SAMPLER_2D,

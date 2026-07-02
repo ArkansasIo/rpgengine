@@ -51,7 +51,7 @@ public:
 	std::array<int, COBFN_NumUnitFuncs> scriptIndex;
 	std::vector<int> sounds;
 	std::vector<LuaHashString> luaScripts;
-	ArcLight::unordered_map<std::string, int> scriptMap;
+	spring::unordered_map<std::string, int> scriptMap;
 
 	std::string name;
 };

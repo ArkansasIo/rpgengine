@@ -17,7 +17,7 @@ class PlayerBase : public TeamController
 	CR_DECLARE_DERIVED(PlayerBase)
 
 public:
-	typedef ArcLight::unordered_map<std::string, std::string> customOpts;
+	typedef spring::unordered_map<std::string, std::string> customOpts;
 
 	PlayerBase();
 	virtual ~PlayerBase() {}

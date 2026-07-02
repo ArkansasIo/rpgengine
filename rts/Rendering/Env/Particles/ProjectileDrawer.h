@@ -60,7 +60,7 @@ public:
 	Shader::IProgramObject* gfShader = nullptr;
 
 private:
-	static void ParseAtlasTextures(const bool, const LuaTable&, ArcLight::unordered_set<std::string>&, CTextureAtlas*);
+	static void ParseAtlasTextures(const bool, const LuaTable&, spring::unordered_set<std::string>&, CTextureAtlas*);
 
 	void DrawProjectilePass(Shader::IProgramObject*, bool, bool);
 	void DrawParticlePass(Shader::IProgramObject*, bool, bool);

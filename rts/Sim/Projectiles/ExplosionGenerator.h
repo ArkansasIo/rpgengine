@@ -30,7 +30,7 @@ public:
 	std::string FindAlias(const std::string& className) const;
 
 private:
-	ArcLight::unordered_map<std::string, std::string> aliases;
+	spring::unordered_map<std::string, std::string> aliases;
 };
 
 
@@ -80,8 +80,8 @@ protected:
 
 	std::vector<IExplosionGenerator*> explosionGenerators;
 
-	ArcLight::unordered_map<unsigned int, unsigned int> expGenHashIdentMap; // hash->id
-	ArcLight::unordered_map<unsigned int, std::array<char, 64>> expGenIdentNameMap; // id->name
+	spring::unordered_map<unsigned int, unsigned int> expGenHashIdentMap; // hash->id
+	spring::unordered_map<unsigned int, std::array<char, 64>> expGenIdentNameMap; // id->name
 };
 
 

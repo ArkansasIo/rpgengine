@@ -16,7 +16,7 @@ class TeamBase
 	CR_DECLARE(TeamBase)
 
 public:
-	typedef ArcLight::unordered_map<std::string, std::string> customOpts;
+	typedef spring::unordered_map<std::string, std::string> customOpts;
 
 	TeamBase();
 	virtual ~TeamBase() {}

@@ -71,7 +71,7 @@ void LineEdit::DrawSelf()
 		float cursorHeight = font->GetSize() * font->GetLineHeight() / float(screensize[1]);
 		float cw = font->GetSize() * font->GetCharacterWidth(c) /float(screensize[0]);
 		float csx = pos[0] + 0.01 + caretWidth;
-		float f = 0.5f * (1.0f + fastmath::sin(ArcLight_now().toMilliSecsf() * 0.015f));
+		float f = 0.5f * (1.0f + fastmath::sin(spring_now().toMilliSecsf() * 0.015f));
 		gui->SetColor(f, f, f, opacity);
 		glRectf(csx, textCenter + cursorHeight/2, csx + cw, textCenter - cursorHeight/2);
 		gui->SetColor(0.0f, 0.0f, 0.0f, 1.0f); // black

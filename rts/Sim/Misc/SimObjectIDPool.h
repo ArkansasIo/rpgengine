@@ -45,9 +45,9 @@ private:
 	void RecycleIDs();
 
 private:
-	ArcLight::unordered_map<unsigned int, unsigned int> poolIDs; // uid to idx
-	ArcLight::unordered_map<unsigned int, unsigned int> freeIDs; // idx to uid
-	ArcLight::unordered_map<unsigned int, unsigned int> tempIDs; // idx to uid
+	spring::unordered_map<unsigned int, unsigned int> poolIDs; // uid to idx
+	spring::unordered_map<unsigned int, unsigned int> freeIDs; // idx to uid
+	spring::unordered_map<unsigned int, unsigned int> tempIDs; // idx to uid
 };
 
 #endif

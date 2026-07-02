@@ -143,6 +143,7 @@ if     (USERDOCS_PLAIN OR userdoc_INSTALL_HTML)
 
 	userdoc_enlist("AUTHORS")
 	userdoc_enlist("README")
+	userdoc_enlist("ArcLight_Design_UML_Scripting")
 	userdoc_enlist("COPYING")
 	userdoc_enlist("FAQ")
 	userdoc_enlist("LICENSE")

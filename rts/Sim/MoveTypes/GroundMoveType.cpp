@@ -373,7 +373,7 @@ CGroundMoveType::CGroundMoveType(CUnit* owner):
 	skidRotVector(UpVector),
 
 	wantedHeading(0),
-	minScriptChangeHeading((ARCLIGHT_CIRCLE_DIVS - 1) >> 1),
+	minScriptChangeHeading((SPRING_CIRCLE_DIVS - 1) >> 1),
 
 	pushResistant((owner != nullptr) && owner->unitDef->pushResistant),
 	canReverse((owner != nullptr) && (owner->unitDef->rSpeed > 0.0f))
@@ -391,9 +391,9 @@ CGroundMoveType::CGroundMoveType(CUnit* owner):
 	// maxSpeed is set in AMoveType's ctor
 	maxReverseSpeed = ud->rSpeed / GAME_SPEED;
 
-	// ARCLIGHT_CIRCLE_DIVS is 65536, but turnRate can be at most
+	// SPRING_CIRCLE_DIVS is 65536, but turnRate can be at most
 	// 32767 since it is converted to (signed) shorts in places
-	turnRate = Clamp(ud->turnRate, 1.0f, ARCLIGHT_CIRCLE_DIVS * 0.5f - 1.0f);
+	turnRate = Clamp(ud->turnRate, 1.0f, SPRING_CIRCLE_DIVS * 0.5f - 1.0f);
 	turnAccel = turnRate * mix(0.333f, 0.033f, md->speedModClass == MoveDef::Ship);
 
 	accRate = std::max(0.01f, ud->maxAcc);
@@ -546,7 +546,7 @@ void CGroundMoveType::SlowUpdate()
 					numIdlingSlowUpdates = std::max(0, int(numIdlingSlowUpdates - 1));
 				}
 
-				if (numIdlingUpdates > (ARCLIGHT_MAX_HEADING / turnRate)) {
+				if (numIdlingUpdates > (SPRING_MAX_HEADING / turnRate)) {
 					// case A: we have a path but are not moving
 					LOG_L(L_DEBUG, "[%s] unit %i has pathID %i but %i ETA failures", __func__, owner->id, pathID, numIdlingUpdates);
 
@@ -712,7 +712,7 @@ bool CGroundMoveType::FollowPath()
 
 		if (!atGoal) {
 			numIdlingUpdates -= ((numIdlingUpdates >                  0) * (1 - idling));
-			numIdlingUpdates += ((numIdlingUpdates < ARCLIGHT_MAX_HEADING) *      idling );
+			numIdlingUpdates += ((numIdlingUpdates < SPRING_MAX_HEADING) *      idling );
 		}
 
 		// atEndOfPath never becomes true when useRawMovement, except via StopMoving
@@ -808,8 +808,8 @@ void CGroundMoveType::ChangeSpeed(float newWantedSpeed, bool wantReverse, bool f
 
 			if (!fpsMode && turnDeltaHeading != 0) {
 				// only auto-adjust speed for turns when not in FPS mode
-				const float reqTurnAngle = math::fabs(180.0f * short(owner->heading - wantedHeading) / ARCLIGHT_MAX_HEADING);
-				const float maxTurnAngle = (turnRate / ARCLIGHT_CIRCLE_DIVS) * 360.0f;
+				const float reqTurnAngle = math::fabs(180.0f * short(owner->heading - wantedHeading) / SPRING_MAX_HEADING);
+				const float maxTurnAngle = (turnRate / SPRING_CIRCLE_DIVS) * 360.0f;
 
 				const float turnMaxSpeed = mix(maxSpeed, maxReverseSpeed, reversing);
 				      float turnModSpeed = turnMaxSpeed;
@@ -831,7 +831,7 @@ void CGroundMoveType::ChangeSpeed(float newWantedSpeed, bool wantReverse, bool f
 					// and we must slow down to prevent entering an infinite circle
 					// base ftt on maximum turning speed
 					const float absTurnSpeed = turnRate;
-					const float framesToTurn = ARCLIGHT_CIRCLE_DIVS / absTurnSpeed;
+					const float framesToTurn = SPRING_CIRCLE_DIVS / absTurnSpeed;
 
 					targetSpeed = std::min(targetSpeed, (currWayPointDist * math::PI) / framesToTurn);
 				}
@@ -1551,7 +1551,7 @@ bool CGroundMoveType::CanSetNextWayPoint() {
 		// base ftt on current turning speed
 		const float absTurnSpeed = std::max(0.0001f, math::fabs(turnSpeed));
 		#endif
-		const float framesToTurn = ARCLIGHT_CIRCLE_DIVS / absTurnSpeed;
+		const float framesToTurn = SPRING_CIRCLE_DIVS / absTurnSpeed;
 
 		const float turnRadius = std::max((currentSpeed * framesToTurn) * math::INVPI2, currentSpeed * 1.05f);
 		const float waypointDot = Clamp(waypointDir.dot(flatFrontDir * dirSign), -1.0f, 1.0f);
@@ -1572,7 +1572,7 @@ bool CGroundMoveType::CanSetNextWayPoint() {
 		if ((currWayPointDist > std::max(turnRadius * 1.0f, 1.0f * SQUARE_SIZE)) && (waypointDot <  0.0f))
 			return false;
 
-		if (math::acosf(waypointDot) < ((turnRate / ARCLIGHT_CIRCLE_DIVS) * math::TWOPI))
+		if (math::acosf(waypointDot) < ((turnRate / SPRING_CIRCLE_DIVS) * math::TWOPI))
 			return false;
 		#endif
 
@@ -2554,8 +2554,8 @@ bool CGroundMoveType::WantReverse(const float3& wpDir, const float3& ffDir) cons
 
 	const float waypointAngle = Clamp(wpDir.dot(owner->frontdir), -1.0f, 0.0f);  // clamp to prevent NaN's; [-1, 0]
 	const float turnAngleDeg  = math::acosf(waypointAngle) * math::RAD_TO_DEG;   // in degrees; [90.0, 180.0]
-	const float fwdTurnAngle  = (turnAngleDeg / 360.0f) * ARCLIGHT_CIRCLE_DIVS;    // in "headings"
-	const float revTurnAngle  = ARCLIGHT_MAX_HEADING - fwdTurnAngle;               // 180 deg - angle
+	const float fwdTurnAngle  = (turnAngleDeg / 360.0f) * SPRING_CIRCLE_DIVS;    // in "headings"
+	const float revTurnAngle  = SPRING_MAX_HEADING - fwdTurnAngle;               // 180 deg - angle
 
 	// values <= 0 preserve default behavior
 	if (maxReverseDist > 0.0f && minReverseAngle > 0.0f)

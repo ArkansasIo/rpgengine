@@ -30,14 +30,14 @@
 class BasicTimer : public ArcLight::noncopyable
 {
 public:
-	//BasicTimer(const ArcLight_time time): nameHash(0), startTime(time) {}
-	BasicTimer(unsigned _nameHash) : nameHash(_nameHash), startTime(ArcLight_gettime()) { }
+	//BasicTimer(const spring_time time): nameHash(0), startTime(time) {}
+	BasicTimer(unsigned _nameHash) : nameHash(_nameHash), startTime(spring_gettime()) { }
 
-	ArcLight_time GetDuration() const;
+	spring_time GetDuration() const;
 
 protected:
 	const unsigned nameHash;
-	const ArcLight_time startTime;
+	const spring_time startTime;
 };
 
 
@@ -81,10 +81,10 @@ public:
 	ScopedOnceTimer(const char* name, const char* frmt = "[%s][%s] %ims");
 	~ScopedOnceTimer();
 
-	ArcLight_time GetDuration() const;
+	spring_time GetDuration() const;
 
 protected:
-	const ArcLight_time startTime;
+	const spring_time startTime;
 
 	char name[128];
 	char frmt[128];
@@ -106,14 +106,14 @@ public:
 
 	struct TimeRecord {
 		TimeRecord() {
-			frames.fill(ArcLight_time(0));
+			frames.fill(spring_time(0));
 		}
 
 		static constexpr unsigned numFrames = 128;
 
-		ArcLight_time total = ArcLight_notime;
-		ArcLight_time current = ArcLight_notime;
-		std::array<ArcLight_time, numFrames> frames;
+		spring_time total = ArcLight_notime;
+		spring_time current = ArcLight_notime;
+		std::array<spring_time, numFrames> frames;
 
 		// .x := maximum dt, .y := time-percentage, .z := peak-percentage
 		float3 stats;
@@ -126,7 +126,7 @@ public:
 
 public:
 	std::vector< std::pair<std::string, TimeRecord> >& GetSortedProfiles() { return sortedProfiles; }
-	std::vector< std::deque< std::pair<ArcLight_time, ArcLight_time> > >& GetThreadProfiles() { return threadProfiles; }
+	std::vector< std::deque< std::pair<spring_time, spring_time> > >& GetThreadProfiles() { return threadProfiles; }
 
 	size_t GetNumSortedProfiles() const { return (sortedProfiles.size()); }
 	size_t GetNumThreadProfiles() const { return (threadProfiles.size()); }
@@ -169,27 +169,27 @@ public:
 
 	void AddTime(
 		unsigned nameHash,
-		const ArcLight_time startTime,
-		const ArcLight_time deltaTime,
+		const spring_time startTime,
+		const spring_time deltaTime,
 		const bool showGraph = false,
 		const bool specialTimer = false,
 		const bool threadTimer = false
 	);
 	void AddTimeRaw(
 		unsigned nameHash,
-		const ArcLight_time startTime,
-		const ArcLight_time deltaTime,
+		const spring_time startTime,
+		const spring_time deltaTime,
 		const bool showGraph,
 		const bool threadTimer
 	);
 
 private:
-	ArcLight::unordered_map<unsigned, TimeRecord> profiles;
+	spring::unordered_map<unsigned, TimeRecord> profiles;
 
 	std::vector< std::pair<std::string, TimeRecord> > sortedProfiles;
-	std::vector< std::deque< std::pair<ArcLight_time, ArcLight_time> > > threadProfiles;
+	std::vector< std::deque< std::pair<spring_time, spring_time> > > threadProfiles;
 
-	ArcLight_time lastBigUpdate;
+	spring_time lastBigUpdate;
 
 	/// increases each update, from 0 to (numFrames-1)
 	unsigned currentPosition;

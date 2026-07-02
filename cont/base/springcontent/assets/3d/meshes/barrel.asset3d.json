@@ -1,0 +1,8 @@
+{
+  "id": "prop.barrel.metal",
+  "type": "mesh",
+  "dimension": "3d",
+  "source": "assets/3d/meshes/models/barrel.fbx",
+  "material": "assets/3d/materials/metal_plate.mat.json",
+  "tags": ["prop", "explosive"]
+}

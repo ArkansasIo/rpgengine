@@ -15,7 +15,7 @@ namespace
 	CGlobalUnsyncedRNG randnum; // no need for strong randomness here, so default seed is ok
 
 	template <typename T>
-	inline bool MapEntryValExtract(const ArcLight::unordered_map<std::string, std::string>& map, const std::string& key, T& t)
+	inline bool MapEntryValExtract(const spring::unordered_map<std::string, std::string>& map, const std::string& key, T& t)
 	{
 		auto it = map.find(key);
 		if (it != map.end()) {
@@ -34,7 +34,7 @@ namespace
 	}
 }
 
-SoundItem::SoundItem(size_t itemID, size_t bufferID, const ArcLight::unordered_map<std::string, std::string>& items)
+SoundItem::SoundItem(size_t itemID, size_t bufferID, const spring::unordered_map<std::string, std::string>& items)
 	: soundItemID(itemID)
 	, soundBufferID(bufferID)
 	, maxDist(FLT_MAX)

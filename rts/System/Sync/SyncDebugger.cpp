@@ -414,8 +414,8 @@ void CSyncDebugger::ServerDumpStack()
 	// we make a pool of backtraces (to merge identical ones)
 	unsigned curBacktrace = 0;
 
-	ArcLight::unordered_map<unsigned, unsigned> checksumToIndex;
-	ArcLight::unordered_map<unsigned, unsigned> indexToHistPos;
+	spring::unordered_map<unsigned, unsigned> checksumToIndex;
+	spring::unordered_map<unsigned, unsigned> indexToHistPos;
 
 	// then loop from virtualPosInHistory to virtualHistorySize and from 0 to virtualPosInHistory.
 	for (unsigned i = virtualPosInHistory, c = 0; c < virtualHistorySize; ++i, ++c) {

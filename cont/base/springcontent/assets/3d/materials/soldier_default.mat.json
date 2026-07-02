@@ -1,0 +1,11 @@
+{
+  "id": "mat.soldier.default",
+  "type": "material",
+  "dimension": "3d",
+  "source": "assets/3d/materials/shaders/pbr_character.shader",
+  "albedo": "assets/3d/materials/textures/soldier_albedo.png",
+  "normal": "assets/3d/materials/textures/soldier_normal.png",
+  "roughness": 0.5,
+  "metallic": 0.1,
+  "tags": ["material", "character"]
+}

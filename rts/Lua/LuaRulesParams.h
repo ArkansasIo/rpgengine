@@ -35,7 +35,7 @@ namespace LuaRulesParams
 		std::string valueString;
 	};
 
-	typedef ArcLight::unordered_map<std::string, Param> Params;
+	typedef spring::unordered_map<std::string, Param> Params;
 }
 
 #endif // LUA_RULESPARAMS_H

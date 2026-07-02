@@ -789,7 +789,7 @@ void CUnit::TransporteeKilled(const CObject* o)
 
 	const CUnit* unit = iter->unit;
 
-	transportCapacityUsed -= (unit->xsize / ARCLIGHT_FOOTPRINT_SCALE);
+	transportCapacityUsed -= (unit->xsize / SPRING_FOOTPRINT_SCALE);
 	transportMassUsed -= unit->mass;
 
 	SetMass(mass - unit->mass);
@@ -2479,9 +2479,9 @@ bool CUnit::CanTransport(const CUnit* unit) const
 	if (unit->isCloaked && !teamHandler.AlliedTeams(unit->team, team))
 		return false;
 
-	if (unit->xsize > (unitDef->transportSize * ARCLIGHT_FOOTPRINT_SCALE))
+	if (unit->xsize > (unitDef->transportSize * SPRING_FOOTPRINT_SCALE))
 		return false;
-	if (unit->xsize < (unitDef->minTransportSize * ARCLIGHT_FOOTPRINT_SCALE))
+	if (unit->xsize < (unitDef->minTransportSize * SPRING_FOOTPRINT_SCALE))
 		return false;
 
 	if (unit->mass >= CSolidObject::DEFAULT_MASS || unit->beingBuilt)
@@ -2571,7 +2571,7 @@ bool CUnit::AttachUnit(CUnit* unit, int piece, bool force)
 		tu.unit = unit;
 		tu.piece = piece;
 
-	transportCapacityUsed += unit->xsize / ARCLIGHT_FOOTPRINT_SCALE;
+	transportCapacityUsed += unit->xsize / SPRING_FOOTPRINT_SCALE;
 	transportMassUsed += unit->mass;
 	SetMass(mass + unit->mass);
 
@@ -2613,7 +2613,7 @@ bool CUnit::DetachUnitCore(CUnit* unit)
 		if (CBuilding* building = dynamic_cast<CBuilding*>(unit))
 			building->ForcedMove(building->pos);
 
-		transportCapacityUsed -= unit->xsize / ARCLIGHT_FOOTPRINT_SCALE;
+		transportCapacityUsed -= unit->xsize / SPRING_FOOTPRINT_SCALE;
 		transportMassUsed -= unit->mass;
 		mass = Clamp(mass - unit->mass, CSolidObject::MINIMUM_MASS, CSolidObject::MAXIMUM_MASS);
 

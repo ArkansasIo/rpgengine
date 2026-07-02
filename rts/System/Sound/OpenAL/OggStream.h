@@ -70,8 +70,8 @@ private:
 	bool stopped;
 	bool paused;
 
-	ArcLight_time msecsPlayed;
-	ArcLight_time lastTick;
+	spring_time msecsPlayed;
+	spring_time lastTick;
 
 	std::vector<std::string> vorbisTags;
 	std::string vendor;

@@ -66,7 +66,7 @@ public:
 	FPSUnitController fpsController;
 
 private:
-	ArcLight::unordered_set<int> controlledTeams;
+	spring::unordered_set<int> controlledTeams;
 };
 
 #endif /* PLAYER_H */

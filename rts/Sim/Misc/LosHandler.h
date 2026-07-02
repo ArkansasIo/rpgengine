@@ -170,7 +170,7 @@ public:
 	static size_t cacheHits;
 	static size_t cacheRefs;
 
-	ArcLight::unordered_map<int, std::vector<SLosInstance*> > instanceHashes;
+	spring::unordered_map<int, std::vector<SLosInstance*> > instanceHashes;
 
 	std::vector<CLosMap> losMaps;
 	std::deque<SLosInstance> instances;

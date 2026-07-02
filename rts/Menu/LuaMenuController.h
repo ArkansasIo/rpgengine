@@ -33,7 +33,7 @@ public:
 
 private:
 	std::string menuArchive;
-	ArcLight_time lastDrawFrameTime;
+	spring_time lastDrawFrameTime;
 };
 
 extern CLuaMenuController* luaMenuController;

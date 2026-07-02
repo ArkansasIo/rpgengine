@@ -55,7 +55,7 @@ namespace Watchdog
 			#endif
 		}
 
-		ArcLight_time timer;
+		spring_time timer;
 
 		std::atomic<Threading::NativeThreadHandle> thread;
 		std::atomic<Threading::NativeThreadId> threadid;
@@ -84,7 +84,7 @@ namespace Watchdog
 	static ArcLight::thread hangDetectorThread;
 	static std::atomic<bool> hangDetectorThreadInterrupted = {false};
 
-	static ArcLight_time hangTimeout = ArcLight_msecs(0);
+	static spring_time hangTimeout = ArcLight_msecs(0);
 
 
 	static inline void UpdateActiveThreads(Threading::NativeThreadId num) {
@@ -119,7 +119,7 @@ namespace Watchdog
 		Threading::SetWatchDogThread();
 
 		while (!hangDetectorThreadInterrupted) {
-			const ArcLight_time curtime = ArcLight_gettime();
+			const spring_time curtime = spring_gettime();
 
 			bool hangDetected = false;
 			bool hangThreads[WDT_COUNT] = {false};
@@ -131,7 +131,7 @@ namespace Watchdog
 					continue;
 
 				WatchDogThreadInfo* threadInfo = registeredThreads[i];
-				const ArcLight_time curwdt = threadInfo->timer;
+				const spring_time curwdt = threadInfo->timer;
 
 				if (ArcLight_istime(curwdt) && (curtime - curwdt) > hangTimeout) {
 					hangDetected = true;
@@ -210,7 +210,7 @@ namespace Watchdog
 		WatchDogThreadInfo* threadInfo = registeredThreads[num];
 		threadInfo->thread = thread;
 		threadInfo->threadid = threadId;
-		threadInfo->timer = ArcLight_gettime();
+		threadInfo->timer = spring_gettime();
 		threadInfo->numreg += 1;
 
 		// note: WDT_MAIN and WDT_LOAD share the same controls if LoadingMT=0
@@ -307,7 +307,7 @@ namespace Watchdog
 		}
 
 		// notime always satisfies !ArcLight_istime
-		threadInfo->timer = disable ? ArcLight_notime : ArcLight_gettime();
+		threadInfo->timer = disable ? ArcLight_notime : spring_gettime();
 	}
 
 
@@ -325,7 +325,7 @@ namespace Watchdog
 			return;
 		}
 
-		threadInfo->timer = disable ? ArcLight_notime : ArcLight_gettime();
+		threadInfo->timer = disable ? ArcLight_notime : spring_gettime();
 	}
 
 	void ClearTimer(const char* name, bool disable)
@@ -344,7 +344,7 @@ namespace Watchdog
 			return;
 		}
 
-		threadInfo->timer = disable ? ArcLight_notime : ArcLight_gettime();
+		threadInfo->timer = disable ? ArcLight_notime : spring_gettime();
 	}
 
 	void ClearTimers(bool disable, bool primary)
@@ -357,7 +357,7 @@ namespace Watchdog
 			WatchDogThreadInfo* threadInfo = registeredThreads[i];
 
 			if (!primary || threadSlots[i].primary)
-				threadInfo->timer = disable ? ArcLight_notime : ArcLight_gettime();
+				threadInfo->timer = disable ? ArcLight_notime : spring_gettime();
 		}
 	}
 

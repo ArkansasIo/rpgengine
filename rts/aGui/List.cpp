@@ -24,7 +24,7 @@ List::List(GuiElement* parent) :
 		GuiElement(parent),
 		cancelPlace(-1),
 		tooltip("No tooltip defined"),
-		clickedTime(ArcLight_now()),
+		clickedTime(spring_now()),
 		place(0),
 		activeMousePress(false),
 		activeScrollbar(false),
@@ -157,11 +157,11 @@ bool List::MouseUpdate(int x, int y)
 	{
 		if (b.MouseOver(mx, my))
 		{
-			if (nCurIndex == place && (clickedTime + ArcLight_msecs(250)) > ArcLight_now())
+			if (nCurIndex == place && (clickedTime + ArcLight_msecs(250)) > spring_now())
 			{
 				FinishSelection.emit();
 			}
-			clickedTime = ArcLight_now();
+			clickedTime = spring_now();
 			place = nCurIndex;
 			return true;
 		}

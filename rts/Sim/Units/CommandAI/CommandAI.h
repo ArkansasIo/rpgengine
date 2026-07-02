@@ -115,7 +115,7 @@ public:
 	CWeapon* stockpileWeapon;
 
 	std::vector<const SCommandDescription*> possibleCommands;
-	ArcLight::unordered_set<int> nonQueingCommands;
+	spring::unordered_set<int> nonQueingCommands;
 
 	CCommandQueue commandQue;
 

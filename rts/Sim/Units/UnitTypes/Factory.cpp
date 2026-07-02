@@ -204,7 +204,7 @@ void CFactory::UpdateBuild(CUnit* buildee) {
 
 	// rotate unit nanoframe with platform
 	buildee->Move(buildeePos, false);
-	buildee->SetHeading((-buildPieceHeading + buildFaceHeading) & (ARCLIGHT_CIRCLE_DIVS - 1), false, false);
+	buildee->SetHeading((-buildPieceHeading + buildFaceHeading) & (SPRING_CIRCLE_DIVS - 1), false, false);
 
 	const CCommandQueue& queue = commandAI->commandQue;
 

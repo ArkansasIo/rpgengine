@@ -37,7 +37,7 @@ private:
 	unsigned int lastSelectedPathType;
 	int forcedPathType;
 	int forcedUnitDef;
-	ArcLight_time lastUsage;
+	spring_time lastUsage;
 	FBO fbo;
 };
 

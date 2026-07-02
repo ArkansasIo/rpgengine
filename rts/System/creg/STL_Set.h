@@ -62,9 +62,9 @@ namespace creg
 	};
 	// Hash set
 	template<typename T>
-	struct DeduceType<ArcLight::unordered_set<T> > {
+	struct DeduceType<spring::unordered_set<T> > {
 		static std::unique_ptr<IType> Get() {
-			return std::unique_ptr<IType>(new SetType<ArcLight::unordered_set<T> >());
+			return std::unique_ptr<IType>(new SetType<spring::unordered_set<T> >());
 		}
 	};
 	// Unsynced Hash set

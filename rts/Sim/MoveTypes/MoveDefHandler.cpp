@@ -273,8 +273,8 @@ MoveDef::MoveDef(const LuaTable& moveDefTable): MoveDef() {
 	// make all mobile footprints point-symmetric in heightmap space
 	// (meaning that only non-even dimensions are possible and each
 	// footprint always has a unique center square)
-	xsize = xsizeDef * ARCLIGHT_FOOTPRINT_SCALE;
-	zsize = zsizeDef * ARCLIGHT_FOOTPRINT_SCALE;
+	xsize = xsizeDef * SPRING_FOOTPRINT_SCALE;
+	zsize = zsizeDef * SPRING_FOOTPRINT_SCALE;
 	xsize -= ((xsize & 1)? 0: 1);
 	zsize -= ((zsize & 1)? 0: 1);
 	// precalculated data for MoveMath

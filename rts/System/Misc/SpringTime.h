@@ -17,7 +17,7 @@ namespace chrono { using namespace std::chrono; }
 
 
 
-namespace ArcLight_clock {
+namespace spring_clock {
 	// NOTE:
 	//   1e-x are double-precision literals but T can be float
 	//   floats only provide ~6 decimal digits of precision so
@@ -50,31 +50,31 @@ namespace ArcLight_clock {
 
 
 // class Timer
-struct ArcLight_time {
+struct spring_time {
 private:
-	CR_DECLARE_STRUCT(ArcLight_time)
+	CR_DECLARE_STRUCT(spring_time)
 
 	typedef std::int64_t int64;
 
 public:
-	ArcLight_time(): x(0) {}
-	template<typename T> explicit ArcLight_time(const T millis): x(ArcLight_clock::FromMilliSecs(millis)) {}
+	spring_time(): x(0) {}
+	template<typename T> explicit spring_time(const T millis): x(spring_clock::FromMilliSecs(millis)) {}
 
-	ArcLight_time& operator+=(const ArcLight_time st)       { x += st.x; return *this; }
-	ArcLight_time& operator-=(const ArcLight_time st)       { x -= st.x; return *this; }
-	ArcLight_time& operator%=(const ArcLight_time mt)       { x %= mt.x; return *this; }
-	ArcLight_time& operator*=(const int n)                { x *= n; return *this; }
-	ArcLight_time& operator*=(const float n)              { x *= n; return *this; }
-	ArcLight_time   operator-(const ArcLight_time st) const { return ArcLight_time_native(x - st.x); }
-	ArcLight_time   operator+(const ArcLight_time st) const { return ArcLight_time_native(x + st.x); }
-	ArcLight_time   operator%(const ArcLight_time mt) const { return ArcLight_time_native(x % mt.x); }
-	bool          operator<(const ArcLight_time st) const { return (x <  st.x); }
-	bool          operator>(const ArcLight_time st) const { return (x >  st.x); }
-	bool         operator<=(const ArcLight_time st) const { return (x <= st.x); }
-	bool         operator>=(const ArcLight_time st) const { return (x >= st.x); }
+	spring_time& operator+=(const spring_time st)       { x += st.x; return *this; }
+	spring_time& operator-=(const spring_time st)       { x -= st.x; return *this; }
+	spring_time& operator%=(const spring_time mt)       { x %= mt.x; return *this; }
+	spring_time& operator*=(const int n)                { x *= n; return *this; }
+	spring_time& operator*=(const float n)              { x *= n; return *this; }
+	spring_time   operator-(const spring_time st) const { return spring_time_native(x - st.x); }
+	spring_time   operator+(const spring_time st) const { return spring_time_native(x + st.x); }
+	spring_time   operator%(const spring_time mt) const { return spring_time_native(x % mt.x); }
+	bool          operator<(const spring_time st) const { return (x <  st.x); }
+	bool          operator>(const spring_time st) const { return (x >  st.x); }
+	bool         operator<=(const spring_time st) const { return (x <= st.x); }
+	bool         operator>=(const spring_time st) const { return (x >= st.x); }
 
-	ArcLight_time   operator*(const int n)   const { return ArcLight_time_native(x * n); }
-	ArcLight_time   operator*(const float n) const { return ArcLight_time_native(x * n); }
+	spring_time   operator*(const int n)   const { return spring_time_native(x * n); }
+	spring_time   operator*(const float n) const { return spring_time_native(x * n); }
 
 	// short-hands
 	int64 toSecsi()        const { return (toSecs     <int64>()); }
@@ -88,10 +88,10 @@ public:
 	float toNanoSecsf()  const { return (toNanoSecs <float>()); }
 
 	// wrappers
-	template<typename T> T toSecs()      const { return ArcLight_clock::ToSecs     <T>(x); }
-	template<typename T> T toMilliSecs() const { return ArcLight_clock::ToMilliSecs<T>(x); }
-	template<typename T> T toMicroSecs() const { return ArcLight_clock::ToMicroSecs<T>(x); }
-	template<typename T> T toNanoSecs()  const { return ArcLight_clock::ToNanoSecs <T>(x); }
+	template<typename T> T toSecs()      const { return spring_clock::ToSecs     <T>(x); }
+	template<typename T> T toMilliSecs() const { return spring_clock::ToMilliSecs<T>(x); }
+	template<typename T> T toMicroSecs() const { return spring_clock::ToMicroSecs<T>(x); }
+	template<typename T> T toNanoSecs()  const { return spring_clock::ToNanoSecs <T>(x); }
 
 
 	bool isDuration() const { return (x != 0); }
@@ -101,20 +101,20 @@ public:
 	void sleep_until();
 
 
-	static ArcLight_time gettime(bool init = false) { assert(xs != 0 || init); return ArcLight_time_native(ArcLight_clock::GetTicks()); }
-	static ArcLight_time getstarttime() { assert(xs != 0); return ArcLight_time_native(xs); }
-	static ArcLight_time getelapsedtime() { return (gettime() - getstarttime()); }
+	static spring_time gettime(bool init = false) { assert(xs != 0 || init); return spring_time_native(spring_clock::GetTicks()); }
+	static spring_time getstarttime() { assert(xs != 0); return spring_time_native(xs); }
+	static spring_time getelapsedtime() { return (gettime() - getstarttime()); }
 
-	static void setstarttime(const ArcLight_time t) { assert(xs == 0); xs = t.x; assert(xs != 0); }
+	static void setstarttime(const spring_time t) { assert(xs == 0); xs = t.x; assert(xs != 0); }
 
-	static ArcLight_time fromNanoSecs (const int64 ns) { return ArcLight_time_native(ArcLight_clock::FromNanoSecs( ns)); }
-	static ArcLight_time fromMicroSecs(const int64 us) { return ArcLight_time_native(ArcLight_clock::FromMicroSecs(us)); }
-	static ArcLight_time fromMilliSecs(const int64 ms) { return ArcLight_time_native(ArcLight_clock::FromMilliSecs(ms)); }
-	static ArcLight_time fromSecs     (const int64  s) { return ArcLight_time_native(ArcLight_clock::FromSecs     ( s)); }
+	static spring_time fromNanoSecs (const int64 ns) { return spring_time_native(spring_clock::FromNanoSecs( ns)); }
+	static spring_time fromMicroSecs(const int64 us) { return spring_time_native(spring_clock::FromMicroSecs(us)); }
+	static spring_time fromMilliSecs(const int64 ms) { return spring_time_native(spring_clock::FromMilliSecs(ms)); }
+	static spring_time fromSecs     (const int64  s) { return spring_time_native(spring_clock::FromSecs     ( s)); }
 
 private:
-	// convert integer to ArcLight_time (n is interpreted as number of nanoseconds)
-	static ArcLight_time ArcLight_time_native(const int64 n) { ArcLight_time s; s.x = n; return s; }
+	// convert integer to spring_time (n is interpreted as number of nanoseconds)
+	static spring_time spring_time_native(const int64 n) { spring_time s; s.x = n; return s; }
 	void Serialize(creg::ISerializer* s);
 
 private:
@@ -128,35 +128,35 @@ private:
 
 
 
-static const ArcLight_time ArcLight_notime(0);
-static const ArcLight_time ArcLight_nulltime(0);
+static const spring_time ArcLight_notime(0);
+static const spring_time ArcLight_nulltime(0);
 
-//#define ArcLight_gettime()      ArcLight_time::gettime()
-#define ArcLight_gettime()      ArcLight_time::getelapsedtime()
-#define ArcLight_getstarttime() ArcLight_time::getstarttime()
-#define ArcLight_now()          ArcLight_time::getelapsedtime()
+//#define spring_gettime()      spring_time::gettime()
+#define spring_gettime()      spring_time::getelapsedtime()
+#define ArcLight_getstarttime() spring_time::getstarttime()
+#define spring_now()          spring_time::getelapsedtime()
 
 #define ArcLight_tomsecs(t) ((t).toMilliSecsi())
 #define ArcLight_istime(t) ((t).isTime())
 #define ArcLight_sleep(t) ((t).sleep())
 
-#define ArcLight_msecs(msecs) ArcLight_time(msecs)
-#define ArcLight_secs(secs) ArcLight_time((secs) * 1000)
+#define ArcLight_msecs(msecs) spring_time(msecs)
+#define ArcLight_secs(secs) spring_time((secs) * 1000)
 
 
 
 
 
-#define ArcLight_difftime(now, before)  (now - before)
-#define ArcLight_diffsecs(now, before)  ((now - before).toSecsi())
-#define ArcLight_diffmsecs(now, before) ((now - before).toMilliSecsi())
+#define spring_difftime(now, before)  (now - before)
+#define spring_diffsecs(now, before)  ((now - before).toSecsi())
+#define spring_diffmsecs(now, before) ((now - before).toMilliSecsi())
 
 #ifdef UNIT_TEST
 struct InitSpringTime{
 	InitSpringTime()
 	{
-		ArcLight_clock::PushTickRate(true);
-		ArcLight_time::setstarttime(ArcLight_time::gettime(true));
+		spring_clock::PushTickRate(true);
+		spring_time::setstarttime(spring_time::gettime(true));
 	}
 };
 #endif

@@ -149,8 +149,8 @@ static unsigned int killedCount = 0;
 // initialize basic systems for command line help / output
 static void ConsolePrintInitialize(const std::string& configSource, bool safemode)
 {
-	ArcLight_clock::PushTickRate(false);
-	ArcLight_time::setstarttime(ArcLight_time::gettime(true));
+	spring_clock::PushTickRate(false);
+	spring_time::setstarttime(spring_time::gettime(true));
 
 	LOG_DISABLE();
 	FileSystemInitializer::PreInitializeConfigHandler(configSource, "", safemode);
@@ -178,21 +178,21 @@ SpringApp::SpringApp(int argc, char** argv)
 	// also initializes configHandler and logOutput
 	ParseCmdLine(argc, argv);
 
-	ArcLight_clock::PushTickRate(configHandler->GetBool("UseHighResTimer"));
+	spring_clock::PushTickRate(configHandler->GetBool("UseHighResTimer"));
 	// set the ArcLight "epoch" to be whatever value the first
 	// call to gettime() returns, should not be 0 (can safely
 	// be done before SDL_Init, we are not using SDL_GetTicks
 	// as our clock anymore)
-	ArcLight_time::setstarttime(ArcLight_time::gettime(true));
+	spring_time::setstarttime(spring_time::gettime(true));
 
 	// gu does not exist yet, pre-seed for ShowSplashScreen
 	guRNG.Seed(CGlobalUnsyncedRNG::rng_val_type(&argc));
 	// ditto for unsynced Lua states (which do not use guRNG)
-	ArcLight_lua_unsynced_srand(nullptr);
+	spring_lua_unsynced_srand(nullptr);
 
 	CLogOutput::LogSectionInfo();
 	CLogOutput::LogConfigInfo();
-	CLogOutput::LogSystemInfo(); // needs ArcLight_clock
+	CLogOutput::LogSystemInfo(); // needs spring_clock
 }
 
 /**
@@ -200,7 +200,7 @@ SpringApp::SpringApp(int argc, char** argv)
  */
 SpringApp::~SpringApp()
 {
-	ArcLight_clock::PopTickRate();
+	spring_clock::PopTickRate();
 }
 
 

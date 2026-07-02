@@ -78,7 +78,7 @@ const std::array<KnownInfoTag, 12> knownTags = {
 	KnownInfoTag{"onlyLocal",   "if true ArcLight will not listen for incoming connections",        false}
 };
 
-const ArcLight::unordered_map<std::string, bool> baseContentArchives = {
+const spring::unordered_map<std::string, bool> baseContentArchives = {
 	{      "bitmaps.sdz", true},
 	{"ArcLightcontent.sdz", true},
 	{    "maphelper.sdz", true},
@@ -92,7 +92,7 @@ const ArcLight::unordered_map<std::string, bool> baseContentArchives = {
 // Lobbies get the unit list from unitsync. Unitsync gets it by executing
 // gamedata/defs.lua, which loads units, features, weapons, movetypes and
 // armors (that is why armor.txt is in the list).
-const ArcLight::unordered_map<std::string, int> metaFileClasses = {
+const spring::unordered_map<std::string, int> metaFileClasses = {
 	{      "mapinfo.lua", 1},   // basic archive info
 	{      "modinfo.lua", 1},   // basic archive info
 	{   "modoptions.lua", 2},   // used by lobbies
@@ -103,7 +103,7 @@ const ArcLight::unordered_map<std::string, int> metaFileClasses = {
 	{ "ArcLightignore.txt", 2},   // used by lobbies (disabled units list)
 };
 
-const ArcLight::unordered_map<std::string, int> metaDirClasses = {
+const spring::unordered_map<std::string, int> metaDirClasses = {
 	{"sidepics/", 2},   // used by lobbies
 	{"gamedata/", 2},   // used by lobbies
 	{   "units/", 2},   // used by lobbies (disabled units list)

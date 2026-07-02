@@ -2279,7 +2279,7 @@ int LuaUnsyncedCtrl::SetUnitDefIcon(lua_State* L)
 		unitDrawer->UpdateUnitDefMiniMapIcons(ud->decoyDef);
 	}
 
-	// ArcLight::unordered_map<int, std::vector<int> >
+	// spring::unordered_map<int, std::vector<int> >
 	const auto& decoyMap = unitDefHandler->GetDecoyDefIDs();
 	const auto decoyMapIt = decoyMap.find((ud->decoyDef != nullptr)? ud->decoyDef->id: ud->id);
 

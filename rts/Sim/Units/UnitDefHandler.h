@@ -55,8 +55,8 @@ public:
 	int PushNewUnitDef(const std::string& unitName, const LuaTable& udTable);
 
 	const std::vector<UnitDef>& GetUnitDefsVec() const { return unitDefsVector; }
-	const ArcLight::unordered_map<std::string, int>& GetUnitDefIDs() const { return unitDefIDs; }
-	const ArcLight::unordered_map<int, std::vector<int> >& GetDecoyDefIDs() const { return decoyMap; }
+	const spring::unordered_map<std::string, int>& GetUnitDefIDs() const { return unitDefIDs; }
+	const spring::unordered_map<int, std::vector<int> >& GetDecoyDefIDs() const { return decoyMap; }
 
 protected:
 	void UnitDefLoadSounds(UnitDef*, const LuaTable&);
@@ -67,8 +67,8 @@ protected:
 
 private:
 	std::vector<UnitDef> unitDefsVector;
-	ArcLight::unordered_map<std::string, int> unitDefIDs;
-	ArcLight::unordered_map<int, std::vector<int> > decoyMap;
+	spring::unordered_map<std::string, int> unitDefIDs;
+	spring::unordered_map<int, std::vector<int> > decoyMap;
 	std::vector< std::pair<std::string, std::string> > decoyNameMap;
 
 	bool noCost = false;

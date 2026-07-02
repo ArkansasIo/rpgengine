@@ -97,7 +97,7 @@ static constexpr unsigned SYNCCHECK_TIMEOUT = 300;
 static constexpr unsigned SYNCCHECK_MSG_TIMEOUT = 400;
 
 /// The time interval in msec for sending player statistics to each client
-static const ArcLight_time playerInfoTime = ArcLight_secs(2);
+static const spring_time playerInfoTime = ArcLight_secs(2);
 
 /// every n'th frame will be a keyframe (and contain the server's framenumber)
 static constexpr unsigned serverKeyframeInterval = 16;
@@ -258,8 +258,8 @@ void CGameServer::Initialize()
 	loopSleepTime = configHandler->GetInt("ServerSleepTime");
 	linkMinPacketSize = globalConfig.linkIncomingMaxPacketRate > 0 ? (globalConfig.linkIncomingSustainedBandwidth / globalConfig.linkIncomingMaxPacketRate) : 1;
 
-	lastNewFrameTick = ArcLight_gettime();
-	lastBandwidthUpdate = ArcLight_gettime();
+	lastNewFrameTick = spring_gettime();
+	lastBandwidthUpdate = spring_gettime();
 
 	thread = std::move(ArcLight::thread(std::bind(&CGameServer::UpdateLoop, this)));
 
@@ -308,7 +308,7 @@ void CGameServer::WriteDemoData()
 
 	// there is always at least one non-Gaia team (numTeams > 0)
 	// the Gaia team itself does not count toward the statistics
-	demoRecorder->SetTime(serverFrameNum / GAME_SPEED, ArcLight_tomsecs(ArcLight_gettime() - serverStartTime) / 1000);
+	demoRecorder->SetTime(serverFrameNum / GAME_SPEED, ArcLight_tomsecs(spring_gettime() - serverStartTime) / 1000);
 	demoRecorder->InitializeStats(players.size(), int((myGameSetup->GetTeamStartingDataCont()).size()) - myGameSetup->useLuaGaia);
 
 	// Pass the winners to the CDemoRecorder.
@@ -427,7 +427,7 @@ void CGameServer::SkipTo(int targetFrameNum)
 	if (udpListener != nullptr)
 		udpListener->Update();
 
-	lastUpdate = ArcLight_gettime();
+	lastUpdate = spring_gettime();
 	isPaused = wasPaused;
 }
 
@@ -467,7 +467,7 @@ bool CGameServer::SendDemoData(int targetFrameNum)
 			case NETMSG_NEWFRAME:
 			case NETMSG_KEYFRAME: {
 				// we can't use CreateNewFrame() here
-				lastNewFrameTick = ArcLight_gettime();
+				lastNewFrameTick = spring_gettime();
 				serverFrameNum++;
 
 #ifdef SYNCCHECK
@@ -781,10 +781,10 @@ float CGameServer::GetDemoTime() const {
 
 void CGameServer::Update()
 {
-	const float tdif = ArcLight_tomsecs(ArcLight_gettime() - lastUpdate) * 0.001f;
+	const float tdif = ArcLight_tomsecs(spring_gettime() - lastUpdate) * 0.001f;
 
 	gameTime += tdif;
-	lastUpdate = ArcLight_gettime();
+	lastUpdate = spring_gettime();
 
 	if (!isPaused && gameHasStarted) {
 		// if we are not playing a demo, or have no local client, or the
@@ -794,8 +794,8 @@ void CGameServer::Update()
 			modGameTime += (tdif * internalSpeed);
 	}
 
-	if (lastPlayerInfo < (ArcLight_gettime() - playerInfoTime)) {
-		lastPlayerInfo = ArcLight_gettime();
+	if (lastPlayerInfo < (spring_gettime() - playerInfoTime)) {
+		lastPlayerInfo = spring_gettime();
 
 		if (!PreSimFrame()) {
 			LagProtection();
@@ -842,7 +842,7 @@ void CGameServer::Update()
 		}
 	}
 
-	const bool pregameTimeoutReached = (ArcLight_gettime() > (serverStartTime + ArcLight_secs(globalConfig.initialNetworkTimeout)));
+	const bool pregameTimeoutReached = (spring_gettime() > (serverStartTime + ArcLight_secs(globalConfig.initialNetworkTimeout)));
 	const bool canCheckForPlayers = (pregameTimeoutReached || gameHasStarted);
 
 	if (canCheckForPlayers) {
@@ -1032,9 +1032,9 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 			}
 
 			// limit to 50 pings per second
-			if (ArcLight_diffmsecs(ArcLight_now(), netPingTimings[playerNum]) >= 20) {
+			if (spring_diffmsecs(spring_now(), netPingTimings[playerNum]) >= 20) {
 				players[playerNum].SendData(CBaseNetProtocol::Get().SendPing(playerNum, inbuf[2], *(reinterpret_cast<const float*>(&inbuf[3]))));
-				netPingTimings[playerNum] = ArcLight_now();
+				netPingTimings[playerNum] = spring_now();
 			}
 		} break;
 
@@ -1394,9 +1394,9 @@ void CGameServer::ProcessPacket(const unsigned playerNum, std::shared_ptr<const 
 				// each followed the previous by less than 50 milliseconds
 				// this is impossible to reach manually, but (very) easily
 				// through Lua and would allow clients to be DOS'ed
-				mapDrawTimings[a].second += (ArcLight_diffmsecs(ArcLight_now(), mapDrawTimings[a].first) < 50);
-				mapDrawTimings[a].second *= (ArcLight_diffmsecs(ArcLight_now(), mapDrawTimings[a].first) < 50);
-				mapDrawTimings[a].first   = ArcLight_now();
+				mapDrawTimings[a].second += (spring_diffmsecs(spring_now(), mapDrawTimings[a].first) < 50);
+				mapDrawTimings[a].second *= (spring_diffmsecs(spring_now(), mapDrawTimings[a].first) < 50);
+				mapDrawTimings[a].first   = spring_now();
 
 				if (mapDrawTimings[a].second > 25)
 					break;
@@ -1911,15 +1911,15 @@ void CGameServer::ServerReadNet()
 	// handle new connections
 	HandleConnectionAttempts();
 
-	const float updateBandwidth = ArcLight_tomsecs(ArcLight_gettime() - lastBandwidthUpdate) / (float)playerBandwidthInterval;
+	const float updateBandwidth = ArcLight_tomsecs(spring_gettime() - lastBandwidthUpdate) / (float)playerBandwidthInterval;
 	if (updateBandwidth >= 1.0f)
-		lastBandwidthUpdate = ArcLight_gettime();
+		lastBandwidthUpdate = spring_gettime();
 
 	for (GameParticipant& player: players) {
 		std::shared_ptr<netcode::CConnection>& playerLink = player.clientLink;
 		std::shared_ptr<const RawPacket> packet;
 
-		ArcLight::unordered_map<uint8_t, GameParticipant::ClientLinkData>& aiClientLinks = player.aiClientLinks;
+		spring::unordered_map<uint8_t, GameParticipant::ClientLinkData>& aiClientLinks = player.aiClientLinks;
 		std::array<uint8_t, MAX_AIS + 1> aiClientNumbers;
 
 		// if no link, player is not connected
@@ -2103,7 +2103,7 @@ void CGameServer::CheckForGameStart(bool forced)
 	bool allReady = true;
 
 	for (size_t a = static_cast<size_t>(myGameSetup->numDemoPlayers); a < players.size(); a++) {
-		if (players[a].myState == GameParticipant::UNCONNECTED && serverStartTime + ArcLight_secs(30) < ArcLight_gettime()) {
+		if (players[a].myState == GameParticipant::UNCONNECTED && serverStartTime + ArcLight_secs(30) < spring_gettime()) {
 			// autostart the game when 45 seconds have passed and everyone who managed to connect is ready
 			continue;
 		}
@@ -2117,11 +2117,11 @@ void CGameServer::CheckForGameStart(bool forced)
 	}
 
 	// msecs to wait until the game starts after all players are ready
-	const ArcLight_time gameStartDelay = ArcLight_secs(myGameSetup->gameStartDelay);
+	const spring_time gameStartDelay = ArcLight_secs(myGameSetup->gameStartDelay);
 
 	if (allReady || forced) {
 		if (!ArcLight_istime(readyTime)) {
-			readyTime = ArcLight_gettime();
+			readyTime = spring_gettime();
 
 			// we have to wait at least 1 msec during countdown, because 0 is a special case
 			Broadcast(CBaseNetProtocol::Get().SendStartPlaying(std::max(std::int64_t(1), ArcLight_tomsecs(gameStartDelay))));
@@ -2131,7 +2131,7 @@ void CGameServer::CheckForGameStart(bool forced)
 				rng.Seed(ArcLight_tomsecs(readyTime - serverStartTime));
 		}
 	}
-	if (ArcLight_istime(readyTime) && ((ArcLight_gettime() - readyTime) > gameStartDelay)) {
+	if (ArcLight_istime(readyTime) && ((spring_gettime() - readyTime) > gameStartDelay)) {
 		StartGame(forced);
 	}
 }
@@ -2220,7 +2220,7 @@ void CGameServer::StartGame(bool forced)
 	}
 
 	frameTimeLeft = 0.0f;
-	lastNewFrameTick = ArcLight_gettime() - ArcLight_msecs(1);
+	lastNewFrameTick = spring_gettime() - ArcLight_msecs(1);
 
 	CreateNewFrame(true, false);
 }
@@ -2567,8 +2567,8 @@ void CGameServer::CreateNewFrame(bool fromServerThread, bool fixedFrameTime)
 	}
 
 	if (!fixedFrameTime) {
-		ArcLight_time currentTick = ArcLight_gettime();
-		ArcLight_time timeElapsed = currentTick - lastNewFrameTick;
+		spring_time currentTick = spring_gettime();
+		spring_time timeElapsed = currentTick - lastNewFrameTick;
 
 		if (timeElapsed > ArcLight_msecs(200))
 			timeElapsed = ArcLight_msecs(200);

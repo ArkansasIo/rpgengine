@@ -51,7 +51,7 @@ void win_signal::wait()
 	wait_for(ArcLight_notime);
 }
 
-void win_signal::wait_for(ArcLight_time t)
+void win_signal::wait_for(spring_time t)
 {
 	++sleepers;
 

@@ -166,7 +166,7 @@ static bool DoTask(int tid, bool async)
 			assert(!async || tg->IsAsyncTask());
 
 			#ifdef USE_TASK_STATS_TRACKING
-			const uint64_t wdt = tg->GetDeltaTime(ArcLight_now());
+			const uint64_t wdt = tg->GetDeltaTime(spring_now());
 			const uint64_t edt = tg->ExecuteLoop(tid, false);
 
 			threadStats[async][tid].numTasksRun += 1;
@@ -189,7 +189,7 @@ static bool DoTask(int tid, bool async)
 			assert(!async || tg->IsAsyncTask());
 
 			#ifdef USE_TASK_STATS_TRACKING
-			const uint64_t wdt = tg->GetDeltaTime(ArcLight_now());
+			const uint64_t wdt = tg->GetDeltaTime(spring_now());
 			const uint64_t edt = tg->ExecuteLoop(tid, false);
 
 			threadStats[async][tid].numTasksRun += 1;
@@ -224,15 +224,15 @@ static void WorkerLoop(int tid, bool async)
 	// is inserted, which can then take over the job of waking up sleeping workers
 	// (see NotifyWorkerThreads)
 	// NOTE: the spin-time has to be *short* to avoid biasing thread 1's workload
-	const auto ourSpinTime = ArcLight_time::fromMicroSecs(30 * (tid == 1));
-	const auto maxSleepTime = ArcLight_time::fromMilliSecs(30);
+	const auto ourSpinTime = spring_time::fromMicroSecs(30 * (tid == 1));
+	const auto maxSleepTime = spring_time::fromMilliSecs(30);
 
 	while (!exitFlags[tid]) {
-		const auto spinlockEnd = ArcLight_now() + ourSpinTime;
-		      auto sleepTime   = ArcLight_time::fromMicroSecs(1);
+		const auto spinlockEnd = spring_now() + ourSpinTime;
+		      auto sleepTime   = spring_time::fromMicroSecs(1);
 
 		while (!DoTask(tid, async) && !exitFlags[tid]) {
-			if (ArcLight_now() < spinlockEnd)
+			if (spring_now() < spinlockEnd)
 				continue;
 
 			newTasksSignal[async].wait_for(sleepTime = std::min(sleepTime * 1.25f, maxSleepTime));
@@ -279,10 +279,10 @@ void WaitForFinished(std::shared_ptr<ITaskGroup>&& taskGroup)
 	NotifyWorkerThreads(true, false);
 
 	do {
-		const auto spinlockEnd = ArcLight_now() + ArcLight_time::fromMilliSecs(500);
+		const auto spinlockEnd = spring_now() + spring_time::fromMilliSecs(500);
 
 		while (!DoTask(tid, false) && !taskGroup->IsFinished() && !exitFlags[tid]) {
-			if (ArcLight_now() < spinlockEnd)
+			if (spring_now() < spinlockEnd)
 				continue;
 
 			// avoid a hang if the task is still not finished
@@ -315,7 +315,7 @@ void PushTaskGroup(ITaskGroup* taskGroup)
 		return;
 	#endif
 
-	taskGroup->SetTimeStamp(ArcLight_now());
+	taskGroup->SetTimeStamp(spring_now());
 
 	#ifdef USE_BOOST_LOCKFREE_QUEUE
 	while (!queue.push(taskGroup));

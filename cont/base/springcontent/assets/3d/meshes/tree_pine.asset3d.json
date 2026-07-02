@@ -1,0 +1,8 @@
+{
+  "id": "env.tree.pine",
+  "type": "mesh",
+  "dimension": "3d",
+  "source": "assets/3d/meshes/models/tree_pine.fbx",
+  "material": "assets/3d/materials/tree_bark.mat.json",
+  "tags": ["environment", "foliage"]
+}

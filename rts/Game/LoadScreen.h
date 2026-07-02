@@ -58,7 +58,7 @@ private:
 
 	bool mtLoading;
 
-	ArcLight_time lastDrawTime;
+	spring_time lastDrawTime;
 };
 
 

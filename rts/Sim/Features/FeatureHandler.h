@@ -65,7 +65,7 @@ public:
 	void SetFeatureUpdateable(CFeature* feature);
 	void TerrainChanged(int x1, int y1, int x2, int y2);
 
-	const ArcLight::unordered_set<int>& GetActiveFeatureIDs() const { return activeFeatureIDs; }
+	const spring::unordered_set<int>& GetActiveFeatureIDs() const { return activeFeatureIDs; }
 
 private:
 	bool CanAddFeature(int id) const {
@@ -84,7 +84,7 @@ private:
 private:
 	SimObjectIDPool idPool;
 
-	ArcLight::unordered_set<int> activeFeatureIDs;
+	spring::unordered_set<int> activeFeatureIDs;
 	std::vector<int> deletedFeatureIDs;
 	std::vector<CFeature*> features;
 	std::vector<CFeature*> updateFeatures;

@@ -597,11 +597,11 @@ void CGlobalRendering::SwapBuffers(bool allowSwapBuffers, bool clearErrors)
 	if (clearErrors || glDebugErrors)
 		glClearErrors("GR", __func__, glDebugErrors);
 
-	const ArcLight_time preSwapTime = ArcLight_now();
+	const spring_time preSwapTime = spring_now();
 
 	GL::SwapRenderBuffers();
 	SDL_GL_SwapWindow(sdlWindows[0]);
-	eventHandler.DbgTimingInfo(TIMING_SWAP, preSwapTime, ArcLight_now());
+	eventHandler.DbgTimingInfo(TIMING_SWAP, preSwapTime, spring_now());
 
 	// NB: this does not just count frames drawn by game
 	drawFrame += 1;

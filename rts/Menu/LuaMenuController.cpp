@@ -20,7 +20,7 @@ CLuaMenuController* luaMenuController = nullptr;
 
 CLuaMenuController::CLuaMenuController(const std::string& menuName)
 	: menuArchive(menuName)
-	, lastDrawFrameTime(ArcLight_gettime())
+	, lastDrawFrameTime(spring_gettime())
 {
 	if (!Valid())
 		menuArchive = configHandler->GetString("DefaultLuaMenu");
@@ -105,7 +105,7 @@ bool CLuaMenuController::Draw()
 
 	// render if global rendering active + luamenu allows it, and at least once per 30s
 	const bool allowDraw = (globalRendering->active && luaMenu->AllowDraw());
-	const bool forceDraw = ((ArcLight_gettime() - lastDrawFrameTime).toSecsi() > 30);
+	const bool forceDraw = ((spring_gettime() - lastDrawFrameTime).toSecsi() > 30);
 
 	if (allowDraw || forceDraw) {
 		ClearScreen();
@@ -115,7 +115,7 @@ bool CLuaMenuController::Draw()
 		mouse->DrawCursor();
 		eventHandler.DrawScreenPost();
 
-		lastDrawFrameTime = ArcLight_gettime();
+		lastDrawFrameTime = spring_gettime();
 		return true;
 	}
 

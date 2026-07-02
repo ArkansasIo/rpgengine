@@ -88,9 +88,9 @@ namespace creg
 	};
 	// Hash map
 	template<typename TKey, typename TValue>
-	struct DeduceType<ArcLight::unordered_map<TKey, TValue> > {
+	struct DeduceType<spring::unordered_map<TKey, TValue> > {
 		static std::unique_ptr<IType> Get() {
-			return std::unique_ptr<IType>(new MapType<ArcLight::unordered_map<TKey, TValue> >());
+			return std::unique_ptr<IType>(new MapType<spring::unordered_map<TKey, TValue> >());
 		}
 	};
 	template<typename TKey, typename TValue>

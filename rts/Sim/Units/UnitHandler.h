@@ -71,7 +71,7 @@ public:
 	std::vector<CUnit*>& GetUnitsByTeam      (int teamNum               ) { return unitsByDefs[teamNum][        0]; }
 	std::vector<CUnit*>& GetUnitsByTeamAndDef(int teamNum, int unitDefID) { return unitsByDefs[teamNum][unitDefID]; }
 
-	const ArcLight::unordered_map<unsigned int, CBuilderCAI*>& GetBuilderCAIs() const { return builderCAIs; }
+	const spring::unordered_map<unsigned int, CBuilderCAI*>& GetBuilderCAIs() const { return builderCAIs; }
 
 private:
 	void InsertActiveUnit(CUnit* unit);
@@ -94,7 +94,7 @@ private:
 	std::vector<CUnit*> activeUnits;                                     ///< used to get all active units
 	std::vector<CUnit*> unitsToBeRemoved;                                ///< units that will be removed at start of next update
 
-	ArcLight::unordered_map<unsigned int, CBuilderCAI*> builderCAIs;
+	spring::unordered_map<unsigned int, CBuilderCAI*> builderCAIs;
 
 
 	size_t activeSlowUpdateUnit = 0;  ///< first unit of batch that will be SlowUpdate'd this frame

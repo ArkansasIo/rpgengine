@@ -36,7 +36,7 @@ public:
 	struct PlayerTrafficInfo {
 		int total = 0;
 
-		ArcLight::unordered_map<int, int> packets;
+		spring::unordered_map<int, int> packets;
 	};
 
 public:
@@ -72,7 +72,7 @@ public:
 	bool IsSavedGame() const { return (saveFileHandler != nullptr); }
 	bool IsGameOver() const { return gameOver; }
 
-	const ArcLight::unordered_map<int, PlayerTrafficInfo>& GetPlayerTraffic() const {
+	const spring::unordered_map<int, PlayerTrafficInfo>& GetPlayerTraffic() const {
 		return playerTraffic;
 	}
 	void AddTraffic(int playerID, int packetCode, int length);
@@ -102,7 +102,7 @@ public:
 private:
 	bool Draw() override;
 	bool Update() override;
-	bool UpdateUnsynced(const ArcLight_time currentTime);
+	bool UpdateUnsynced(const spring_time currentTime);
 
 	void DrawSkip(bool blackscreen = true);
 	void DrawInputReceivers();
@@ -146,16 +146,16 @@ public:
 	// number of Draw() calls per 1000ms
 	unsigned int numDrawFrames = 0;
 
-	ArcLight_time frameStartTime;
-	ArcLight_time lastSimFrameTime;
-	ArcLight_time lastDrawFrameTime;
-	ArcLight_time lastFrameTime;
-	ArcLight_time lastReadNetTime; ///< time of previous ClientReadNet() call
-	ArcLight_time lastNetPacketProcessTime;
-	ArcLight_time lastReceivedNetPacketTime;
-	ArcLight_time lastSimFrameNetPacketTime;
-	ArcLight_time lastUnsyncedUpdateTime;
-	ArcLight_time skipLastDrawTime;
+	spring_time frameStartTime;
+	spring_time lastSimFrameTime;
+	spring_time lastDrawFrameTime;
+	spring_time lastFrameTime;
+	spring_time lastReadNetTime; ///< time of previous ClientReadNet() call
+	spring_time lastNetPacketProcessTime;
+	spring_time lastReceivedNetPacketTime;
+	spring_time lastSimFrameNetPacketTime;
+	spring_time lastUnsyncedUpdateTime;
+	spring_time skipLastDrawTime;
 
 	float updateDeltaSeconds = 0.0f;
 	/// Time in seconds, stops at game end
@@ -210,7 +210,7 @@ private:
 	CWorldDrawer worldDrawer;
 
 	/// <playerID, <packetCode, total bytes> >
-	ArcLight::unordered_map<int, PlayerTrafficInfo> playerTraffic;
+	spring::unordered_map<int, PlayerTrafficInfo> playerTraffic;
 
 	/// for reloading the savefile
 	ILoadSaveHandler* saveFileHandler;

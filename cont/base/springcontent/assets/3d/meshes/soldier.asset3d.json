@@ -1,0 +1,9 @@
+{
+  "id": "unit.soldier.base",
+  "type": "skeletal_mesh",
+  "dimension": "3d",
+  "source": "assets/3d/meshes/models/soldier.fbx",
+  "material": "assets/3d/materials/soldier_default.mat.json",
+  "animationSet": "assets/3d/animations/soldier_set.animset.json",
+  "tags": ["unit", "humanoid"]
+}

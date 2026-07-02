@@ -83,7 +83,7 @@ protected:
 		void* data;
 	};
 
-	ArcLight::unordered_map<std::string, SAtlasEntry> entries;
+	spring::unordered_map<std::string, SAtlasEntry> entries;
 
 	int2 atlasSize;
 	int2 maxsize = {2048, 2048};

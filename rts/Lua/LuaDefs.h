@@ -40,7 +40,7 @@ struct DataElement {
 };
 
 
-typedef ArcLight::unordered_map<std::string, DataElement> ParamMap;
+typedef spring::unordered_map<std::string, DataElement> ParamMap;
 
 
 namespace {

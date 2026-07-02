@@ -17,7 +17,7 @@
 
 namespace CNamedTextures {
 	// maps names to texInfoVec indices
-	static ArcLight::unordered_map<std::string, size_t> texInfoMap;
+	static spring::unordered_map<std::string, size_t> texInfoMap;
 
 	static std::vector<CNamedTextures::TexInfo> texInfoVec;
 	static std::vector<size_t> freeIndices;

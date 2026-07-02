@@ -166,7 +166,7 @@ private:
 
 private:
 	std::array<std::vector<FileEntry>, Section::Count> files;
-	std::array<ArcLight::unordered_map<std::string, IArchive*>, Section::Count> archives;
+	std::array<spring::unordered_map<std::string, IArchive*>, Section::Count> archives;
 
 	const char* vfsName = "";
 

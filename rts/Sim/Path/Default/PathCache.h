@@ -76,7 +76,7 @@ private:
 	CacheItem dummyCacheItem;
 
 	std::deque<CacheQueItem> cacheQue;
-	ArcLight::unordered_map<std::uint64_t, CacheItem> cachedPaths; // ints are sync-safe keys
+	spring::unordered_map<std::uint64_t, CacheItem> cachedPaths; // ints are sync-safe keys
 
 	std::uint32_t numBlocksX;
 	std::uint32_t numBlocksZ;

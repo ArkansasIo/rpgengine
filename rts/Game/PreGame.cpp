@@ -65,7 +65,7 @@ CPreGame* pregame = nullptr;
 CPreGame::CPreGame(std::shared_ptr<ClientSetup> setup)
 	: clientSetup(setup)
 	, saveFileHandler(nullptr)
-	, connectTimer(ArcLight_gettime())
+	, connectTimer(spring_gettime())
 	, wantDemo(true)
 {
 	assert(clientNet == nullptr);
@@ -167,7 +167,7 @@ bool CPreGame::Draw()
 		if (clientSetup->isHost)
 			font->glFormat(0.5f, 0.48f, 2.0f, FONT_CENTER | FONT_SCALE | FONT_NORM | FONT_BUFFERED, "Waiting for server to start");
 		else
-			font->glFormat(0.5f, 0.48f, 2.0f, FONT_CENTER | FONT_SCALE | FONT_NORM | FONT_BUFFERED, "Connecting to server (%ds)", (ArcLight_gettime() - connectTimer).toSecsi());
+			font->glFormat(0.5f, 0.48f, 2.0f, FONT_CENTER | FONT_SCALE | FONT_NORM | FONT_BUFFERED, "Connecting to server (%ds)", (spring_gettime() - connectTimer).toSecsi());
 	} else {
 		font->glPrint(0.5f, 0.48f, 2.0f, FONT_CENTER | FONT_SCALE | FONT_NORM | FONT_BUFFERED, "Waiting for server response");
 	}

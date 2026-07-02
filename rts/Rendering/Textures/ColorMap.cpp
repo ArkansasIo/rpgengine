@@ -24,7 +24,7 @@ CR_REG_METADATA(CColorMap, (
 
 
 static std::array<CColorMap, 2048 + 2> colorMapsCache;
-static ArcLight::unordered_map<std::string, CColorMap*> namedColorMaps;
+static spring::unordered_map<std::string, CColorMap*> namedColorMaps;
 
 static size_t numColorMaps = 0;
 

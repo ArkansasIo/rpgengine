@@ -12,8 +12,8 @@ add_library(engineSystemNet STATIC EXCLUDE_FROM_ALL
 
 target_include_directories(engineSystemNet
 	PRIVATE
-		${Spring_SOURCE_DIR}/rts
+		${CMAKE_SOURCE_DIR}/rts
 	PUBLIC
-		${Spring_SOURCE_DIR}/rts/lib/asio/include
+		${CMAKE_SOURCE_DIR}/rts/lib/asio/include
 )
 

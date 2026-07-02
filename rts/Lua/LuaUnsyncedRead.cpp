@@ -1731,7 +1731,7 @@ int LuaUnsyncedRead::GetTeamOrigColor(lua_State* L)
 /******************************************************************************/
 /******************************************************************************/
 
-static void PushTimer(lua_State* L, const ArcLight_time& time)
+static void PushTimer(lua_State* L, const spring_time& time)
 {
 	// use time since ArcLight's epoch in MILLIseconds because that
 	// is more likely to fit in a 32-bit pointer (on any platforms
@@ -1755,7 +1755,7 @@ static void PushTimer(lua_State* L, const ArcLight_time& time)
 
 int LuaUnsyncedRead::GetTimer(lua_State* L)
 {
-	PushTimer(L, ArcLight_now());
+	PushTimer(L, spring_now());
 	return 1;
 }
 
@@ -1789,7 +1789,7 @@ int LuaUnsyncedRead::DiffTimers(lua_State* L)
 	// t1 is supposed to be the most recent time-point
 	assert(t1 >= t2);
 
-	const ArcLight_time dt = ArcLight_time::fromMilliSecs(t1 - t2);
+	const spring_time dt = spring_time::fromMilliSecs(t1 - t2);
 
 	if (luaL_optboolean(L, 3, false)) {
 		lua_pushnumber(L, dt.toMilliSecsf());

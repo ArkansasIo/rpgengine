@@ -229,7 +229,7 @@ bool S3DOPiece::IsBasePlate(const S3DOPrimitive* face) const
 C3DOTextureHandler::UnitTexture* S3DOPiece::GetTexture(
 	const TA3DO::_Primitive* p,
 	const std::vector<unsigned char>& fileBuf,
-	const ArcLight::unordered_set<std::string>& teamTextures
+	const spring::unordered_set<std::string>& teamTextures
 ) const {
 	std::string texName;
 
@@ -261,9 +261,9 @@ void S3DOPiece::GetPrimitives(
 	int num,
 	int excludePrim,
 	const std::vector<unsigned char>& fileBuf,
-	const ArcLight::unordered_set<std::string>& teamTextures
+	const spring::unordered_set<std::string>& teamTextures
 ) {
-	ArcLight::unordered_map<int, int> prevHashes;
+	spring::unordered_map<int, int> prevHashes;
 	std::vector<int> sortedVerts;
 
 	for (int a = 0; a < num; a++) {

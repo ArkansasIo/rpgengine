@@ -243,8 +243,8 @@ namespace ArcLightproc {
 			processorApicIds[processor] = getApicIdIntel();
 		}
 
-		ArcLight::unordered_set<uint32_t> cores;
-		ArcLight::unordered_set<uint32_t> packages;
+		spring::unordered_set<uint32_t> cores;
+		spring::unordered_set<uint32_t> packages;
 
 		// determine the total number of cores
 		for (int processor = 0; processor < numProcessors; processor++) {

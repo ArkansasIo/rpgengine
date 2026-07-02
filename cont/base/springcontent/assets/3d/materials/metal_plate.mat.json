@@ -1,0 +1,11 @@
+{
+  "id": "mat.metal.plate",
+  "type": "material",
+  "dimension": "3d",
+  "source": "assets/3d/materials/shaders/pbr_metal.shader",
+  "albedo": "assets/3d/materials/textures/metal_plate_albedo.png",
+  "normal": "assets/3d/materials/textures/metal_plate_normal.png",
+  "roughness": 0.42,
+  "metallic": 0.88,
+  "tags": ["material", "pbr", "metal"]
+}

@@ -43,7 +43,7 @@ private:
 	void DrawQueuedBuildingSquaresUW(const CBuilderCAI* cai) const;
 
 private:
-	ArcLight::unordered_set<int> luaQueuedUnitSet;
+	spring::unordered_set<int> luaQueuedUnitSet;
 
 	// used by DrawQueuedBuildingSquares
 	const float* buildQueueSquareColor = nullptr;

@@ -22,8 +22,8 @@ class TdfParser
 {
 public:
 	struct TdfSection;
-	typedef ArcLight::unordered_map<std::string, std::string> valueMap_t;
-	typedef ArcLight::unordered_map<std::string, TdfSection*> sectionsMap_t;
+	typedef spring::unordered_map<std::string, std::string> valueMap_t;
+	typedef spring::unordered_map<std::string, TdfSection*> sectionsMap_t;
 
 	struct TdfSection
 	{

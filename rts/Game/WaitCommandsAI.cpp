@@ -119,7 +119,7 @@ void CWaitCommandsAI::Update()
 	}
 
 	// delete old unacknowledged waits
-	const ArcLight_time nowTime = ArcLight_gettime();
+	const spring_time nowTime = spring_gettime();
 	it = unackedMap.begin();
 	while (it != unackedMap.end()) {
 		WaitMap::iterator tmp = it;
@@ -365,7 +365,7 @@ CWaitCommandsAI::KeyType CWaitCommandsAI::Wait::GetKeyFromFloat(float f)
 
 void CWaitCommandsAI::Wait::PostLoad()
 {
-	deadTime = ArcLight_gettime() + ArcLight_secs(maxNetDelay);
+	deadTime = spring_gettime() + ArcLight_secs(maxNetDelay);
 }
 
 // static
@@ -379,7 +379,7 @@ CWaitCommandsAI::Wait::Wait(float _code)
 	: code(_code),
 	key(0),
 	valid(false),
-	deadTime(ArcLight_gettime() + ArcLight_secs(maxNetDelay))
+	deadTime(spring_gettime() + ArcLight_secs(maxNetDelay))
 {
 }
 
@@ -738,7 +738,7 @@ void CWaitCommandsAI::DeathWait::Update()
 	if (!deathUnits.empty())
 		return; // more must die
 
-	ArcLight::unordered_set<int> unblockSet;
+	spring::unordered_set<int> unblockSet;
 	std::vector<int> voidWaitUnitIDs;
 
 	for (const int unitID: waitUnits) {
@@ -925,7 +925,7 @@ void CWaitCommandsAI::SquadWait::Update()
 	}
 
 	if ((int)waitUnits.size() >= squadCount) {
-		ArcLight::unordered_set<int> unblockSet;
+		spring::unordered_set<int> unblockSet;
 		std::vector<int> voidWaitUnitIDs;
 
 		for (const int unitID: waitUnits) {

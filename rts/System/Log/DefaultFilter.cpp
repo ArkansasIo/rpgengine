@@ -317,7 +317,7 @@ const char* log_filter_section_getSectionCString(const char* section_cstr_tmp)
 {
 	// cache for log_frontend_register_runtime_section; services LuaUnsyced
 	static std::array<char[1024], MAX_LOG_SECTIONS> cache;
-	static ArcLight::unordered_map<std::string, size_t> index;
+	static spring::unordered_map<std::string, size_t> index;
 
 	// see if str is already mapped to a cache-index
 	const auto str = std::string(section_cstr_tmp);

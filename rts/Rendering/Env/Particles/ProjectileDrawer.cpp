@@ -52,7 +52,7 @@ void CProjectileDrawer::Init() {
 	// used to block resources_map.* from overriding any of
 	// resources.lua:{projectile, smoke, groundfx}textures,
 	// as well as various defaults (repulsegfxtexture, etc)
-	ArcLight::unordered_set<std::string> blockedTexNames;
+	spring::unordered_set<std::string> blockedTexNames;
 
 	ParseAtlasTextures(true, resProjTexturesTable, blockedTexNames, textureAtlas);
 	ParseAtlasTextures(true, resGroundFXTexturesTable, blockedTexNames, groundFXAtlas);
@@ -261,11 +261,11 @@ void CProjectileDrawer::Kill() {
 void CProjectileDrawer::ParseAtlasTextures(
 	const bool blockTextures,
 	const LuaTable& textureTable,
-	ArcLight::unordered_set<std::string>& blockedTextures,
+	spring::unordered_set<std::string>& blockedTextures,
 	CTextureAtlas* texAtlas
 ) {
 	std::vector<std::string> subTables;
-	ArcLight::unordered_map<std::string, std::string> texturesMap;
+	spring::unordered_map<std::string, std::string> texturesMap;
 
 	textureTable.GetMap(texturesMap);
 	textureTable.GetKeys(subTables);

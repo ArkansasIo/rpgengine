@@ -31,7 +31,7 @@ private:
 	// contrary to COB the list of functions may differ per unit,
 	// so the LUAFN_* -> function mapping can differ per unit too.
 	std::array<int, LUAFN_Last> scriptIndex;
-	ArcLight::unordered_map<std::string, int> scriptNames;
+	spring::unordered_map<std::string, int> scriptNames;
 
 	// used to enforce SetDeathScriptFinished can only be used inside Killed
 	bool inKilled = false;

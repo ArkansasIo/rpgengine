@@ -1,0 +1,8 @@
+{
+  "id": "env.rock.large",
+  "type": "mesh",
+  "dimension": "3d",
+  "source": "assets/3d/meshes/models/rock_large.fbx",
+  "material": "assets/3d/materials/stone_rough.mat.json",
+  "tags": ["environment", "cover"]
+}

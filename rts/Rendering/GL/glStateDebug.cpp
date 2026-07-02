@@ -13,8 +13,8 @@
 #include "System/UnorderedMap.hpp"
 #include "System/UnorderedSet.hpp"
 
-static ArcLight::unordered_map<std::string, std::string> lastSet;
-static ArcLight::unordered_set<std::string> errorsSet;
+static spring::unordered_map<std::string, std::string> lastSet;
+static spring::unordered_set<std::string> errorsSet;
 
 template<typename T, typename F>
 static void VERIFYGL(F func, GLenum pname, T defaultValue, std::string pstr, std::string area) {

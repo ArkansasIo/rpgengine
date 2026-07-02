@@ -128,8 +128,8 @@ private:
 	std::array<CCameraController*, CAMERA_MODE_LAST> camControllers;
 	std::vector<unsigned int> controllerStack;
 
-	ArcLight::unordered_map<std::string, ViewData> viewDataMap;
-	ArcLight::unordered_map<std::string, unsigned int> nameModeMap;
+	spring::unordered_map<std::string, ViewData> viewDataMap;
+	spring::unordered_map<std::string, unsigned int> nameModeMap;
 };
 
 extern CCameraHandler* camHandler;

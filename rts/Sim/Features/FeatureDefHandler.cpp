@@ -132,8 +132,8 @@ FeatureDef* CFeatureDefHandler::CreateFeatureDef(const LuaTable& fdTable, const 
 
 	fd.upright = fdTable.GetBool("upright", false);
 
-	fd.xsize = std::max(1 * ARCLIGHT_FOOTPRINT_SCALE, fdTable.GetInt("footprintX", 1) * ARCLIGHT_FOOTPRINT_SCALE);
-	fd.zsize = std::max(1 * ARCLIGHT_FOOTPRINT_SCALE, fdTable.GetInt("footprintZ", 1) * ARCLIGHT_FOOTPRINT_SCALE);
+	fd.xsize = std::max(1 * SPRING_FOOTPRINT_SCALE, fdTable.GetInt("footprintX", 1) * SPRING_FOOTPRINT_SCALE);
+	fd.zsize = std::max(1 * SPRING_FOOTPRINT_SCALE, fdTable.GetInt("footprintZ", 1) * SPRING_FOOTPRINT_SCALE);
 
 	const float minMass = CSolidObject::MINIMUM_MASS;
 	const float maxMass = CSolidObject::MAXIMUM_MASS;

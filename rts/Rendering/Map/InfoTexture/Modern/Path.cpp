@@ -29,7 +29,7 @@ CPathTexture::CPathTexture()
 , lastSelectedPathType(0)
 , forcedPathType(-1)
 , forcedUnitDef(-1)
-, lastUsage(ArcLight_gettime())
+, lastUsage(spring_gettime())
 {
 	texSize = int2(mapDims.hmapx, mapDims.hmapy);
 	texChannels = 4;
@@ -122,7 +122,7 @@ const UnitDef* CPathTexture::GetCurrentBuildCmdUnitDef()
 
 GLuint CPathTexture::GetTexture()
 {
-	lastUsage = ArcLight_gettime();
+	lastUsage = spring_gettime();
 	return texture;
 }
 
@@ -148,7 +148,7 @@ bool CPathTexture::ShowUnitDef(const int udefid)
 bool CPathTexture::IsUpdateNeeded()
 {
 	// don't update when not rendered/used
-	if ((ArcLight_gettime() - lastUsage).toSecsi() > 2) {
+	if ((spring_gettime() - lastUsage).toSecsi() > 2) {
 		forcedUnitDef = forcedPathType = -1;
 		return false;
 	}

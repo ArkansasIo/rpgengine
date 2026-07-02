@@ -16,15 +16,15 @@
 
 static ArcLight::spinlock profileMutex;
 static ArcLight::spinlock hashToNameMutex;
-static ArcLight::unordered_map<unsigned, std::string> hashToName;
-static ArcLight::unordered_map<unsigned, int> refCounters;
+static spring::unordered_map<unsigned, std::string> hashToName;
+static spring::unordered_map<unsigned, int> refCounters;
 
 static CGlobalUnsyncedRNG profileColorRNG;
 
 
-ArcLight_time BasicTimer::GetDuration() const
+spring_time BasicTimer::GetDuration() const
 {
-	return ArcLight_difftime(ArcLight_gettime(), startTime);
+	return spring_difftime(spring_gettime(), startTime);
 }
 
 ScopedTimer::ScopedTimer(const unsigned _nameHash, bool _autoShowGraph, bool _specialTimer)
@@ -58,7 +58,7 @@ ScopedTimer::~ScopedTimer()
 
 
 
-ScopedOnceTimer::ScopedOnceTimer(const char* timerName, const char* timerFrmt): startTime(ArcLight_gettime())
+ScopedOnceTimer::ScopedOnceTimer(const char* timerName, const char* timerFrmt): startTime(spring_gettime())
 {
 	strncpy(name, timerName, sizeof(name));
 	strncpy(frmt, timerFrmt, sizeof(frmt));
@@ -67,7 +67,7 @@ ScopedOnceTimer::ScopedOnceTimer(const char* timerName, const char* timerFrmt): 
 	frmt[sizeof(frmt) - 1] = 0;
 }
 
-ScopedOnceTimer::ScopedOnceTimer(const std::string& timerName, const char* timerFrmt): startTime(ArcLight_gettime())
+ScopedOnceTimer::ScopedOnceTimer(const std::string& timerName, const char* timerFrmt): startTime(spring_gettime())
 {
 	strncpy(name, timerName.c_str(), sizeof(name));
 	strncpy(frmt, timerFrmt        , sizeof(frmt));
@@ -81,9 +81,9 @@ ScopedOnceTimer::~ScopedOnceTimer()
 	LOG(frmt, __func__, name, int(GetDuration().toMilliSecsi()));
 }
 
-ArcLight_time ScopedOnceTimer::GetDuration() const
+spring_time ScopedOnceTimer::GetDuration() const
 {
-	return ArcLight_difftime(ArcLight_gettime(), startTime);
+	return spring_difftime(spring_gettime(), startTime);
 }
 
 
@@ -182,7 +182,7 @@ void CTimeProfiler::ResetState() {
 	threadProfiles.resize(ThreadPool::GetMaxThreads());
 	#endif
 
-	profileColorRNG.Seed(ArcLight_tomsecs(lastBigUpdate = ArcLight_gettime()));
+	profileColorRNG.Seed(ArcLight_tomsecs(lastBigUpdate = spring_gettime()));
 
 	currentPosition = 0;
 	resortProfiles = 0;
@@ -226,8 +226,8 @@ void CTimeProfiler::UpdateRaw()
 		pi.second.frames[currentPosition] = ArcLight_notime;
 	}
 
-	const ArcLight_time curTime = ArcLight_gettime();
-	const float timeDiff = ArcLight_diffmsecs(curTime, lastBigUpdate);
+	const spring_time curTime = spring_gettime();
+	const float timeDiff = spring_diffmsecs(curTime, lastBigUpdate);
 
 	if (timeDiff > 500.0f) {
 		// update percentages and peaks twice every second
@@ -334,13 +334,13 @@ const CTimeProfiler::TimeRecord& CTimeProfiler::GetTimeRecord(const char* name) 
 
 void CTimeProfiler::AddTime(
 	const unsigned nameHash,
-	const ArcLight_time startTime,
-	const ArcLight_time deltaTime,
+	const spring_time startTime,
+	const spring_time deltaTime,
 	const bool showGraph,
 	const bool specialTimer,
 	const bool threadTimer
 ) {
-	const ArcLight_time t0 = ArcLight_now();
+	const spring_time t0 = spring_now();
 
 	if (!enabled) {
 		if (!specialTimer)
@@ -348,7 +348,7 @@ void CTimeProfiler::AddTime(
 
 		assert(!threadTimer);
 		AddTimeRaw(nameHash, startTime, deltaTime, showGraph, threadTimer);
-		AddTimeRaw(hashString("Misc::Profiler::AddTime"), t0, ArcLight_now() - t0, false, false);
+		AddTimeRaw(hashString("Misc::Profiler::AddTime"), t0, spring_now() - t0, false, false);
 		return;
 	}
 
@@ -357,19 +357,19 @@ void CTimeProfiler::AddTime(
 	std::lock_guard<ArcLight::spinlock> lock(profileMutex);
 
 	AddTimeRaw(nameHash, startTime, deltaTime, showGraph, threadTimer);
-	AddTimeRaw(hashString("Misc::Profiler::AddTime"), t0, ArcLight_now() - t0, false, false);
+	AddTimeRaw(hashString("Misc::Profiler::AddTime"), t0, spring_now() - t0, false, false);
 }
 
 void CTimeProfiler::AddTimeRaw(
 	const unsigned nameHash,
-	const ArcLight_time startTime,
-	const ArcLight_time deltaTime,
+	const spring_time startTime,
+	const spring_time deltaTime,
 	const bool showGraph,
 	const bool threadTimer
 ) {
 #ifdef THREADPOOL
 	if (threadTimer)
-		threadProfiles[ThreadPool::GetThreadNum()].emplace_back(startTime, ArcLight_gettime());
+		threadProfiles[ThreadPool::GetThreadNum()].emplace_back(startTime, spring_gettime());
 #endif
 
 	auto pi = profiles.find(nameHash);

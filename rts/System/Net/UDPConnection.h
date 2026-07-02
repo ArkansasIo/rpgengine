@@ -156,15 +156,15 @@ private:
 	void UpdateResendRequests();
 
 private:
-	ArcLight_time lastChunkCreatedTime;
-	ArcLight_time lastPacketSendTime;
-	ArcLight_time lastPacketRecvTime;
+	spring_time lastChunkCreatedTime;
+	spring_time lastPacketSendTime;
+	spring_time lastPacketRecvTime;
 
-	ArcLight_time lastUnackResentTime;
-	ArcLight_time lastNakTime;
+	spring_time lastUnackResentTime;
+	spring_time lastNakTime;
 	#ifdef ENABLE_DEBUG_STATS
-	ArcLight_time lastDebugMessageTime;
-	ArcLight_time lastFramePacketRecvTime;
+	spring_time lastDebugMessageTime;
+	spring_time lastFramePacketRecvTime;
 	#endif
 
 
@@ -187,7 +187,7 @@ private:
 	std::deque< std::shared_ptr<const RawPacket> > outgoingData;
 	/// packets we have received but not yet read
 	std::vector< std::pair<int, RawPacket> > waitingPackets;
-	ArcLight::unordered_set<int> incomingChunkNums;
+	spring::unordered_set<int> incomingChunkNums;
 
 
 	/// Newly created and not yet sent
@@ -197,7 +197,7 @@ private:
 
 	/// Packets the other side missed
 	std::vector< std::pair<std::int32_t, ChunkPtr> > resendRequested;
-	ArcLight::unordered_set<std::int32_t> erasedResendChunks;
+	spring::unordered_set<std::int32_t> erasedResendChunks;
 
 	/// complete packets we received but did not yet consume
 	std::deque< std::shared_ptr<const RawPacket> > msgQueue;
@@ -212,7 +212,7 @@ private:
 
 #if	NETWORK_TEST
 	/// Delayed packets, for testing purposes
-	std::map< ArcLight_time, std::vector<std::uint8_t> > delayed;
+	std::map< spring_time, std::vector<std::uint8_t> > delayed;
 	int lossCounter;
 #endif
 

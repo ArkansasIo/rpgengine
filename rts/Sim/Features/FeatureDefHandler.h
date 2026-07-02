@@ -42,7 +42,7 @@ public:
 	unsigned int NumFeatureDefs() const { return (featureDefsVector.size() - 1); }
 
 	const std::vector<FeatureDef>& GetFeatureDefsVec() const { return featureDefsVector; }
-	const ArcLight::unordered_map<std::string, int>& GetFeatureDefIDs() const { return featureDefIDs; }
+	const spring::unordered_map<std::string, int>& GetFeatureDefIDs() const { return featureDefIDs; }
 
 private:
 
@@ -55,7 +55,7 @@ private:
 	void AddFeatureDef(const std::string& name, FeatureDef* feature, bool isDefaultFeature);
 
 private:
-	ArcLight::unordered_map<std::string, int> featureDefIDs;
+	spring::unordered_map<std::string, int> featureDefIDs;
 	std::vector<FeatureDef> featureDefsVector;
 };
 

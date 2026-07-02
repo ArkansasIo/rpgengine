@@ -35,7 +35,7 @@ public:
 
 	CCommandQueue newUnitCommands;
 
-	ArcLight::unordered_map<int, int> buildOptions;
+	spring::unordered_map<int, int> buildOptions;
 
 private:
 	void UpdateIconName(int id, const int& numQueued);

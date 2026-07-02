@@ -143,8 +143,8 @@ add_library(engineSim STATIC EXCLUDE_FROM_ALL
 
 target_include_directories(engineSim
 PRIVATE
-	${Spring_SOURCE_DIR}/rts
-	${Spring_SOURCE_DIR}/rts/lib/lua/include
+	${CMAKE_SOURCE_DIR}/rts
+	${CMAKE_SOURCE_DIR}/rts/lib/lua/include
 	${GLEW_INCLUDE_DIRS}
 	${SDL2_INCLUDE_DIRS}
 	${SPRING_MINIZIP_INCLUDE_DIR}

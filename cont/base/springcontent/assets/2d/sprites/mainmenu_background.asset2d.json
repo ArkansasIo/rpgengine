@@ -1,0 +1,9 @@
+{
+  "id": "ui.background.mainmenu",
+  "type": "background",
+  "dimension": "2d",
+  "source": "assets/2d/textures/backgrounds/mainmenu.png",
+  "pixelsPerUnit": 100,
+  "pivot": [0.5, 0.5],
+  "tags": ["ui", "background", "menu"]
+}

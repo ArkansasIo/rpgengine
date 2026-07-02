@@ -1,0 +1,10 @@
+{
+  "id": "anim.soldier.idle",
+  "type": "animation",
+  "dimension": "3d",
+  "source": "assets/3d/animations/clips/soldier_idle.fbx",
+  "target": "unit.soldier.base",
+  "fps": 30,
+  "loop": true,
+  "tags": ["animation", "idle", "soldier"]
+}

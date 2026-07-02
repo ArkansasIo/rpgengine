@@ -174,7 +174,7 @@ public:
 
 private:
 	std::array<MoveDef, 256> moveDefs;
-	ArcLight::unordered_map<unsigned int, int> nameMap;
+	spring::unordered_map<unsigned int, int> nameMap;
 
 	unsigned int mdCounter = 0;
 	unsigned int mdChecksum = 0;

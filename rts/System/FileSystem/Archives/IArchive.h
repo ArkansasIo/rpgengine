@@ -118,7 +118,7 @@ protected:
 	// ArcLight expects the contents of archives to be case-independent
 	// this map (which must be populated by subclass archives) is kept
 	// to allow converting back from lowercase to original case
-	ArcLight::unordered_map<std::string, unsigned int> lcNameIndex;
+	spring::unordered_map<std::string, unsigned int> lcNameIndex;
 
 protected:
 	/// "ExampleArchive.sdd"

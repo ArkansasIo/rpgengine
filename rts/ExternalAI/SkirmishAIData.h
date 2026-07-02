@@ -46,7 +46,7 @@ public:
 	std::string shortName;
 	std::string version;
 	std::vector<std::string> optionKeys;
-	ArcLight::unordered_map<std::string, std::string> options;
+	spring::unordered_map<std::string, std::string> options;
 
 	bool isLuaAI = false;
 

@@ -49,7 +49,7 @@ public:
 
 private:
 	// iterated in GetCategoryNames; reserved size must be constant
-	ArcLight::unordered_map<std::string, unsigned int> categories;
+	spring::unordered_map<std::string, unsigned int> categories;
 
 	unsigned int firstUnused = 0;
 };

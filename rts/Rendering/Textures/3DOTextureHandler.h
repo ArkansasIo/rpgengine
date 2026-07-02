@@ -29,7 +29,7 @@ public:
 	unsigned int GetAtlasTexSizeX() const { return bigTexX; }
 	unsigned int GetAtlasTexSizeY() const { return bigTexY; }
 
-	const ArcLight::unordered_map<std::string, UnitTexture>& GetAtlasTextures() const { return textures; }
+	const spring::unordered_map<std::string, UnitTexture>& GetAtlasTextures() const { return textures; }
 
 private:
 	std::vector<TexFile> LoadTexFiles();
@@ -37,7 +37,7 @@ private:
 	static TexFile CreateTex(const std::string& name, const std::string& name2, bool teamcolor = false);
 
 private:
-	ArcLight::unordered_map<std::string, UnitTexture> textures;
+	spring::unordered_map<std::string, UnitTexture> textures;
 
 	CTAPalette palette;
 

@@ -12,7 +12,7 @@ class JobDispatcher {
 public:
 	struct Job {
 	public:
-		Job(const ArcLight_time t = ArcLight_notime)
+		Job(const spring_time t = ArcLight_notime)
 		: time(t.toMilliSecsf())
 		, freq(0.0f)
 
@@ -42,7 +42,7 @@ public:
 public:
 	void AddTimedJob(const Job& j) { jobs.push(j); }
 	void Update() {
-		const ArcLight_time now = ArcLight_gettime();
+		const spring_time now = spring_gettime();
 
 		while (!jobs.empty()) {
 			Job j = jobs.top();

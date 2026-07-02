@@ -266,7 +266,7 @@ bool CLoadScreen::Draw()
 {
 	// limit FPS via sleep to not lock a singlethreaded CPU from loading the game
 	if (mtLoading) {
-		const ArcLight_time now = ArcLight_gettime();
+		const spring_time now = spring_gettime();
 		const unsigned diffTime = ArcLight_tomsecs(now - lastDrawTime);
 
 		constexpr unsigned wantedFPS = 50;

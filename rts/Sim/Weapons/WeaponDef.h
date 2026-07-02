@@ -218,7 +218,7 @@ public:
 
 	float cameraShake;
 
-	ArcLight::unordered_map<std::string, std::string> customParams;
+	spring::unordered_map<std::string, std::string> customParams;
 
 	struct Visuals {
 		float3 color;

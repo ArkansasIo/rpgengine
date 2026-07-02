@@ -39,7 +39,7 @@ bool SideParser::Load()
 		return false;
 	}
 
-	ArcLight::unordered_set<std::string> sideSet;
+	spring::unordered_set<std::string> sideSet;
 
 	const LuaTable root = parser.GetRoot();
 	for (int i = 1; /* no-op */; i++) {

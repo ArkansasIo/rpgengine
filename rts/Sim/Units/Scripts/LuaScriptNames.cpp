@@ -7,7 +7,7 @@
 
 // script function-indices never change, so this is fine wrt. reloading
 static std::array<std::string, LUAFN_Last> scriptNames;
-static ArcLight::unordered_map<std::string, int> scriptMap;
+static spring::unordered_map<std::string, int> scriptMap;
 
 
 void CLuaUnitScriptNames::InitScriptNames()
@@ -69,7 +69,7 @@ void CLuaUnitScriptNames::InitScriptNames()
 
 
 const std::array<std::string, LUAFN_Last>& CLuaUnitScriptNames::GetScriptNames() { assert(!scriptMap.empty()); return scriptNames; }
-const ArcLight::unordered_map<std::string, int>& CLuaUnitScriptNames::GetScriptMap() { assert(!scriptMap.empty()); return scriptMap; }
+const spring::unordered_map<std::string, int>& CLuaUnitScriptNames::GetScriptMap() { assert(!scriptMap.empty()); return scriptMap; }
 
 
 int CLuaUnitScriptNames::GetScriptNumber(const std::string& fname)
