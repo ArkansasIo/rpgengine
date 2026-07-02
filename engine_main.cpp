@@ -51,6 +51,8 @@
 #include "rts/Game/UI/Stellaris/StellarisUI.h"
 #include "rts/Game/UI/Editor/UE5EditorUI.h"
 #include "rts/Game/Blueprint/BlueprintSystem.h"
+#include "rts/Game/Systems/UnitSelectionSystem.h"
+#include "rts/Game/Systems/CommandExecutionSystem.h"
 
 using namespace arclight;
 
@@ -285,6 +287,107 @@ void DemoBlueprint() {
     printf("  [PASS]\n\n");
 }
 
+void DemoUnitSelection() {
+    printf("[Selection] Unit Selection + Camera Focus + Commands\n");
+    UnitSelectionSystem sel;
+
+    // Create test units
+    SelectableUnit u1; u1.id = "m1"; u1.name = "Battle Mech"; u1.typeName = "Mech";
+    u1.position = float3(100, 0, 100); u1.ownerTeam = 0; u1.health = 100; u1.maxHealth = 100;
+    SelectableUnit u2; u2.id = "m2"; u2.name = "Scout Drone"; u2.typeName = "Drone";
+    u2.position = float3(200, 0, 150); u2.ownerTeam = 0; u2.health = 60; u2.maxHealth = 80;
+    SelectableUnit u3; u3.id = "e1"; u3.name = "Enemy Tank"; u3.typeName = "Tank";
+    u3.position = float3(500, 0, 300); u3.ownerTeam = 1; u3.health = 200; u3.maxHealth = 200;
+    sel.units = {u1, u2, u3};
+
+    // Click to select
+    SelectableUnit* clicked = sel.ClickAtPosition(float3(105, 0, 105), 50.0f);
+    assert(clicked != nullptr);
+    printf("  Clicked unit: %s (health: %.0f/%.0f)\n", clicked->name.c_str(), clicked->health, clicked->maxHealth);
+
+    // Double-click to focus camera
+    sel.DoubleClickFocus(float3(200, 0, 150));
+    assert(sel.cameraTarget.isTransitioning);
+    printf("  Camera focusing on: (%.0f, %.0f, %.0f)\n", sel.cameraTarget.targetPosition.x, sel.cameraTarget.targetPosition.y, sel.cameraTarget.targetPosition.z);
+
+    // Select by team
+    sel.SelectByTeam(0);
+    assert(sel.selectedUnits.size() == 2);
+    printf("  Selected %zu friendly units\n", sel.selectedUnits.size());
+
+    // Get selection info
+    auto info = sel.GetSelectionInfo();
+    printf("  Selection: %d units, avg health: %.0f%%\n", info.count, (info.totalHealth / info.totalMaxHealth) * 100);
+
+    // Drag select
+    sel.StartDragSelect(float3(0, 0, 0));
+    sel.UpdateDragSelect(float3(300, 0, 200));
+    sel.EndDragSelect();
+    printf("  Drag selected %zu units\n", sel.selectedUnits.size());
+
+    // Issue commands
+    sel.IssueMoveCommand(float3(400, 0, 400));
+    assert(sel.activeCommand == "move");
+    printf("  Issued move command to (%.0f, %.0f, %.0f)\n", sel.commandTargetPos.x, sel.commandTargetPos.y, sel.commandTargetPos.z);
+
+    sel.IssueAttackCommand(&u3);
+    assert(sel.units[0].currentCommand == "attack");
+    printf("  Issued attack command on: %s\n", u3.name.c_str());
+
+    sel.IssueStopCommand();
+    assert(sel.units[0].currentCommand == "stop");
+    printf("  Issued stop command\n");
+
+    printf("  [PASS]\n\n");
+}
+
+void DemoCommandExecution() {
+    printf("[Commands] Order Templates + Execution\n");
+    CommandExecutionSystem cmds;
+    cmds.Init();
+
+    printf("  Registered %zu order templates\n", cmds.orderTemplates.size());
+    printf("  Categories: ");
+    for (auto& cat : cmds.GetCategories()) printf("%s ", cat.c_str());
+    printf("\n");
+
+    // Create and queue commands
+    Command moveCmd = cmds.CreateCommand("move", "m1");
+    moveCmd.targetPosition = float3(300, 0, 300);
+    cmds.QueueCommand("m1", moveCmd);
+
+    Command attackCmd = cmds.CreateCommand("attack", "m1");
+    attackCmd.targetUnitID = "e1";
+    cmds.QueueCommand("m1", attackCmd);
+
+    auto& queue = cmds.GetCommandQueue("m1");
+    assert(queue.size() == 2);
+    printf("  Queued 2 commands for unit m1\n");
+
+    // Execute commands
+    cmds.ExecuteNextCommand("m1");
+    assert(queue[0].state == ECommandState::Executing);
+    printf("  Executing first command: type=%d\n", static_cast<int>(queue[0].type));
+
+    cmds.CompleteCommand("m1");
+    assert(queue.size() == 1);
+    printf("  Command completed, %zu remaining\n", queue.size());
+
+    cmds.ExecuteNextCommand("m1");
+    cmds.CompleteCommand("m1");
+    assert(queue.empty());
+    printf("  All commands completed\n");
+
+    // Cancel commands
+    Command holdCmd = cmds.CreateCommand("hold", "m2");
+    cmds.QueueCommand("m2", holdCmd);
+    cmds.CancelAllCommands("m2");
+    assert(cmds.GetCommandQueue("m2").empty());
+    printf("  Cancelled all commands for m2\n");
+
+    printf("  [PASS]\n\n");
+}
+
 int main() {
     setbuf(stdout, NULL);
     printf("Starting ArcLight Engine...\n");
@@ -302,8 +405,10 @@ int main() {
     DemoStellarisUI();
     DemoEditorUI();
     DemoBlueprint();
+    DemoUnitSelection();
+    DemoCommandExecution();
     printf("============================================================\n");
-    printf("  All 12 subsystem demos passed!\n");
+    printf("  All 14 subsystem demos passed!\n");
     printf("  ArcLight Engine ready. Developer: Stephen\n");
     printf("============================================================\n\n");
     return 0;
