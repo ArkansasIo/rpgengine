@@ -21,7 +21,8 @@ public:
 		WeaponDef weaponDefTmp;
 
 		if (globalAICallback != nullptr) {
-			AIHCGetWeaponDefById fetchCmd = {event.weaponDefId, weaponDef};
+			const ArcLightLegacyAI::WeaponDef* fetchedWeaponDef = nullptr;
+			AIHCGetWeaponDefById fetchCmd = {event.weaponDefId, fetchedWeaponDef};
 
 			// NOTE: CAIAICallback::HandleCommand does nothing with this event atm
 			if ((globalAICallback->GetAICallback())->HandleCommand(AIHCGetWeaponDefByIdId, &fetchCmd) != 1) {

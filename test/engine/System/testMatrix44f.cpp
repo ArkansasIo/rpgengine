@@ -16,9 +16,15 @@ InitSpringTime ist;
 
 static const int testRuns = 40000000;
 
+#ifdef _MSC_VER
+#define _noinline __declspec(noinline)
+typedef __declspec(align(16)) CMatrix44f m44;
+typedef __declspec(align(16)) float4 f4;
+#else
 #define _noinline __attribute__((__noinline__))
 typedef CMatrix44f m44 __attribute__((aligned(16)));
 typedef float4 f4 __attribute__((aligned(16)));
+#endif
 static m44 m;
 static m44 m_;
 

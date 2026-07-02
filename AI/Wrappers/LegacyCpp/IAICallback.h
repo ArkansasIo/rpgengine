@@ -21,6 +21,23 @@ class CCommandQueue;
 struct UnitDef;
 struct FeatureDef;
 struct WeaponDef;
+#ifdef BUILDING_AI
+using ArcLightLegacyAI::UnitResourceInfo;
+using ArcLightLegacyAI::PointMarker;
+using ArcLightLegacyAI::LineMarker;
+using ArcLightLegacyAI::AIHCAddMapPoint;
+using ArcLightLegacyAI::AIHCAddMapLine;
+using ArcLightLegacyAI::AIHCRemoveMapPoint;
+using ArcLightLegacyAI::AIHCSendStartPos;
+using ArcLightLegacyAI::AIHCGetUnitDefById;
+using ArcLightLegacyAI::AIHCGetWeaponDefById;
+using ArcLightLegacyAI::AIHCGetFeatureDefById;
+using ArcLightLegacyAI::AIHCTraceRay;
+using ArcLightLegacyAI::AIHCFeatureTraceRay;
+using ArcLightLegacyAI::AIHCPause;
+using ArcLightLegacyAI::AIHCGetDataDir;
+using ArcLightLegacyAI::AIHCDebugDraw;
+#endif
 
 /// Generalized callback interface, used by Global AIs
 class IAICallback

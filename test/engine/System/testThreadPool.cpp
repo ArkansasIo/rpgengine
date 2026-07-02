@@ -2,6 +2,7 @@
 
 #include "System/Threading/ThreadPool.h"
 #include "System/Log/ILog.h"
+#include "System/Platform/Threading.h"
 #include "System/Threading/SpringThreading.h"
 #include "System/Misc/SpringTime.h"
 #include "System/SpringMath.h"
@@ -343,4 +344,3 @@ TEST_CASE("Cleanup")
 	ThreadPool::SetThreadCount(0);
 	CHECK(ThreadPool::GetNumThreads() == 1);
 }
-

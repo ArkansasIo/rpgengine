@@ -1,0 +1,29 @@
+{
+  "name": "arclight-gameengine",
+  "version-string": "0.1.0",
+  "dependencies": [
+    "sdl3",
+    "vulkan",
+    "imgui",
+    "glm",
+    "entt",
+    "zlib",
+    "glew",
+    "openal-soft",
+    "libogg",
+    "libvorbis",
+    "devil"
+  ],
+  "features": {
+    "modern": {
+      "description": "C++23 renderer/app stack: SDL3, Vulkan/D3D12, Dear ImGui, GLM, and EnTT.",
+      "dependencies": [
+        "sdl3",
+        "vulkan",
+        "imgui",
+        "glm",
+        "entt"
+      ]
+    }
+  }
+}

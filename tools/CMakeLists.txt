@@ -1,7 +1,11 @@
 
 add_subdirectory(unitsync)
 add_subdirectory(DemoTool)
-add_subdirectory(mapcompile)
+if(MSVC AND CMAKE_SIZEOF_VOID_P EQUAL 8)
+	message(WARNING "Skipping mapcompile/mapdecompile: bundled DevIL/ILU libraries are not x64 MSVC-compatible")
+else()
+	add_subdirectory(mapcompile)
+endif()
 
 if    (NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pr-downloader/CMakeLists.txt")
 	message(FATAL_ERROR "${CMAKE_CURRENT_SOURCE_DIR}/pr-downloader/ is missing, please run\n git submodule init && git submodule update")

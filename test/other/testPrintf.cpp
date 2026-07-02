@@ -131,7 +131,7 @@ TEST_CASE("Printf")
 	LOG("\n");
 	LOG("----------------------");
 	LOG("-- printf comparisions");
-#ifdef _WIN32
+#if defined(__MINGW32__) || defined(__MINGW64__)
 	LOG("\n__mingw_sprintf:");
 	_set_output_format(_TWO_DIGIT_EXPONENT);
 	for (const auto& p: testNumbers) {

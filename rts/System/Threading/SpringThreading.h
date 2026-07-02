@@ -88,4 +88,17 @@ namespace ArcLight {
 	};
 }
 
+namespace spring {
+	using ArcLight::mutex;
+	using ArcLight::recursive_mutex;
+	using ArcLight::signal;
+	using ArcLight::condition_variable;
+	using ArcLight::thread;
+	using ArcLight::cv_status;
+	using ArcLight::condition_variable_any;
+	using ArcLight::spinlock;
+	using ArcLight::barrier;
+	namespace this_thread { using namespace ArcLight::this_thread; }
+}
+
 #endif // SPRINGTHREADING_H

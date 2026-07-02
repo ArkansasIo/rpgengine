@@ -25,8 +25,8 @@ void SimObjectIDPool::Expand(unsigned int baseID, unsigned int numIDs) {
 	std::generate(newIDs.begin(), newIDs.begin() + numIDs, [&baseID]() { return (baseID++); });
 
 	// randomize so that Lua widgets can not easily determine counts
-	std::random_shuffle(newIDs.begin(), newIDs.begin() + numIDs, gsRNG);
-	std::random_shuffle(newIDs.begin(), newIDs.begin() + numIDs, gsRNG);
+	std::shuffle(newIDs.begin(), newIDs.begin() + numIDs, gsRNG);
+	std::shuffle(newIDs.begin(), newIDs.begin() + numIDs, gsRNG);
 
 	// lambda capture ("[n = baseID]() mutable { return (n++); }") requires std=c++14
 	baseID -= numIDs;
@@ -136,4 +136,3 @@ bool SimObjectIDPool::HasID(unsigned int uid) const {
 
 	return (freeIDs.find(idx) != freeIDs.end());
 }
-

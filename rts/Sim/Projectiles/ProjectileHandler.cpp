@@ -31,6 +31,13 @@
 #include "System/SpringMath.h"
 #include "System/TimeProfiler.h"
 
+template<typename Iter, typename RandFunc>
+static void ShuffleWithBoundedRand(Iter begin, Iter end, RandFunc randFunc)
+{
+	for (auto n = end - begin; n > 1; --n) {
+		std::iter_swap(begin + (n - 1), begin + randFunc(static_cast<unsigned int>(n)));
+	}
+}
 
 // reserve 5% of maxNanoParticles for important stuff such as capture and reclaim other teams' units
 #define NORMAL_NANO_PRIO 0.95f
@@ -106,8 +113,8 @@ void CProjectileHandler::Init()
 			freeProjectileIDs[false].push_back(i);
 		}
 
-		std::random_shuffle(freeProjectileIDs[ true].begin(), freeProjectileIDs[ true].end(), gsRNG);
-		std::random_shuffle(freeProjectileIDs[false].begin(), freeProjectileIDs[false].end(), guRNG);
+		std::shuffle(freeProjectileIDs[ true].begin(), freeProjectileIDs[ true].end(), gsRNG);
+		std::shuffle(freeProjectileIDs[false].begin(), freeProjectileIDs[false].end(), guRNG);
 	}
 
 	for (int modelType = 0; modelType < MODELTYPE_OTHER; ++modelType) {
@@ -395,7 +402,7 @@ void CProjectileHandler::AddProjectile(CProjectile* p)
 
 			// generate (newSize - oldSize) new id's starting from oldSize
 			std::for_each(freeIDs.begin(), freeIDs.end(), [k = oldSize](int& id) mutable { id = k++; });
-			std::random_shuffle(freeIDs.begin(), freeIDs.end(), rngFunc);
+			ShuffleWithBoundedRand(freeIDs.begin(), freeIDs.end(), rngFunc);
 		}
 
 
@@ -825,4 +832,3 @@ int CProjectileHandler::GetCurrentParticles() const
 	partCount += groundFlashes.size();
 	return partCount;
 }
-

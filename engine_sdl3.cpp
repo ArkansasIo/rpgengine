@@ -1,6 +1,6 @@
 /* ArkLight Beyond - SDL3 Graphical Launcher
  * Developer: Stephen
- * SDL3 + OpenGL 3.3 renderer with full engine integration.
+ * SDL3 + OpenGL 2.1 compatibility renderer with full engine integration.
  * Supports PC, PS5, Xbox, and Switch via platform abstraction.
  *
  * Build (Windows):
@@ -196,10 +196,10 @@ void DrawHUD(const UIState& ui){
 
 int main(int /*argc*/, char* /*argv*/[]){
     if(!SDL_Init(SDL_INIT_VIDEO|SDL_INIT_GAMEPAD)){fprintf(stderr,"SDL3 init: %s\n",SDL_GetError());return 1;}
-    printf("ArkLight Beyond | SDL3 | OpenGL 3.3 | Developer: Stephen\n");
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION,3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION,3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,SDL_GL_CONTEXT_PROFILE_CORE);
+    printf("ArkLight Beyond | SDL3 | OpenGL 2.1 compatibility | Developer: Stephen\n");
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION,2);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION,1);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,0);
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER,1);
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,24);
     int sw=1280,sh=720;

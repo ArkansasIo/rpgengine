@@ -425,6 +425,9 @@ add_test(NAME testEngine COMMAND ${CMAKE_BINARY_DIR}/spring${CMAKE_EXECUTABLE_SU
 
 ################################################################################
 ### OpenGL
+if(MSVC AND CMAKE_SIZEOF_VOID_P EQUAL 8)
+	message(WARNING "Skipping test_GLContextCreation: bundled SDL/GLEW libraries are not x64 MSVC-compatible")
+else()
 	set(test_name GLContextCreation)
 	set(test_src
 		"${CMAKE_CURRENT_SOURCE_DIR}/other/testGLContextCreation.cpp"
@@ -435,9 +438,20 @@ add_test(NAME testEngine COMMAND ${CMAKE_BINARY_DIR}/spring${CMAKE_EXECUTABLE_SU
 		${SDL2_LINK_LIBRARIES}
 		test_Log
 	)
+	if(MSVC AND MINGWLIBS)
+		list(APPEND test_libs
+			opengl32.lib
+			${CMAKE_SOURCE_DIR}/vclibs/lib/glew32s.lib
+			${CMAKE_SOURCE_DIR}/vclibs/lib/SDL2.lib
+		)
+	endif()
 	set(test_flags NOT_USING_CREG STREFLOP_SSE BUILDING_AI)
 	add_spring_test(${test_name} "${test_src}" "${test_libs}" "${test_flags}")
+	if(MSVC AND MINGWLIBS)
+		target_compile_definitions(test_${test_name} PRIVATE GLEW_STATIC)
+	endif()
 	target_include_directories(test_${test_name} PRIVATE ${SDL2_INCLUDE_DIRS} ${GLEW_INCLUDE_DIR})
+endif()
 
 ################################################################################
 ### SQRT

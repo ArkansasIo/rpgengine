@@ -130,11 +130,13 @@ private:
 
 static const spring_time ArcLight_notime(0);
 static const spring_time ArcLight_nulltime(0);
+using ArcLight_time = spring_time;
 
 //#define spring_gettime()      spring_time::gettime()
 #define spring_gettime()      spring_time::getelapsedtime()
 #define ArcLight_getstarttime() spring_time::getstarttime()
 #define spring_now()          spring_time::getelapsedtime()
+#define ArcLight_now()        spring_now()
 
 #define ArcLight_tomsecs(t) ((t).toMilliSecsi())
 #define ArcLight_istime(t) ((t).isTime())
@@ -142,6 +144,11 @@ static const spring_time ArcLight_nulltime(0);
 
 #define ArcLight_msecs(msecs) spring_time(msecs)
 #define ArcLight_secs(secs) spring_time((secs) * 1000)
+
+#define spring_msecs(msecs) ArcLight_msecs(msecs)
+#define spring_secs(secs) ArcLight_secs(secs)
+#define spring_istime(t) ArcLight_istime(t)
+#define spring_sleep(t) ArcLight_sleep(t)
 
 
 

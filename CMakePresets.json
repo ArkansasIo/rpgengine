@@ -1,0 +1,55 @@
+{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "vs2022-x64",
+      "displayName": "VS2022 x64",
+      "generator": "Visual Studio 17 2022",
+      "architecture": "x64",
+      "binaryDir": "${sourceDir}/build-vs",
+      "cacheVariables": {
+        "CMAKE_INSTALL_PREFIX": "${sourceDir}/install",
+        "MINGWLIBS": "${sourceDir}/vclibs",
+        "AI_TYPES": "NATIVE",
+        "ARCLIGHT_CXX_STANDARD": "23",
+        "ARCLIGHT_ENABLE_MODERN_STACK": "ON"
+      }
+    },
+    {
+      "name": "vs2022-x64-vcpkg",
+      "displayName": "VS2022 x64 + vcpkg modern stack",
+      "inherits": "vs2022-x64",
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+        "VCPKG_TARGET_TRIPLET": "x64-windows",
+        "ARCLIGHT_REQUIRE_MODERN_STACK": "ON"
+      }
+    },
+    {
+      "name": "vs2022-x64-conan",
+      "displayName": "VS2022 x64 + Conan modern stack",
+      "inherits": "vs2022-x64",
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build-conan/generators/conan_toolchain.cmake",
+        "ARCLIGHT_REQUIRE_MODERN_STACK": "ON"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "vs2022-x64-debug",
+      "configurePreset": "vs2022-x64",
+      "configuration": "Debug"
+    },
+    {
+      "name": "vs2022-x64-vcpkg-release",
+      "configurePreset": "vs2022-x64-vcpkg",
+      "configuration": "Release"
+    },
+    {
+      "name": "vs2022-x64-conan-release",
+      "configurePreset": "vs2022-x64-conan",
+      "configuration": "Release"
+    }
+  ]
+}

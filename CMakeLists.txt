@@ -9,9 +9,31 @@ set(CMAKE_USER_MAKE_RULES_OVERRIDE "${CMAKE_MODULES_SPRING}/OverrideFlags.cmake"
 
 project(ArcLight)
 
+set(ARCLIGHT_CXX_STANDARD 23 CACHE STRING "C++ language standard for ArcLight targets")
+set_property(CACHE ARCLIGHT_CXX_STANDARD PROPERTY STRINGS 17 20 23)
+
+set(CMAKE_CXX_STANDARD ${ARCLIGHT_CXX_STANDARD})
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+if(MSVC)
+	if(ARCLIGHT_CXX_STANDARD GREATER_EQUAL 23)
+		add_compile_options($<$<COMPILE_LANGUAGE:CXX>:/std:c++latest>)
+	elseif(ARCLIGHT_CXX_STANDARD EQUAL 20)
+		add_compile_options($<$<COMPILE_LANGUAGE:CXX>:/std:c++20>)
+	else()
+		add_compile_options($<$<COMPILE_LANGUAGE:CXX>:/std:c++17>)
+	endif()
+endif()
+
+include(cmake/ArcLightModernStack.cmake)
+
 # dummy so that qtcreator shows all files (even those of windows)
 if(CMAKE_VERSION VERSION_GREATER 3.1.2)
 	add_library(platform_sources EXCLUDE_FROM_ALL "")
+	target_include_directories(platform_sources PRIVATE
+		"${CMAKE_CURRENT_SOURCE_DIR}/rts"
+		"${CMAKE_CURRENT_SOURCE_DIR}/vclibs/include/SDL2"
+	)
 endif ()
 
 # includes rts/build/cmake/Util.cmake & rts/build/cmake/PreferStaticLibs.cmake
@@ -242,7 +264,7 @@ endif ()
 
 
 find_package(PkgConfig)
-if(PKG_CONFIG_FOUND)
+if(PKG_CONFIG_FOUND AND NOT MSVC)
 	pkg_check_modules(SDL2 REQUIRED sdl2>=2)
 	pkg_check_modules(OPENGL REQUIRED opengl)
 	pkg_check_modules(GLEW REQUIRED glew>=1.5.1)
@@ -257,6 +279,7 @@ else()
 	find_library(GLEW_LIBRARY glew32)
 	find_path(IL_INCLUDE_DIR IL/il.h)
 	find_library(IL_LIBRARY DevIL)
+	find_library(ILU_LIBRARY ILU)
 	if(SDL2_INCLUDE_DIR AND SDL2_LIBRARY)
 		set(SDL2_FOUND TRUE)
 		set(SDL2_INCLUDE_DIRS ${SDL2_INCLUDE_DIR})
@@ -273,6 +296,9 @@ else()
 		set(IL_FOUND TRUE)
 		set(IL_INCLUDE_DIRS ${IL_INCLUDE_DIR})
 		set(IL_LIBRARIES ${IL_LIBRARY})
+		if(ILU_LIBRARY)
+			list(APPEND IL_LIBRARIES ${ILU_LIBRARY})
+		endif()
 		message(STATUS "Found DevIL: ${IL_LIBRARY}")
 	endif()
 endif()
@@ -299,6 +325,8 @@ find_package(Valgrind)
 if    (VALGRIND_FOUND)
 	add_definitions(-DUSE_VALGRIND)
 endif ()
+
+arclight_configure_modern_stack()
 
 include (CheckSymbolExists)
 check_symbol_exists(strnlen string.h HAVE_STRNLEN)
@@ -346,7 +374,7 @@ else()
 	message(WARNING "You are using ld.bfd, it's much slower than ld.gold.")
 endif()
 
-message(STATUS "Compiling with C++17")
+message(STATUS "Compiling with C++${ARCLIGHT_CXX_STANDARD}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX17_FLAGS}")
 
 add_definitions(-D_GLIBCXX_USE_NANOSLEEP) # issue in std::chrono with gentoo and few other distros

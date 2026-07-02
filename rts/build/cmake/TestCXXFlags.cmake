@@ -70,7 +70,20 @@ endif ()
 
 
 if (NOT DEFINED CXX17_FLAGS)
-	CHECK_AND_ADD_FLAGS(CXX17_FLAGS "-std=c++17")
+	if (MSVC)
+		set(CXX17_FLAGS "")
+	elseif (DEFINED ARCLIGHT_CXX_STANDARD AND ARCLIGHT_CXX_STANDARD GREATER_EQUAL 23)
+		check_cxx_accepts_flag("-std=c++23" HAS_CXX23_FLAG)
+		if (HAS_CXX23_FLAG)
+			set(CXX17_FLAGS "-std=c++23")
+		else ()
+			CHECK_AND_ADD_FLAGS(CXX17_FLAGS "-std=c++2b")
+		endif ()
+	elseif (DEFINED ARCLIGHT_CXX_STANDARD AND ARCLIGHT_CXX_STANDARD EQUAL 20)
+		CHECK_AND_ADD_FLAGS(CXX17_FLAGS "-std=c++20")
+	else ()
+		CHECK_AND_ADD_FLAGS(CXX17_FLAGS "-std=c++17")
+	endif ()
 endif ()
 
 

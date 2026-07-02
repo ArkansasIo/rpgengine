@@ -337,7 +337,7 @@ static UnitsyncConfigObserver* unitsyncConfigObserver = nullptr;
 
 static void _Cleanup()
 {
-	spring::SafeDelete(unitsyncConfigObserver);
+	ArcLight::SafeDelete(unitsyncConfigObserver);
 	internal_deleteMapInfos();
 
 	lpClose();
@@ -2415,4 +2415,3 @@ EXPORT(bool) IsSpringReleaseVersion()
 	return false;
 }
 #endif
-

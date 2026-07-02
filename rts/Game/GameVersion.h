@@ -111,4 +111,6 @@ namespace ArcLightVersion
 	extern const std::string& GetFull();
 }
 
+namespace SpringVersion = ArcLightVersion;
+
 #endif // GAME_VERSION_H

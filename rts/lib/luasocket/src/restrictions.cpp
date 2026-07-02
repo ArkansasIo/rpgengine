@@ -35,7 +35,7 @@ CLuaSocketRestrictions* luaSocketRestrictions = nullptr;
 
 
 void CLuaSocketRestrictions::InitStatic() { luaSocketRestrictions = new (luaSocketRestrictionsMem) CLuaSocketRestrictions(); }
-void CLuaSocketRestrictions::KillStatic() { spring::SafeDestruct(luaSocketRestrictions); }
+void CLuaSocketRestrictions::KillStatic() { ArcLight::SafeDestruct(luaSocketRestrictions); }
 
 
 CLuaSocketRestrictions::CLuaSocketRestrictions()
@@ -193,4 +193,3 @@ const char* CLuaSocketRestrictions::ruleToStr(RestrictType type) {
 		default: return "INVALID";
 	}
 }
-

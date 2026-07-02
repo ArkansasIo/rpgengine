@@ -48,6 +48,15 @@ if(NOT NO_SOUND)
 	pkg_check_modules(OGG REQUIRED ogg)
 	pkg_check_modules(VORBISFILE REQUIRED vorbisfile)
 
+	if(MSVC AND MINGWLIBS)
+		list(APPEND OPENAL_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/vclibs/include/AL)
+		list(APPEND OGG_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/vclibs/include)
+		list(APPEND VORBIS_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/vclibs/include)
+		list(APPEND OPENAL_LINK_LIBRARIES ${CMAKE_SOURCE_DIR}/vclibs/lib/OpenAL32.lib)
+		list(APPEND OGG_LINK_LIBRARIES ${CMAKE_SOURCE_DIR}/vclibs/lib/ogg.lib)
+		list(APPEND VORBISFILE_LINK_LIBRARIES ${CMAKE_SOURCE_DIR}/vclibs/lib/vorbisfile.lib ${CMAKE_SOURCE_DIR}/vclibs/lib/vorbis.lib)
+	endif()
+
 	add_library(sound STATIC EXCLUDE_FROM_ALL ${soundSources})
 	target_link_libraries(sound
 		PRIVATE

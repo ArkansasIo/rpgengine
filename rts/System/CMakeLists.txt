@@ -97,12 +97,12 @@ set(sources_engine_System_Threading_Windows
 
 target_sources(platform_sources
 	PRIVATE
-		${sources_engine_System_Platform_Windows}
-		${sources_engine_System_Platform_Linux}
-		${sources_engine_System_Platform_Mac}
-		${sources_engine_System_Threading_Windows}
-		${sources_engine_System_Threading_Linux}
-		${sources_engine_System_Threading_Mac}
+		$<$<PLATFORM_ID:Windows>:${sources_engine_System_Platform_Windows}>
+		$<$<PLATFORM_ID:Windows>:${sources_engine_System_Threading_Windows}>
+		$<$<PLATFORM_ID:Linux>:${sources_engine_System_Platform_Linux}>
+		$<$<PLATFORM_ID:Linux>:${sources_engine_System_Threading_Linux}>
+		$<$<PLATFORM_ID:Darwin>:${sources_engine_System_Platform_Mac}>
+		$<$<PLATFORM_ID:Darwin>:${sources_engine_System_Threading_Mac}>
 	)
 
 set(sources_engine_System_Threading
