@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArcLight Engine API Reference</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #0a0e1a; color: #c8d6e5; line-height: 1.6; }
+        .header { background: linear-gradient(135deg, #0a1628, #0d1a2d); padding: 40px 0; text-align: center; border-bottom: 1px solid #1a3050; }
+        .header h1 { font-size: 36px; color: #00d4ff; letter-spacing: 3px; }
+        .header p { color: #6699bb; margin-top: 10px; font-size: 14px; letter-spacing: 2px; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; display: flex; }
+        .sidebar { width: 280px; background: #0d1520; padding: 20px; border-right: 1px solid #1a3050; position: fixed; height: calc(100vh - 120px); overflow-y: auto; }
+        .sidebar h3 { color: #00d4ff; font-size: 13px; letter-spacing: 2px; margin-bottom: 15px; text-transform: uppercase; }
+        .sidebar a { display: block; color: #8899aa; text-decoration: none; padding: 8px 12px; border-radius: 4px; font-size: 14px; transition: all 0.2s; }
+        .sidebar a:hover, .sidebar a.active { background: #1a2a40; color: #00d4ff; }
+        .sidebar .section { margin-bottom: 20px; }
+        .sidebar .section-title { color: #445566; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; padding-left: 12px; }
+        .content { margin-left: 300px; flex: 1; padding: 30px; }
+        .content h2 { color: #00d4ff; font-size: 24px; margin: 30px 0 15px; padding-bottom: 8px; border-bottom: 1px solid #1a3050; }
+        .content h3 { color: #66aadd; font-size: 18px; margin: 25px 0 10px; }
+        .content p { margin-bottom: 12px; color: #aabbcc; }
+        .code-block { background: #0d1520; border: 1px solid #1a3050; border-radius: 6px; padding: 16px; margin: 15px 0; overflow-x: auto; font-family: 'Consolas', 'Fira Code', monospace; font-size: 13px; line-height: 1.5; }
+        .code-block .kw { color: #569cd6; }
+        .code-block .type { color: #4ec9b0; }
+        .code-block .str { color: #ce9178; }
+        .code-block .comment { color: #6a9955; }
+        .code-block .fn { color: #dcdcaa; }
+        .code-block .num { color: #b5cea8; }
+        .table-wrap { overflow-x: auto; margin: 15px 0; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        th { background: #1a2a40; color: #00d4ff; padding: 10px 14px; text-align: left; font-weight: 600; }
+        td { padding: 10px 14px; border-bottom: 1px solid #1a3050; }
+        tr:hover td { background: #0d1520; }
+        .badge { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 11px; font-weight: 600; }
+        .badge-core { background: #1a3050; color: #00d4ff; }
+        .badge-gameplay { background: #1a3a20; color: #00cc66; }
+        .badge-ui { background: #3a1a30; color: #cc66aa; }
+        .badge-ai { background: #3a3010; color: #ccaa44; }
+        .nav-btn { display: inline-block; padding: 8px 16px; background: #1a2a40; color: #00d4ff; border: 1px solid #2a4060; border-radius: 4px; text-decoration: none; margin: 5px; font-size: 13px; transition: all 0.2s; }
+        .nav-btn:hover { background: #2a4060; }
+        .toc { column-count: 2; column-gap: 30px; }
+        .toc a { break-inside: avoid; }
+        @media (max-width: 768px) { .sidebar { display: none; } .content { margin-left: 0; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>ArcLight Engine API</h1>
+        <p>UNREAL 5 INSPIRED | RTS | 4X | MMORPG | DEVELOPER: STEPHEN</p>
+    </div>
+    <div class="container">
+        <div class="sidebar">
+            <div class="section">
+                <div class="section-title">Core</div>
+                <a href="#ecs">ECS System</a>
+                <a href="#components">Components</a>
+                <a href="#world">World Manager</a>
+            </div>
+            <div class="section">
+                <div class="section-title">Gameplay</div>
+                <a href="#abilities">Ability System</a>
+                <a href="#selection">Unit Selection</a>
+                <a href="#commands">Command Execution</a>
+                <a href="#quests">Quest System</a>
+                <a href="#crafting">Crafting System</a>
+            </div>
+            <div class="section">
+                <div class="section-title">Simulation</div>
+                <a href="#physics">Physics & Destruction</a>
+                <a href="#particles">Niagara Particles</a>
+                <a href="#ai">Behavior Trees</a>
+                <a href="#rts">RTS World</a>
+            </div>
+            <div class="section">
+                <div class="section-title">Game Systems</div>
+                <a href="#factions">Factions & Diplomacy</a>
+                <a href="#trade">Trade & Economy</a>
+                <a href="#save">Save/Load</a>
+            </div>
+            <div class="section">
+                <div class="section-title">UI & Editor</div>
+                <a href="#stellaris">Stellaris UI</a>
+                <a href="#editor">UE5 Editor UI</a>
+                <a href="#blueprint">Blueprint System</a>
+                <a href="#menus">Menu System</a>
+                <a href="#settings">Settings</a>
+            </div>
+        </div>
+        <div class="content">
+            <h2 id="ecs">ECS - Entity Component System</h2>
+            <p>UE5-inspired ECS with zero virtual dispatch. Entities are lightweight IDs owning data-only components.</p>
+            <div class="code-block">
+<span class="kw">namespace</span> <span class="type">arclight</span> {
+    <span class="type">EntityManager</span> mgr;
+    <span class="type">EntityID</span> e = mgr.<span class="fn">CreateEntity</span>();
+    <span class="kw">auto</span>&amp; t = mgr.<span class="fn">AddComponent</span>&lt;<span class="type">TransformComponent</span>&gt;(e);
+    t.<span class="fn">SetPosition</span>(<span class="type">float3</span>(<span class="num">100</span>, <span class="num">0</span>, <span class="num">200</span>));
+
+    <span class="kw">auto</span>* h = mgr.<span class="fn">GetComponent</span>&lt;<span class="type">HealthComponent</span>&gt;(e);
+    h-&gt;<span class="fn">ApplyDamage</span>(<span class="num">50.0f</span>);
+}
+            </div>
+
+            <h3>EntityManager</h3>
+            <div class="table-wrap">
+            <table>
+                <tr><th>Method</th><th>Returns</th><th>Description</th></tr>
+                <tr><td><code>CreateEntity()</code></td><td>EntityID</td><td>Spawn a new entity</td></tr>
+                <tr><td><code>DestroyEntity(id)</code></td><td>void</td><td>Remove entity and all components</td></tr>
+                <tr><td><code>AddComponent&lt;T&gt;(id)</code></td><td>T&amp;</td><td>Attach component to entity</td></tr>
+                <tr><td><code>GetComponent&lt;T&gt;(id)</code></td><td>T*</td><td>Get component (nullptr if missing)</td></tr>
+                <tr><td><code>HasComponent&lt;T&gt;(id)</code></td><td>bool</td><td>Check if entity has component</td></tr>
+                <tr><td><code>ForEachComponent&lt;T&gt;(fn)</code></td><td>void</td><td>Iterate all entities with T</td></tr>
+            </table>
+            </div>
+
+            <h2 id="components">Components</h2>
+            <div class="table-wrap">
+            <table>
+                <tr><th>Component</th><th>Category</th><th>Key Members</th></tr>
+                <tr><td><code>TransformComponent</code></td><td><span class="badge badge-core">Core</span></td><td>position, rotation, scale, parent, GetForward(), GetRight()</td></tr>
+                <tr><td><code>HealthComponent</code></td><td><span class="badge badge-gameplay">Gameplay</span></td><td>maxHealth, currentHealth, shield, armor, ApplyDamage(), Heal()</td></tr>
+                <tr><td><code>WeaponComponent</code></td><td><span class="badge badge-gameplay">Gameplay</span></td><td>damage, range, fireRate, fireMode, criticalChance, CanFire()</td></tr>
+                <tr><td><code>MovementComponent</code></td><td><span class="badge badge-core">Core</span></td><td>maxSpeed, acceleration, velocity, pathWaypoints, UpdateMovement()</td></tr>
+                <tr><td><code>FogOfWarComponent</code></td><td><span class="badge badge-gameplay">Gameplay</span></td><td>sightRadius, radarRange, isCloaked, GetVisibility()</td></tr>
+                <tr><td><code>SelectionComponent</code></td><td><span class="badge badge-ui">UI</span></td><td>state, isSelectable, groupID</td></tr>
+                <tr><td><code>InventoryComponent</code></td><td><span class="badge badge-gameplay">Gameplay</span></td><td>slots[40], AddItem(), EquipItem(), weight</td></tr>
+            </table>
+            </div>
+
+            <h2 id="world">World Manager</h2>
+            <div class="code-block">
+<span class="type">World</span> world;
+<span class="type">EntityID</span> unit = world.<span class="fn">SpawnEntity</span>();
+world.<span class="fn">GetEntityManager</span>().<span class="fn">AddComponent</span>&lt;<span class="type">TransformComponent</span>&gt;(unit);
+world.<span class="fn">TagEntity</span>(unit, <span class="str">"enemy_unit"</span>);
+world.<span class="fn">UpdateSystems</span>(deltaTime);
+            </div>
+
+            <h2 id="abilities">Gameplay Ability System</h2>
+            <div class="code-block">
+<span class="type">AbilitySystemComponent</span> asc;
+<span class="kw">auto</span> fireball = std::make_unique&lt;<span class="type">GameplayAbility</span>&gt;();
+fireball-&gt;abilityName = <span class="str">"Fireball"</span>;
+fireball-&gt;cooldown.duration = <span class="num">3.0f</span>;
+fireball-&gt;onActivate = []() { printf(<span class="str">"Fire!\n"</span>); };
+asc.<span class="fn">AddAbility</span>(std::move(fireball));
+asc.<span class="fn">TryActivateAbility</span>(<span class="num">1</span>);
+            </div>
+
+            <h2 id="selection">Unit Selection</h2>
+            <div class="code-block">
+<span class="type">UnitSelectionSystem</span> sel;
+
+<span class="comment">// Click to select nearest unit</span>
+<span class="type">SelectableUnit</span>* unit = sel.<span class="fn">ClickAtPosition</span>(worldPos, <span class="num">50.0f</span>);
+
+<span class="comment">// Double-click to focus camera</span>
+sel.<span class="fn">DoubleClickFocus</span>(unit-&gt;position);
+
+<span class="comment">// Drag box select</span>
+sel.<span class="fn">StartDragSelect</span>(boxMin);
+sel.<span class="fn">UpdateDragSelect</span>(boxMax);
+sel.<span class="fn">EndDragSelect</span>();
+
+<span class="comment">// Issue commands</span>
+sel.<span class="fn">IssueMoveCommand</span>(targetPos);
+sel.<span class="fn">IssueAttackCommand</span>(enemyUnit);
+sel.<span class="fn">IssueStopCommand</span>();
+            </div>
+
+            <h2 id="commands">Command Execution</h2>
+            <div class="table-wrap">
+            <table>
+                <tr><th>Template</th><th>Category</th><th>Type</th><th>Icon</th></tr>
+                <tr><td>move</td><td>Movement</td><td>Move</td><td>↗</td></tr>
+                <tr><td>attack</td><td>Combat</td><td>Attack</td><td>⚔</td></tr>
+                <tr><td>stop</td><td>Control</td><td>Stop</td><td>⏹</td></tr>
+                <tr><td>hold</td><td>Control</td><td>Hold</td><td>🛡</td></tr>
+                <tr><td>patrol</td><td>Movement</td><td>Patrol</td><td>🔄</td></tr>
+                <tr><td>guard</td><td>Control</td><td>Guard</td><td>👁</td></tr>
+                <tr><td>repair</td><td>Utility</td><td>Repair</td><td>🔧</td></tr>
+                <tr><td>reclaim</td><td>Utility</td><td>Reclaim</td><td>♻</td></tr>
+                <tr><td>build</td><td>Construction</td><td>Build</td><td>🏗</td></tr>
+                <tr><td>research</td><td>Technology</td><td>Research</td><td>🔬</td></tr>
+            </table>
+            </div>
+
+            <h2 id="physics">Physics & Destruction</h2>
+            <div class="code-block">
+<span class="type">PhysicsSystem</span> ps;
+<span class="type">RigidBody</span> body;
+body.position = <span class="type">float3</span>(<span class="num">0</span>, <span class="num">100</span>, <span class="num">0</span>);
+body.mass = <span class="num">1.0f</span>;
+ps.<span class="fn">AddBody</span>(body);
+
+<span class="type">DestructionSystem</span> ds;
+<span class="type">DestructionEvent</span> evt;
+evt.damage = <span class="num">100</span>;
+evt.impactPoint = <span class="type">float3</span>(<span class="num">0</span>, <span class="num">50</span>, <span class="num">0</span>);
+<span class="kw">auto</span> chunks = ds.<span class="fn">Fracture</span>(center, size, evt);
+            </div>
+
+            <h2 id="particles">Niagara Particle System</h2>
+            <div class="code-block">
+<span class="type">NiagaraSystem</span> ns;
+ns.<span class="fn">AddModule</span>(std::make_unique&lt;<span class="type">SpawnRateModule</span>&gt;());
+ns.<span class="fn">AddModule</span>(std::make_unique&lt;<span class="type">GravityModule</span>&gt;());
+ns.<span class="fn">AddModule</span>(std::make_unique&lt;<span class="type">SizeOverLifetimeModule</span>&gt;());
+ns.<span class="fn">AddModule</span>(std::make_unique&lt;<span class="type">KillDeadModule</span>&gt;());
+ns.<span class="fn">Update</span>(deltaTime);
+            </div>
+
+            <h2 id="ai">Behavior Trees</h2>
+            <div class="code-block">
+<span class="type">BehaviorTree</span> bt;
+bt.blackboard.<span class="fn">SetValue</span>(<span class="str">"health"</span>, <span class="num">100.0f</span>);
+<span class="kw">auto</span> sel = std::make_unique&lt;<span class="type">SelectorNode</span>&gt;();
+<span class="kw">auto</span> task = std::make_unique&lt;<span class="type">TaskNode</span>&gt;();
+task-&gt;executeFunc = [](<span class="type">BehaviorTreeComponent</span>&amp;) {
+    <span class="kw">return</span> <span class="type">ENodeResult</span>::Success;
+};
+sel-&gt;<span class="fn">AddChild</span>(std::move(task));
+bt.rootNode = std::move(sel);
+            </div>
+
+            <h2 id="rts">RTS World System</h2>
+            <div class="code-block">
+<span class="type">RTSWorld</span> rts;
+<span class="kw">int</span> z1 = rts.<span class="fn">CreateZone</span>(center, <span class="num">500.0f</span>);
+rts.<span class="fn">ConnectZones</span>(z1, z2);
+rts.<span class="fn">CaptureZone</span>(z1, teamID);
+rts.<span class="fn">CreateResourceNode</span>(pos, <span class="num">200.0f</span>);
+<span class="kw">auto</span> path = rts.<span class="fn">FindPath</span>(z1, z3);
+            </div>
+
+            <h2 id="factions">Factions & Diplomacy</h2>
+            <div class="code-block">
+<span class="type">FactionSystem</span> fs;
+fs.<span class="fn">RegisterFaction</span>({<span class="str">"humans"</span>, <span class="str">"Human Empire"</span>});
+fs.<span class="fn">ChangeReputation</span>(<span class="str">"humans"</span>, <span class="num">50.0f</span>);
+fs.<span class="fn">SetDiplomacy</span>(<span class="str">"humans"</span>, <span class="str">"aliens"</span>, <span class="type">DiplomacyState</span>::Friendly);
+            </div>
+
+            <h2 id="trade">Trade & Economy</h2>
+            <div class="code-block">
+<span class="type">TradeSystem</span> ts;
+ts.<span class="fn">RegisterResource</span>({<span class="str">"metal"</span>, <span class="str">"Metal"</span>, <span class="num">5.0f</span>});
+ts.<span class="fn">UpdateSupplyDemand</span>(<span class="str">"metal"</span>, <span class="num">-100.0f</span>, <span class="num">50.0f</span>);
+<span class="kw">float</span> price = ts.<span class="fn">GetMarketPrice</span>(<span class="str">"metal"</span>);
+            </div>
+
+            <h2 id="blueprint">Blueprint System</h2>
+            <div class="code-block">
+<span class="type">BlueprintSystem</span> bs;
+<span class="type">BlueprintGraph</span>* g = bs.<span class="fn">CreateGraph</span>(<span class="str">"MyBP"</span>);
+<span class="type">BlueprintNode</span>* entry = g-&gt;<span class="fn">AddNode</span>(<span class="type">EBlueprintNodeType</span>::Entry, <span class="str">"Begin"</span>, <span class="num">0</span>, <span class="num">0</span>);
+<span class="type">BlueprintNode</span>* print = g-&gt;<span class="fn">AddNode</span>(<span class="type">EBlueprintNodeType</span>::Print, <span class="str">"Print"</span>, <span class="num">300</span>, <span class="num">0</span>);
+g-&gt;<span class="fn">Connect</span>(entry-&gt;id, entry-&gt;outputPins[<span class="num">0</span>].id, print-&gt;id, print-&gt;inputPins[<span class="num">0</span>].id);
+bs.<span class="fn">CompileGraph</span>(*g);
+            </div>
+
+            <h2 id="stellaris">Stellaris-Style UI</h2>
+            <p>Top resource bar, outliner, side panels, galaxy map, tooltips, notifications.</p>
+            <div class="code-block">
+<span class="type">StellarisUI</span> ui;
+ui.<span class="fn">Init</span>();
+ui.<span class="fn">OpenPlanetView</span>(<span class="str">"Earth"</span>);
+ui.<span class="fn">OpenDiplomacy</span>(<span class="str">"Xenomorph Swarm"</span>);
+ui.topBar.resources[<span class="num">0</span>].current = <span class="num">500.0f</span>;
+            </div>
+
+            <h2 id="editor">UE5-Style Editor UI</h2>
+            <p>World Outliner, Details Panel, Place Actors, Content Browser, Toolbar.</p>
+            <div class="code-block">
+<span class="type">UE5EditorUI</span> editor;
+editor.<span class="fn">Init</span>();
+editor.<span class="fn">SelectActor</span>(<span class="str">"command_center"</span>);
+editor.worldOutliner.ToggleCategory(<span class="str">"Factions"</span>);
+editor.detailsPanel.ShowActor(<span class="str">"CommandCenter"</span>, <span class="str">"Building"</span>);
+            </div>
+
+            <h2>Quick Start</h2>
+            <div class="code-block">
+<span class="kw">#include</span> <span class="str">"ArcLightEngine.h"</span>
+<span class="kw">using namespace</span> arclight;
+
+<span class="kw">int</span> <span class="fn">main</span>() {
+    <span class="type">ArcLightEngine</span> engine;
+    engine.<span class="fn">Init</span>();
+
+    <span class="type">EntityID</span> unit = engine.<span class="fn">SpawnUnit</span>(<span class="type">float3</span>(<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>), <span class="num">0</span>);
+
+    <span class="kw">while</span> (running) {
+        <span class="kw">float</span> dt = <span class="fn">GetDeltaTime</span>();
+        engine.<span class="fn">Update</span>(dt);
+        <span class="fn">Render</span>();
+    }
+    engine.<span class="fn">Shutdown</span>();
+}
+            </div>
+
+            <p style="margin-top: 40px; color: #445566; text-align: center; font-size: 12px;">ArcLight Engine v1.0.0 | Developer: Stephen | UE5-Inspired Architecture</p>
+        </div>
+    </div>
+</body>
+</html>
