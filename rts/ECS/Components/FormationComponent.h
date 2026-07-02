@@ -1,4 +1,4 @@
-/* This file is part of the ArcLight Engine
+﻿/* This file is part of the ArcLight Engine
  * Developer: Stephen
  *
  * UE5-inspired Formation System for RTS unit control.
@@ -9,7 +9,7 @@
 #pragma once
 
 #include "../Entity.h"
-#include "../../System/float3.h"
+#include "Types.h"
 #include <vector>
 #include <string>
 

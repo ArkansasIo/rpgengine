@@ -47,7 +47,7 @@ struct Matrix44f {
     void LoadIdentity(){for(int i=0;i<16;i++)m[i]=0;m[0]=m[5]=m[10]=m[15]=1;}
     void Scale(float sx,float sy,float sz){m[0]*=sx;m[5]*=sy;m[10]*=sz;}
     void SetPos(const float3&p){m[12]=p.x;m[13]=p.y;m[14]=p.z;}
-    Matrix44f operator*(const Matrix44f&o)const{Matrix44f r;return r;}
+    Matrix44f operator*(const Matrix44f&)const{Matrix44f r;return r;}
 };
 static const float3 ZeroVector(0,0,0);
 
@@ -157,7 +157,7 @@ struct Formation{
         for(int i=0;i<count;i++){FormationSlot s;s.slotIndex=i;s.localOffset=float3((i%3-1)*sp,0,(i/3)*sp);slots.push_back(s);}}
     void UpdateLeader(const float3&p,float h){leaderPosition=p;leaderHeading=h;}
     void Compress(float f){for(auto&s:slots)s.localOffset=s.localOffset*f;}
-    void Expand(){Initialize(type,slots.size(),defaultSpacing);}
+    void Expand(){Initialize(type,static_cast<int>(slots.size()),defaultSpacing);}
 };
 
 struct InventorySlot{int itemID=0,count=0;float weight=1;bool isEmpty()const{return count<=0;}};

@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <map>
 #include <functional>
 
 namespace arclight {
@@ -97,7 +98,7 @@ public:
 private:
 	std::unordered_map<std::string, FactionDef> factions;
 	std::unordered_map<std::string, ReputationLevel> reputations;
-	std::unordered_map<std::pair<std::string, std::string>, DiplomacyState> diplomacy;
+	std::map<std::pair<std::string, std::string>, DiplomacyState> diplomacy;
 
 	void UpdateDiplomacyState(const std::string& factionID) {
 		float rep = GetReputation(factionID);

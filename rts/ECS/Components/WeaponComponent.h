@@ -1,4 +1,4 @@
-/* This file is part of the ArcLight Engine
+﻿/* This file is part of the ArcLight Engine
  * Developer: Stephen
  *
  * UE5-inspired Weapon Component - modular weapon system
@@ -8,7 +8,7 @@
 #pragma once
 
 #include "../Entity.h"
-#include "../../System/float3.h"
+#include "Types.h"
 #include "HealthComponent.h"
 #include <vector>
 #include <string>

@@ -19,7 +19,7 @@ class ISystem {
 public:
 	virtual ~ISystem() = default;
 	virtual void Init() {}
-	virtual void Update(float deltaTime) {}
+	virtual void Update(float /*deltaTime*/) {}
 	virtual void Shutdown() {}
 	std::string name;
 	int priority = 0; // lower = runs first

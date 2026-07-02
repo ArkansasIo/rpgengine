@@ -5,7 +5,10 @@
 make_global_var(sources_engine_System_common
 	"${CMAKE_CURRENT_SOURCE_DIR}/GlobalConfig.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/Input/MouseInput.cpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/Assets/AssetManifest.cpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/Assets/AssetRegistry.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/Platform/errorhandler.cpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/Plugins/PluginManager.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/SafeVector.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/SplashScreen.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/SpringApp.cpp"

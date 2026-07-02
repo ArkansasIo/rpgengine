@@ -71,6 +71,7 @@
 #include "System/TimeProfiler.h"
 #include "System/UriParser.h"
 #include "System/Config/ConfigHandler.h"
+#include "System/Assets/AssetRegistry.h"
 #include "System/creg/creg_runtime_tests.h"
 #include "System/FileSystem/ArchiveScanner.h"
 #include "System/FileSystem/DataDirLocater.h"
@@ -85,6 +86,7 @@
 #include "System/Log/ILog.h"
 #include "System/Log/DefaultFilter.h"
 #include "System/LogOutput.h"
+#include "System/Plugins/PluginManager.h"
 #include "System/Platform/errorhandler.h"
 #include "System/Platform/CrashHandler.h"
 #include "System/Platform/Threading.h"
@@ -143,6 +145,29 @@ int ArcLight::exitCode = ArcLight::EXIT_CODE_SUCCESS;
 
 static unsigned int reloadCount = 0;
 static unsigned int killedCount = 0;
+
+namespace {
+
+static arclight::PluginManager pluginManager;
+static arclight::AssetRegistry assetRegistry;
+
+static void InitializeExtensionRuntime()
+{
+	pluginManager.Shutdown();
+
+	pluginManager.LoadFromDirectory("plugins", ARCLIGHT_VFS_ALL);
+	assetRegistry.LoadFromDirectories("base_assets", {
+		"assets/2d/sprites",
+		"assets/3d/meshes",
+		"assets/3d/materials",
+		"assets/3d/animations"
+	}, ARCLIGHT_VFS_ALL);
+
+	LOG("[SpringApp] Plugins loaded: %u", static_cast<unsigned>(pluginManager.GetLoadedCount()));
+	LOG("[SpringApp] Base assets loaded: %u", static_cast<unsigned>(assetRegistry.GetAssetCount("base_assets")));
+}
+
+} // namespace
 
 
 
@@ -253,6 +278,8 @@ bool SpringApp::Init()
 
 	if (!InitFileSystem())
 		return false;
+
+	InitializeExtensionRuntime();
 
 	// Multithreading & Affinity
 	Threading::SetThreadName("ArcLight-main"); // set default threadname for pstree

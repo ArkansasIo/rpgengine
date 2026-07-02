@@ -8,8 +8,7 @@
 #pragma once
 
 #include "../Entity.h"
-#include "../../System/float3.h"
-#include "../../System/Matrix44f.h"
+#include "Types.h"
 
 namespace arclight {
 

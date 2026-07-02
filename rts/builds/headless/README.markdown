@@ -25,4 +25,4 @@ absolute path to that file on the `arclight-headless` command-line.
 
 ## What is the license?
 
-GPL v2 or later, as for the rest of ArcLight Engine.
+MIT, as for the rest of ArcLight Engine.

@@ -115,14 +115,14 @@ public:
 		bindings[InputAction::CameraRotateRight] = { 'E', 0 };
 		bindings[InputAction::CameraZoomIn] = { 0, 0 };
 		bindings[InputAction::CameraZoomOut] = { 0, 0 };
-		bindings[InputAction::CameraReset] = { 'Home', 0 };
-		bindings[InputAction::CameraFreeLook] = { 'Ctrl', 'F' };
+		bindings[InputAction::CameraReset] = { 0x24, 0 }; // Home
+		bindings[InputAction::CameraFreeLook] = { 0x11, 'F' }; // Ctrl+F
 
 		// Selection
 		bindings[InputAction::SelectUnit] = { 0, 0 }; // Left click
-		bindings[InputAction::DeselectAll] = { 'Escape', 0 };
-		bindings[InputAction::SelectAllUnits] = { 'Ctrl', 'A' };
-		bindings[InputAction::SelectAllUnitsOnScreen] = { 'Ctrl', 'Z' };
+		bindings[InputAction::DeselectAll] = { 0x1B, 0 }; // Escape
+		bindings[InputAction::SelectAllUnits] = { 0x11, 'A' }; // Ctrl+A
+		bindings[InputAction::SelectAllUnitsOnScreen] = { 0x11, 'Z' }; // Ctrl+Z
 
 		// Orders
 		bindings[InputAction::OrderMove] = { 0, 0 }; // Right click
@@ -132,26 +132,26 @@ public:
 		bindings[InputAction::OrderPatrol] = { 'P', 0 };
 		bindings[InputAction::OrderGuard] = { 'G', 0 };
 		bindings[InputAction::OrderRetreat] = { 'R', 0 };
-		bindings[InputAction::OrderRepair] = { 'Shift', 'R' };
+		bindings[InputAction::OrderRepair] = { 0x10, 'R' }; // Shift+R
 
 		// Grouping
 		for (int i = 0; i <= 9; i++) {
 			bindings[static_cast<InputAction>(static_cast<int>(InputAction::GroupSelect1) + i)] = { '0' + i, 0 };
-			bindings[static_cast<InputAction>(static_cast<int>(InputAction::GroupAssign1) + i)] = { 'Ctrl', '0' + i };
+			bindings[static_cast<InputAction>(static_cast<int>(InputAction::GroupAssign1) + i)] = { 0x11, '0' + i }; // Ctrl+number
 		}
 
 		// UI
-		bindings[InputAction::ToggleMinimap] = { 'Tab', 0 };
-		bindings[InputAction::Chat] = { 'Enter', 0 };
-		bindings[InputAction::ChatTeam] = { 'Shift', 'Enter' };
+		bindings[InputAction::ToggleMinimap] = { 0x09, 0 }; // Tab
+		bindings[InputAction::Chat] = { 0x0D, 0 }; // Enter
+		bindings[InputAction::ChatTeam] = { 0x10, 0x0D }; // Shift+Enter
 
 		// Game
-		bindings[InputAction::Pause] = { 'Space', 0 };
-		bindings[InputAction::SpeedUp] = { 'Insert', 0 };
-		bindings[InputAction::SlowDown] = { 'Delete', 0 };
-		bindings[InputAction::NormalSpeed] = { 'Numpad0', 0 };
-		bindings[InputAction::Screenshot] = { 'PrintScreen', 0 };
-		bindings[InputAction::ToggleUI] = { 'F9', 0 };
+		bindings[InputAction::Pause] = { 0x20, 0 }; // Space
+		bindings[InputAction::SpeedUp] = { 0x2D, 0 }; // Insert
+		bindings[InputAction::SlowDown] = { 0x2E, 0 }; // Delete
+		bindings[InputAction::NormalSpeed] = { 0x60, 0 }; // Numpad0
+		bindings[InputAction::Screenshot] = { 0x2C, 0 }; // PrintScreen
+		bindings[InputAction::ToggleUI] = { '9' + 10, 0 }; // F9
 	}
 
 	void SetBinding(InputAction action, int primaryKey, int secondaryKey = 0) {

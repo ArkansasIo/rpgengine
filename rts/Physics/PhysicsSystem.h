@@ -1,4 +1,4 @@
-/* This file is part of the ArcLight Engine
+﻿/* This file is part of the ArcLight Engine
  * Developer: Stephen
  *
  * UE5-inspired Physics System with rigid body dynamics,
@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "../System/float3.h"
+#include "../ECS/Components/Types.h"
 #include <vector>
 #include <functional>
 
@@ -33,15 +33,15 @@ struct RigidBody {
 	Quaternion rotation;
 	float mass = 1.0f;
 	float inverseMass = 1.0f; // precomputed for efficiency
-	float3 inertiaTensor = float3(1.0f);
-	float3 inverseInertiaTensor = float3(1.0f);
+	float3 inertiaTensor = float3(1.0f, 1.0f, 1.0f);
+	float3 inverseInertiaTensor = float3(1.0f, 1.0f, 1.0f);
 	float linearDamping = 0.01f;
 	float angularDamping = 0.05f;
 	float gravityScale = 1.0f;
 	EBodyType bodyType = EBodyType::Dynamic;
 	ECollisionShape collisionShape = ECollisionShape::Sphere;
 	float collisionRadius = 10.0f;
-	float3 collisionBoxHalfExtent = float3(10.0f);
+	float3 collisionBoxHalfExtent = float3(10.0f, 10.0f, 10.0f);
 	int entityID = -1;
 
 	bool isSimulated = true;

@@ -9,7 +9,7 @@
 #pragma once
 
 #include "../ECS/Entity.h"
-#include "../System/float3.h"
+#include "../ECS/Components/Types.h"
 #include <vector>
 #include <unordered_map>
 #include <functional>

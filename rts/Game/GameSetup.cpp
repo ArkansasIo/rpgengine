@@ -134,13 +134,13 @@ bool CGameSetup::ScriptLoaded() {
 }
 
 
-const ArcLight::unordered_map<std::string, std::string>& CGameSetup::GetMapOptions()
+const spring::unordered_map<std::string, std::string>& CGameSetup::GetMapOptions()
 {
 	// will always be empty if !ScriptLoaded
 	return (gameSetup->GetMapOptionsCont());
 }
 
-const ArcLight::unordered_map<std::string, std::string>& CGameSetup::GetModOptions()
+const spring::unordered_map<std::string, std::string>& CGameSetup::GetModOptions()
 {
 	return (gameSetup->GetModOptionsCont());
 }
@@ -211,8 +211,8 @@ void CGameSetup::ResetState()
 
 	restrictedUnits.clear(); // never iterated
 
-	ArcLight::clear_unordered_map(mapOptions);
-	ArcLight::clear_unordered_map(modOptions);
+	spring::clear_unordered_map(mapOptions);
+	spring::clear_unordered_map(modOptions);
 }
 
 
@@ -292,7 +292,7 @@ void CGameSetup::LoadMutators(const TdfParser& file, std::vector<std::string>& m
 	}
 }
 
-void CGameSetup::LoadPlayers(const TdfParser& file, ArcLight::unordered_set<std::string>& nameList)
+void CGameSetup::LoadPlayers(const TdfParser& file, spring::unordered_set<std::string>& nameList)
 {
 	assert(numDemoPlayers == 0);
 
@@ -334,7 +334,7 @@ void CGameSetup::LoadPlayers(const TdfParser& file, ArcLight::unordered_set<std:
 	LOG_L(L_WARNING, _STPF_ " players in GameSetup script (NumPlayers says %i)", playerStartingData.size(), playerCount);
 }
 
-void CGameSetup::LoadSkirmishAIs(const TdfParser& file, ArcLight::unordered_set<std::string>& nameList)
+void CGameSetup::LoadSkirmishAIs(const TdfParser& file, spring::unordered_set<std::string>& nameList)
 {
 	// i = AI index in game (no gaps), a = AI index in script
 	for (int a = 0; a < MAX_PLAYERS; ++a) {
@@ -613,7 +613,7 @@ bool CGameSetup::Init(const std::string& buf)
 	startPosType = std::min(startPosType, StartPos_Last);
 
 	// Read subsections
-	ArcLight::unordered_set<std::string> playersNameList;
+	spring::unordered_set<std::string> playersNameList;
 
 	LoadPlayers(file, playersNameList);
 	LoadSkirmishAIs(file, playersNameList);

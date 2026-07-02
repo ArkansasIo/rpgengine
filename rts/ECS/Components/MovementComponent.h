@@ -1,4 +1,4 @@
-/* This file is part of the ArcLight Engine
+﻿/* This file is part of the ArcLight Engine
  * Developer: Stephen
  *
  * UE5-inspired Movement Component with acceleration, braking,
@@ -8,7 +8,7 @@
 #pragma once
 
 #include "../Entity.h"
-#include "../../System/float3.h"
+#include "Types.h"
 
 namespace arclight {
 

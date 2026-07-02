@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "../System/float3.h"
+#include "../ECS/Components/Types.h"
 #include <vector>
 #include <memory>
 #include <functional>
@@ -57,11 +57,11 @@ struct DestructionEvent {
 	float radius = 0.0f;
 };
 
-using DestructionCallback = std::function<void(const std::vector<FractureChunk>&)>;
+using DestructionCallback = std::function<void(const FractureChunk&)>;
 
 class DestructionSystem {
 public:
-	void SetParams(const DestructionParams& params) { this->params = params; }
+	void SetParams(const DestructionParams& p) { params = p; }
 
 	/**
 	 * Fracture an object at a point, returning the resulting chunks.
@@ -188,8 +188,8 @@ private:
 
 			// Bounding box around seed
 			float chunkSize = std::cbrtf(size.x * size.y * size.z / count);
-			chunk.boundingBoxMin = seeds[i] - float3(chunkSize * 0.5f);
-			chunk.boundingBoxMax = seeds[i] + float3(chunkSize * 0.5f);
+			chunk.boundingBoxMin = seeds[i] - float3(chunkSize * 0.5f, chunkSize * 0.5f, chunkSize * 0.5f);
+			chunk.boundingBoxMax = seeds[i] + float3(chunkSize * 0.5f, chunkSize * 0.5f, chunkSize * 0.5f);
 
 			// Generate simple box geometry for each chunk
 			GenerateBoxVertices(chunk, chunkSize * 0.5f);
@@ -220,7 +220,7 @@ private:
 	}
 
 	std::vector<FractureChunk> GenerateRadialFracture(
-		const float3& center, const float3& size, int count, const float3& direction
+		const float3& center, const float3& size, int count, const float3& /*direction*/
 	) {
 		std::vector<FractureChunk> chunks;
 		for (int i = 0; i < count; i++) {
@@ -234,8 +234,8 @@ private:
 			);
 			chunk.mass = size.x * size.y * size.z / count;
 			float halfSize = radius * 0.5f;
-			chunk.boundingBoxMin = chunk.centerOfMass - float3(halfSize);
-			chunk.boundingBoxMax = chunk.centerOfMass + float3(halfSize);
+			chunk.boundingBoxMin = chunk.centerOfMass - float3(halfSize, halfSize, halfSize);
+			chunk.boundingBoxMax = chunk.centerOfMass + float3(halfSize, halfSize, halfSize);
 			GenerateBoxVertices(chunk, halfSize);
 			chunks.push_back(chunk);
 		}
@@ -264,8 +264,8 @@ private:
 				);
 				chunk.mass = size.x * size.y * size.z / count;
 				float halfSize = std::cbrtf(chunk.mass) * 0.3f;
-				chunk.boundingBoxMin = chunk.centerOfMass - float3(halfSize);
-				chunk.boundingBoxMax = chunk.centerOfMass + float3(halfSize);
+				chunk.boundingBoxMin = chunk.centerOfMass - float3(halfSize, halfSize, halfSize);
+				chunk.boundingBoxMax = chunk.centerOfMass + float3(halfSize, halfSize, halfSize);
 				GenerateBoxVertices(chunk, halfSize);
 				chunks.push_back(chunk);
 			}
