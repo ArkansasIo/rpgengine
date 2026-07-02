@@ -1,4 +1,4 @@
-/* ArcLight Engine - Main Entry Point
+﻿/* ArcLight Engine - Main Entry Point
  * Developer: Stephen
  * Compiles: cl.exe /std:c++17 /EHsc /W3 /MT /O2 /Fe:builledoutput\arclight.exe engine_main.cpp
  */
@@ -389,7 +389,7 @@ void DemoCommandExecution() {
 }
 
 int main() {
-    setbuf(stdout, NULL);
+    setvbuf(stdout, NULL, _IONBF, 0);
     printf("Starting ArcLight Engine...\n");
     PrintHeader();
     printf("Running ECS demo...\n");

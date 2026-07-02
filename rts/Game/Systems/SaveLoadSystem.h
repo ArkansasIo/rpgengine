@@ -1,4 +1,4 @@
-/* ArcLight Engine - Save/Load System
+﻿/* ArcLight Engine - Save/Load System
  * Developer: Stephen
  * Handles game state serialization, autosaves, and manual saves.
  */
@@ -98,7 +98,7 @@ private:
 	std::string GetCurrentTimestamp() {
 		time_t now = time(nullptr);
 		char buf[64];
-		strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S", localtime(&now));
+		struct tm tm; localtime_s(&tm, &now); strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S", &tm);
 		return buf;
 	}
 };

@@ -1,4 +1,4 @@
-/* This file is part of the ArcLight Engine
+﻿/* This file is part of the ArcLight Engine
  * Developer: Stephen
  *
  * UE5-inspired Behavior Tree system for AI decision-making.
@@ -40,9 +40,9 @@ class BehaviorNode {
 public:
 	virtual ~BehaviorNode() = default;
 	virtual ENodeResult Execute(BehaviorTreeComponent& ownerComp) = 0;
-	virtual void OnInitialized(BehaviorTreeComponent& ownerComp) {}
-	virtual void OnNodeActivated(BehaviorTreeComponent& ownerComp) {}
-	virtual void OnNodeDeactivated(BehaviorTreeComponent& ownerComp, ENodeResult result) {}
+	virtual void OnInitialized(BehaviorTreeComponent& /*ownerComp*/) {}
+	virtual void OnNodeActivated(BehaviorTreeComponent& /*ownerComp*/) {}
+	virtual void OnNodeDeactivated(BehaviorTreeComponent& /*ownerComp*/, ENodeResult /*result*/) {}
 
 	std::string nodeName;
 	ENodeState state = ENodeState::Uninitialized;
@@ -268,7 +268,7 @@ public:
 		tree = nullptr;
 	}
 
-	void Update(float dt) {
+	void Update(float /*dt*/) {
 		if (isActive && tree) {
 			tree->Execute(*this);
 		}

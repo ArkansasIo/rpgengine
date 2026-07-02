@@ -194,8 +194,8 @@ void DrawHUD(const UIState& ui){
 
 // ======================== Main ========================
 
-int main(int argc, char* argv[]){
-    if(SDL_Init(SDL_INIT_VIDEO|SDL_INIT_GAMEPAD)<0){fprintf(stderr,"SDL3 init: %s\n",SDL_GetError());return 1;}
+int main(int /*argc*/, char* /*argv*/[]){
+    if(!SDL_Init(SDL_INIT_VIDEO|SDL_INIT_GAMEPAD)){fprintf(stderr,"SDL3 init: %s\n",SDL_GetError());return 1;}
     printf("ArkLight Beyond | SDL3 | OpenGL 3.3 | Developer: Stephen\n");
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION,3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION,3);
@@ -226,9 +226,9 @@ int main(int argc, char* argv[]){
     buildings.push_back({Vec3(8,0,4),Vec3(0.8f,0.2f,0.2f),1.5f,2.5f,1.5f,"Enemy Base",1});
     buildings.push_back({Vec3(14,0,6),Vec3(0.7f,0.3f,0.1f),1,2,1,"Enemy Turret",1});
     // Main loop
-    bool running=true; Uint32 last=SDL_GetTicks(); SDL_Event ev;
+    bool running=true; Uint64 last=SDL_GetTicks(); SDL_Event ev;
     while(running){
-        Uint32 now=SDL_GetTicks(); float dt=(now-last)/1000.0f; last=now; if(dt>0.1f)dt=0.1f;
+        Uint64 now=SDL_GetTicks(); float dt=(float)(now-last)/1000.0f; last=now; if(dt>0.1f)dt=0.1f;
         ui.frameCount++;ui.fpsTimer+=dt;
         if(ui.fpsTimer>=1){ui.fps=ui.frameCount/ui.fpsTimer;ui.frameCount=0;ui.fpsTimer=0;}
         const bool* keys=SDL_GetKeyboardState(NULL);
@@ -237,18 +237,18 @@ int main(int argc, char* argv[]){
         if(keys[SDL_SCANCODE_Q])cam.Rotate(-90*dt,0);if(keys[SDL_SCANCODE_E])cam.Rotate(90*dt,0);
         if(keys[SDL_SCANCODE_PAGEUP])cam.Zoom(10*dt);if(keys[SDL_SCANCODE_PAGEDOWN])cam.Zoom(-10*dt);
         while(SDL_PollEvent(&ev)){
-            if(ev.type==SDL_EVENT_QUIT)running=false;
-            if(ev.type==SDL_EVENT_KEY_DOWN&&ev.key.key==SDLK_ESCAPE)running=false;
-            if(ev.type==SDL_EVENT_KEY_DOWN&&ev.key.key==SDLK_TAB)ui.showMinimap=!ui.showMinimap;
-            if(ev.type==SDL_EVENT_KEY_DOWN&&ev.key.key==SDLK_F1)ui.showCommands=!ui.showCommands;
-            if(ev.type==SDL_EVENT_MOUSE_BUTTON_DOWN&&ev.button.button==SDL_BUTTON_LEFT){
+            if((int)ev.type==(int)SDL_EVENT_QUIT)running=false;
+            if((int)ev.type==(int)SDL_EVENT_KEY_DOWN&&ev.key.key==SDLK_ESCAPE)running=false;
+            if((int)ev.type==(int)SDL_EVENT_KEY_DOWN&&ev.key.key==SDLK_TAB)ui.showMinimap=!ui.showMinimap;
+            if((int)ev.type==(int)SDL_EVENT_KEY_DOWN&&ev.key.key==SDLK_F1)ui.showCommands=!ui.showCommands;
+            if((int)ev.type==(int)SDL_EVENT_MOUSE_BUTTON_DOWN&&ev.button.button==SDL_BUTTON_LEFT){
                 ui.selectedUnit=-1;for(auto&u:units)u.selected=false;
                 for(int i=0;i<(int)units.size();i++){float dx=units[i].pos.x-cam.pos.x;float dz=units[i].pos.z-cam.pos.z;
                 if(sqrtf(dx*dx+dz*dz)<5){ui.selectedUnit=i;units[i].selected=true;break;}}
             }
-            if(ev.type==SDL_EVENT_MOUSE_MOTION&&ev.button.button==SDL_BUTTON_RIGHT)cam.Rotate(ev.motion.xrel*0.3f,-ev.motion.yrel*0.3f);
-            if(ev.type==SDL_EVENT_MOUSE_WHEEL)cam.Zoom(ev.wheel.y*2);
-            if(ev.type==SDL_EVENT_WINDOW_RESIZED){sw=ev.window.data1;sh=ev.window.data2;glViewport(0,0,sw,sh);glMatrixMode(GL_PROJECTION);glLoadIdentity();gluPerspective(60,(double)sw/sh,0.1,1000);glMatrixMode(GL_MODELVIEW);}
+            if((int)ev.type==(int)SDL_EVENT_MOUSE_MOTION&&ev.button.button==SDL_BUTTON_RIGHT)cam.Rotate(ev.motion.xrel*0.3f,-ev.motion.yrel*0.3f);
+            if((int)ev.type==(int)SDL_EVENT_MOUSE_WHEEL)cam.Zoom(ev.wheel.y*2);
+            if((int)ev.type==(int)SDL_EVENT_WINDOW_RESIZED){sw=ev.window.data1;sh=ev.window.data2;glViewport(0,0,sw,sh);glMatrixMode(GL_PROJECTION);glLoadIdentity();gluPerspective(60,(double)sw/sh,0.1,1000);glMatrixMode(GL_MODELVIEW);}
         }
         // Simple AI movement
         for(auto&u:units){if(u.team==0){

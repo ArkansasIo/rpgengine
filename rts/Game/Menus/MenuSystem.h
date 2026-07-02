@@ -55,11 +55,11 @@ public:
 	virtual ~IMenuScreen() = default;
 	virtual void Enter() {}
 	virtual void Exit() {}
-	virtual void Update(float dt) {}
+	virtual void Update(float /*dt*/) {}
 	virtual void Render() {}
-	virtual void OnKeyPress(int key) {}
-	virtual void OnMouseClick(float x, float y) {}
-	virtual void OnMouseMove(float x, float y) {}
+	virtual void OnKeyPress(int /*key*/) {}
+	virtual void OnMouseClick(float /*x*/, float /*y*/) {}
+	virtual void OnMouseMove(float /*x*/, float /*y*/) {}
 };
 
 class MainMenuScreen : public IMenuScreen {

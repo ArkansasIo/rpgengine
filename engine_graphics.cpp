@@ -361,7 +361,7 @@ void DrawHUD(const UIState& ui, int screenW, int screenH) {
 
 // ======================== Main ========================
 
-int main(int argc, char* argv[]) {
+int main(int /*argc*/, char* /*argv*/[]) {
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0) {
         fprintf(stderr, "SDL_Init failed: %s\n", SDL_GetError());
         return 1;
@@ -479,8 +479,6 @@ int main(int argc, char* argv[]) {
                 // Click to select unit
                 ui.selectedUnit = -1;
                 for (int i = 0; i < (int)units.size(); i++) {
-                    float dx = units[i].pos.x - (units[i].pos.x);
-                    float dz = units[i].pos.z - (units[i].pos.z);
                     // Simple proximity check
                     float3 clickWorld = camera.pos + float3(0, -camera.pos.y, 0);
                     float dist = (units[i].pos - clickWorld).Length();

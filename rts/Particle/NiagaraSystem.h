@@ -1,8 +1,6 @@
-/* This file is part of the ArcLight Engine
+/* ArcLight Engine - Niagara-style Particle System
  * Developer: Stephen
- *
- * UE5 Niagara-inspired GPU particle system.
- * Data-oriented particle simulation with emitters, modules, and renderers.
+ * GPU-accelerated particle simulation with emitters, modules, and renderers.
  */
 
 #pragma once
@@ -13,6 +11,7 @@
 #include <functional>
 #include <cmath>
 #include <algorithm>
+#include <cstdint>
 
 namespace arclight {
 
@@ -27,7 +26,7 @@ struct ParticleData {
 	float rotationSpeed = 0.0f;
 	float lifetime = 1.0f;
 	float age = 0.0f;
-	float normalizedAge = 0.0f; // 0..1
+	float normalizedAge = 0.0f;
 	int32_t particleID = 0;
 	int32_t emitterID = 0;
 	bool alive = true;
@@ -35,23 +34,14 @@ struct ParticleData {
 	void Update(float dt) {
 		age += dt;
 		normalizedAge = lifetime > 0.0f ? age / lifetime : 1.0f;
-		if (age >= lifetime) {
-			alive = false;
-			return;
-		}
+		if (age >= lifetime) { alive = false; return; }
 		velocity += acceleration * dt;
 		position += velocity * dt;
 		rotation += rotationSpeed * dt;
 	}
 };
 
-// ======================== Emitter Modules ========================
-
-enum class EmitterModuleType {
-	Spawn,
-	Update,
-	Render,
-};
+enum class EmitterModuleType { Spawn, Update, Render };
 
 class IEmitterModule {
 public:
@@ -60,48 +50,34 @@ public:
 	virtual void Execute(std::vector<ParticleData>& particles, float dt) = 0;
 };
 
-/** Spawns particles at a rate */
 class SpawnRateModule : public IEmitterModule {
 public:
-	float rate = 10.0f; // particles per second
+	float rate = 10.0f;
 	float accumulator = 0.0f;
 	int maxParticles = 1000;
-
 	EmitterModuleType GetType() const override { return EmitterModuleType::Spawn; }
-
 	void Execute(std::vector<ParticleData>& particles, float dt) override {
 		accumulator += rate * dt;
 		int toSpawn = static_cast<int>(accumulator);
 		accumulator -= toSpawn;
-
 		for (int i = 0; i < toSpawn && static_cast<int>(particles.size()) < maxParticles; i++) {
-			ParticleData p;
-			p.alive = true;
-			particles.push_back(p);
+			ParticleData p; p.alive = true; particles.push_back(p);
 		}
 	}
 };
 
-/** Spawns a burst of particles */
 class BurstModule : public IEmitterModule {
 public:
 	int count = 50;
 	bool hasTriggered = false;
-
 	EmitterModuleType GetType() const override { return EmitterModuleType::Spawn; }
-
-	void Execute(std::vector<ParticleData>& particles, float dt) override {
+	void Execute(std::vector<ParticleData>& particles, float /*dt*/) override {
 		if (hasTriggered) return;
 		hasTriggered = true;
-		for (int i = 0; i < count; i++) {
-			ParticleData p;
-			p.alive = true;
-			particles.push_back(p);
-		}
+		for (int i = 0; i < count; i++) { ParticleData p; p.alive = true; particles.push_back(p); }
 	}
 };
 
-/** Initial particle properties */
 class ParticleInitModule : public IEmitterModule {
 public:
 	float3 spawnBoxMin = float3(-10.0f, 0.0f, -10.0f);
@@ -112,110 +88,76 @@ public:
 	float lifetimeMax = 2.0f;
 	float sizeMin = 0.1f;
 	float sizeMax = 1.0f;
-
 	EmitterModuleType GetType() const override { return EmitterModuleType::Spawn; }
-
-	void Execute(std::vector<ParticleData>& particles, float dt) override {
+	void Execute(std::vector<ParticleData>& particles, float /*dt*/) override {
 		for (auto& p : particles) {
-			if (p.age > 0.0f) continue; // skip already-initialized
-			p.position = RandomInRange(spawnBoxMin, spawnBoxMax);
-			p.velocity = RandomInRange(initialVelocityMin, initialVelocityMax);
-			p.lifetime = RandomFloat(lifetimeMin, lifetimeMax);
-			p.size = RandomFloat(sizeMin, sizeMax);
+			if (p.age > 0.0f) continue;
+			p.position = float3(spawnBoxMin.x + (rand() / (float)RAND_MAX) * (spawnBoxMax.x - spawnBoxMin.x),
+				spawnBoxMin.y + (rand() / (float)RAND_MAX) * (spawnBoxMax.y - spawnBoxMin.y),
+				spawnBoxMin.z + (rand() / (float)RAND_MAX) * (spawnBoxMax.z - spawnBoxMin.z));
+			p.velocity = float3(initialVelocityMin.x + (rand() / (float)RAND_MAX) * (initialVelocityMax.x - initialVelocityMin.x),
+				initialVelocityMin.y + (rand() / (float)RAND_MAX) * (initialVelocityMax.y - initialVelocityMin.y),
+				initialVelocityMin.z + (rand() / (float)RAND_MAX) * (initialVelocityMax.z - initialVelocityMin.z));
+			p.lifetime = lifetimeMin + (rand() / (float)RAND_MAX) * (lifetimeMax - lifetimeMin);
+			p.size = sizeMin + (rand() / (float)RAND_MAX) * (sizeMax - sizeMin);
 		}
-	}
-
-private:
-	float3 RandomInRange(const float3& min, const float3& max) {
-		return float3(
-			RandomFloat(min.x, max.x),
-			RandomFloat(min.y, max.y),
-			RandomFloat(min.z, max.z)
-		);
-	}
-
-	float RandomFloat(float min, float max) {
-		return min + (max - min) * (static_cast<float>(rand()) / RAND_MAX);
 	}
 };
 
-/** Gravity and acceleration */
 class GravityModule : public IEmitterModule {
 public:
 	float3 gravity = float3(0.0f, -9.81f, 0.0f);
-
 	EmitterModuleType GetType() const override { return EmitterModuleType::Update; }
-
-	void Execute(std::vector<ParticleData>& particles, float dt) override {
-		for (auto& p : particles) {
-			if (!p.alive) continue;
-			p.acceleration = gravity;
-		}
+	void Execute(std::vector<ParticleData>& particles, float /*dt*/) override {
+		for (auto& p : particles) { if (p.alive) p.acceleration = gravity; }
 	}
 };
 
-/** Size over lifetime curve */
 class SizeOverLifetimeModule : public IEmitterModule {
 public:
 	float startSize = 1.0f;
 	float endSize = 0.0f;
-
 	EmitterModuleType GetType() const override { return EmitterModuleType::Update; }
-
-	void Execute(std::vector<ParticleData>& particles, float dt) override {
+	void Execute(std::vector<ParticleData>& particles, float /*dt*/) override {
 		for (auto& p : particles) {
-			if (!p.alive) continue;
-			p.size = startSize + (endSize - startSize) * p.normalizedAge;
+			if (p.alive) p.size = startSize + (endSize - startSize) * p.normalizedAge;
 		}
 	}
 };
 
-/** Color over lifetime gradient */
 class ColorOverLifetimeModule : public IEmitterModule {
 public:
 	float3 startColor = float3(1.0f, 0.8f, 0.2f);
 	float3 endColor = float3(1.0f, 0.1f, 0.0f);
-
 	EmitterModuleType GetType() const override { return EmitterModuleType::Update; }
-
-	void Execute(std::vector<ParticleData>& particles, float dt) override {
+	void Execute(std::vector<ParticleData>& particles, float /*dt*/) override {
 		for (auto& p : particles) {
-			if (!p.alive) continue;
-			float t = p.normalizedAge;
-			p.color = startColor + (endColor - startColor) * t;
+			if (p.alive) p.color = startColor + (endColor - startColor) * p.normalizedAge;
 		}
 	}
 };
 
-/** Alpha over lifetime */
 class AlphaOverLifetimeModule : public IEmitterModule {
 public:
 	float startAlpha = 1.0f;
 	float endAlpha = 0.0f;
-
 	EmitterModuleType GetType() const override { return EmitterModuleType::Update; }
-
-	void Execute(std::vector<ParticleData>& particles, float dt) override {
+	void Execute(std::vector<ParticleData>& particles, float /*dt*/) override {
 		for (auto& p : particles) {
-			if (!p.alive) continue;
-			p.alpha = startAlpha + (endAlpha - startAlpha) * p.normalizedAge;
+			if (p.alive) p.alpha = startAlpha + (endAlpha - startAlpha) * p.normalizedAge;
 		}
 	}
 };
 
-/** Curl noise turbulence */
 class CurlNoiseModule : public IEmitterModule {
 public:
 	float noiseStrength = 50.0f;
 	float noiseFrequency = 0.1f;
 	float noiseSpeed = 1.0f;
-
 	EmitterModuleType GetType() const override { return EmitterModuleType::Update; }
-
 	void Execute(std::vector<ParticleData>& particles, float dt) override {
 		for (auto& p : particles) {
 			if (!p.alive) continue;
-			// Simple procedural noise displacement
 			float t = p.age * noiseSpeed;
 			float nx = sinf(p.position.x * noiseFrequency + t) * cosf(p.position.z * noiseFrequency);
 			float ny = cosf(p.position.y * noiseFrequency + t) * 0.5f;
@@ -225,42 +167,29 @@ public:
 	}
 };
 
-/** Kill dead particles */
 class KillDeadModule : public IEmitterModule {
 public:
 	EmitterModuleType GetType() const override { return EmitterModuleType::Update; }
-
-	void Execute(std::vector<ParticleData>& particles, float dt) override {
+	void Execute(std::vector<ParticleData>& particles, float /*dt*/) override {
 		particles.erase(
 			std::remove_if(particles.begin(), particles.end(),
-				[](const ParticleData& p) { return !p.alive; }
-			),
+				[](const ParticleData& p) { return !p.alive; }),
 			particles.end()
 		);
 	}
 };
 
-// ======================== Renderer ========================
-
 class IParticleRenderer {
 public:
 	virtual ~IParticleRenderer() = default;
-	virtual void Render(const std::vector<ParticleData>& particles) = 0;
+	virtual void Render(const std::vector<ParticleData>& /*particles*/) {}
 };
 
-/** Billboard renderer - renders particles as camera-facing quads */
 class BillboardRenderer : public IParticleRenderer {
 public:
 	bool sortBackToFront = true;
-
-	void Render(const std::vector<ParticleData>& particles) override {
-		// In a real implementation, this would batch billboard quads
-		// and render them in a single draw call with instancing.
-		// For now, this is a placeholder for the render pipeline integration.
-	}
+	void Render(const std::vector<ParticleData>& /*particles*/) override {}
 };
-
-// ======================== Niagara System ========================
 
 class NiagaraSystem {
 public:
@@ -268,10 +197,8 @@ public:
 	std::vector<std::unique_ptr<IEmitterModule>> modules;
 	std::vector<ParticleData> particles;
 	std::unique_ptr<IParticleRenderer> renderer;
-
 	bool isActive = true;
 	float simulationSpeed = 1.0f;
-	int maxParticles = 10000;
 
 	void AddModule(std::unique_ptr<IEmitterModule> module) {
 		modules.push_back(std::move(module));
@@ -280,35 +207,20 @@ public:
 	void Update(float dt) {
 		if (!isActive) return;
 		float scaledDt = dt * simulationSpeed;
-
-		// Separate modules by type
 		for (auto& mod : modules) {
-			if (mod->GetType() == EmitterModuleType::Spawn) {
+			if (mod->GetType() == EmitterModuleType::Spawn)
 				mod->Execute(particles, scaledDt);
-			}
 		}
 		for (auto& mod : modules) {
-			if (mod->GetType() == EmitterModuleType::Update) {
+			if (mod->GetType() == EmitterModuleType::Update)
 				mod->Execute(particles, scaledDt);
-			}
 		}
-		// Update individual particles
 		for (auto& p : particles) {
 			if (p.alive) p.Update(scaledDt);
 		}
-		// Kill dead
-		for (auto& mod : modules) {
-			if (mod->GetType() == EmitterModuleType::Update) {
-				mod->Execute(particles, scaledDt);
-			}
-		}
 	}
 
-	void Render() {
-		if (renderer) {
-			renderer->Render(particles);
-		}
-	}
+	void Render() { if (renderer) renderer->Render(particles); }
 
 	void Reset() {
 		particles.clear();
@@ -320,9 +232,7 @@ public:
 
 	size_t GetActiveParticleCount() const {
 		size_t count = 0;
-		for (auto& p : particles) {
-			if (p.alive) count++;
-		}
+		for (auto& p : particles) { if (p.alive) count++; }
 		return count;
 	}
 };

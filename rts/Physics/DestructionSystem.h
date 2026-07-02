@@ -61,7 +61,7 @@ using DestructionCallback = std::function<void(const std::vector<FractureChunk>&
 
 class DestructionSystem {
 public:
-	void SetParams(const DestructionParams& params) { this->params = params; }
+	void SetParams(const DestructionParams& p) { this->params = p; }
 
 	/**
 	 * Fracture an object at a point, returning the resulting chunks.
@@ -220,7 +220,7 @@ private:
 	}
 
 	std::vector<FractureChunk> GenerateRadialFracture(
-		const float3& center, const float3& size, int count, const float3& direction
+		const float3& center, const float3& size, int count, const float3& /*direction*/
 	) {
 		std::vector<FractureChunk> chunks;
 		for (int i = 0; i < count; i++) {

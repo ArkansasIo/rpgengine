@@ -1,4 +1,4 @@
-/* ArcLight Engine - Trade System
+﻿/* ArcLight Engine - Trade System
  * Developer: Stephen
  * Handles economy, resource trading, market prices, and supply/demand.
  */
@@ -84,9 +84,9 @@ public:
 		}
 
 		if (isBuying) {
-			UpdateSupplyDemand(resourceID, -quantity, quantity);
+			UpdateSupplyDemand(resourceID, -static_cast<float>(quantity), static_cast<float>(quantity));
 		} else {
-			UpdateSupplyDemand(resourceID, quantity, -quantity);
+			UpdateSupplyDemand(resourceID, static_cast<float>(quantity), -static_cast<float>(quantity));
 		}
 
 		if (onTradeExecuted) onTradeExecuted(resourceID, quantity, isBuying, totalCost, factionID);
@@ -97,7 +97,7 @@ public:
 		tradeRoutes[{route.fromFaction, route.resourceID}] = route;
 	}
 
-	void Update(float dt) {
+	void Update(float /*dt*/) {
 		// Market fluctuation
 		for (auto& [id, price] : marketPrices) {
 			float fluctuation = (static_cast<float>(rand()) / RAND_MAX - 0.5f) * 0.02f;
