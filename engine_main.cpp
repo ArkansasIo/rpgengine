@@ -115,13 +115,18 @@ void DemoGameplay() {
 }
 
 void DemoParticlePhysics() {
-    printf("[Particle] Niagara System + Physics\n");
-    printf("  Creating Niagara system...\n");
+    printf("[Particle] Niagara System + Physics + Destruction\n");
     NiagaraSystem ns;
-    for(int i=0;i<5;i++) ns.Update(0.1f);
+    ns.AddModule(std::make_unique<SpawnRateModule>());
+    auto init = std::make_unique<ParticleInitModule>();
+    init->lifetimeMin = 0.5f; init->lifetimeMax = 1.0f;
+    ns.AddModule(std::move(init));
+    ns.AddModule(std::make_unique<GravityModule>());
+    ns.AddModule(std::make_unique<SizeOverLifetimeModule>());
+    ns.AddModule(std::make_unique<KillDeadModule>());
+    for(int i=0;i<10;i++) ns.Update(0.1f);
     printf("  Spawned %zu particles\n", ns.GetActiveParticleCount());
 
-    printf("  Creating physics system...\n");
     PhysicsSystem ps;
     RigidBody body;
     body.position = float3(0,100,0);
@@ -130,6 +135,17 @@ void DemoParticlePhysics() {
     int id = ps.AddBody(body);
     ps.Update(2.0f);
     printf("  Physics: body at y=%.1f\n", ps.GetBody(id)->position.y);
+
+    DestructionSystem ds;
+    DestructionParams dp;
+    dp.maxRecursionDepth = 0;
+    ds.SetParams(dp);
+    DestructionEvent evt;
+    evt.damage = 100;
+    evt.impactPoint = float3(0,50,0);
+    evt.impactDirection = float3(0,-1,0);
+    auto chunks = ds.Fracture(float3(0,50,0), float3(100,100,100), evt);
+    printf("  Destruction: %zu chunks\n", chunks.size());
     printf("  [PASS]\n\n");
 }
 

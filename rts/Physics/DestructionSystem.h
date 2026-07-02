@@ -104,7 +104,7 @@ public:
 
 		for (auto& chunk : chunks) {
 			chunk.lifeTime = params.debrisLifeTime;
-			onChunkCreated(chunk);
+			if (onChunkCreated) onChunkCreated(chunk);
 		}
 
 		return chunks;
