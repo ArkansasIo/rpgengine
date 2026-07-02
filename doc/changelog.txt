@@ -47,7 +47,7 @@ Lua:
  - let Spring.SelectUnitArray select enemy units with godmode enabled
  - let Unit*Collision callins skip engine collision handling if true is returned (from any synced gadget)
  - call gadgetHandler:Explosion for unsynced gadgets (but discard the return value)
- - allow specifying source by position but target by ID for Spring.GetUnitWeaponHaveFreeLineOfFire
+ - allow specifying source by position but target by ID for ArkLight Game Engine.GetUnitWeaponHaveFreeLineOfFire
  - allow setting terrain-type hardness and name via Spring.SetTerrainTypeData
  ! add extra boolean return-value to Spring.GetPlayerInfo between 'rank' (#9) and 'customPlayerKeys' (#11)
    select(10, Spring.GetPlayerInfo(player)) is now equal to select(4, Spring.GetTeamInfo(player.team))
@@ -732,7 +732,7 @@ Lua:
    this should give better results for camera interpolations.
  - Add an optional weaponNum argument to SetUnitTarget.
  - Update shader errorlog even if compilation was successful
- - Remove updateMatrix argument in Spring.UnitScript.{Move,Turn} as matrices will be automatically updated if necessary.
+ - Remove updateMatrix argument in ArkLight Game Engine.UnitScript.{Move,Turn} as matrices will be automatically updated if necessary.
  - Add new Spring.Start callout for launching a new Spring instance without terminating the existing one. See Spring.Restart for parameters.
  - Add new VFS.GetAvailableAIs([gameName] [, mapName])->{ai1, ai2, ...} callout for getting a list of all Spring AIs. The optional gameName and mapName parameters can be used to include game/map specific LuaAIs in the list.
 
@@ -1130,7 +1130,7 @@ Lua:
    custom map shaders that declare a uniform ivec2 named "texSquare"
    can sample from the default diffuse texture(s), which are always
    bound to TU 0
- - extend the signatures of the Spring.SetDraw{Ground,Models}Deferred
+ - extend the signatures of the ArkLight Game Engine.SetDraw{Ground,Models}Deferred
    callouts; allows disabling the forward {Unit,Feature,Ground}Drawer
    passes
      Spring.SetDrawGroundDeferred(
@@ -1191,7 +1191,7 @@ Lua:
   - radar2 colour (see Map changes) is required.
   - parameters are now in the form of GetLosViewColors output:
     (always = {r,g,b}, LOS = {r,g,b}, radar = {r,g,b}, jammer = {r,g,b}, radar2 = {r,g,b})
- - changed args of Spring.GetGroundNormal
+ - changed args of ArkLight Game Engine.GetGroundNormal
   - new 3rd arg: bool smoothedNormal (default false)
   - 4th return arg: float slope
  ! convert UnitDef::attackSafetyDistance to a key recognized by Spring.SetMoveTypeData
@@ -1537,7 +1537,7 @@ Lua:
   ! this way unsynced parts of gadgets now get `synced` callins like 'UnitCreated' etc. w/o  SendToUnsynced from their synced part
   - LuaRules & LuaGaia are now ~equal (except a very minor subset of differences) and get the same callins esp. all AllowXYZ callins
   - LuaUI now has a GotChatMsg too (same as LuaRules always had), it's similar to the now deprecated LuaUI-only ConfigCommand callin, but is called more often
-  - fixed a lot bugs in Spring's c-lua code
+  - fixed a lot bugs in ArkLight Game Engine's c-lua code
   - use lua's original math.random() code and only use streflop for it in synced luaStates
   - always make math.randomseed() available (synced & unsynced)
   - in future this will also allow multithreading of the different luaStates
@@ -1564,7 +1564,7 @@ Lua:
   - .collisionVolume.defaultToFootPrint
   - .collisionVolume.defaultToPieceTree
  - add optional 4th argument to Spring.GetUnitSeperation to calc the distance between the unitsphere surfaces instead of their midpos
- ! fix wrong coords & crash in Spring.RemoveGrass
+ ! fix wrong coords & crash in ArkLight Game Engine.RemoveGrass
  - added new LOG.NOTICE (should be used instead of LOG.INFO)
  - improve Spring.GetKeyBindings output (backward compatible)
  - added Script.IsEngineMinVersion(major [,minor [,commits]])
@@ -1726,10 +1726,10 @@ Misc:
    NOTE THAT THIS IS DISABLED BY DEFAULT ON WINDOWS BUILDS (cf. UseHighResTimer)
  - copied a lot config descriptions from wiki to the engine (thx for all the wiki'ers)
  - https://github.com/ArkansasIo/rpgengine/wiki/Springsettings.cfg is now automatically updated with each release
- ! disable build of spring-multithreaded (unmaintained / doesn't compile)
+ ! disable build of ArkLight Game Engine-multithreaded (unmaintained / doesn't compile)
  ! disable luaThreadingModel > 2, can be overriden with EnableUnsafeAndBrokenMT=1
 	fixes #3774, #2884, #2784, #3673, #3808
- - more verbosity for spring-dedicated on exit & demo-writing
+ - more verbosity for ArkLight Game Engine-dedicated on exit & demo-writing
  - add config "MenuArchive" to allow background image to be set which is read from the archive in the path bitmaps/ui/background/
  - fix /keydebug for release builds
  - updated game_end example gadget to handle quit/resigns better, reacts faster, and better code
@@ -1943,7 +1943,7 @@ Lua:
      add callout Spring.SetPieceProjectileParams(number projectileID,
        [ number explosionFlags, [ number spinAngle, [ number spinSpeed,
        [ number spinVector.x, [ number spinVector.y, [ number spinVector.z ]]]]]]) --> nil
-     deprecate the Spring.SetProjectileSpin* functions
+     deprecate the ArkLight Game Engine.SetProjectileSpin* functions
      add callout Spring.GetFeatureBlocking(number featureID) --> boolean collidable, boolean crushable, boolean blocking
      add third return-value to Spring.GetUnitBlocking (signature is the same as that of GetFeatureBlocking)
 
@@ -1951,7 +1951,7 @@ Lua:
      add callout SetProjectileAlwaysVisible(number projectileID, boolean alwaysVisible) --> nil
      add callouts SetFeatureVelocity and SetFeaturePhysics (these work like their SetUnit* counterparts, reference the wiki docs)
 
-     cleanup arg-parsing of Spring.SetUnitPieceCollisionVolumeData callout
+     cleanup arg-parsing of ArkLight Game Engine.SetUnitPieceCollisionVolumeData callout
        new signature: SetUnitPieceCollisionVolumeData(
          number unitID,
          number pieceIdx,
@@ -1961,7 +1961,7 @@ Lua:
          [, number volumeType [, number primaryAxis]]
        )
 
- ! LuaSyncedRead: deprecate the Spring.GetProjectileSpin* functions
+ ! LuaSyncedRead: deprecate the ArkLight Game Engine.GetProjectileSpin* functions
  - LuaSyncedRead:
      add Spring.GetPieceProjectileParams(number projectileID) -->
        number explosionFlags, number spinAngle, number spinSpeed,
@@ -2104,7 +2104,7 @@ Bugfixes:
  - fix #4054 (homing missiles miss radar dots of flying units)
  - fix #4047 (ground decals don't fade away)
  - fix #4043 (constructors can build large units ontop of themselves & walk through 'gaps')
- - fix #4023 (allow 'key'=value options-table format in Spring.GiveOrderTo*)
+ - fix #4023 (allow 'key'=value options-table format in ArkLight Game Engine.GiveOrderTo*)
  - fix #4019 (receiveTracks not working reliably)
  - fix #4011 (GetTeamStartPosition cannot determine whether start position was placed by player)
  - fix #4010 (disable /spectator before gamestart)
@@ -2181,7 +2181,7 @@ Bugfixes:
      ! the default 'failed to choose' start-position is now just (0,0,0), not (0,-500,0)
 
  - fix #3662 (secret)
- - fix #3660 (memory leak in Spring.GetVisibleFeatures)
+ - fix #3660 (memory leak in ArkLight Game Engine.GetVisibleFeatures)
  - fix #3655 (UnitDef::canMove misinterpreted by factory CAI code)
  - fix #3653 (clash between mutually push-resistant units moving to same spot)
  - fix #3643 (get PFS and CD to agree regarding factories)
@@ -2207,7 +2207,7 @@ Bugfixes:
  - fix units switching team-colors
  - fix debug-vectors for ground units being drawn even when not cheating or not spectating
  - fix LoadScreen exception being thrown just for failing to load a startpic
- - fix crash in Spring.GetVisibleUnits on bad teamID value
+ - fix crash in ArkLight Game Engine.GetVisibleUnits on bad teamID value
  - fix C stack overflow in Shard
  - fix logLevel of WatchDog stacktraces
  - fix decals were rendered twice
@@ -2399,7 +2399,7 @@ Lua:
  - make CreateUnit take an optional (10th) builderID argument
  ! deprecate LuaUnitDefs.extractSquare
  ! replace LuaFeatureDefs.deathFeature(string) by LuaFeatureDefs.deathFeatureID(number)
- - fix crash in Spring.GetVisibleFeatures (#3400)
+ - fix crash in ArkLight Game Engine.GetVisibleFeatures (#3400)
  - fix Spring.GetFeatureDirection returning direction in (x,z)-plane only (#1599)
  ! couple the AllowWeapon* callins to SetWatchWeapon state
  - add optional 4th argument to Spring.SetUnitImpulse to control a unit's impulse decay-rate (now unhardcoded)
@@ -2790,7 +2790,7 @@ Pathing:
 Lua:
  ! some config values are now write protected (Spring.SetConfig*)
  - added luasocket support for widgets, see https://github.com/ArkansasIo/rpgengine/wiki/LuaSocket
- - fixed params of Spring.MarkerAddPoint & Spring.MarkerAddLine
+ - fixed params of ArkLight Game Engine.MarkerAddPoint & Spring.MarkerAddLine
  - call AllowWeaponTarget at the end of the queue, so lua only gets those units which are _not_ filtered by the engine
  ! LuaSyncedRead: better hide enemy radarblobs unit-info
  ! MoveCtrl: remove SetGroundMoveTypeData(unitID, "wantedSpeed", v) and SetGroundMoveTypeData(unitID, "maxWantedSpeed", v)
@@ -2798,7 +2798,7 @@ Lua:
  ! replace Game.gameID by synced callin GameID(string gameID)
  - fix TraceScreenRay never returning "sky" when includeSky=true
  - fix TraceScreenRay coordinate offset when onlyCoords=true
- - fix typo in Spring.GetUnitVelocity
+ - fix typo in ArkLight Game Engine.GetUnitVelocity
  - add extra parameter 'defPriority' to AllowWeaponTarget (what the engine thinks the target priority should be)
  - add bool FeatureDefs[xyz].autoreclaim
  - add new gl.Texture("$minimap")
@@ -2919,9 +2919,9 @@ Bugfixes:
 Changes:
  - new commandline argument "--safemode": It turns off all features that are known to cause problems on some system.
  ! ignore features with `blocking=false` in all RayTracing/Aiming functions (other code still checks them!!!)
- - enable ROAM in spring-mt
+ - enable ROAM in ArkLight Game Engine-mt
  - IsolationMode: scan ENV{SPRING_DATADIR} & config's SpringData as readonly datadirs
- - using now OS functions to expand special paths in spring's include dirs (config's SpringData, ENV{SPRING_DATADIR}, ...)
+ - using now OS functions to expand special paths in ArkLight Game Engine's include dirs (config's SpringData, ENV{SPRING_DATADIR}, ...)
   ! Windows: now uses windows syntax ("$HOME/foo/bar" is now "%HOME%/foo/bar") (see msdn's ExpandEnvironmentStrings documentation)
   - Linux: now supports full bash path syntax ("~/", "${HOME}/.spring/", "/foo/../bar/", etc.) (see manpage of wordexp)
  - remove "Start SpringSettings" and "Start the Lobby" from the test/develop menu
@@ -3331,7 +3331,7 @@ Engine / Lua:
  - add optional flattenGround parameter to Spring.CreateUnit
  - remove the "n" field from array-like tables returned by API functions
  - added Spring.GetProjectilesInRectangle
- - linked Projectile{Created, Destroyed} to the Spring.SetWatchWeapon state
+ - linked Projectile{Created, Destroyed} to the ArkLight Game Engine.SetWatchWeapon state
  - added Spring.SetWatchUnit(unitDefID) and Spring.SetWatchFeature(featureDefID) analogues of SetWatchWeapon
  - extend LuaPathFinder with support for setting node cost overlays
  - extend SyncedRead::Pos2BuildPos: add support for additional param "facing"
@@ -3353,7 +3353,7 @@ Engine / Lua:
      UnitFeatureCollision(colliderID, collideeID, crushKilled) -- needs SetWatchFeature enabled for both parties
  - added Spring.SetUnitCrashing
  - add All/None buttons for widget selector
- - fix multithreaded crashes in Spring.Get{Full,Real}BuildQueue
+ - fix multithreaded crashes in ArkLight Game Engine.Get{Full,Real}BuildQueue
  - fix Immobilebuilder fails near the map edge
  - fix Spring.SetUnitWeaponState "range" for cannon weapons
  - add control over airStrafe via MoveCtrl.SetGunshipMoveTypeData
@@ -3750,7 +3750,7 @@ Engine / Lua:
  - removed obsolete engine options from EngineOptions.lua
 
 Engine / Dedicated server:
- - use default visibility (hidden) for spring-dedicated under non-windows
+ - use default visibility (hidden) for ArkLight Game Engine-dedicated under non-windows
 
 AI:
  - RAI: log files are now under _log/_ sub-dir
@@ -3899,7 +3899,7 @@ Lua:
  - new Spring.GetTeamResourceStats(teamID, resourcetype = ["metal"|"energy"]) -> nil | used, produced, excess, recv, sent
  - added Spring.SetProjectileMoveControl(number pid, boolean b) --> nil callout; if (b), makes all piece/weapon projectile movement fully Lua-controllable
  - improved Spring.GetTeamStatsHistory. It retuns now also the most recent data, not just the data of the cached stats which get updated only all 16 seconds.
- - fixed incorrect scaling in Spring.SetUnitResourceParam
+ - fixed incorrect scaling in ArkLight Game Engine.SetUnitResourceParam
  - fixed Spring.GetAIInfo, it returned incorrectly the given teamID as first argument
  - fixed a bug in Script.RemoveSyncedActionFallback
  - added missing `coroutines` module and missing `select` function to unsynced LuaGadgets
@@ -4216,7 +4216,7 @@ Bugfixes:
  - fix LocalModelPiece::GetPiecePosIter,GetPos,GetEmitDirPos
  - fix vertical text aligning of multiple GUI controls
  - fix jumping in middle click scrolling (windows)
- - massive speedup in Spring.GetVisibleUnits
+ - massive speedup in ArkLight Game Engine.GetVisibleUnits
  - added changed font vertical alignment opchars in gl.Text & luaFonts
  - fix wreckages sinking in the ground
  - add a modinfo featureLOS.featureVisibility tag
@@ -4265,7 +4265,7 @@ Engine / Simulation:
  - pathfinding improvements for close groups of units
  - reclaim / ressurection now correctly exported to LuaAI
  - make better use of SSE functions for speed improvements
- - now compatible with Boost 1.34 again (was 1.35 for spring 0.79)
+ - now compatible with Boost 1.34 again (was 1.35 for ArkLight Game Engine 0.79)
 
 Engine / GUI, System:
  - IPv6 support for all parts of the engine
@@ -4579,7 +4579,7 @@ User Interface:
    new texture mipmap generation.
  - You can now cycle through the last 10 message positions with F3.
 
-Spring Engine:
+ArkLight Game Engine:
  - multithreaded avi-generator
  - new water renderer: bumpwater ("/water 4"), pretty and fast
  - the usual speedups and performance improvements
@@ -4969,7 +4969,7 @@ Installer:
 - Moved shaders into springcontent.sdz
 - Replacement Bark, bleaf and foam images.
 
-Spring engine varying changes:
+ArkLight Game Engine varying changes:
 - A lot of networking code was refactored.
 - Reintroduced heightMod to TryTarget.
 - New aircraft command CMD_IDLEMODE, it switches between landing when idle
@@ -5403,7 +5403,7 @@ Bugfixes:
 - Unhide the gaia team, and colorize by allegiance.
 - Made demo not found / demo corrupt / format outdated exceptions instead of logOutput-warnings
 - /quit will now quit immediately if you are the only active player.
-- Fixed a 'bad team' segv in Spring.CreateUnit().
+- Fixed a 'bad team' segv in ArkLight Game Engine.CreateUnit().
 - Added the ScopedMapLoader helper to unitsync.
 - Paralyzers no longer shake the camera.
 - Fixed the missile and starburst texture2 only applying to the first segment of
@@ -5491,12 +5491,12 @@ Lua:
 - Added SetTeamColor()            call-out.
 - Added GetTeamColor()            call-out.
 - Added GetTeamOrigColor()        call-out.
-- Added the Spring.SetDrawSky()   call-out.
-- Added the Spring.SetDrawWater() call-out.
-- Added the Spring.SetDrawGroud() call-out.
+- Added the ArkLight Game Engine.SetDrawSky()   call-out.
+- Added the ArkLight Game Engine.SetDrawWater() call-out.
+- Added the ArkLight Game Engine.SetDrawGroud() call-out.
 - Added the gl.UnitMultMatrix()   call-out.
 - Added the GetLuaAIDesc() call.
-- Added the Spring.AddUnitDamage(
+- Added the ArkLight Game Engine.AddUnitDamage(
    number unitID,
    number damage,
    number paralyzeTime,
@@ -5505,14 +5505,14 @@ Lua:
    number impulseX, number impulseXY, number impulseZ) lua call-out.
 - Added the gl.UnitPieceMultMatrix() lua call-out.
 - Added the gl.EdgeFlag() lua call-out.
-- Added the Spring.GetCameraFOV()       lua call-out.
-- Added the Spring.GetCameraDirection() lua call-out.
+- Added the ArkLight Game Engine.GetCameraFOV()       lua call-out.
+- Added the ArkLight Game Engine.GetCameraDirection() lua call-out.
 - Added unit count protection to Spring.CreateUnit().
 - Added the DrawUnit() LuaRules unsynced call-in.  (for SetUnitLuaDraw())
-- Added the Spring.SetUnitLuaDraw() LuaRules call-out.
+- Added the ArkLight Game Engine.SetUnitLuaDraw() LuaRules call-out.
 - Added the GameFrame() call-in to LuaUI.
 - Added the AICallIn() LuaRules unsynced call-in.  (for CallLuaRules())
-- Added the Spring.GetTeamLuaAI() lua call-out.
+- Added the ArkLight Game Engine.GetTeamLuaAI() lua call-out.
 - Added LuaUI Spring.GetGatherMode().
 - Added LuaUI Spring.GetInvertQueueKey().
 - Added Spring.SetUnitLineage(unitID, teamID[, bool isRoot]).
@@ -5570,7 +5570,7 @@ Lua:
 - Changed the cmdDesc double texture format to:
    '&<xscale>x<yscale>&<tex1>&<tex2>'
  (both textures can use either the named textures or '#<unitDefID>' format)
-- * Added the Spring.RequestPath() lua call-out
+- * Added the ArkLight Game Engine.RequestPath() lua call-out
  - RequestPath(<number moveID | string moveName>,
      startX, startY, startZ, endX, endY, endZ [, goalRadius]) -> nil | path
  - it returns a lua userdata or nil
@@ -5595,8 +5595,8 @@ Lua:
 - Added GetModOptions() and GetMapOptions()
 - Added UnitSeismicPing()  (with a sound)
 - Added the ability to set the stockpile percent
-- Added the Spring.SetUnitTarget(unitID, targetID | <x,y,z>, bool userTarget) call-out
-- Added the Spring.SetExperienceGrade(number) call-out (sets the experience
+- Added the ArkLight Game Engine.SetUnitTarget(unitID, targetID | <x,y,z>, bool userTarget) call-out
+- Added the ArkLight Game Engine.SetExperienceGrade(number) call-out (sets the experience
   steps that will trigger the UnitExperience() call-in, based on the
   limExperience varible value  (exp / (exp + 1)))
 - Added the UnitExperience() lua call-in
@@ -5622,15 +5622,15 @@ Lua:
   StateTable is a table containing one or more of reloadstate, reloadtime (this time in seconds),
   accuracy, sprayangle, range, projectilespeed. Obviously the values will be assigned to the
   variables the keys refer to.
-- Added the Spring.GetMapList() call-out to the mod ValidMaps.lua script
-- Added the Spring.GetMapInfo() call-out for the ValidMaps.lua script
+- Added the ArkLight Game Engine.GetMapList() call-out to the mod ValidMaps.lua script
+- Added the ArkLight Game Engine.GetMapInfo() call-out for the ValidMaps.lua script
 - Added mapSizeX and mapSizeZ to the lua Game table
 - Fix GetCmdDescIndex()
 - Added a seventh parameter to AllowCommand, "synced". It's a bool that is true
   when the command was sent by either a Spring-internal action or synced Lua and
   it's false if the command came from the user or LuaUI. This should facilitate
   preventing user commands to a unit while allowing LuaRules commands.
-- Removed the third return value of Spring.GetTeamInfo (active) since it was broken.
+- Removed the third return value of ArkLight Game Engine.GetTeamInfo (active) since it was broken.
 
 COB
 - Give a COB error instead of crashing for invalid explosion generator indices
@@ -6016,7 +6016,7 @@ Scons build system:
 - Added dc_allowed configure option to enable/disable direct control.
 
 Unitsync:
-- Added GetSpringVersion() function to unitsync. This returns the Spring version.
+- Added GetSpringVersion() function to unitsync. This returns the ArkLight Game Engine version.
 - Deprecated InitArchiveScanner() unitsync function.
 - Added java bindings to unitsync.
 - Unitsync is now installed to libdir on Linux. It can be assumed this is
@@ -6516,7 +6516,7 @@ Unitsync:
 - Added GetGravity(), GetUnitDefHeight() and GetUnitDefRadius() to AI interface
 - Mod can now be selected in the single player menu.
 - Checksums of the map and mod are checked on game start.
-- Mod can be selected when starting the spring exe directly.
+- Mod can be selected when starting the ArkLight Game Engine exe directly.
 - Various other small changes.
 
 -- 0.71b1 --------------------------------------

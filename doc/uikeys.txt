@@ -1,5 +1,5 @@
 //
-//  DEFAULT UIKEYS.TXT FOR SPRING
+//  DEFAULT UIKEYS.TXT for ArkLight Game Engine
 //  -----------------------------
 //
 
