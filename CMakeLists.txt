@@ -25,6 +25,16 @@ if(MSVC)
 	endif()
 endif()
 
+if(ARCLIGHT_CXX_STANDARD GREATER_EQUAL 20)
+	# The legacy font/UI code carries its own byte-oriented char8_t/std::u8string
+	# shim. Keep that ABI intact while building under modern C++ standards.
+	if(MSVC)
+		add_compile_options($<$<COMPILE_LANGUAGE:CXX>:/Zc:char8_t->)
+	elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+		add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-fno-char8_t>)
+	endif()
+endif()
+
 include(cmake/ArcLightModernStack.cmake)
 
 # dummy so that qtcreator shows all files (even those of windows)

@@ -2,9 +2,6 @@ option(ARCLIGHT_ENABLE_MODERN_STACK "Enable C++23 SDL3/Vulkan/D3D12/ImGui/GLM/En
 option(ARCLIGHT_REQUIRE_MODERN_STACK "Fail configure when modern stack packages are missing" OFF)
 option(ARCLIGHT_BUILD_MODERN_SMOKE "Build a compile/link smoke test for the modern stack" ON)
 
-set(ARCLIGHT_CXX_STANDARD 23 CACHE STRING "C++ language standard for ArcLight targets")
-set_property(CACHE ARCLIGHT_CXX_STANDARD PROPERTY STRINGS 17 20 23)
-
 function(arclight_check_modern_compiler)
 	if(NOT ARCLIGHT_ENABLE_MODERN_STACK)
 		return()
@@ -44,7 +41,13 @@ function(arclight_configure_modern_stack)
 	arclight_check_modern_compiler()
 
 	add_library(arclight_modern_stack INTERFACE)
-	target_compile_features(arclight_modern_stack INTERFACE cxx_std_23)
+	if(ARCLIGHT_CXX_STANDARD GREATER_EQUAL 23)
+		target_compile_features(arclight_modern_stack INTERFACE cxx_std_23)
+	elseif(ARCLIGHT_CXX_STANDARD EQUAL 20)
+		target_compile_features(arclight_modern_stack INTERFACE cxx_std_20)
+	else()
+		target_compile_features(arclight_modern_stack INTERFACE cxx_std_17)
+	endif()
 	target_compile_definitions(arclight_modern_stack INTERFACE ARCLIGHT_MODERN_STACK=1)
 
 	arclight_find_modern_package(ARCLIGHT_HAS_SDL3 SDL3)

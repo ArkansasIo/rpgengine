@@ -23,7 +23,13 @@ target_include_directories(arclightGrandStrategy
 		${CMAKE_SOURCE_DIR}/rts
 )
 
-target_compile_features(arclightGrandStrategy PUBLIC cxx_std_23)
+if(ARCLIGHT_CXX_STANDARD GREATER_EQUAL 23)
+	target_compile_features(arclightGrandStrategy PUBLIC cxx_std_23)
+elseif(ARCLIGHT_CXX_STANDARD EQUAL 20)
+	target_compile_features(arclightGrandStrategy PUBLIC cxx_std_20)
+else()
+	target_compile_features(arclightGrandStrategy PUBLIC cxx_std_17)
+endif()
 
 source_group("GrandStrategy" FILES ${GRAND_STRATEGY_HEADERS} ${GRAND_STRATEGY_SOURCES})
 
