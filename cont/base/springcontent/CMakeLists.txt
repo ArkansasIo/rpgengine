@@ -189,6 +189,33 @@ set(FILES
 	LuaIntro/Addons/main.lua
 	LuaIntro/Addons/music.lua
 	LuaIntro/Addons/bg_texture.lua
+	assets/2d/README.md
+	assets/2d/sprites/ui_panel.asset2d.json
+	assets/2d/sprites/ui_icon_attack.asset2d.json
+	assets/2d/sprites/ui_icon_defend.asset2d.json
+	assets/2d/sprites/cursor_select.asset2d.json
+	assets/2d/sprites/mainmenu_background.asset2d.json
+	assets/2d/sprites/ui_button.asset2d.json
+	assets/3d/README.md
+	assets/3d/meshes/barrel.asset3d.json
+	assets/3d/meshes/rock_large.asset3d.json
+	assets/3d/meshes/tree_pine.asset3d.json
+	assets/3d/meshes/soldier.asset3d.json
+	assets/3d/meshes/crate.asset3d.json
+	assets/3d/materials/metal_plate.mat.json
+	assets/3d/materials/stone_rough.mat.json
+	assets/3d/materials/tree_bark.mat.json
+	assets/3d/materials/soldier_default.mat.json
+	assets/3d/animations/soldier_idle.anim3d.json
+	assets/3d/animations/soldier_run.anim3d.json
+	assets/3d/animations/soldier_set.animset.json
+	plugins/README.md
+	plugins/sample_plugin/plugin.json
+	plugins/sample_plugin/plugin.lua
+	scripts/ooscript/README.md
+	scripts/ooscript/ooclass.lua
+	scripts/ooscript/runtime.lua
+	scripts/ooscript/example_player.lua
 )
 
 create_base_content_archive("base" "springcontent.sdz" "${FILES}")

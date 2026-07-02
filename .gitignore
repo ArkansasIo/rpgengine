@@ -180,6 +180,7 @@ CMakeUserPresets.json
 
 # Local build directories
 /build-vs/
+/builledoutput/
 
 # Misc
 2

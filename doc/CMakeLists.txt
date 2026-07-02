@@ -152,9 +152,7 @@ endif ()
 set(userdoc_INSTALL_PLAIN ${USERDOCS_PLAIN})
 if     (userdoc_INSTALL_PLAIN)
 	set(userdoc_plain
-			"${userdoc_plain}"
-			"${CMAKE_SOURCE_DIR}/gpl-2.0.txt"
-			"${CMAKE_SOURCE_DIR}/gpl-3.0.txt")
+			"${userdoc_plain}")
 
 	install(FILES ${userdoc_plain} DESTINATION "${DOC_DEST_DIR}")
 
@@ -166,9 +164,7 @@ if     (userdoc_INSTALL_HTML)
 	add_dependencies(generateSources userdocs)
 
 	set(userdoc_html
-			"${userdoc_html_generated}"
-			"${CMAKE_SOURCE_DIR}/gpl-2.0.html"
-			"${CMAKE_SOURCE_DIR}/gpl-3.0.html")
+			"${userdoc_html_generated}")
 
 	install(FILES ${userdoc_html} DESTINATION "${DOC_DEST_DIR}")
 

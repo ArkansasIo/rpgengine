@@ -89,8 +89,8 @@ and submit a pull request.
 
 ### License
 
-ArcLight Engine is licensed under the GNU General Public License v2.
-See [gpl-2.0.txt](gpl-2.0.txt) for the full license text.
+ArcLight Engine is licensed under the MIT License.
+See [LICENSE](LICENSE) for the full license text.
 
 ### Credits
 
