@@ -171,3 +171,15 @@ Spring.VC.VC.opendb
 
 # flatpak
 /.flatpak-builder/
+
+# VS Code
+.vscode/
+
+# CMake user presets
+CMakeUserPresets.json
+
+# Local build directories
+/build-vs/
+
+# Misc
+2
