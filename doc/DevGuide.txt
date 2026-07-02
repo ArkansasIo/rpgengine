@@ -1,2 +1,56 @@
-For a guide Howto start in Spring Development, see
-https://springrts.com/wiki/Development:Getting_Started
+ArcLight Engine - Developer Guide
+==================================
+
+Developer: Stephen
+
+Welcome to the ArcLight Engine development community. This guide will help
+you get started with contributing to the engine.
+
+Getting Started
+---------------
+
+1. Fork the repository at https://github.com/ArkansasIo/rpgengine
+2. Clone your fork:
+
+	git clone https://github.com/ArkansasIo/rpgengine.git
+	cd rpgengine
+
+3. Create a branch for your work:
+
+	git checkout -b feature/my-feature
+
+4. Build the project (see doc/HowToBuild.txt)
+
+Architecture Overview
+---------------------
+
+The engine is organized into these major subsystems:
+
+- rts/Sim/       - Game simulation (units, weapons, pathfinding, etc.)
+- rts/Rendering/ - OpenGL rendering pipeline
+- rts/Net/       - Networking and multiplayer sync
+- rts/Lua/       - Lua scripting interface
+- rts/Map/       - Terrain and map handling
+- rts/System/    - Filesystem, sound, platform abstraction
+- rts/Menu/      - In-game menus and UI
+
+Coding Standards
+----------------
+
+- C++17 is the project standard
+- Follow existing code style in the file you are editing
+- Keep changes focused: one logical change per commit
+- Write clear commit messages
+
+Testing
+-------
+
+	cd test
+	cmake .
+	make
+	ctest
+
+Questions?
+----------
+
+Open an issue at https://github.com/ArkansasIo/rpgengine/issues

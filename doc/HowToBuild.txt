@@ -1,2 +1,64 @@
-For build instructions, see the wiki page:
-https://springrts.com/wiki/Building_spring
+ArcLight Engine - Build Instructions
+=====================================
+
+Developer: Stephen
+
+Prerequisites
+-------------
+
+- CMake 3.10 or newer
+- C++17 compiler: MSVC 2017+, GCC 7+, or Clang 6+
+- SDL2 development libraries
+- OpenGL and GLEW
+- Lua 5.x development files
+- zlib
+
+Windows (Visual Studio)
+------------------------
+
+1. Install CMake, Visual Studio 2017+, and vcpkg (optional)
+2. Open a Developer Command Prompt
+3. Run:
+
+	mkdir build
+	cd build
+	cmake .. -G "Visual Studio 16 2019" -A x64
+	cmake --build . --config Release
+
+Linux
+-----
+
+1. Install dependencies:
+
+	sudo apt-get install cmake build-essential libsdl2-dev libglew-dev \
+		liblua5.3-dev zlib1g-dev libopenal-dev libvorbis-dev
+
+2. Build:
+
+	mkdir build && cd build
+	cmake ..
+	make -j$(nproc)
+
+3. Install:
+
+	sudo make install
+
+macOS
+-----
+
+1. Install dependencies via Homebrew:
+
+	brew install cmake sdl2 glew lua
+
+2. Build:
+
+	mkdir build && cd build
+	cmake ..
+	make -j$(sysctl -n hw.ncpu)
+
+Notes
+-----
+
+- For headless server builds, see rts/builds/headless/
+- To run tests: cd test && ctest
+- Build output goes to the build/ directory by default

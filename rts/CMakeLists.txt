@@ -111,6 +111,15 @@ add_subdirectory(Menu)
 add_subdirectory(Map)
 add_subdirectory(Net)
 add_subdirectory(Sim)
+
+### ArcLight Engine - UE5-inspired subsystems (Developer: Stephen)
+add_subdirectory(ECS)
+add_subdirectory(Gameplay)
+add_subdirectory(Particle)
+add_subdirectory(Physics)
+add_subdirectory(AI/BehaviorTree)
+add_subdirectory(World)
+
 #add_subdirectory(System) # this is already added in ../
 
 make_global_var(engineSources

@@ -9,7 +9,7 @@
 // - NO host-names
 
 // A minimal client example
-// If spring is started as client, it needs the following information to work properly
+// If ArcLight is started as client, it needs the following information to work properly
 [GAME]
 {
 	HostIP=xxx.xxx.xxx.xxx; // which IP the server is hosting on. see "IP Support" at the start of this document.

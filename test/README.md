@@ -1,10 +1,10 @@
-# Spring RTS game engine - Unit Tests
+# ArcLight Engine - Unit Tests
 
 ## README
 
-These are [Unit Tests](http://en.wikipedia.org/wiki/Unit_tests) for the Spring
-project. They are useful for automatically testing the engine source code for
-regressions.
+These are [Unit Tests](http://en.wikipedia.org/wiki/Unit_tests) for the ArcLight
+Engine project. They are useful for automatically testing the engine source code
+for regressions.
 
 Documentation about Catch2 unit tests can be found here: https://github.com/catchorg/Catch2
 
@@ -20,4 +20,3 @@ To compile all unit-test-suites:
 To run all unit-test-suites:
 
 	make test
-

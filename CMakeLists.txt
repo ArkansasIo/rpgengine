@@ -7,7 +7,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_MODULES_SPRING}")
 # enable flag overrides for compilers
 set(CMAKE_USER_MAKE_RULES_OVERRIDE "${CMAKE_MODULES_SPRING}/OverrideFlags.cmake")
 
-project(Spring)
+project(ArcLight)
 
 # dummy so that qtcreator shows all files (even those of windows)
 if(CMAKE_VERSION VERSION_GREATER 3.1.2)

@@ -1,4 +1,4 @@
-# README
+# ArcLight Engine - Headless Stubs
 
 These stubs can be used to run OpenGL applications headlessly, ie without
 needing X or a graphics card.
@@ -13,7 +13,7 @@ with GLEW, but make sure to link __after__ linking with the `glewstub.c` object.
 
 Then, any calls to `gl*` and so on will simply do nothing.
 
-Note that the API is NOT complete, just sufficieint for Spring,
+Note that the API is NOT complete, just sufficient for ArcLight Engine,
 so if you use it with other applications, you may need to stub out
 more functions.
 
@@ -27,7 +27,7 @@ What you do is:
 * open the corresponding include, for example if it is SDL,
 	it might be `/usr/include/SDL/SDL.h`
 * search for the appropriate missing function
-* copy and paste the function declarataion into the appropriate stub file,
+* copy and paste the function declaration into the appropriate stub file,
 	eg if it is an SDL function, paste it into `sdlstub.c`
 * add an empty body for it.
 
@@ -38,4 +38,3 @@ What you do is:
 		}
 
 * Rebuild your application and hopefully it will work now.
-
